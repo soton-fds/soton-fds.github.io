@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Bibliography – Fundamentals of Data Science in R</title>
+<title>Week 1 Slides</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,36 +26,15 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./ethics.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -65,7 +44,7 @@ div.csl-indent {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-d3f7f8e73c8d287b30bcf59c2b563615.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-ba8f7c244c1f50cbf6c6a3aa3874339a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -95,152 +74,24 @@ div.csl-indent {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="quarto-light">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./bibliography.html">Bibliography</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
-    </div>
-  </nav>
-</header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">Fundamentals of Data Science in R</a> 
-    </div>
-      </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
-        </div>
-        </div>
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Course Structure and Logistics</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./week01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Data Science</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./week02.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Coding in <code>R</code></span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./week03.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Reproducible Research and Project Management</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./week04.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Wrangling I - Loading, Cleaning and Tidying</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./week05.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Wrangling II - Joins, Strings and Dates</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./week06.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data Visualisation Principles</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./week07.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introduction to Shiny</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./week08.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Research Software Engineering and Architecture in R</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./week09.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">SQL for Data Science</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./week10.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Working with Big Data</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Additional Material</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./github-tutorial.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">GitHub for FDS Tutorial</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./ethics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Data Ethics and Biases</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./bibliography.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Bibliography</span></a>
-  </div>
-</li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    </div>
+    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lab01_slides.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Bibliography</h1>
+<h1 class="title">Week 1 Slides</h1>
 </div>
 
 
@@ -257,50 +108,41 @@ div.csl-indent {
 </header>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-Buckheit1995" class="csl-entry" role="listitem">
-Buckheit, Jonathan B., and David L. Donoho. 1995. <span>“WaveLab and
-Reproducible Research.”</span> In <em>Wavelets and Statistics</em>.
-Springer New York. <a href="https://doi.org/10.1007/978-1-4612-2544-7_5">https://doi.org/10.1007/978-1-4612-2544-7_5</a>.
-</div>
-<div id="ref-Cleveland1984" class="csl-entry" role="listitem">
-Cleveland, William S., and Robert McGill. 1984. <span>“Graphical
-Perception: Theory, Experimentation, and Application to the Development
-of Graphical Methods.”</span> <em>Journal of the American Statistical
-Association</em> 79 (387): 531–54. <a href="https://doi.org/10.1080/01621459.1984.10478080">https://doi.org/10.1080/01621459.1984.10478080</a>.
-</div>
-<div id="ref-Donoho2017" class="csl-entry" role="listitem">
-Donoho, David. 2017. <span>“50 Years of Data Science.”</span>
-<em>Journal of Computational and Graphical Statistics</em> 26 (4):
-745–66. <a href="https://doi.org/10.1080/10618600.2017.1384734">https://doi.org/10.1080/10618600.2017.1384734</a>.
-</div>
-<div id="ref-Knuth1992" class="csl-entry" role="listitem">
-Knuth, Donald E. 1992. <em>Literate Programming</em>. Center for the
-Study of Language and Information Publication Lecture Notes. Centre for
-the Study of Language &amp; Information.
-</div>
-<div id="ref-Pushkarna2022" class="csl-entry" role="listitem">
-Pushkarna, Mahima, Andrew Zaldivar, and Oddur Kjartansson. 2022.
-<span>“Data Cards: Purposeful and Transparent Dataset Documentation for
-Responsible AI.”</span> <em>2022 ACM Conference on Fairness
-Accountability and Transparency</em>, FAccT ’22, June, 1776–826. <a href="https://doi.org/10.1145/3531146.3533231">https://doi.org/10.1145/3531146.3533231</a>.
-</div>
-<div id="ref-R4DS" class="csl-entry" role="listitem">
-Wickham, Hadley, Mine Çentinkaya-Rundel, and Garrett Grolemund. 2023.
-<em>R for Data Science</em>. O’Reilly Media. <a href="https://r4ds.hadley.nz/">https://r4ds.hadley.nz/</a>.
-</div>
-<div id="ref-Wild1999" class="csl-entry" role="listitem">
-Wild, C. J., and M. Pfannkuch. 1999. <span>“Statistical Thinking in
-Empirical Enquiry.”</span> <em>International Statistical Review</em> 67
-(3): 223–48. <a href="https://doi.org/10.1111/j.1751-5823.1999.tb00442.x">https://doi.org/10.1111/j.1751-5823.1999.tb00442.x</a>.
-</div>
-<div id="ref-GrammarofGraphics" class="csl-entry" role="listitem">
-Wilkinson, Leland. 2005. <em>The Grammar of Graphics</em>.
-Springer-Verlag. <a href="https://doi.org/10.1007/0-387-28695-0">https://doi.org/10.1007/0-387-28695-0</a>.
-</div>
-</div>
+<section id="lab-01" class="level1">
+<h1>Lab 01</h1>
+<section id="about-the-lab" class="level2">
+<h2 class="anchored" data-anchor-id="about-the-lab">About the Lab</h2>
+<ul>
+<li>This lab will be a lighter load than coming weeks.</li>
+<li>We will be focussing on getting people set up with <code>git</code> and <code>R</code>.</li>
+<li>There are some coding tasks for you to complete if you get started quickly.</li>
+</ul>
+</section>
+<section id="about-university-machines" class="level2">
+<h2 class="anchored" data-anchor-id="about-university-machines">About University Machines</h2>
+<ul>
+<li>Where you should save files</li>
+<li>How to open RStudio</li>
+</ul>
+</section>
+<section id="task-1-basic-git" class="level2">
+<h2 class="anchored" data-anchor-id="task-1-basic-git">Task 1: Basic Git</h2>
+<ul>
+<li>Navigate to [github.com/soton-fds/lab_01]</li>
+<li>Follow the instructions on [soton-fds.github.io/github_tutorial.html] to <strong>fork</strong> and then <em>clone</em> the repo.</li>
+<li><strong>When you have a GitHub ID</strong>, input it on Blackboard.</li>
+</ul>
+</section>
+<section id="task-2-3-simple-data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="task-2-3-simple-data-analysis">Task 2-3: Simple Data Analysis</h2>
+<ul>
+<li>Open the Palmer Penguins CSV file</li>
+<li>Generate some simple plots</li>
+</ul>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -703,15 +545,6 @@ Springer-Verlag. <a href="https://doi.org/10.1007/0-387-28695-0">https://doi.org
     }
   });
   </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="./ethics.html" class="pagination-link" aria-label="Data Ethics and Biases">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Data Ethics and Biases</span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-  </div>
-</nav>
 </div> <!-- /content -->
 
 

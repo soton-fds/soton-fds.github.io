@@ -1,0 +1,191 @@
+[
+  {
+    "objectID": "week01_slides.html",
+    "href": "week01_slides.html",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "",
+    "text": "Know what data science is and why it is important in the modern world.\nBe able to give an example of a data science workflow to follow when working as a data scientist.\nBe able to give examples of some tools we can use for Data Science, and discuss the importance of reproducibility."
+  },
+  {
+    "objectID": "week01_slides.html#objectives",
+    "href": "week01_slides.html#objectives",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "",
+    "text": "Know what data science is and why it is important in the modern world.\nBe able to give an example of a data science workflow to follow when working as a data scientist.\nBe able to give examples of some tools we can use for Data Science, and discuss the importance of reproducibility."
+  },
+  {
+    "objectID": "week01_slides.html#what-is-data-science",
+    "href": "week01_slides.html#what-is-data-science",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "What is Data Science?",
+    "text": "What is Data Science?\n\n\n\nData Science Venn Diagram"
+  },
+  {
+    "objectID": "week01_slides.html#the-data-science-workflow",
+    "href": "week01_slides.html#the-data-science-workflow",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "The Data Science Workflow",
+    "text": "The Data Science Workflow\n\n\n\nData Science Workflow"
+  },
+  {
+    "objectID": "week01_slides.html#tools-for-data-science",
+    "href": "week01_slides.html#tools-for-data-science",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "Tools for Data Science",
+    "text": "Tools for Data Science\n\nYou can do data science in any language.\nSome languages are “better” than others:\n\nCommunity support\nLibrary ecosystem\nPerformance\nEase of learning\nIntegration\nReproducibility"
+  },
+  {
+    "objectID": "week01_slides.html#most-prominent-languages",
+    "href": "week01_slides.html#most-prominent-languages",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "Most Prominent Languages",
+    "text": "Most Prominent Languages\n\nPython\nR\nSQL\nJulia\nScala"
+  },
+  {
+    "objectID": "week01_slides.html#why-r",
+    "href": "week01_slides.html#why-r",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "Why R?",
+    "text": "Why R?\n\nDesigned specifically for statistics and data analysis\nEcosystem of packages for data manipulation, visualization, and modeling\nSupport for reproducible research (RMarkdown, Quarto)\nStrong community and extensive documentation\nSeamless integration with other tools and languages\nFree and open source"
+  },
+  {
+    "objectID": "week01_slides.html#be-agile",
+    "href": "week01_slides.html#be-agile",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "Be Agile",
+    "text": "Be Agile\n\n\n\n\n\n\nTipNo Best Language\n\n\n\nEvery language has strengths and weaknesses. Try out more languages, experiment and find what works for you. Switching between languages within a project may be more effective than sticking to one!"
+  },
+  {
+    "objectID": "week01_slides.html#other-tools",
+    "href": "week01_slides.html#other-tools",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "Other Tools",
+    "text": "Other Tools\n\nIDEs\nVersion Control\nData Management\nReproducible Research\nCollaboration / Communication\nContinuous Integration"
+  },
+  {
+    "objectID": "week01_slides.html#generative-ai",
+    "href": "week01_slides.html#generative-ai",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "Generative AI",
+    "text": "Generative AI\n\nPowerful - but dangerous\nNot permitted in assessments for this course"
+  },
+  {
+    "objectID": "course_intro.html",
+    "href": "course_intro.html",
+    "title": "Week 1 Slides",
+    "section": "",
+    "text": "This is a double-badged module: MATH2051 and MATH6195. Taught material:\n\n1 hour lecture (16:00-17:00 in 58/1007, L/R C)\n2 hour lab (Mondays, 14:00-16:00 in 25/1009)\n\n\n\n\n\n1 hour session.\nI will demo some new techniques that we will focus on in the labs.\n\n\n\n\n\n2 hour session.\nYou will code!\nPart of the Course Material.\n\nYou will be assessed on material from the labs.\nI will attempt to record the labs, but cannot guarantee the quality of the recordings.\n\nBoth lab worksheets and solutions will still be available to everyone.\n\n\n\n\n\nMondays at 13:00 (right before the lab)\nIn my office (Building 39, Room 2025) or online (link in Teams).\n\n\n\n\n\nThis year I will (initially) attempt to live-stream all lectures and make office hours hybrid.\nThe objective is to provide another way to engage, using chat, as well as to streamline lecture capture.\nPlease still come to the lectures. I do not want to lecture to an empty room!\n\n\n\n\n\nFour take-home mini courseworks. (5% each, total 20%)\n\nWeeks 2, 4, 6 and 10.\nYou will have one week to complete each coursework.\nSubmission via GitHub.\nAutograded.\n\n\n\n\n\n\nTwo in-person supervised courseworks. (40% each, total 80%)\n\nA1 Week 8 - Tuesday 10th November, 11:00-13:00, 25/1009. Covers Chapters 1-6.\nA2 Week 12 - Tuesday, 8th December, 11:00-13:00, 25/1009. Covers the entire module.\n\n\n\n\n\n\nGenAI allowed in take-home, blocked in supervised coursework.\nSupervised coursework uses University computers.\nYou will not be able to complete the assessments if you do not know how to use:\n\nGit (take-home only)\nQuarto Notebooks in R.\n\nThese are covered in Chapters 2-3 and in every lab.\n\n\n\n\n\n“R for Data Science”, https://r4ds.hadley.nz"
+  },
+  {
+    "objectID": "course_intro.html#about-the-course",
+    "href": "course_intro.html#about-the-course",
+    "title": "Week 1 Slides",
+    "section": "",
+    "text": "This is a double-badged module: MATH2051 and MATH6195. Taught material:\n\n1 hour lecture (16:00-17:00 in 58/1007, L/R C)\n2 hour lab (Mondays, 14:00-16:00 in 25/1009)"
+  },
+  {
+    "objectID": "course_intro.html#lectures",
+    "href": "course_intro.html#lectures",
+    "title": "Week 1 Slides",
+    "section": "",
+    "text": "1 hour session.\nI will demo some new techniques that we will focus on in the labs."
+  },
+  {
+    "objectID": "course_intro.html#labs",
+    "href": "course_intro.html#labs",
+    "title": "Week 1 Slides",
+    "section": "",
+    "text": "2 hour session.\nYou will code!\nPart of the Course Material.\n\nYou will be assessed on material from the labs.\nI will attempt to record the labs, but cannot guarantee the quality of the recordings.\n\nBoth lab worksheets and solutions will still be available to everyone."
+  },
+  {
+    "objectID": "course_intro.html#office-hour",
+    "href": "course_intro.html#office-hour",
+    "title": "Week 1 Slides",
+    "section": "",
+    "text": "Mondays at 13:00 (right before the lab)\nIn my office (Building 39, Room 2025) or online (link in Teams)."
+  },
+  {
+    "objectID": "course_intro.html#an-experiment",
+    "href": "course_intro.html#an-experiment",
+    "title": "Week 1 Slides",
+    "section": "",
+    "text": "This year I will (initially) attempt to live-stream all lectures and make office hours hybrid.\nThe objective is to provide another way to engage, using chat, as well as to streamline lecture capture.\nPlease still come to the lectures. I do not want to lecture to an empty room!"
+  },
+  {
+    "objectID": "course_intro.html#assessment",
+    "href": "course_intro.html#assessment",
+    "title": "Week 1 Slides",
+    "section": "",
+    "text": "Four take-home mini courseworks. (5% each, total 20%)\n\nWeeks 2, 4, 6 and 10.\nYou will have one week to complete each coursework.\nSubmission via GitHub.\nAutograded."
+  },
+  {
+    "objectID": "course_intro.html#assessment-1",
+    "href": "course_intro.html#assessment-1",
+    "title": "Week 1 Slides",
+    "section": "",
+    "text": "Two in-person supervised courseworks. (40% each, total 80%)\n\nA1 Week 8 - Tuesday 10th November, 11:00-13:00, 25/1009. Covers Chapters 1-6.\nA2 Week 12 - Tuesday, 8th December, 11:00-13:00, 25/1009. Covers the entire module."
+  },
+  {
+    "objectID": "course_intro.html#assessment-2",
+    "href": "course_intro.html#assessment-2",
+    "title": "Week 1 Slides",
+    "section": "",
+    "text": "GenAI allowed in take-home, blocked in supervised coursework.\nSupervised coursework uses University computers.\nYou will not be able to complete the assessments if you do not know how to use:\n\nGit (take-home only)\nQuarto Notebooks in R.\n\nThese are covered in Chapters 2-3 and in every lab."
+  },
+  {
+    "objectID": "course_intro.html#main-text",
+    "href": "course_intro.html#main-text",
+    "title": "Week 1 Slides",
+    "section": "",
+    "text": "“R for Data Science”, https://r4ds.hadley.nz"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "",
+    "section": "",
+    "text": "Course Introduction\nWeek 1 Slides\nLab 1 Slides"
+  },
+  {
+    "objectID": "index.html#course-slides",
+    "href": "index.html#course-slides",
+    "title": "",
+    "section": "",
+    "text": "Course Introduction\nWeek 1 Slides\nLab 1 Slides"
+  },
+  {
+    "objectID": "lab01_slides.html",
+    "href": "lab01_slides.html",
+    "title": "Week 1 Slides",
+    "section": "",
+    "text": "This lab will be a lighter load than coming weeks.\nWe will be focussing on getting people set up with git and R.\nThere are some coding tasks for you to complete if you get started quickly.\n\n\n\n\n\nWhere you should save files\nHow to open RStudio\n\n\n\n\n\nNavigate to [github.com/soton-fds/lab_01]\nFollow the instructions on [soton-fds.github.io/github_tutorial.html] to fork and then clone the repo.\nWhen you have a GitHub ID, input it on Blackboard.\n\n\n\n\n\nOpen the Palmer Penguins CSV file\nGenerate some simple plots"
+  },
+  {
+    "objectID": "lab01_slides.html#about-the-lab",
+    "href": "lab01_slides.html#about-the-lab",
+    "title": "Week 1 Slides",
+    "section": "",
+    "text": "This lab will be a lighter load than coming weeks.\nWe will be focussing on getting people set up with git and R.\nThere are some coding tasks for you to complete if you get started quickly."
+  },
+  {
+    "objectID": "lab01_slides.html#about-university-machines",
+    "href": "lab01_slides.html#about-university-machines",
+    "title": "Week 1 Slides",
+    "section": "",
+    "text": "Where you should save files\nHow to open RStudio"
+  },
+  {
+    "objectID": "lab01_slides.html#task-1-basic-git",
+    "href": "lab01_slides.html#task-1-basic-git",
+    "title": "Week 1 Slides",
+    "section": "",
+    "text": "Navigate to [github.com/soton-fds/lab_01]\nFollow the instructions on [soton-fds.github.io/github_tutorial.html] to fork and then clone the repo.\nWhen you have a GitHub ID, input it on Blackboard."
+  },
+  {
+    "objectID": "lab01_slides.html#task-2-3-simple-data-analysis",
+    "href": "lab01_slides.html#task-2-3-simple-data-analysis",
+    "title": "Week 1 Slides",
+    "section": "",
+    "text": "Open the Palmer Penguins CSV file\nGenerate some simple plots"
+  }
+]
