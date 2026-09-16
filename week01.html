@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>1&nbsp; Introduction to Data Science – Fundamentals of Data Science in R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./week02.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./week01.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Data Science</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Fundamentals of Data Science in R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Structure and Logistics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week01.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Data Science</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Coding in <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Reproducible Research and Project Management</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Wrangling I - Loading, Cleaning and Tidying</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Wrangling II - Joins, Strings and Dates</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data Visualisation Principles</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introduction to Shiny</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Research Software Engineering and Architecture in R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">SQL for Data Science</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Working with Big Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Additional Material</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./github-tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">GitHub for FDS Tutorial</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Ethics and Biases</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bibliography</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#objectives" id="toc-objectives" class="nav-link active" data-scroll-target="#objectives">Objectives</a></li>
+  <li><a href="#what-is-data-science" id="toc-what-is-data-science" class="nav-link" data-scroll-target="#what-is-data-science"><span class="header-section-number">1.1</span> What is Data Science?</a></li>
+  <li><a href="#the-data-science-workflow" id="toc-the-data-science-workflow" class="nav-link" data-scroll-target="#the-data-science-workflow"><span class="header-section-number">1.2</span> The Data Science Workflow</a></li>
+  <li><a href="#the-role-of-computation" id="toc-the-role-of-computation" class="nav-link" data-scroll-target="#the-role-of-computation"><span class="header-section-number">1.3</span> The Role of Computation</a></li>
+  <li><a href="#languages-and-tools" id="toc-languages-and-tools" class="nav-link" data-scroll-target="#languages-and-tools"><span class="header-section-number">1.4</span> Languages and Tools</a>
+  <ul class="collapse">
+  <li><a href="#tools" id="toc-tools" class="nav-link" data-scroll-target="#tools"><span class="header-section-number">1.4.1</span> Tools</a></li>
+  <li><a href="#generative-ai" id="toc-generative-ai" class="nav-link" data-scroll-target="#generative-ai"><span class="header-section-number">1.4.2</span> Generative AI</a></li>
+  </ul></li>
+  <li><a href="#reproducibility-and-scientific-integrity" id="toc-reproducibility-and-scientific-integrity" class="nav-link" data-scroll-target="#reproducibility-and-scientific-integrity"><span class="header-section-number">1.5</span> Reproducibility and Scientific Integrity</a>
+  <ul class="collapse">
+  <li><a href="#r-and-quarto" id="toc-r-and-quarto" class="nav-link" data-scroll-target="#r-and-quarto"><span class="header-section-number">1.5.1</span> R and Quarto</a></li>
+  <li><a href="#git-and-github" id="toc-git-and-github" class="nav-link" data-scroll-target="#git-and-github"><span class="header-section-number">1.5.2</span> Git and GitHub</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-introduction" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Data Science</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objectives" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="objectives">Objectives</h2>
+<ul>
+<li>Know what data science is and why it is important in the modern world.</li>
+<li>Be able to give an example of a data science workflow to follow when working as a data scientist.</li>
+<li>Be able to give examples of some tools we can use for Data Science, and discuss the importance of reproducibility.</li>
+</ul>
+</section>
+<section id="what-is-data-science" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="what-is-data-science"><span class="header-section-number">1.1</span> What is Data Science?</h2>
+<p>Data science is an interdisciplinary field that combines statistics, computer science, and domain expertise to extract meaningful insights and knowledge from data. It involves collecting, cleaning, analysing, and interpreting large and complex datasets to solve real-world problems, make predictions, and inform decision-making.</p>
+<p>At its core, data science leverages techniques from mathematics and statistics to understand patterns and relationships in data, while using computational tools to automate and scale analyses. Data scientists often work with messy, unstructured data, applying methods such as data wrangling, visualisation, machine learning, and statistical modelling.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Data_Science_VD.png" class="img-fluid figure-img"></p>
+<figcaption>The Data Science Venn Diagram, from <a href="http://drewconway.com/zia/2013/3/26/the-data-science-venn-diagram">here</a>.</figcaption>
+</figure>
+</div>
+<p>The (potentially controversial) image above puts data science in context: we need to have <em>substantive expertise</em>, <em>maths and statistics knowledge</em> and <em>hacking skills</em> (i.e.&nbsp;programming and computational ability) to be a Data Scientist. In this course you will learn the last two; <em>substantive expertise</em> is also known as <em>domain knowledge</em> and is more difficult to acquire. The ultimate goal of data science is to turn raw data into actionable information, enabling organisations and individuals to make better, evidence-based decisions, and this is impossible without knowledge of the application domain.</p>
+<p>That being said, Data Science is not a solo pursuit. In most of my Data Science projects I have been the mathematician / hacker in a team, containing domain experts. According to the Venn diagram above, it would be more proper to think of the <em>team</em> as the “Data Scientist” rather than me as an individual!</p>
+</section>
+<section id="the-data-science-workflow" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="the-data-science-workflow"><span class="header-section-number">1.2</span> The Data Science Workflow</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/whole-game.png" class="img-fluid figure-img"></p>
+<figcaption>The Whole Game, taken from <a href="https://r4ds.hadley.nz/whole-game.html">here</a>.</figcaption>
+</figure>
+</div>
+<p>The image above is taken from the course textbook <span class="citation" data-cites="R4DS">(<a href="bibliography.html#ref-R4DS" role="doc-biblioref">Wickham, Çentinkaya-Rundel, and Grolemund 2023</a>)</span>, and includes the following steps:</p>
+<ul>
+<li><strong>Import</strong>: Get the data from the source (e.g.&nbsp;Excel spreadsheets, databases) into your Data Science environment of choice.</li>
+<li><strong>Tidy</strong>: Organise your data to make it easier to work with.</li>
+<li><strong>Understand</strong>: A loop consisting of:
+<ul>
+<li><strong>Transform</strong>: Transform the data into a standardised form that can be passed to algorithms.</li>
+<li><strong>Visualise</strong>: Produce plots from your data to inform model choice.</li>
+<li><strong>Model</strong>: Fit statistical or machine learning models to make inferences or predictions.</li>
+</ul></li>
+<li><strong>Communicate</strong>: Translate your results into language that is understandable for stakeholders, so you can discuss what actions to take.</li>
+</ul>
+<p>As with much of data science there are other Data Science workflows you could follow, for example <span class="citation" data-cites="Donoho2017">(<a href="bibliography.html#ref-Donoho2017" role="doc-biblioref">Donoho 2017</a>)</span> or <span class="citation" data-cites="Wild1999">(<a href="bibliography.html#ref-Wild1999" role="doc-biblioref">Wild and Pfannkuch 1999</a>)</span> but most of them are in the same spirit as the above.</p>
+</section>
+<section id="the-role-of-computation" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="the-role-of-computation"><span class="header-section-number">1.3</span> The Role of Computation</h2>
+<p>A key advantage of computation in data science is the ability to automate repetitive or complex analyses. By writing code to process data, fit models, and generate visualisations, you can quickly rerun your entire workflow whenever new data arrives or methods change. This automation not only saves time but also reduces the risk of manual errors.</p>
+<p>Reproducibility is another major benefit. When your analysis is scripted, others (including your future self) can reproduce your results exactly, verify your methods, and build upon your work. This is essential for scientific integrity and collaboration.</p>
+<p>Finally, computation enables you to scale your insights. With code, you can efficiently analyse large datasets, apply models to new data, and share your methods with others. This scalability is crucial as data volumes grow and projects become more complex.</p>
+<p>Of these benefits, reproducibility is the one we will emphasise most heavily in this course, and it is the focus of <a href="week03.html" class="quarto-xref"><span>Chapter 3</span></a>. We will highlight one of the most important tools for reproducibility — Git — at the end of the section.</p>
+</section>
+<section id="languages-and-tools" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="languages-and-tools"><span class="header-section-number">1.4</span> Languages and Tools</h2>
+<p>This course is entitled “Fundamentals of Data Science <strong>in R</strong>”, but it should be emphasised that <code>R</code> is not the unique, best choice of programming language, and for many projects it may not even be a <em>good</em> language to use. There are many other languages that people use for Data Science. Perhaps the most widely used is <code>python</code>, but there are other, newer languages like <code>Julia</code> that give it a run for its money, particularly for scientific computing. At the end of the day, you can do Data Science in any language you happen to like: you can produce the same outputs in any of them. What’s more important is the <em>software ecosystem</em> - the packages that are available in that language. If a language has a mature software ecosystem it makes life considerably easier for a Data Scientist.</p>
+<p>We will focus on <code>R</code> for this course so you can, by the end, become fluent in at least one major language for Data Science. Occasionally I will show you how to do things in other languages. I would encourage you to explore other options than <code>R</code> to find something that works best for you, rather than sticking with what I’ve shown you.</p>
+<section id="tools" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="tools"><span class="header-section-number">1.4.1</span> Tools</h3>
+<p>When working in Data Science, a variety of tools are used to support the workflow from data collection to communication of results. Some of the most important categories of tools include:</p>
+<ul>
+<li><strong>Integrated Development Environments (IDEs):</strong> Tools like RStudio (for R), JupyterLab (for R, Python, Julia, and many other languages), and Visual Studio Code (for pretty much any language) provide user-friendly interfaces for writing, running, and debugging code.</li>
+<li><strong>Version Control:</strong> Systems like Git (often used with GitHub or GitLab) help track changes in code and collaborate with others.</li>
+<li><strong>Data Visualisation:</strong> Packages such as <code>ggplot2</code> in R, <code>matplotlib</code> and <code>seaborn</code> in Python, and interactive tools like Tableau or Power BI are essential for exploring and presenting data.</li>
+<li><strong>Data Management:</strong> Tools for handling data include relational databases (e.g., SQLite, PostgreSQL), spreadsheet software (e.g., Excel, Google Sheets), and data wrangling libraries (<code>dplyr</code> in R, <code>pandas</code> in Python).</li>
+<li><strong>Reproducible Research:</strong> Tools like Quarto, R Markdown, and Jupyter Notebooks allow you to combine code, results, and narrative text in a single document, supporting transparency and reproducibility.</li>
+<li><strong>Collaboration and Communication:</strong> Platforms such as Slack, Microsoft Teams, and project management tools like Trello or Asana facilitate teamwork and project tracking.</li>
+<li><strong>Continuous Integration (CI):</strong> CI tools like GitHub Actions, GitLab CI, and Jenkins automatically run tests and checks on your code whenever changes are made. This helps ensure that your codebase remains functional, reproducible, and free of errors as you and your collaborators develop new features or fix bugs.</li>
+</ul>
+<p>Choosing the right tools depends on the project requirements, team preferences, and the specific problems being addressed.</p>
+</section>
+<section id="generative-ai" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="generative-ai"><span class="header-section-number">1.4.2</span> Generative AI</h3>
+<p>Generative AI tools, such as large language models (e.g., ChatGPT, GitHub Copilot), are increasingly being used in data science to assist with code generation, data exploration, documentation, and even generating synthetic data. They are valuable resources for learning and productivity in real-world data science projects and we will explore how they can be used to help with Data Science in this course.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+GenAI and Assessment
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For this course’s assessments, the use of generative AI is <strong>not permitted</strong>. Assessments are designed to evaluate your individual understanding and skills. While you are encouraged to experiment with generative AI during your learning and practice, all submitted coursework must be your own unaided work.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="reproducibility-and-scientific-integrity" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="reproducibility-and-scientific-integrity"><span class="header-section-number">1.5</span> Reproducibility and Scientific Integrity</h2>
+<p><em>Reproducibility</em> is an important concept in data science. When we say research is reproducible, we mean that another researcher can take the same data and methods and obtain the same results. Without reproducibility, data analysis is a “black box”; we will focus in this course on instead transforming data analysis into a <em>transparent</em>, <em>verifiable</em> process that the scientific community can trust.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Consequences of Non-Reproducible Results
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the real world, data science can drive government, medical and business decisions. Policy decisions based on irreproducible analyses could be <em>genuinely dangerous</em> and <em>harmful</em>. This is therefore something to be taken seriously.</p>
+</div>
+</div>
+<p>We will look at reproducibility in detail in <a href="week03.html" class="quarto-xref">Week&nbsp;<span>3</span></a>. For now we will focus on two practical points that are essential to engage with the first few labs.</p>
+<section id="r-and-quarto" class="level3" data-number="1.5.1">
+<h3 data-number="1.5.1" class="anchored" data-anchor-id="r-and-quarto"><span class="header-section-number">1.5.1</span> R and Quarto</h3>
+<p>All of the labs will be conducted in <code>RStudio</code>, primarily using Quarto documents. Quarto is a successor to RMarkdown; it is a markdown-based file format that allows for <code>R</code> code to be embedded in the document. The document can then be <em>knitted</em> to produce various outputs.</p>
+<p>Most of the time in the labs you will load partially-written Quarto files that you pull from GitHub. However, it is worth knowing how to create a <em>fresh</em> Quarto document from RStudio. To create one, open the main menu and select <code>File &gt; New File &gt; Quarto Document</code>.</p>
+<p><code>RStudio</code> has two visual modes for Quarto:</p>
+<ul>
+<li><em>Visual</em> (default) shows a preview of the rendered document with all formatting applied.</li>
+<li><em>Source</em> shows the plain Markdown text. This is what is actually saved in the file.</li>
+</ul>
+</section>
+<section id="git-and-github" class="level3" data-number="1.5.2">
+<h3 data-number="1.5.2" class="anchored" data-anchor-id="git-and-github"><span class="header-section-number">1.5.2</span> Git and GitHub</h3>
+<p>We will use <a href="https://git-scm.com">Git</a> for version control in this course, and <a href="https://github.com">GitHub</a> to host and share our Git repositories online. All of the labs in this course will be hosted on GitHub, and we will go through how to use Git and GitHub on the University computers in the first lab. For now, it is helpful to know the following minimal points.</p>
+<section id="sec-git-terminal" class="level4" data-number="1.5.2.1">
+<h4 data-number="1.5.2.1" class="anchored" data-anchor-id="sec-git-terminal"><span class="header-section-number">1.5.2.1</span> Git in the Terminal</h4>
+<p>Git is, at heart, a command-line tool: everything it can do — cloning, committing, branching, merging and more — is available as a command typed at the terminal. Graphical applications like GitHub Desktop are convenient wrappers around these commands, but they can only expose a subset of Git’s functionality, and they necessarily hide <em>how</em> Git actually works. For that reason it is well worth getting comfortable with the basic commands, even if you end up doing most of your day-to-day work in a graphical interface. Understanding the commands gives you a mental model of what Git is doing behind the scenes, which makes it much easier to diagnose problems, read documentation (or the output of generative AI tools!) when things go wrong, and work on remote servers or high-performance computing systems where a graphical interface simply isn’t available.</p>
+<p>For now, the minimal set of commands you need is:</p>
+<ul>
+<li>You can download Git from <a href="https://git-scm.com/downloads">here</a>.</li>
+<li>You can download (<code>clone</code>) a Git repository with the command <code>git clone &lt;repository-url&gt;</code></li>
+<li>You can add commits to the “staging area” with <code>git add &lt;filename&gt;</code> or just <code>git add -A</code> to stage everything.</li>
+<li>You can commit changes with <code>git commit -m "Commit message"</code></li>
+<li>You can push changes up to GitHub with <code>git push</code>.</li>
+</ul>
+<p>Notice that this mirrors the Git workflow we will develop over the course: you first <em>stage</em> the changes you want to save, then <em>commit</em> them to the repository’s history, and finally <em>push</em> that history up to GitHub. If you have Git setup correctly on your machine, you will also see a Git pane in RStudio when you open it. We’ll go over this in more detail in <a href="week03.html" class="quarto-xref">Week&nbsp;<span>3</span></a>, but the above will be enough for now.</p>
+</section>
+<section id="sec-github-desktop" class="level4" data-number="1.5.2.2">
+<h4 data-number="1.5.2.2" class="anchored" data-anchor-id="sec-github-desktop"><span class="header-section-number">1.5.2.2</span> GitHub Desktop</h4>
+<p><a href="https://desktop.github.com">GitHub Desktop</a> is a free, graphical application for working with Git and GitHub, available for Windows and macOS. It provides a point-and-click alternative to the Git terminal commands above: you can use it to clone repositories, view your changes, make commits, and push and pull, all without typing commands. This makes it a very convenient option if you are new to version control, and it is the tool we recommend for this course.</p>
+<p>For a complete, step-by-step walkthrough of the workflow we will use in this course — forking a repository on GitHub, cloning it to your machine with GitHub Desktop, and pushing your work back up to GitHub — see the separate <a href="./github-tutorial.html">GitHub for FDS Tutorial</a>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Assessment
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The mini-courseworks will all assess reproducibility of results. <strong>You will submit your mini-coursework using GitHub, as in labs.</strong> Therefore, make sure you get comfortable with it!</p>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-Donoho2017" class="csl-entry" role="listitem">
+Donoho, David. 2017. <span>“50 Years of Data Science.”</span> <em>Journal of Computational and Graphical Statistics</em> 26 (4): 745–66. <a href="https://doi.org/10.1080/10618600.2017.1384734">https://doi.org/10.1080/10618600.2017.1384734</a>.
+</div>
+<div id="ref-R4DS" class="csl-entry" role="listitem">
+Wickham, Hadley, Mine Çentinkaya-Rundel, and Garrett Grolemund. 2023. <em>R for Data Science</em>. Sebastopol, CA: O’Reilly Media. <a href="https://r4ds.hadley.nz/">https://r4ds.hadley.nz/</a>.
+</div>
+<div id="ref-Wild1999" class="csl-entry" role="listitem">
+Wild, C. J., and M. Pfannkuch. 1999. <span>“Statistical Thinking in Empirical Enquiry.”</span> <em>International Statistical Review</em> 67 (3): 223–48. <a href="https://doi.org/10.1111/j.1751-5823.1999.tb00442.x">https://doi.org/10.1111/j.1751-5823.1999.tb00442.x</a>.
+</div>
+</div>
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Course Structure and Logistics">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Course Structure and Logistics</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./week02.html" class="pagination-link" aria-label="Coding in `R`">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Coding in <code>R</code></span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
