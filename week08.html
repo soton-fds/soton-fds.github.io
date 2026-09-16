@@ -338,13 +338,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    counter <span class="ot">&lt;&lt;-</span> counter <span class="sc">+</span> <span class="dv">1</span> </span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    counter</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Recall from <a href="week02.html#sec-closures" class="quarto-xref"><span>Section 2.4.2</span></a> that <code>&lt;&lt;-</code> is the super-assignment operator which can modify the global state. This should be avoided wherever possible.</p>
+<p>Recall from <a href="week02.html#sec-closures" class="quarto-xref"><span>Section 2.4.3</span></a> that <code>&lt;&lt;-</code> is the super-assignment operator which can modify the global state. This should be avoided wherever possible.</p>
 </section>
 <section id="higher-order-functions" class="level3" data-number="8.2.2">
 <h3 data-number="8.2.2" class="anchored" data-anchor-id="higher-order-functions"><span class="header-section-number">8.2.2</span> Higher-Order Functions</h3>
 <section id="map-functions" class="level4" data-number="8.2.2.1">
 <h4 data-number="8.2.2.1" class="anchored" data-anchor-id="map-functions"><span class="header-section-number">8.2.2.1</span> <code>map</code> Functions</h4>
-<p>From <span class="quarto-unresolved-ref">?sec-higher-order-functions</span>, recall that a higher order function is a function that either accepts or returns another function. These are the foundation of functional data manipulation. To give a concrete example, a common use case is to <em>map</em> a list through a function, i.e., to take each element of the list and apply a function to it. In <code>R</code> these are materialised through the <em>apply</em> family of functions. Consider the following code:</p>
+<p>From <a href="week02.html#sec-higher-order-functions" class="quarto-xref"><span>Section 2.4.1</span></a>, recall that a higher order function is a function that either accepts or returns another function. These are the foundation of functional data manipulation. To give a concrete example, a common use case is to <em>map</em> a list through a function, i.e., to take each element of the list and apply a function to it. In <code>R</code> these are materialised through the <em>apply</em> family of functions. Consider the following code:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
@@ -470,7 +470,7 @@ $prod
 </section>
 <section id="function-composition" class="level3" data-number="8.2.3">
 <h3 data-number="8.2.3" class="anchored" data-anchor-id="function-composition"><span class="header-section-number">8.2.3</span> Function Composition</h3>
-<p>We have already seen how this is implemented in <code>R</code> using the pipe operator; see <a href="week02.html#sec-pipes" class="quarto-xref"><span>Section 2.4.1</span></a></p>
+<p>We have already seen how this is implemented in <code>R</code> using the pipe operator; see <a href="week02.html#sec-pipes" class="quarto-xref"><span>Section 2.4.2</span></a></p>
 </section>
 <section id="currying" class="level3" data-number="8.2.4">
 <h3 data-number="8.2.4" class="anchored" data-anchor-id="currying"><span class="header-section-number">8.2.4</span> Currying</h3>

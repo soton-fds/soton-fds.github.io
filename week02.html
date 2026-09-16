@@ -308,8 +308,9 @@ window.Quarto = {
   </ul></li>
   <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions"><span class="header-section-number">2.4</span> Functions</a>
   <ul class="collapse">
-  <li><a href="#sec-pipes" id="toc-sec-pipes" class="nav-link" data-scroll-target="#sec-pipes"><span class="header-section-number">2.4.1</span> Pipes</a></li>
-  <li><a href="#sec-closures" id="toc-sec-closures" class="nav-link" data-scroll-target="#sec-closures"><span class="header-section-number">2.4.2</span> Closures (Advanced)</a></li>
+  <li><a href="#sec-higher-order-functions" id="toc-sec-higher-order-functions" class="nav-link" data-scroll-target="#sec-higher-order-functions"><span class="header-section-number">2.4.1</span> Higher Order Functions</a></li>
+  <li><a href="#sec-pipes" id="toc-sec-pipes" class="nav-link" data-scroll-target="#sec-pipes"><span class="header-section-number">2.4.2</span> Pipes</a></li>
+  <li><a href="#sec-closures" id="toc-sec-closures" class="nav-link" data-scroll-target="#sec-closures"><span class="header-section-number">2.4.3</span> Closures (Advanced)</a></li>
   </ul></li>
   <li><a href="#basic-debugging" id="toc-basic-debugging" class="nav-link" data-scroll-target="#basic-debugging"><span class="header-section-number">2.5</span> Basic Debugging</a></li>
   <li><a href="#getting-help" id="toc-getting-help" class="nav-link" data-scroll-target="#getting-help"><span class="header-section-number">2.6</span> Getting Help</a>
@@ -993,18 +994,12 @@ Tip
 <p>Each <code>if</code> here is a <em>guard clause</em>: it checks a condition and, if it holds, returns immediately. By the time we reach the last line we therefore know that <code>x</code> lies inside the range, and we can return it as-is. Without the early returns, each subsequent check would need to be an <code>else</code> branch of the previous one, and the logic would quickly become nested and hard to read. Guard clauses are a common idiom for validating inputs at the top of a function, so that the main logic below can assume its inputs are well behaved.</p>
 <div class="callout-info">
 <p><code>clip</code> only works on a single value. Consider how you might make a version of <code>clip</code> that works when <code>x</code> can be either a single value or a vector!</p>
-<pre><code>
-### Higher Order Functions {#sec-higher-order-functions}
-
-Higher order functions are functions that either take or return functions.
-Functions that take functions are really useful for array operations.
-Here we pass the "add" function into the "Reduce" function to sum the elements of the numbers from 1 to 10.
-
-
-::: {.cell}
-
-```{.r .cell-code}
-Reduce(add, 1:10)</code></pre>
+</div>
+<section id="sec-higher-order-functions" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="sec-higher-order-functions"><span class="header-section-number">2.4.1</span> Higher Order Functions</h3>
+<p>Higher order functions are functions that either take or return functions. Functions that take functions are really useful for array operations. Here we pass the “add” function into the “Reduce” function to sum the elements of the numbers from 1 to 10.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Reduce</span>(add, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 55</code></pre>
 </div>
@@ -1042,8 +1037,9 @@ Reduce(add, 1:10)</code></pre>
 <pre><code>[1] 20</code></pre>
 </div>
 </div>
-<section id="sec-pipes" class="level3" data-number="2.4.1">
-<h3 data-number="2.4.1" class="anchored" data-anchor-id="sec-pipes"><span class="header-section-number">2.4.1</span> Pipes</h3>
+</section>
+<section id="sec-pipes" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="sec-pipes"><span class="header-section-number">2.4.2</span> Pipes</h3>
 <p><em>Pipes</em> are a way to make code more readable and expressive by providing a succinct syntax for <em>composition</em>. Writing this mathematically, suppose we wanted to compute <span class="math inline">\(f(g(x))\)</span>. If we specify these functions in <code>R</code>, we might have</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb132"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">=</span> <span class="cf">function</span>(y) {</span>
@@ -1097,8 +1093,8 @@ Reduce(add, 1:10)</code></pre>
 </div>
 </div>
 </section>
-<section id="sec-closures" class="level3" data-number="2.4.2">
-<h3 data-number="2.4.2" class="anchored" data-anchor-id="sec-closures"><span class="header-section-number">2.4.2</span> Closures (Advanced)</h3>
+<section id="sec-closures" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="sec-closures"><span class="header-section-number">2.4.3</span> Closures (Advanced)</h3>
 <p>Let’s examine the type of the <code>add</code> function we defined earlier.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(add)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1154,12 +1150,12 @@ Reduce(add, 1:10)</code></pre>
 <span id="cb152-4"><a href="#cb152-4" aria-hidden="true" tabindex="-1"></a><span class="fu">very_bad_closure</span>()</span>
 <span id="cb152-5"><a href="#cb152-5" aria-hidden="true" tabindex="-1"></a><span class="fu">closure</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.006915159</code></pre>
+<pre><code>[1] 0.6373002</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb154"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">very_bad_closure</span>()</span>
 <span id="cb154-2"><a href="#cb154-2" aria-hidden="true" tabindex="-1"></a><span class="fu">closure</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.373957</code></pre>
+<pre><code>[1] 0.7015224</code></pre>
 </div>
 </div>
 <p>This allows us to do some powerful - but dangerous - things!</p>
