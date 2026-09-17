@@ -30,13 +30,7 @@ This is a double-badged module: MATH2051 and MATH6195. Taught material:
 ## Office Hour
 
 - Mondays at 13:00 (right before the lab) 
-- In my office (Building 39, Room 2025) **or** online (link in Teams).
-
-## An Experiment
-
-- This year I will (initially) attempt to **live-stream** all lectures and make office hours **hybrid**.
-- The objective is to provide another way to engage, using chat, as well as to streamline lecture capture.
-- Please still come to the lectures. I do not want to lecture to an empty room!
+- In my office (Building 39, Room 2025).
 
 ## Assessment
 
