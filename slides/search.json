@@ -1,31 +1,94 @@
 [
   {
-    "objectID": "week01_slides.html",
-    "href": "week01_slides.html",
+    "objectID": "week01_slides_handout.html",
+    "href": "week01_slides_handout.html",
     "title": "Week 1: Introduction to Data Science",
     "section": "",
     "text": "Know what data science is and why it is important in the modern world.\nBe able to give an example of a data science workflow to follow when working as a data scientist.\nBe able to give examples of some tools we can use for Data Science, and discuss the importance of reproducibility."
   },
   {
-    "objectID": "week01_slides.html#objectives",
-    "href": "week01_slides.html#objectives",
+    "objectID": "week01_slides_handout.html#objectives",
+    "href": "week01_slides_handout.html#objectives",
     "title": "Week 1: Introduction to Data Science",
     "section": "",
     "text": "Know what data science is and why it is important in the modern world.\nBe able to give an example of a data science workflow to follow when working as a data scientist.\nBe able to give examples of some tools we can use for Data Science, and discuss the importance of reproducibility."
+  },
+  {
+    "objectID": "week01_slides_handout.html#what-is-data-science",
+    "href": "week01_slides_handout.html#what-is-data-science",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "What is Data Science?",
+    "text": "What is Data Science?\n\n\n\nData Science Venn Diagram"
+  },
+  {
+    "objectID": "week01_slides_handout.html#the-data-science-workflow",
+    "href": "week01_slides_handout.html#the-data-science-workflow",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "The Data Science Workflow",
+    "text": "The Data Science Workflow\n\n\n\nData Science Workflow"
+  },
+  {
+    "objectID": "week01_slides_handout.html#tools-for-data-science",
+    "href": "week01_slides_handout.html#tools-for-data-science",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "Tools for Data Science",
+    "text": "Tools for Data Science\n\nYou can do data science in any language.\nSome languages are “better” than others:\n\nCommunity support\nLibrary ecosystem\nPerformance\nEase of learning\nIntegration\nReproducibility"
+  },
+  {
+    "objectID": "week01_slides_handout.html#most-prominent-languages",
+    "href": "week01_slides_handout.html#most-prominent-languages",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "Most Prominent Languages",
+    "text": "Most Prominent Languages\n\nPython\nR\nSQL\nJulia\nScala"
+  },
+  {
+    "objectID": "week01_slides_handout.html#why-r",
+    "href": "week01_slides_handout.html#why-r",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "Why R?",
+    "text": "Why R?\n\nDesigned specifically for statistics and data analysis\nEcosystem of packages for data manipulation, visualization, and modeling\nSupport for reproducible research (RMarkdown, Quarto)\nStrong community and extensive documentation\nSeamless integration with other tools and languages\nFree and open source"
+  },
+  {
+    "objectID": "week01_slides_handout.html#be-agile",
+    "href": "week01_slides_handout.html#be-agile",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "Be Agile",
+    "text": "Be Agile\n\n\n\n\n\n\nTipNo Best Language\n\n\n\nEvery language has strengths and weaknesses. Try out more languages, experiment and find what works for you. Switching between languages within a project may be more effective than sticking to one!"
+  },
+  {
+    "objectID": "week01_slides_handout.html#other-tools",
+    "href": "week01_slides_handout.html#other-tools",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "Other Tools",
+    "text": "Other Tools\n\nIDEs\nVersion Control\nData Management\nReproducible Research\nCollaboration / Communication\nContinuous Integration"
+  },
+  {
+    "objectID": "week01_slides_handout.html#generative-ai",
+    "href": "week01_slides_handout.html#generative-ai",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "Generative AI",
+    "text": "Generative AI\n\nPowerful - but dangerous\nNot permitted in assessments for this course"
+  },
+  {
+    "objectID": "week01_slides.html#objectives",
+    "href": "week01_slides.html#objectives",
+    "title": "Week 1: Introduction to Data Science",
+    "section": "Objectives",
+    "text": "Objectives\n\nKnow what data science is and why it is important in the modern world.\nBe able to give an example of a data science workflow to follow when working as a data scientist.\nBe able to give examples of some tools we can use for Data Science, and discuss the importance of reproducibility."
   },
   {
     "objectID": "week01_slides.html#what-is-data-science",
     "href": "week01_slides.html#what-is-data-science",
     "title": "Week 1: Introduction to Data Science",
     "section": "What is Data Science?",
-    "text": "What is Data Science?\n\n\n\nData Science Venn Diagram"
+    "text": "What is Data Science?\n\nData Science Venn Diagram"
   },
   {
     "objectID": "week01_slides.html#the-data-science-workflow",
     "href": "week01_slides.html#the-data-science-workflow",
     "title": "Week 1: Introduction to Data Science",
     "section": "The Data Science Workflow",
-    "text": "The Data Science Workflow\n\n\n\nData Science Workflow"
+    "text": "The Data Science Workflow\n\nData Science Workflow"
   },
   {
     "objectID": "week01_slides.html#tools-for-data-science",
@@ -53,7 +116,7 @@
     "href": "week01_slides.html#be-agile",
     "title": "Week 1: Introduction to Data Science",
     "section": "Be Agile",
-    "text": "Be Agile\n\n\n\n\n\n\nTipNo Best Language\n\n\n\nEvery language has strengths and weaknesses. Try out more languages, experiment and find what works for you. Switching between languages within a project may be more effective than sticking to one!"
+    "text": "Be Agile\n\n\n\n\n\n\nNo Best Language\n\n\nEvery language has strengths and weaknesses. Try out more languages, experiment and find what works for you. Switching between languages within a project may be more effective than sticking to one!"
   },
   {
     "objectID": "week01_slides.html#other-tools",
@@ -70,144 +133,277 @@
     "text": "Generative AI\n\nPowerful - but dangerous\nNot permitted in assessments for this course"
   },
   {
-    "objectID": "course_intro.html",
-    "href": "course_intro.html",
-    "title": "Week 1 Slides",
-    "section": "",
-    "text": "This is a double-badged module: MATH2051 and MATH6195. Taught material:\n\n1 hour lecture (16:00-17:00 in 58/1007, L/R C)\n2 hour lab (Mondays, 14:00-16:00 in 25/1009)\n\n\n\n\n\n1 hour session.\nI will demo some new techniques that we will focus on in the labs.\n\n\n\n\n\n2 hour session.\nYou will code!\nPart of the Course Material.\n\nYou will be assessed on material from the labs.\nI will attempt to record the labs, but cannot guarantee the quality of the recordings.\n\nBoth lab worksheets and solutions will still be available to everyone.\n\n\n\n\n\nMondays at 13:00 (right before the lab)\nIn my office (Building 39, Room 2025) or online (link in Teams).\n\n\n\n\n\nThis year I will (initially) attempt to live-stream all lectures and make office hours hybrid.\nThe objective is to provide another way to engage, using chat, as well as to streamline lecture capture.\nPlease still come to the lectures. I do not want to lecture to an empty room!\n\n\n\n\n\nFour take-home mini courseworks. (5% each, total 20%)\n\nWeeks 2, 4, 6 and 10.\nYou will have one week to complete each coursework.\nSubmission via GitHub.\nAutograded.\n\n\n\n\n\n\nTwo in-person supervised courseworks. (40% each, total 80%)\n\nA1 Week 8 - Tuesday 10th November, 11:00-13:00, 25/1009. Covers Chapters 1-6.\nA2 Week 12 - Tuesday, 8th December, 11:00-13:00, 25/1009. Covers the entire module.\n\n\n\n\n\n\nGenAI allowed in take-home, blocked in supervised coursework.\nSupervised coursework uses University computers.\nYou will not be able to complete the assessments if you do not know how to use:\n\nGit (take-home only)\nQuarto Notebooks in R.\n\nThese are covered in Chapters 2-3 and in every lab.\n\n\n\n\n\n“R for Data Science”, https://r4ds.hadley.nz"
-  },
-  {
     "objectID": "course_intro.html#about-the-course",
     "href": "course_intro.html#about-the-course",
     "title": "Week 1 Slides",
-    "section": "",
-    "text": "This is a double-badged module: MATH2051 and MATH6195. Taught material:\n\n1 hour lecture (16:00-17:00 in 58/1007, L/R C)\n2 hour lab (Mondays, 14:00-16:00 in 25/1009)"
+    "section": "About the Course",
+    "text": "About the Course\nThis is a double-badged module: MATH2051 and MATH6195. Taught material:\n\n1 hour lecture (16:00-17:00 in 58/1007, L/R C)\n2 hour lab (Mondays, 14:00-16:00 in 25/1009)"
   },
   {
     "objectID": "course_intro.html#lectures",
     "href": "course_intro.html#lectures",
     "title": "Week 1 Slides",
-    "section": "",
-    "text": "1 hour session.\nI will demo some new techniques that we will focus on in the labs."
+    "section": "Lectures",
+    "text": "Lectures\n\n1 hour session.\nI will demo some new techniques that we will focus on in the labs."
   },
   {
     "objectID": "course_intro.html#labs",
     "href": "course_intro.html#labs",
     "title": "Week 1 Slides",
-    "section": "",
-    "text": "2 hour session.\nYou will code!\nPart of the Course Material.\n\nYou will be assessed on material from the labs.\nI will attempt to record the labs, but cannot guarantee the quality of the recordings.\n\nBoth lab worksheets and solutions will still be available to everyone."
+    "section": "Labs",
+    "text": "Labs\n\n2 hour session.\nYou will code!\nPart of the Course Material.\n\nYou will be assessed on material from the labs.\nI will attempt to record the labs, but cannot guarantee the quality of the recordings.\n\nBoth lab worksheets and solutions will still be available to everyone."
   },
   {
     "objectID": "course_intro.html#office-hour",
     "href": "course_intro.html#office-hour",
     "title": "Week 1 Slides",
-    "section": "",
-    "text": "Mondays at 13:00 (right before the lab)\nIn my office (Building 39, Room 2025) or online (link in Teams)."
+    "section": "Office Hour",
+    "text": "Office Hour\n\nMondays at 13:00 (right before the lab)\nIn my office (Building 39, Room 2025) or online (link in Teams)."
   },
   {
     "objectID": "course_intro.html#an-experiment",
     "href": "course_intro.html#an-experiment",
     "title": "Week 1 Slides",
-    "section": "",
-    "text": "This year I will (initially) attempt to live-stream all lectures and make office hours hybrid.\nThe objective is to provide another way to engage, using chat, as well as to streamline lecture capture.\nPlease still come to the lectures. I do not want to lecture to an empty room!"
+    "section": "An Experiment",
+    "text": "An Experiment\n\nThis year I will (initially) attempt to live-stream all lectures and make office hours hybrid.\nThe objective is to provide another way to engage, using chat, as well as to streamline lecture capture.\nPlease still come to the lectures. I do not want to lecture to an empty room!"
   },
   {
     "objectID": "course_intro.html#assessment",
     "href": "course_intro.html#assessment",
     "title": "Week 1 Slides",
-    "section": "",
-    "text": "Four take-home mini courseworks. (5% each, total 20%)\n\nWeeks 2, 4, 6 and 10.\nYou will have one week to complete each coursework.\nSubmission via GitHub.\nAutograded."
+    "section": "Assessment",
+    "text": "Assessment\n\nFour take-home mini courseworks. (5% each, total 20%)\n\nWeeks 2, 4, 6 and 10.\nYou will have one week to complete each coursework.\nSubmission via GitHub.\nAutograded."
   },
   {
     "objectID": "course_intro.html#assessment-1",
     "href": "course_intro.html#assessment-1",
     "title": "Week 1 Slides",
-    "section": "",
-    "text": "Two in-person supervised courseworks. (40% each, total 80%)\n\nA1 Week 8 - Tuesday 10th November, 11:00-13:00, 25/1009. Covers Chapters 1-6.\nA2 Week 12 - Tuesday, 8th December, 11:00-13:00, 25/1009. Covers the entire module."
+    "section": "Assessment",
+    "text": "Assessment\n\nTwo in-person supervised courseworks. (40% each, total 80%)\n\nA1 Week 8 - Tuesday 10th November, 11:00-13:00, 25/1009. Covers Chapters 1-6.\nA2 Week 12 - Tuesday, 8th December, 11:00-13:00, 25/1009. Covers the entire module."
   },
   {
     "objectID": "course_intro.html#assessment-2",
     "href": "course_intro.html#assessment-2",
     "title": "Week 1 Slides",
-    "section": "",
-    "text": "GenAI allowed in take-home, blocked in supervised coursework.\nSupervised coursework uses University computers.\nYou will not be able to complete the assessments if you do not know how to use:\n\nGit (take-home only)\nQuarto Notebooks in R.\n\nThese are covered in Chapters 2-3 and in every lab."
+    "section": "Assessment",
+    "text": "Assessment\n\nGenAI allowed in take-home, blocked in supervised coursework.\nSupervised coursework uses University computers.\nYou will not be able to complete the assessments if you do not know how to use:\n\nGit (take-home only)\nQuarto Notebooks in R.\n\nThese are covered in Chapters 2-3 and in every lab."
   },
   {
     "objectID": "course_intro.html#main-text",
     "href": "course_intro.html#main-text",
     "title": "Week 1 Slides",
-    "section": "",
-    "text": "“R for Data Science”, https://r4ds.hadley.nz"
+    "section": "Main Text",
+    "text": "Main Text\n\n“R for Data Science”, https://r4ds.hadley.nz"
   },
   {
-    "objectID": "week02_slides.html",
-    "href": "week02_slides.html",
+    "objectID": "week02_slides_handout.html",
+    "href": "week02_slides_handout.html",
     "title": "Coding in R",
     "section": "",
     "text": "By the end of this lecture you will be able to:\n\n\ncreate and inspect R’s core data structures — variables, vectors, lists and data frames\n\n\n\n\nmake vectorised decisions with if_else() and case_when(), instead of loops\n\n\n\n\nwrite functions and compose them with the pipe, |&gt;"
+  },
+  {
+    "objectID": "week02_slides_handout.html#agenda",
+    "href": "week02_slides_handout.html#agenda",
+    "title": "Coding in R",
+    "section": "",
+    "text": "By the end of this lecture you will be able to:\n\n\ncreate and inspect R’s core data structures — variables, vectors, lists and data frames\n\n\n\n\nmake vectorised decisions with if_else() and case_when(), instead of loops\n\n\n\n\nwrite functions and compose them with the pipe, |&gt;"
+  },
+  {
+    "objectID": "week02_slides_handout.html#packages",
+    "href": "week02_slides_handout.html#packages",
+    "title": "Coding in R",
+    "section": "Packages",
+    "text": "Packages\n\ninstall.packages(\"dplyr\")   # ONCE, in the console\nlibrary(dplyr)              # EVERY new session\n\n\n\n\n\n\n\nWarningNever put install.packages() in a .qmd\n\n\n\nQuarto re-runs every chunk on every render — the package would be re-installed from CRAN each time you knit.\nRule: Install in the console; load with library() in the document."
+  },
+  {
+    "objectID": "week02_slides_handout.html#your-first-variables",
+    "href": "week02_slides_handout.html#your-first-variables",
+    "title": "Coding in R",
+    "section": "Your first variables",
+    "text": "Your first variables\n\n\n\n\n\n\nImportantTask\n\n\n\nCreate three variables — a number, some text, and a truth value — then ask R what type each one is.\n\n\n\n\nx &lt;- 5\ny &lt;- \"Hello\"\nz &lt;- TRUE\n\ntypeof(x)\n\n[1] \"double\"\n\ntypeof(y)\n\n[1] \"character\"\n\ntypeof(z)\n\n[1] \"logical\"\n\n\n\n\nPoint out double, character, logical. Mention the chapter’s aside: &lt;- is idiomatic R, = is fine, both accepted in assessments."
+  },
+  {
+    "objectID": "week02_slides_handout.html#r-is-dynamically-typed",
+    "href": "week02_slides_handout.html#r-is-dynamically-typed",
+    "title": "Coding in R",
+    "section": "R is dynamically typed",
+    "text": "R is dynamically typed\n\n\n\n\n\n\nImportantTask\n\n\n\nDemonstrate dynamic typing in R\n\n\n\n\nnumber &lt;- 5\ntypeof(number)\n\n[1] \"double\"\n\nnumber &lt;- \"hello\"\ntypeof(number)\n\n[1] \"character\"\n\n\n\n\nR does not require variable types. It also does not check types when you call a function!"
+  },
+  {
+    "objectID": "week02_slides_handout.html#building-vectors",
+    "href": "week02_slides_handout.html#building-vectors",
+    "title": "Coding in R",
+    "section": "Building vectors",
+    "text": "Building vectors\n\n\n\n\n\n\nImportantTask\n\n\n\nMake a vector of the numbers 1 to 5 with c(), then check its type and length. What happens if you check the length of the plain number x from before?\n\n\n\n\nvector &lt;- c(1, 2, 3, 4, 5)\n\ntypeof(vector)   # still \"double\"!\n\n[1] \"double\"\n\nlength(vector)\n\n[1] 5\n\nlength(x)        # scalars ARE length-1 vectors\n\n[1] 1\n\n\n\n\nIn R there are no scalars — everything is a vector."
+  },
+  {
+    "objectID": "week02_slides_handout.html#indexing-r-counts-from-1",
+    "href": "week02_slides_handout.html#indexing-r-counts-from-1",
+    "title": "Coding in R",
+    "section": "Indexing: R counts from 1",
+    "text": "Indexing: R counts from 1\n\n\n\n\n\n\nImportantTask\n\n\n\nGet the 2nd element, the 5th element, and elements 2 through 4.\n\n\n\n\nvector[2]\n\n[1] 2\n\nvector[5]     # the LAST element — it would be index 4 in Python!\n\n[1] 5\n\nvector[2:4]\n\n[1] 2 3 4\n\n\n\n\nShow vector[0]: it returns an empty vector, no error."
+  },
+  {
+    "objectID": "week02_slides_handout.html#logical-indexing",
+    "href": "week02_slides_handout.html#logical-indexing",
+    "title": "Coding in R",
+    "section": "Logical indexing",
+    "text": "Logical indexing\n\n\n\n\n\n\nImportantTask\n\n\n\nUse a vector of TRUE/FALSE to pick out elements — then negate it with ! to pick the others.\n\n\n\n\nelements &lt;- c(TRUE, FALSE, TRUE, TRUE, FALSE)\n\nvector[elements]    # positions 1, 3, 4\n\n[1] 1 3 4\n\nvector[!elements]   # elementwise negation: positions 2, 5\n\n[1] 2 5\n\n\n\n\nThis is the idiom that powers filtering data in every week to come."
+  },
+  {
+    "objectID": "week02_slides_handout.html#lists-containers-for-anything",
+    "href": "week02_slides_handout.html#lists-containers-for-anything",
+    "title": "Coding in R",
+    "section": "Lists: containers for anything",
+    "text": "Lists: containers for anything\n\n\n\n\n\n\nImportantTask\n\n\n\nBuild a list about a penguin — two bits of text, a numeric vector, and a count — then pull out elements by name and by position.\n\n\n\n\nl &lt;- list(\n  name = \"Flipper\",\n  species = \"Adelie\",\n  measurements = c(210, 217, 230),\n  n_measurements = 3\n)\n\nl$name\n\n[1] \"Flipper\"\n\nl$measurements\n\n[1] 210 217 230\n\nl[[3]]\n\n[1] 210 217 230\n\n\n\n\nDemo the difference between [3] and [[3]] - a list vs. the element. Comment on why the names might be better than the numbers."
+  },
+  {
+    "objectID": "week02_slides_handout.html#data-frames-lists-of-equal-length-vectors",
+    "href": "week02_slides_handout.html#data-frames-lists-of-equal-length-vectors",
+    "title": "Coding in R",
+    "section": "Data frames: lists of equal-length vectors",
+    "text": "Data frames: lists of equal-length vectors\n\n\n\n\n\n\nImportantTask\n\n\n\nBuild a small table of penguins — name, species, flipper length — then get a column with $, a row with [2, ], and a single entry.\n\n\n\n\ndf &lt;- data.frame(\n  name              = c(\"Flipper\", \"Tux\", \"Pingu\"),\n  species           = c(\"Adelie\", \"Gentoo\", \"Emperor\"),\n  flipper_length_mm = c(210, 217, 230)\n)\n\ndf\n\n     name species flipper_length_mm\n1 Flipper  Adelie               210\n2     Tux  Gentoo               217\n3   Pingu Emperor               230\n\ndf$name              # access a column\n\n[1] \"Flipper\" \"Tux\"     \"Pingu\"  \n\ndf$flipper_length_mm\n\n[1] 210 217 230\n\ndf[2, ]              # row 2\n\n  name species flipper_length_mm\n2  Tux  Gentoo               217\n\ndf[2, \"species\"]     # single entry\n\n[1] \"Gentoo\"\n\n\n\n\n\n\n\n\n\nTipTibbles\n\n\n\nData frames have a modern cousin, the tibble (tidyverse). Same functionality, nicer printing. We’ll switch to tibble in the data weeks — for today data.frame is fine."
+  },
+  {
+    "objectID": "week02_slides_handout.html#reminder-if-else",
+    "href": "week02_slides_handout.html#reminder-if-else",
+    "title": "Coding in R",
+    "section": "Reminder: if / else",
+    "text": "Reminder: if / else\n\nx &lt;- 1\nif (x &lt; 0) {\n  print(\"x was negative\")\n} else if (x == 0) {   # else MUST be on the same line as }\n  print(\"x was 0\")\n} else {\n  print(\"x was positive\")\n}\n\n\n~1 min. They have seen if/else before — don’t dwell. Two things to say: else must be on the same line as the closing brace, and plain if makes ONE decision. The real question: what if we need the same decision for every element of a vector? → next slide."
+  },
+  {
+    "objectID": "week02_slides_handout.html#if_else-a-vectorised-conditional",
+    "href": "week02_slides_handout.html#if_else-a-vectorised-conditional",
+    "title": "Coding in R",
+    "section": "if_else: a vectorised conditional",
+    "text": "if_else: a vectorised conditional\n\n\n\n\n\n\nImportantTask\n\n\n\nClassify each element of x &lt;- c(3, 1, 4, 1, 5) as “big” or “small” depending on whether it exceeds 2.\n\n\n\n\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nx &lt;- c(3, 1, 4, 1, 5)\n\nif_else(x &gt; 2, \"big\", \"small\")\n\n[1] \"big\"   \"small\" \"big\"   \"small\" \"big\""
+  },
+  {
+    "objectID": "week02_slides_handout.html#case_when-many-conditions",
+    "href": "week02_slides_handout.html#case_when-many-conditions",
+    "title": "Coding in R",
+    "section": "case_when: many conditions",
+    "text": "case_when: many conditions\n\n\n\n\n\n\nImportantTask\n\n\n\nClassify x as “small” (&lt; 2), “medium” (&lt; 5), or “large” (everything else).\n\n\n\n\ncase_when(\n  x &lt; 2 ~ \"small\",\n  x &lt; 5 ~ \"medium\",\n  TRUE  ~ \"large\"\n)\n\n[1] \"medium\" \"small\"  \"medium\" \"small\"  \"large\" \n\n\n\n\nOrder matters: swap the first two conditions and “small” disappears."
+  },
+  {
+    "objectID": "week02_slides_handout.html#writing-functions",
+    "href": "week02_slides_handout.html#writing-functions",
+    "title": "Coding in R",
+    "section": "Writing Functions",
+    "text": "Writing Functions\n\n\n\n\n\n\nImportantTask\n\n\n\nWrite a function add(x, y).\n\n\n\n\nadd &lt;- function(x, y) {\n  x + y        # the LAST expression is the return value\n}\n\nadd(1, 10)\n\n[1] 11\n\n\n\n\nNo return() needed."
+  },
+  {
+    "objectID": "week02_slides_handout.html#guard-clauses-return",
+    "href": "week02_slides_handout.html#guard-clauses-return",
+    "title": "Coding in R",
+    "section": "Guard clauses: return",
+    "text": "Guard clauses: return\n\n\n\n\n\n\nImportantTask\n\n\n\nWrite clip(x, lower, upper) that forces a value into a range — e.g. for cleaning impossible measurements.\n\n\n\n\nclip &lt;- function(x, lower, upper) {\n  if (x &lt; lower) return(lower)   # guard clause\n  if (x &gt; upper) return(upper)\n  x                              # still here? it's in range\n}\n\nclip(5, 0, 10)\n\n[1] 5\n\nclip(-3, 0, 10)\n\n[1] 0\n\nclip(42, 0, 10)\n\n[1] 10\n\n\n\n\nNote that you could also use case_when to do this"
+  },
+  {
+    "objectID": "week02_slides_handout.html#functions-are-variables",
+    "href": "week02_slides_handout.html#functions-are-variables",
+    "title": "Coding in R",
+    "section": "Functions are Variables",
+    "text": "Functions are Variables\n\n\nsapply(1:10, function(x) clip(x, 3, 7))\n\n [1] 3 3 3 4 5 6 7 7 7 7\n\n\n\n\nA function you never named — an anonymous function — passed straight into sapply.\nIt is called a “higher order function.”"
+  },
+  {
+    "objectID": "week02_slides_handout.html#composing-functions-fgx",
+    "href": "week02_slides_handout.html#composing-functions-fgx",
+    "title": "Coding in R",
+    "section": "Composing functions: f(g(x))",
+    "text": "Composing functions: f(g(x))\n\ntimes_ten &lt;- function(y) y * 10\nadd_five &lt;- function(x) x + 5\n\nx &lt;- 10\ntimes_ten(add_five(x))\n\n\nReadable — up to a point."
+  },
+  {
+    "objectID": "week02_slides_handout.html#the-pipe",
+    "href": "week02_slides_handout.html#the-pipe",
+    "title": "Coding in R",
+    "section": "The pipe: |>",
+    "text": "The pipe: |&gt;\n\n\n\n\n\n\nImportantTask\n\n\n\nImplement the above logic using the pipe operator |&gt;\n\n\n\n\nx |&gt; add_five() |&gt; times_ten()\n\n[1] 150\n\n\n\n\nMuch more readable.\n\n\nThe parentheses after each function are required — the pipe inserts the left-hand side into the FIRST argument.\nMention %&gt;% (magrittr) exists and behaves almost identically, but |&gt; is base R."
+  },
+  {
+    "objectID": "week02_slides_handout.html#when-youre-stuck",
+    "href": "week02_slides_handout.html#when-youre-stuck",
+    "title": "Coding in R",
+    "section": "When you’re stuck",
+    "text": "When you’re stuck\n\n?mean — documentation (also ?dplyr, even ?`+`)\nexample(mean) — run the docs’ examples\n??\"linear regression\" — search all installed packages\nRead the error message first — then search it verbatim online\n\n\n\n\n\n\n\nTipAI tools\n\n\n\nGreat for getting unblocked — but they hallucinate. Verify everything with ?, and never paste sensitive data into them. The docs are always right; the AI is usually helpful."
+  },
+  {
+    "objectID": "week02_slides_handout.html#for-next-week",
+    "href": "week02_slides_handout.html#for-next-week",
+    "title": "Coding in R",
+    "section": "For next week",
+    "text": "For next week\nToday you can now:\n\n\ncreate variables, vectors, lists and data frames\n\n\n\n\nmake vectorised decisions with if_else() and case_when()\n\n\n\n\nwrite functions and compose them with the pipe"
+  },
+  {
+    "objectID": "week02_slides_handout.html#additional-tasks",
+    "href": "week02_slides_handout.html#additional-tasks",
+    "title": "Coding in R",
+    "section": "Additional Tasks",
+    "text": "Additional Tasks\nRead the notes. We didn’t cover:\n\nmatrices\nmissing data (NA)\nwhile/next\nclosures (advanced)\ndebugging"
   },
   {
     "objectID": "week02_slides.html#agenda",
     "href": "week02_slides.html#agenda",
     "title": "Coding in R",
-    "section": "",
-    "text": "By the end of this lecture you will be able to:\n\n\ncreate and inspect R’s core data structures — variables, vectors, lists and data frames\n\n\n\n\nmake vectorised decisions with if_else() and case_when(), instead of loops\n\n\n\n\nwrite functions and compose them with the pipe, |&gt;"
+    "section": "Objectives",
+    "text": "Objectives\nBy the end of this lecture you will be able to:\n\n\ncreate and inspect R’s core data structures — variables, vectors, lists and data frames\n\n\n\n\nmake vectorised decisions with if_else() and case_when(), instead of loops\n\n\n\n\nwrite functions and compose them with the pipe, |&gt;"
   },
   {
     "objectID": "week02_slides.html#packages",
     "href": "week02_slides.html#packages",
     "title": "Coding in R",
     "section": "Packages",
-    "text": "Packages\n\ninstall.packages(\"dplyr\")   # ONCE, in the console\nlibrary(dplyr)              # EVERY new session\n\n\n\n\n\n\n\nWarningNever put install.packages() in a .qmd\n\n\n\nQuarto re-runs every chunk on every render — the package would be re-installed from CRAN each time you knit.\nRule: Install in the console; load with library() in the document."
+    "text": "Packages\n\ninstall.packages(\"dplyr\")   # ONCE, in the console\nlibrary(dplyr)              # EVERY new session\n\n\n\n\n\n\n\nNever put install.packages() in a .qmd\n\n\nQuarto re-runs every chunk on every render — the package would be re-installed from CRAN each time you knit.\nRule: Install in the console; load with library() in the document."
   },
   {
     "objectID": "week02_slides.html#your-first-variables",
     "href": "week02_slides.html#your-first-variables",
     "title": "Coding in R",
     "section": "Your first variables",
-    "text": "Your first variables\n\n\n\n\n\n\nImportantTask\n\n\n\nCreate three variables — a number, some text, and a truth value — then ask R what type each one is.\n\n\n\nPoint out double, character, logical. Mention the chapter’s aside: &lt;- is idiomatic R, = is fine, both accepted in assessments."
+    "text": "Your first variables\n\n\n\n\n\n\nTask\n\n\nCreate three variables — a number, some text, and a truth value — then ask R what type each one is.\n\n\n\n\n\nx &lt;- 5\ny &lt;- \"Hello\"\nz &lt;- TRUE\n\ntypeof(x)\n\n[1] \"double\"\n\ntypeof(y)\n\n[1] \"character\"\n\ntypeof(z)\n\n[1] \"logical\"\n\n\n\n\nPoint out double, character, logical. Mention the chapter’s aside: &lt;- is idiomatic R, = is fine, both accepted in assessments."
   },
   {
     "objectID": "week02_slides.html#r-is-dynamically-typed",
     "href": "week02_slides.html#r-is-dynamically-typed",
     "title": "Coding in R",
     "section": "R is dynamically typed",
-    "text": "R is dynamically typed\n\n\n\n\n\n\nImportantTask\n\n\n\nDemonstrate dynamic typing in R\n\n\n\nR does not require variable types. It also does not check types when you call a function!"
+    "text": "R is dynamically typed\n\n\n\n\n\n\nTask\n\n\nDemonstrate dynamic typing in R\n\n\n\n\n\nnumber &lt;- 5\ntypeof(number)\n\n[1] \"double\"\n\nnumber &lt;- \"hello\"\ntypeof(number)\n\n[1] \"character\"\n\n\n\n\nR does not require variable types. It also does not check types when you call a function!"
   },
   {
     "objectID": "week02_slides.html#building-vectors",
     "href": "week02_slides.html#building-vectors",
     "title": "Coding in R",
     "section": "Building vectors",
-    "text": "Building vectors\n\n\n\n\n\n\nImportantTask\n\n\n\nMake a vector of the numbers 1 to 5 with c(), then check its type and length. What happens if you check the length of the plain number x from before?\n\n\n\nIn R there are no scalars — everything is a vector."
+    "text": "Building vectors\n\n\n\n\n\n\nTask\n\n\nMake a vector of the numbers 1 to 5 with c(), then check its type and length. What happens if you check the length of the plain number x from before?\n\n\n\n\n\nvector &lt;- c(1, 2, 3, 4, 5)\n\ntypeof(vector)   # still \"double\"!\n\n[1] \"double\"\n\nlength(vector)\n\n[1] 5\n\nlength(x)        # scalars ARE length-1 vectors\n\n[1] 1\n\n\n\n\nIn R there are no scalars — everything is a vector."
   },
   {
     "objectID": "week02_slides.html#indexing-r-counts-from-1",
     "href": "week02_slides.html#indexing-r-counts-from-1",
     "title": "Coding in R",
     "section": "Indexing: R counts from 1",
-    "text": "Indexing: R counts from 1\n\n\n\n\n\n\nImportantTask\n\n\n\nGet the 2nd element, the 5th element, and elements 2 through 4.\n\n\n\nShow vector[0]: it returns an empty vector, no error."
+    "text": "Indexing: R counts from 1\n\n\n\n\n\n\nTask\n\n\nGet the 2nd element, the 5th element, and elements 2 through 4.\n\n\n\n\n\nvector[2]\n\n[1] 2\n\nvector[5]     # the LAST element — it would be index 4 in Python!\n\n[1] 5\n\nvector[2:4]\n\n[1] 2 3 4\n\n\n\n\nShow vector[0]: it returns an empty vector, no error."
   },
   {
     "objectID": "week02_slides.html#logical-indexing",
     "href": "week02_slides.html#logical-indexing",
     "title": "Coding in R",
     "section": "Logical indexing",
-    "text": "Logical indexing\n\n\n\n\n\n\nImportantTask\n\n\n\nUse a vector of TRUE/FALSE to pick out elements — then negate it with ! to pick the others.\n\n\n\nThis is the idiom that powers filtering data in every week to come."
+    "text": "Logical indexing\n\n\n\n\n\n\nTask\n\n\nUse a vector of TRUE/FALSE to pick out elements — then negate it with ! to pick the others.\n\n\n\n\n\nelements &lt;- c(TRUE, FALSE, TRUE, TRUE, FALSE)\n\nvector[elements]    # positions 1, 3, 4\n\n[1] 1 3 4\n\nvector[!elements]   # elementwise negation: positions 2, 5\n\n[1] 2 5\n\n\n\n\nThis is the idiom that powers filtering data in every week to come."
   },
   {
     "objectID": "week02_slides.html#lists-containers-for-anything",
     "href": "week02_slides.html#lists-containers-for-anything",
     "title": "Coding in R",
     "section": "Lists: containers for anything",
-    "text": "Lists: containers for anything\n\n\n\n\n\n\nImportantTask\n\n\n\nBuild a list about a penguin — two bits of text, a numeric vector, and a count — then pull out elements by name and by position.\n\n\n\nDemo the difference between [3] and [[3]] - a list vs. the element. Comment on why the names might be better than the numbers."
+    "text": "Lists: containers for anything\n\n\n\n\n\n\nTask\n\n\nBuild a list about a penguin — two bits of text, a numeric vector, and a count — then pull out elements by name and by position.\n\n\n\n\n\nl &lt;- list(\n  name = \"Flipper\",\n  species = \"Adelie\",\n  measurements = c(210, 217, 230),\n  n_measurements = 3\n)\n\nl$name\n\n[1] \"Flipper\"\n\nl$measurements\n\n[1] 210 217 230\n\nl[[3]]\n\n[1] 210 217 230\n\n\n\n\nDemo the difference between [3] and [[3]] - a list vs. the element. Comment on why the names might be better than the numbers."
   },
   {
     "objectID": "week02_slides.html#data-frames-lists-of-equal-length-vectors",
     "href": "week02_slides.html#data-frames-lists-of-equal-length-vectors",
     "title": "Coding in R",
     "section": "Data frames: lists of equal-length vectors",
-    "text": "Data frames: lists of equal-length vectors\n\n\n\n\n\n\nImportantTask\n\n\n\nBuild a small table of penguins — name, species, flipper length — then get a column with $, a row with [2, ], and a single entry.\n\n\n\n\n\n\n\n\nTipTibbles\n\n\n\nData frames have a modern cousin, the tibble (tidyverse). Same functionality, nicer printing. We’ll switch to tibble in the data weeks — for today data.frame is fine."
+    "text": "Data frames: lists of equal-length vectors\n\n\n\n\n\n\nTask\n\n\nBuild a small table of penguins — name, species, flipper length — then get a column with $, a row with [2, ], and a single entry.\n\n\n\n\n\ndf &lt;- data.frame(\n  name              = c(\"Flipper\", \"Tux\", \"Pingu\"),\n  species           = c(\"Adelie\", \"Gentoo\", \"Emperor\"),\n  flipper_length_mm = c(210, 217, 230)\n)\n\ndf\n\n     name species flipper_length_mm\n1 Flipper  Adelie               210\n2     Tux  Gentoo               217\n3   Pingu Emperor               230\n\ndf$name              # access a column\n\n[1] \"Flipper\" \"Tux\"     \"Pingu\"  \n\ndf$flipper_length_mm\n\n[1] 210 217 230\n\ndf[2, ]              # row 2\n\n  name species flipper_length_mm\n2  Tux  Gentoo               217\n\ndf[2, \"species\"]     # single entry\n\n[1] \"Gentoo\"\n\n\n\n\n\n\n\n\n\nTibbles\n\n\nData frames have a modern cousin, the tibble (tidyverse). Same functionality, nicer printing. We’ll switch to tibble in the data weeks — for today data.frame is fine."
   },
   {
     "objectID": "week02_slides.html#reminder-if-else",
@@ -221,35 +417,35 @@
     "href": "week02_slides.html#if_else-a-vectorised-conditional",
     "title": "Coding in R",
     "section": "if_else: a vectorised conditional",
-    "text": "if_else: a vectorised conditional\n\n\n\n\n\n\nImportantTask\n\n\n\nClassify each element of x &lt;- c(3, 1, 4, 1, 5) as “big” or “small” depending on whether it exceeds 2."
+    "text": "if_else: a vectorised conditional\n\n\n\n\n\n\nTask\n\n\nClassify each element of x &lt;- c(3, 1, 4, 1, 5) as “big” or “small” depending on whether it exceeds 2.\n\n\n\n\n\nlibrary(dplyr)\nx &lt;- c(3, 1, 4, 1, 5)\n\nif_else(x &gt; 2, \"big\", \"small\")\n\n[1] \"big\"   \"small\" \"big\"   \"small\" \"big\""
   },
   {
     "objectID": "week02_slides.html#case_when-many-conditions",
     "href": "week02_slides.html#case_when-many-conditions",
     "title": "Coding in R",
     "section": "case_when: many conditions",
-    "text": "case_when: many conditions\n\n\n\n\n\n\nImportantTask\n\n\n\nClassify x as “small” (&lt; 2), “medium” (&lt; 5), or “large” (everything else).\n\n\n\nOrder matters: swap the first two conditions and “small” disappears."
+    "text": "case_when: many conditions\n\n\n\n\n\n\nTask\n\n\nClassify x as “small” (&lt; 2), “medium” (&lt; 5), or “large” (everything else).\n\n\n\n\n\ncase_when(\n  x &lt; 2 ~ \"small\",\n  x &lt; 5 ~ \"medium\",\n  TRUE  ~ \"large\"\n)\n\n[1] \"medium\" \"small\"  \"medium\" \"small\"  \"large\" \n\n\n\n\nOrder matters: swap the first two conditions and “small” disappears."
   },
   {
     "objectID": "week02_slides.html#writing-functions",
     "href": "week02_slides.html#writing-functions",
     "title": "Coding in R",
     "section": "Writing Functions",
-    "text": "Writing Functions\n\n\n\n\n\n\nImportantTask\n\n\n\nWrite a function add(x, y).\n\n\n\nNo return() needed."
+    "text": "Writing Functions\n\n\n\n\n\n\nTask\n\n\nWrite a function add(x, y).\n\n\n\n\n\nadd &lt;- function(x, y) {\n  x + y        # the LAST expression is the return value\n}\n\nadd(1, 10)\n\n[1] 11\n\n\n\n\nNo return() needed."
   },
   {
     "objectID": "week02_slides.html#guard-clauses-return",
     "href": "week02_slides.html#guard-clauses-return",
     "title": "Coding in R",
     "section": "Guard clauses: return",
-    "text": "Guard clauses: return\n\n\n\n\n\n\nImportantTask\n\n\n\nWrite clip(x, lower, upper) that forces a value into a range — e.g. for cleaning impossible measurements.\n\n\n\nNote that you could also use case_when to do this"
+    "text": "Guard clauses: return\n\n\n\n\n\n\nTask\n\n\nWrite clip(x, lower, upper) that forces a value into a range — e.g. for cleaning impossible measurements.\n\n\n\n\n\nclip &lt;- function(x, lower, upper) {\n  if (x &lt; lower) return(lower)   # guard clause\n  if (x &gt; upper) return(upper)\n  x                              # still here? it's in range\n}\n\nclip(5, 0, 10)\n\n[1] 5\n\nclip(-3, 0, 10)\n\n[1] 0\n\nclip(42, 0, 10)\n\n[1] 10\n\n\n\n\nNote that you could also use case_when to do this"
   },
   {
     "objectID": "week02_slides.html#functions-are-variables",
     "href": "week02_slides.html#functions-are-variables",
     "title": "Coding in R",
     "section": "Functions are Variables",
-    "text": "Functions are Variables\n\nA function you never named — an anonymous function — passed straight into sapply.\nIt is called a “higher order function.”"
+    "text": "Functions are Variables\n\n\nsapply(1:10, function(x) clip(x, 3, 7))\n\n [1] 3 3 3 4 5 6 7 7 7 7\n\n\n\n\nA function you never named — an anonymous function — passed straight into sapply.\nIt is called a “higher order function.”"
   },
   {
     "objectID": "week02_slides.html#composing-functions-fgx",
@@ -263,14 +459,14 @@
     "href": "week02_slides.html#the-pipe",
     "title": "Coding in R",
     "section": "The pipe: |>",
-    "text": "The pipe: |&gt;\n\n\n\n\n\n\nImportantTask\n\n\n\nImplement the above logic using the pipe operator |&gt;\n\n\n\nMuch more readable.\n\n\nThe parentheses after each function are required — the pipe inserts the left-hand side into the FIRST argument.\nMention %&gt;% (magrittr) exists and behaves almost identically, but |&gt; is base R."
+    "text": "The pipe: |&gt;\n\n\n\n\n\n\nTask\n\n\nImplement the above logic using the pipe operator |&gt;\n\n\n\n\n\nx |&gt; add_five() |&gt; times_ten()\n\n[1] 150\n\n\n\n\nMuch more readable.\n\n\nThe parentheses after each function are required — the pipe inserts the left-hand side into the FIRST argument.\nMention %&gt;% (magrittr) exists and behaves almost identically, but |&gt; is base R."
   },
   {
     "objectID": "week02_slides.html#when-youre-stuck",
     "href": "week02_slides.html#when-youre-stuck",
     "title": "Coding in R",
     "section": "When you’re stuck",
-    "text": "When you’re stuck\n\n?mean — documentation (also ?dplyr, even ?`+`)\nexample(mean) — run the docs’ examples\n??\"linear regression\" — search all installed packages\nRead the error message first — then search it verbatim online\n\n\n\n\n\n\n\nTipAI tools\n\n\n\nGreat for getting unblocked — but they hallucinate. Verify everything with ?, and never paste sensitive data into them. The docs are always right; the AI is usually helpful."
+    "text": "When you’re stuck\n\n?mean — documentation (also ?dplyr, even ?`+`)\nexample(mean) — run the docs’ examples\n??\"linear regression\" — search all installed packages\nRead the error message first — then search it verbatim online\n\n\n\n\n\n\n\nAI tools\n\n\nGreat for getting unblocked — but they hallucinate. Verify everything with ?, and never paste sensitive data into them. The docs are always right; the AI is usually helpful."
   },
   {
     "objectID": "week02_slides.html#for-next-week",
@@ -301,38 +497,31 @@
     "text": "Lab\n\nChapter 1 Slides\nLab 1 Slides\n\nLecture\n\nCourse Introduction\nWeek 2 Slides"
   },
   {
-    "objectID": "lab01_slides.html",
-    "href": "lab01_slides.html",
-    "title": "Week 1 Slides",
-    "section": "",
-    "text": "This lab will be a lighter load than coming weeks.\nWe will be focussing on getting people set up with git and R.\nThere are some coding tasks for you to complete if you get started quickly.\n\n\n\n\n\nWhere you should save files\nHow to open RStudio\n\n\n\n\n\nNavigate to [github.com/soton-fds/lab_01]\nFollow the instructions on [soton-fds.github.io/github_tutorial.html] to fork and then clone the repo.\nWhen you have a GitHub ID, input it on Blackboard.\n\n\n\n\n\nOpen the Palmer Penguins CSV file\nGenerate some simple plots"
-  },
-  {
     "objectID": "lab01_slides.html#about-the-lab",
     "href": "lab01_slides.html#about-the-lab",
     "title": "Week 1 Slides",
-    "section": "",
-    "text": "This lab will be a lighter load than coming weeks.\nWe will be focussing on getting people set up with git and R.\nThere are some coding tasks for you to complete if you get started quickly."
+    "section": "About the Lab",
+    "text": "About the Lab\n\nThis lab will be a lighter load than coming weeks.\nWe will be focussing on getting people set up with git and R.\nThere are some coding tasks for you to complete if you get started quickly."
   },
   {
     "objectID": "lab01_slides.html#about-university-machines",
     "href": "lab01_slides.html#about-university-machines",
     "title": "Week 1 Slides",
-    "section": "",
-    "text": "Where you should save files\nHow to open RStudio"
+    "section": "About University Machines",
+    "text": "About University Machines\n\nWhere you should save files\nHow to open RStudio"
   },
   {
     "objectID": "lab01_slides.html#task-1-basic-git",
     "href": "lab01_slides.html#task-1-basic-git",
     "title": "Week 1 Slides",
-    "section": "",
-    "text": "Navigate to [github.com/soton-fds/lab_01]\nFollow the instructions on [soton-fds.github.io/github_tutorial.html] to fork and then clone the repo.\nWhen you have a GitHub ID, input it on Blackboard."
+    "section": "Task 1: Basic Git",
+    "text": "Task 1: Basic Git\n\nNavigate to [github.com/soton-fds/lab_01]\nFollow the instructions on [soton-fds.github.io/github_tutorial.html] to fork and then clone the repo.\nWhen you have a GitHub ID, input it on Blackboard."
   },
   {
     "objectID": "lab01_slides.html#task-2-3-simple-data-analysis",
     "href": "lab01_slides.html#task-2-3-simple-data-analysis",
     "title": "Week 1 Slides",
-    "section": "",
-    "text": "Open the Palmer Penguins CSV file\nGenerate some simple plots"
+    "section": "Task 2-3: Simple Data Analysis",
+    "text": "Task 2-3: Simple Data Analysis\n\nOpen the Palmer Penguins CSV file\nGenerate some simple plots"
   }
 ]
