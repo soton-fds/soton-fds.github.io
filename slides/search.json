@@ -207,7 +207,7 @@
     "href": "week02_slides_handout.html#packages",
     "title": "Coding in R",
     "section": "Packages",
-    "text": "Packages\n\ninstall.packages(\"dplyr\")   # ONCE, in the console\nlibrary(dplyr)              # EVERY new session\n\n\n\n\n\n\n\nWarningNever put install.packages() in a .qmd\n\n\n\nQuarto re-runs every chunk on every render — the package would be re-installed from CRAN each time you knit.\nRule: Install in the console; load with library() in the document."
+    "text": "Packages\n\ninstall.packages(\"dplyr\")   # ONCE, in the console\nlibrary(dplyr)              # EVERY new session\n\n\n\n\n\n\n\nWarningNever put install.packages() in a .qmd\n\n\n\nQuarto re-runs every chunk on every render — the package would be re-installed from CRAN each time you render.\nRule: Install in the console; load with library() in the document."
   },
   {
     "objectID": "week02_slides_handout.html#your-first-variables",
@@ -347,7 +347,7 @@
     "href": "week02_slides.html#packages",
     "title": "Coding in R",
     "section": "Packages",
-    "text": "Packages\n\ninstall.packages(\"dplyr\")   # ONCE, in the console\nlibrary(dplyr)              # EVERY new session\n\n\n\n\n\n\n\nNever put install.packages() in a .qmd\n\n\nQuarto re-runs every chunk on every render — the package would be re-installed from CRAN each time you knit.\nRule: Install in the console; load with library() in the document."
+    "text": "Packages\n\ninstall.packages(\"dplyr\")   # ONCE, in the console\nlibrary(dplyr)              # EVERY new session\n\n\n\n\n\n\n\nNever put install.packages() in a .qmd\n\n\nQuarto re-runs every chunk on every render — the package would be re-installed from CRAN each time you render.\nRule: Install in the console; load with library() in the document."
   },
   {
     "objectID": "week02_slides.html#your-first-variables",

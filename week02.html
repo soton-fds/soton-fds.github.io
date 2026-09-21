@@ -354,7 +354,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Never include <code>install.packages()</code> calls in a <code>.qmd</code> file. Quarto re-runs every chunk each time the document is rendered, so the package would be re-installed from CRAN on every knit — even if it is already up to date. This makes rendering very slow, requires an internet connection, and can cause spurious failures when a package is temporarily unavailable or a dependency changes. Instead, install packages once, directly in the <code>R</code> console (or terminal), and use <code>library()</code> inside the document to load them.</p>
+<p>Never include <code>install.packages()</code> calls in a <code>.qmd</code> file. Quarto re-runs every chunk each time the document is rendered, so the package would be re-installed from CRAN on every render — even if it is already up to date. This makes rendering very slow, requires an internet connection, and can cause spurious failures when a package is temporarily unavailable or a dependency changes. Instead, install packages once, directly in the <code>R</code> console (or terminal), and use <code>library()</code> inside the document to load them.</p>
 </div>
 </div>
 <p>Installing a package does not make its functions available automatically. Each time you start a new <code>R</code> session, you must <em>load</em> the packages you want to use with <code>library()</code>:</p>
@@ -1126,12 +1126,12 @@ Tip
 <span id="cb152-4"><a href="#cb152-4" aria-hidden="true" tabindex="-1"></a><span class="fu">very_bad_closure</span>()</span>
 <span id="cb152-5"><a href="#cb152-5" aria-hidden="true" tabindex="-1"></a><span class="fu">closure</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.1655015</code></pre>
+<pre><code>[1] 3.574842</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb154"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">very_bad_closure</span>()</span>
 <span id="cb154-2"><a href="#cb154-2" aria-hidden="true" tabindex="-1"></a><span class="fu">closure</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.316009</code></pre>
+<pre><code>[1] 1.195029</code></pre>
 </div>
 </div>
 <p>This allows us to do some powerful - but dangerous - things!</p>
