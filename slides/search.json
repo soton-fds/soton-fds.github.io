@@ -161,25 +161,46 @@
     "text": "Office Hour\n\nMondays at 13:00 (right before the lab)\nIn my office (Building 39, Room 2025)."
   },
   {
-    "objectID": "course_intro.html#assessment",
-    "href": "course_intro.html#assessment",
+    "objectID": "course_intro.html#assessment---summary",
+    "href": "course_intro.html#assessment---summary",
     "title": "Week 1 Slides",
-    "section": "Assessment",
-    "text": "Assessment\n\nFour take-home mini courseworks. (5% each, total 20%)\n\nWeeks 2, 4, 6 and 10.\nYou will have one week to complete each coursework.\nSubmission via GitHub.\nAutograded."
+    "section": "Assessment - Summary",
+    "text": "Assessment - Summary\n\n20% Mini Coursework\n80% Supervised Coursework"
   },
   {
-    "objectID": "course_intro.html#assessment-1",
-    "href": "course_intro.html#assessment-1",
+    "objectID": "course_intro.html#assessment---mini-courseworks",
+    "href": "course_intro.html#assessment---mini-courseworks",
     "title": "Week 1 Slides",
-    "section": "Assessment",
-    "text": "Assessment\n\nTwo in-person supervised courseworks. (40% each, total 80%)\n\nA1 Week 8 - Tuesday 10th November, 11:00-13:00, 25/1009. Covers Chapters 1-6.\nA2 Week 12 - Tuesday, 8th December, 11:00-13:00, 25/1009. Covers the entire module."
+    "section": "Assessment - Mini Courseworks",
+    "text": "Assessment - Mini Courseworks\n\nFour take-home mini courseworks. (5% each, total 20%)\n\nWeeks 2, 4, 6 and 10.\nYou will have one week to complete each coursework.\nSubmission via GitHub (using Classroom50).\nAutograded."
   },
   {
-    "objectID": "course_intro.html#assessment-2",
-    "href": "course_intro.html#assessment-2",
+    "objectID": "course_intro.html#assessment---mini-courseworks-1",
+    "href": "course_intro.html#assessment---mini-courseworks-1",
     "title": "Week 1 Slides",
-    "section": "Assessment",
-    "text": "Assessment\n\nGenAI allowed in take-home, blocked in supervised coursework.\nSupervised coursework uses University computers.\nYou will not be able to complete the assessments if you do not know how to use:\n\nGit (take-home only)\nQuarto Notebooks in R.\n\nThese are covered in Chapters 2-3 and in every lab."
+    "section": "Assessment - Mini Courseworks",
+    "text": "Assessment - Mini Courseworks\n\nGenAI allowed in the mini-courseworks.\nYou will nee do to know how to use Quarto and Git to submit the mini-courseworks!"
+  },
+  {
+    "objectID": "course_intro.html#assessment---mini-courseworks-2",
+    "href": "course_intro.html#assessment---mini-courseworks-2",
+    "title": "Week 1 Slides",
+    "section": "Assessment - Mini Courseworks",
+    "text": "Assessment - Mini Courseworks\n\n\n\n\n\n\nWarning\n\n\nIt is essential that you upload your GitHub ID to Blackboard; otherwise you cannot complete the mini-courseworks."
+  },
+  {
+    "objectID": "course_intro.html#assessment---supervised-courseworks",
+    "href": "course_intro.html#assessment---supervised-courseworks",
+    "title": "Week 1 Slides",
+    "section": "Assessment - Supervised Courseworks",
+    "text": "Assessment - Supervised Courseworks\n\nTwo in-person supervised courseworks. (40% each, total 80%)\n\nA1 Week 8 - Tuesday 10th November, 11:00-13:00, 25/1009. Covers Chapters 1-6.\nA2 Week 12 - Tuesday, 8th December, 11:00-13:00, 25/1009. Covers the entire module."
+  },
+  {
+    "objectID": "course_intro.html#assessment---supervised-courseworks-1",
+    "href": "course_intro.html#assessment---supervised-courseworks-1",
+    "title": "Week 1 Slides",
+    "section": "Assessment - Supervised Courseworks",
+    "text": "Assessment - Supervised Courseworks\n\nGenAI blocked in supervised coursework.\nUses University computers."
   },
   {
     "objectID": "course_intro.html#main-text",
