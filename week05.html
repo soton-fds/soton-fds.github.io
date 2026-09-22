@@ -719,7 +719,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">year</span>(<span class="fu">today</span>()), <span class="fu">month</span>(<span class="fu">today</span>()), <span class="fu">day</span>(<span class="fu">today</span>()))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2026    9   21</code></pre>
+<pre><code>[1] 2026    9   22</code></pre>
 </div>
 </div>
 <p>For example, if we want to compute a student’s age we can use <code>lubridate</code>’s <code>interval</code> function followed by <code>time_length</code></p>
@@ -728,9 +728,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">time_length</span>(<span class="st">"years"</span>)</span>
 <span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>student_data<span class="sc">$</span>age</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 24.86301 23.10959 24.04110 23.46027 24.36438 22.09041 22.28767 23.79178
- [9] 22.23014 23.80822 24.13151 23.22466 24.64932 23.09041 22.95890 23.05479
-[17] 22.24384 23.04110 24.65205 24.10685</code></pre>
+<pre><code> [1] 24.86575 23.11233 24.04384 23.46301 24.36712 22.09315 22.29041 23.79452
+ [9] 22.23288 23.81096 24.13425 23.22740 24.65205 23.09315 22.96164 23.05753
+[17] 22.24658 23.04384 24.65479 24.10959</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>student_data<span class="sc">$</span>age <span class="sc">|&gt;</span> <span class="fu">floor</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -742,13 +742,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">interval</span>(student_data<span class="sc">$</span>date_of_birth, <span class="fu">today</span>()) <span class="sc">|&gt;</span></span>
 <span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.period</span>(<span class="at">unit=</span><span class="st">"years"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] "24y 10m 11d 0H 0M 0S" "23y 1m 9d 0H 0M 0S"   "24y 0m 15d 0H 0M 0S" 
- [4] "23y 5m 15d 0H 0M 0S"  "24y 4m 10d 0H 0M 0S"  "22y 1m 2d 0H 0M 0S"  
- [7] "22y 3m 13d 0H 0M 0S"  "23y 9m 15d 0H 0M 0S"  "22y 2m 23d 0H 0M 0S" 
-[10] "23y 9m 22d 0H 0M 0S"  "24y 1m 17d 0H 0M 0S"  "23y 2m 20d 0H 0M 0S" 
-[13] "24y 7m 25d 0H 0M 0S"  "23y 1m 2d 0H 0M 0S"   "22y 11m 15d 0H 0M 0S"
-[16] "23y 0m 20d 0H 0M 0S"  "22y 2m 28d 0H 0M 0S"  "23y 0m 15d 0H 0M 0S" 
-[19] "24y 7m 26d 0H 0M 0S"  "24y 1m 8d 0H 0M 0S"  </code></pre>
+<pre><code> [1] "24y 10m 12d 0H 0M 0S" "23y 1m 10d 0H 0M 0S"  "24y 0m 16d 0H 0M 0S" 
+ [4] "23y 5m 16d 0H 0M 0S"  "24y 4m 11d 0H 0M 0S"  "22y 1m 3d 0H 0M 0S"  
+ [7] "22y 3m 14d 0H 0M 0S"  "23y 9m 16d 0H 0M 0S"  "22y 2m 24d 0H 0M 0S" 
+[10] "23y 9m 23d 0H 0M 0S"  "24y 1m 18d 0H 0M 0S"  "23y 2m 21d 0H 0M 0S" 
+[13] "24y 7m 26d 0H 0M 0S"  "23y 1m 3d 0H 0M 0S"   "22y 11m 16d 0H 0M 0S"
+[16] "23y 0m 21d 0H 0M 0S"  "22y 2m 29d 0H 0M 0S"  "23y 0m 16d 0H 0M 0S" 
+[19] "24y 7m 27d 0H 0M 0S"  "24y 1m 9d 0H 0M 0S"  </code></pre>
 </div>
 </div>
 <p>We could also just subtract the dates, but this gives a difference in terms of <em>days</em> which would be difficult to convert to years (due to leap years).</p>
@@ -756,8 +756,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">today</span>() <span class="sc">-</span> student_data<span class="sc">$</span>date_of_birth</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Time differences in days
- [1] 9081 8441 8781 8569 8899 8068 8140 8690 8119 8696 8814 8483 9003 8434 8386
-[16] 8421 8124 8416 9004 8805</code></pre>
+ [1] 9082 8442 8782 8570 8900 8069 8141 8691 8120 8697 8815 8484 9004 8435 8387
+[16] 8422 8125 8417 9005 8806</code></pre>
 </div>
 </div>
 </section>
@@ -773,7 +773,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>time2 <span class="ot">=</span> <span class="fu">now</span>()</span>
 <span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>time2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2026-09-21 11:08:36 BST"</code></pre>
+<pre><code>[1] "2026-09-22 09:17:31 BST"</code></pre>
 </div>
 </div>
 <p>We can then extract hours, minutes and seconds:</p>

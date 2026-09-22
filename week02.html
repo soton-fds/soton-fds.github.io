@@ -968,8 +968,18 @@ Tip
 </div>
 </div>
 <p>Each <code>if</code> here is a <em>guard clause</em>: it checks a condition and, if it holds, returns immediately. By the time we reach the last line we therefore know that <code>x</code> lies inside the range, and we can return it as-is. Without the early returns, each subsequent check would need to be an <code>else</code> branch of the previous one, and the logic would quickly become nested and hard to read. Guard clauses are a common idiom for validating inputs at the top of a function, so that the main logic below can assume its inputs are well behaved.</p>
-<div class="callout-info">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p><code>clip</code> only works on a single value. Consider how you might make a version of <code>clip</code> that works when <code>x</code> can be either a single value or a vector!</p>
+</div>
 </div>
 <section id="sec-higher-order-functions" class="level3" data-number="2.4.1">
 <h3 data-number="2.4.1" class="anchored" data-anchor-id="sec-higher-order-functions"><span class="header-section-number">2.4.1</span> Higher Order Functions</h3>
@@ -1126,12 +1136,12 @@ Tip
 <span id="cb152-4"><a href="#cb152-4" aria-hidden="true" tabindex="-1"></a><span class="fu">very_bad_closure</span>()</span>
 <span id="cb152-5"><a href="#cb152-5" aria-hidden="true" tabindex="-1"></a><span class="fu">closure</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.2292972</code></pre>
+<pre><code>[1] 1.516978</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb154"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">very_bad_closure</span>()</span>
 <span id="cb154-2"><a href="#cb154-2" aria-hidden="true" tabindex="-1"></a><span class="fu">closure</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.230499</code></pre>
+<pre><code>[1] 1.370182</code></pre>
 </div>
 </div>
 <p>This allows us to do some powerful - but dangerous - things!</p>
