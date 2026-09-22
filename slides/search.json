@@ -186,7 +186,7 @@
     "href": "course_intro.html#assessment---mini-courseworks-2",
     "title": "Week 1 Slides",
     "section": "Assessment - Mini Courseworks",
-    "text": "Assessment - Mini Courseworks\n\n\n\n\n\n\nWarning\n\n\nIt is essential that you upload your GitHub ID to Blackboard; otherwise you cannot complete the mini-courseworks."
+    "text": "Assessment - Mini Courseworks\n\n\n\n\n\n\nWarning\n\n\nIt is essential that you upload your GitHub Username to Blackboard; otherwise you cannot complete the mini-courseworks."
   },
   {
     "objectID": "course_intro.html#assessment---supervised-courseworks",
@@ -529,7 +529,7 @@
     "href": "lab01_slides.html#task-1-basic-git",
     "title": "Week 1 Slides",
     "section": "Task 1: Basic Git",
-    "text": "Task 1: Basic Git\n\nNavigate to github.com/soton-fds/lab_01_2627\nFollow the instructions on soton-fds.github.io/github-tutorial.html to fork and then clone the repo.\nWhen you have a GitHub ID, input it on Blackboard."
+    "text": "Task 1: Basic Git\n\nNavigate to github.com/soton-fds/lab_01_2627\nFollow the instructions on soton-fds.github.io/github-tutorial.html to fork and then clone the repo.\nWhen you have a GitHub Username, input it on Blackboard."
   },
   {
     "objectID": "lab01_slides.html#task-2-3-simple-data-analysis",
