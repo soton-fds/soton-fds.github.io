@@ -133,312 +133,529 @@
     "text": "Generative AI\n\nPowerful - but dangerous\nNot permitted in assessments for this course"
   },
   {
-    "objectID": "week03_slides_handout.html",
-    "href": "week03_slides_handout.html",
-    "title": "Reproducible Research and Project Management",
+    "objectID": "week04_slides_handout.html",
+    "href": "week04_slides_handout.html",
+    "title": "Data Wrangling in R",
     "section": "",
-    "text": "Know the principles of reproducibility and literate programming, and how they can be realised in R using Quarto.\nKnow how to collaborate and track your code using git."
+    "text": "By the end of this lecture you will be able to:\n\n\nload delimited data into R with readr (read_csv(), read_delim())\n\n\n\n\ntransform data with the core dplyr verbs — mutate(), select(), filter(), arrange(), summarise()\n\n\n\n\naggregate within groups using group_by() and count()\n\n\n\n\nreshape between long and wide with tidyr’s pivot_*() functions"
   },
   {
-    "objectID": "week03_slides_handout.html#objectives",
-    "href": "week03_slides_handout.html#objectives",
-    "title": "Reproducible Research and Project Management",
+    "objectID": "week04_slides_handout.html#agenda",
+    "href": "week04_slides_handout.html#agenda",
+    "title": "Data Wrangling in R",
     "section": "",
-    "text": "Know the principles of reproducibility and literate programming, and how they can be realised in R using Quarto.\nKnow how to collaborate and track your code using git."
+    "text": "By the end of this lecture you will be able to:\n\n\nload delimited data into R with readr (read_csv(), read_delim())\n\n\n\n\ntransform data with the core dplyr verbs — mutate(), select(), filter(), arrange(), summarise()\n\n\n\n\naggregate within groups using group_by() and count()\n\n\n\n\nreshape between long and wide with tidyr’s pivot_*() functions"
   },
   {
-    "objectID": "week03_slides_handout.html#scenario",
-    "href": "week03_slides_handout.html#scenario",
-    "title": "Reproducible Research and Project Management",
-    "section": "Scenario",
-    "text": "Scenario\n\nWe have been given some legacy R code and asked to “tidy it up” and produce a report based on it.\nWe’ll do so with Quarto + Git."
+    "objectID": "week04_slides_handout.html#one-import-is-all-you-need",
+    "href": "week04_slides_handout.html#one-import-is-all-you-need",
+    "title": "Data Wrangling in R",
+    "section": "One Import is All You Need",
+    "text": "One Import is All You Need\n\nlibrary(tidyverse)   # readr + dplyr + tidyr + ggplot2 + ...\n\nWarning: package 'dplyr' was built under R version 4.4.3\n\n\n\nThe tidyverse is a bundle of packages that share a design philosophy. Loading it gives us readr (loading), dplyr (transforming) and tidyr (reshaping) all at once.\n\n\nPoint out the startup message: it lists the attached packages and flags any conflicts (e.g. dplyr::filter() masks stats::filter()). This is normal. Contrast with library(dplyr) alone from last week — today we want the whole toolkit."
   },
   {
-    "objectID": "week03_slides_handout.html#what-is-git",
-    "href": "week03_slides_handout.html#what-is-git",
-    "title": "Reproducible Research and Project Management",
-    "section": "What is Git?",
-    "text": "What is Git?\n\nGit is a source control system.\nProvides mechanisms for:\n\nBacking up.\nCheckpointing code.\nDeveloping new features without breaking working code.\nCollaboration."
+    "objectID": "week04_slides_handout.html#reading-a-csv",
+    "href": "week04_slides_handout.html#reading-a-csv",
+    "title": "Data Wrangling in R",
+    "section": "Reading a CSV",
+    "text": "Reading a CSV\n\n\n\n\n\n\nImportantTask\n\n\n\nLoad data/penguins.csv and take a look. What type of object comes back?\n\n\n\n\npenguins &lt;- read_csv(\"data/penguins.csv\")\npenguins\n\n# A tibble: 344 × 9\n   rowid species island    bill_length_mm bill_depth_mm flipper_length_mm\n   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;\n 1     1 Adelie  Torgersen           39.1          18.7               181\n 2     2 Adelie  Torgersen           39.5          17.4               186\n 3     3 Adelie  Torgersen           40.3          18                 195\n 4     4 Adelie  Torgersen           NA            NA                  NA\n 5     5 Adelie  Torgersen           36.7          19.3               193\n 6     6 Adelie  Torgersen           39.3          20.6               190\n 7     7 Adelie  Torgersen           38.9          17.8               181\n 8     8 Adelie  Torgersen           39.2          19.6               195\n 9     9 Adelie  Torgersen           34.1          18.1               193\n10    10 Adelie  Torgersen           42            20.2               190\n# ℹ 334 more rows\n# ℹ 3 more variables: body_mass_g &lt;dbl&gt;, sex &lt;chr&gt;, year &lt;dbl&gt;\n\n\n\n\nCSV = Comma Separated Values: plain text, columns split by ,, rows split by a newline. read_csv() returns a tibble — a modern data frame with nicer printing.\n\n\nOpen penguins.csv in a text editor first so they see the commas and the header row. Note the column-type spec read_csv prints — it guessed &lt;dbl&gt;, &lt;chr&gt; etc. for us. Emphasise: the printout tells you the dimensions and the type of every column."
   },
   {
-    "objectID": "week03_slides_handout.html#starting-a-git-repo",
-    "href": "week03_slides_handout.html#starting-a-git-repo",
-    "title": "Reproducible Research and Project Management",
-    "section": "Starting a Git Repo",
-    "text": "Starting a Git Repo\n\ngit init\ngit add\ngit commit\nConnecting with GitHub\ngit push"
+    "objectID": "week04_slides_handout.html#other-delimiters",
+    "href": "week04_slides_handout.html#other-delimiters",
+    "title": "Data Wrangling in R",
+    "section": "Other delimiters",
+    "text": "Other delimiters\n\n\n\n\n\n\nImportantTask\n\n\n\nThe file data/penguins_pipe.txt holds the same data, but columns are separated by | instead of ,. Try read_csv() on it — then load it properly.\n\n\n\n\nread_delim(\"data/penguins_pipe.txt\", delim = \"|\")\n\n# A tibble: 344 × 9\n   rowid species island    bill_length_mm bill_depth_mm flipper_length_mm\n   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;\n 1     1 Adelie  Torgersen           39.1          18.7               181\n 2     2 Adelie  Torgersen           39.5          17.4               186\n 3     3 Adelie  Torgersen           40.3          18                 195\n 4     4 Adelie  Torgersen           NA            NA                  NA\n 5     5 Adelie  Torgersen           36.7          19.3               193\n 6     6 Adelie  Torgersen           39.3          20.6               190\n 7     7 Adelie  Torgersen           38.9          17.8               181\n 8     8 Adelie  Torgersen           39.2          19.6               195\n 9     9 Adelie  Torgersen           34.1          18.1               193\n10    10 Adelie  Torgersen           42            20.2               190\n# ℹ 334 more rows\n# ℹ 3 more variables: body_mass_g &lt;dbl&gt;, sex &lt;chr&gt;, year &lt;dbl&gt;\n\n\n\n\nread_csv() is just read_delim() with delim = \",\". For any other delimiter (tabs → read_tsv(), or anything via read_delim(delim = ...)) you pick the matching reader.\n\n\nFirst do read_csv(\"data/penguins_pipe.txt\") and let it fail / mangle — everything lands in one column. The lesson: look at the file (open it) to find the delimiter, then choose the reader. Mention that if you don’t know the format you experiment until it loads."
   },
   {
-    "objectID": "week03_slides_handout.html#what-is-literate-programming",
-    "href": "week03_slides_handout.html#what-is-literate-programming",
-    "title": "Reproducible Research and Project Management",
-    "section": "What is “Literate Programming”?",
-    "text": "What is “Literate Programming”?\nLiterate programming is a methodology introduced by Donald Knuth, whereby:\n\nExplanations are written alongside code\nThe document can be “rendered” (“knitted”) to produce a readable report.\nChanges in code are automatically reflected in the output to reduce manual mistakes.\n\nFrameworks like Quarto implement Literate programming."
+    "objectID": "week04_slides_handout.html#the-five-verbs",
+    "href": "week04_slides_handout.html#the-five-verbs",
+    "title": "Data Wrangling in R",
+    "section": "The five verbs",
+    "text": "The five verbs\ndplyr gives us a small set of readable verbs:\n\n\nmutate() — add or change columns\nselect() — pick columns\nfilter() — pick rows\narrange() — reorder rows\nsummarise() — collapse many rows to a summary\n\n\n\n\nWe’ll demo them on gapminder: country-level life expectancy, population and GDP per capita over time.\n\n\n\nlibrary(gapminder)\ngapminder\n\n# A tibble: 1,704 × 6\n   country     continent  year lifeExp      pop gdpPercap\n   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;\n 1 Afghanistan Asia       1952    28.8  8425333      779.\n 2 Afghanistan Asia       1957    30.3  9240934      821.\n 3 Afghanistan Asia       1962    32.0 10267083      853.\n 4 Afghanistan Asia       1967    34.0 11537966      836.\n 5 Afghanistan Asia       1972    36.1 13079460      740.\n 6 Afghanistan Asia       1977    38.4 14880372      786.\n 7 Afghanistan Asia       1982    39.9 12881816      978.\n 8 Afghanistan Asia       1987    40.8 13867957      852.\n 9 Afghanistan Asia       1992    41.7 16317921      649.\n10 Afghanistan Asia       1997    41.8 22227415      635.\n# ℹ 1,694 more rows\n\n\n\n\nglimpse(gapminder) is a nice alternative view — shows every column down the page. Point out it is a tall dataset: one row per country per year. We’ll come back to that word “tall” for tidyr."
   },
   {
-    "objectID": "week03_slides_handout.html#about-quarto",
-    "href": "week03_slides_handout.html#about-quarto",
-    "title": "Reproducible Research and Project Management",
-    "section": "About Quarto",
-    "text": "About Quarto\nQuarto documents:\n\nStart with a YAML header (see demo)\nIntermix markdown text…\n…with code chunks (```{r}...)."
+    "objectID": "week04_slides_handout.html#mutate-add-a-column",
+    "href": "week04_slides_handout.html#mutate-add-a-column",
+    "title": "Data Wrangling in R",
+    "section": "mutate: add a column",
+    "text": "mutate: add a column\n\n\n\n\n\n\nImportantTask\n\n\n\nAdd a column gdp_billions = GDP per capita × population ÷ 1e9.\n\n\n\n\ngapminder |&gt;\n  mutate(gdp_billions = gdpPercap * pop / 1e9)\n\n# A tibble: 1,704 × 7\n   country     continent  year lifeExp      pop gdpPercap gdp_billions\n   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;        &lt;dbl&gt;\n 1 Afghanistan Asia       1952    28.8  8425333      779.         6.57\n 2 Afghanistan Asia       1957    30.3  9240934      821.         7.59\n 3 Afghanistan Asia       1962    32.0 10267083      853.         8.76\n 4 Afghanistan Asia       1967    34.0 11537966      836.         9.65\n 5 Afghanistan Asia       1972    36.1 13079460      740.         9.68\n 6 Afghanistan Asia       1977    38.4 14880372      786.        11.7 \n 7 Afghanistan Asia       1982    39.9 12881816      978.        12.6 \n 8 Afghanistan Asia       1987    40.8 13867957      852.        11.8 \n 9 Afghanistan Asia       1992    41.7 16317921      649.        10.6 \n10 Afghanistan Asia       1997    41.8 22227415      635.        14.1 \n# ℹ 1,694 more rows\n\n\n\n\nThe pipe |&gt; feeds gapminder into mutate() as its first argument. Read it as “take gapminder, then mutate”."
   },
   {
-    "objectID": "week03_slides_handout.html#markdown",
-    "href": "week03_slides_handout.html#markdown",
-    "title": "Reproducible Research and Project Management",
-    "section": "Markdown",
-    "text": "Markdown\nMarkdown is a special way of annotating plain text that can be translated to formatted text.\nSee https://learnxinyminutes.com/markdown/."
+    "objectID": "week04_slides_handout.html#tidyverse-functions-dont-modify-their-input",
+    "href": "week04_slides_handout.html#tidyverse-functions-dont-modify-their-input",
+    "title": "Data Wrangling in R",
+    "section": "Tidyverse functions don’t modify their input",
+    "text": "Tidyverse functions don’t modify their input\n\n\n\n\n\n\nImportantTask\n\n\n\nCheck: does gapminder now have a gdp_billions column?\n\n\n\n\ngapminder$gdp_billions\n\nWarning: Unknown or uninitialised column: `gdp_billions`.\n\n\nNULL\n\n\n\n\nNULL (or an error) — mutate() returned a copy; it never touched the original. To keep the change we must assign it back.\n\n\n\ngapminder &lt;- gapminder |&gt;\n  mutate(gdp_billions = gdpPercap * pop / 1e9)\n\n\n\nTidyverse verbs are pure functions — input in, new tibble out, original untouched. More in the functional programming chapter."
   },
   {
-    "objectID": "week03_slides_handout.html#markdown-example",
-    "href": "week03_slides_handout.html#markdown-example",
-    "title": "Reproducible Research and Project Management",
-    "section": "Markdown Example",
-    "text": "Markdown Example\nThis is plain text, *italic* and **bold**.\n\n- We can have lists\n- and even math! $e^{i\\pi} = -1$.\n\nThis is plain text, italic and bold.\n\nWe can have lists\nand even math! \\(e^{i\\pi} = -1\\)."
+    "objectID": "week04_slides_handout.html#select-pick-columns",
+    "href": "week04_slides_handout.html#select-pick-columns",
+    "title": "Data Wrangling in R",
+    "section": "select: pick columns",
+    "text": "select: pick columns\n\n\n\n\n\n\nImportantTask\n\n\n\nKeep only country, continent, year and gdp_billions.\n\n\n\n\ngapminder |&gt;\n  select(country, continent, year, gdp_billions)\n\n# A tibble: 1,704 × 4\n   country     continent  year gdp_billions\n   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;        &lt;dbl&gt;\n 1 Afghanistan Asia       1952         6.57\n 2 Afghanistan Asia       1957         7.59\n 3 Afghanistan Asia       1962         8.76\n 4 Afghanistan Asia       1967         9.65\n 5 Afghanistan Asia       1972         9.68\n 6 Afghanistan Asia       1977        11.7 \n 7 Afghanistan Asia       1982        12.6 \n 8 Afghanistan Asia       1987        11.8 \n 9 Afghanistan Asia       1992        10.6 \n10 Afghanistan Asia       1997        14.1 \n# ℹ 1,694 more rows\n\n\n\n\nMention the tidyselect helpers in passing (they’re in the notes): starts_with(), ends_with(), where(is.numeric), and -country to drop a column. Don’t dwell — just plant the seed. Remind them gapminder is still unchanged."
   },
   {
-    "objectID": "week03_slides_handout.html#live-demo",
-    "href": "week03_slides_handout.html#live-demo",
-    "title": "Reproducible Research and Project Management",
-    "section": "Live Demo",
-    "text": "Live Demo\n\n\n\n\n\n\nTipSea Ice Extents\n\n\n\nMigrating to Quarto"
+    "objectID": "week04_slides_handout.html#filter-pick-rows",
+    "href": "week04_slides_handout.html#filter-pick-rows",
+    "title": "Data Wrangling in R",
+    "section": "filter: pick rows",
+    "text": "filter: pick rows\n\n\n\n\n\n\nImportantTask\n\n\n\nKeep only the rows for Asia, then show country, year, gdp_billions.\n\n\n\n\ngapminder |&gt;\n  filter(continent == \"Asia\") |&gt;\n  select(country, year, gdp_billions)\n\n# A tibble: 396 × 3\n   country      year gdp_billions\n   &lt;fct&gt;       &lt;int&gt;        &lt;dbl&gt;\n 1 Afghanistan  1952         6.57\n 2 Afghanistan  1957         7.59\n 3 Afghanistan  1962         8.76\n 4 Afghanistan  1967         9.65\n 5 Afghanistan  1972         9.68\n 6 Afghanistan  1977        11.7 \n 7 Afghanistan  1982        12.6 \n 8 Afghanistan  1987        11.8 \n 9 Afghanistan  1992        10.6 \n10 Afghanistan  1997        14.1 \n# ℹ 386 more rows\n\n\n\n\nNote the double ==: filter() keeps rows where the condition is TRUE.\n\n\nLive pitfall to demo: put the select() before the filter() and filter on a column you dropped — you get an error, because by then the continent column is gone. Great illustration that the pipe is a sequence: each step only sees the output of the one before it."
   },
   {
-    "objectID": "week03_slides_handout.html#developing-a-new-feature",
-    "href": "week03_slides_handout.html#developing-a-new-feature",
-    "title": "Reproducible Research and Project Management",
-    "section": "Developing a New Feature",
-    "text": "Developing a New Feature\n\nDear Jon,\nEven though your results look great, the points look a little bit curved. Please could you see whether a nonlinear model fits better?\nBest,\nThe Boss\n\n\n\n\n\n\n\n\nWarning\n\n\n\nI want to write the new feature. I also want to have the live code accessible for bug fixing."
+    "objectID": "week04_slides_handout.html#arrange-reorder-rows",
+    "href": "week04_slides_handout.html#arrange-reorder-rows",
+    "title": "Data Wrangling in R",
+    "section": "arrange: reorder rows",
+    "text": "arrange: reorder rows\n\n\n\n\n\n\nImportantTask\n\n\n\nOrder the Asian countries from highest gdp_billions to lowest.\n\n\n\n\ngapminder |&gt;\n  filter(continent == \"Asia\") |&gt;\n  select(country, year, gdp_billions) |&gt;\n  arrange(desc(gdp_billions))\n\n# A tibble: 396 × 3\n   country  year gdp_billions\n   &lt;fct&gt;   &lt;int&gt;        &lt;dbl&gt;\n 1 China    2007        6540.\n 2 Japan    2007        4035.\n 3 China    2002        3994.\n 4 Japan    2002        3635.\n 5 Japan    1997        3630.\n 6 Japan    1992        3335.\n 7 China    1997        2816.\n 8 Japan    1987        2732.\n 9 India    2007        2723.\n10 Japan    1982        2296.\n# ℹ 386 more rows\n\n\n\n\narrange() sorts ascending by default; wrap a column in desc() for descending."
   },
   {
-    "objectID": "week03_slides_handout.html#solution-branches",
-    "href": "week03_slides_handout.html#solution-branches",
-    "title": "Reproducible Research and Project Management",
-    "section": "Solution: Branches",
-    "text": "Solution: Branches\n\n\n\nGit Branch Workflow, from Wikipedia"
+    "objectID": "week04_slides_handout.html#summarise-many-rows-one",
+    "href": "week04_slides_handout.html#summarise-many-rows-one",
+    "title": "Data Wrangling in R",
+    "section": "summarise: many rows → one",
+    "text": "summarise: many rows → one\n\n\n\n\n\n\nImportantTask\n\n\n\nWhat is the mean gdp_billions across all Asian rows?\n\n\n\n\ngapminder |&gt;\n  filter(continent == \"Asia\") |&gt;\n  summarise(mean_gdp = mean(gdp_billions))\n\n# A tibble: 1 × 1\n  mean_gdp\n     &lt;dbl&gt;\n1     227.\n\n\n\n\nsummarise() collapses a whole tibble to a single row. It works with mean, median, sum, min, max, and counts via n() / n_distinct().\n\n\nThis feels underwhelming on its own — one number. The payoff is the next slide: summarise() becomes powerful once we tell it to work per group."
   },
   {
-    "objectID": "week03_slides_handout.html#branching",
-    "href": "week03_slides_handout.html#branching",
-    "title": "Reproducible Research and Project Management",
-    "section": "Branching",
-    "text": "Branching\n\nCheck branch with git branch\nCreate a branch with git branch my-amazing-feature\nSwitch to the branch with git checkout my-amazing-feature.\nWork as normal on the branch, without affecting main."
+    "objectID": "week04_slides_handout.html#group_by-summarise",
+    "href": "week04_slides_handout.html#group_by-summarise",
+    "title": "Data Wrangling in R",
+    "section": "group_by + summarise",
+    "text": "group_by + summarise\n\n\n\n\n\n\nImportantTask\n\n\n\nCompute the mean life expectancy for each continent.\n\n\n\n\ngapminder |&gt;\n  group_by(continent) |&gt;\n  summarise(avg_lifeExp = mean(lifeExp))\n\n# A tibble: 5 × 2\n  continent avg_lifeExp\n  &lt;fct&gt;           &lt;dbl&gt;\n1 Africa           48.9\n2 Americas         64.7\n3 Asia             60.1\n4 Europe           71.9\n5 Oceania          74.3\n\n\n\n\ngroup_by() doesn’t change the data — it tags it. The next summarise() then runs once per group, giving one row per continent.\n\n\nDo gapminder |&gt; group_by(continent) on its own first: the printout gains a Groups: continent [5] line but the rows look identical. Then add the summarise and watch it collapse. That “tag, then aggregate” model is the thing to land."
   },
   {
-    "objectID": "week03_slides_handout.html#merging",
-    "href": "week03_slides_handout.html#merging",
-    "title": "Reproducible Research and Project Management",
-    "section": "Merging",
-    "text": "Merging\nWe often need to merge changes between branches. This is done using git merge.\nOnce done making changes on my-amazing-feature:\n\nReturn to main with git checkout main\nMerge changes with git merge my-amazing-feature\nEnter a message\nPush to GitHub."
+    "objectID": "week04_slides_handout.html#a-real-question",
+    "href": "week04_slides_handout.html#a-real-question",
+    "title": "Data Wrangling in R",
+    "section": "A real question",
+    "text": "A real question\n\n\n\n\n\n\nImportantTask\n\n\n\nWhich countries have the highest average GDP since 1960?\n\n\n\nWe first need to parse this into a sequence of verbs:\n\nGroup by country,\nFilter to years after 1960,\nSummarize to get the average GDP (bonus: max, and number of records).\n\n\n\n\ngapminder |&gt;\n  filter(year &gt; 1960) |&gt;\n  group_by(country) |&gt;\n  summarise(\n    mean_gdp = mean(gdp_billions),\n    max_gdp  = max(gdp_billions),\n    n_years  = n(),\n    .groups  = \"drop\"\n  ) |&gt;\n  arrange(desc(mean_gdp))\n\n# A tibble: 142 × 4\n   country        mean_gdp max_gdp n_years\n   &lt;fct&gt;             &lt;dbl&gt;   &lt;dbl&gt;   &lt;int&gt;\n 1 United States     7200.  12934.      10\n 2 Japan             2476.   4035.      10\n 3 China             1981.   6540.      10\n 4 Germany           1828.   2651.      10\n 5 United Kingdom    1221.   2018.      10\n 6 France            1181.   1861.      10\n 7 Italy             1039.   1661.      10\n 8 India              990.   2723.      10\n 9 Brazil             945.   1723.      10\n10 Mexico             689.   1302.      10\n# ℹ 132 more rows\n\n\n\n\nThis is the centrepiece — build it line by line, re-running after each pipe so they see the tibble grow columns. Points to make live:\n\nn() counts rows in each group.\n.groups = \"drop\" silences the “grouped output” message (optional, but tidy).\nIf mean/max ever return NA, add na.rm = TRUE — demo by introducing an NA if you have time."
   },
   {
-    "objectID": "week03_slides_handout.html#merge-conflicts",
-    "href": "week03_slides_handout.html#merge-conflicts",
-    "title": "Reproducible Research and Project Management",
-    "section": "Merge Conflicts",
-    "text": "Merge Conflicts\nWhen you run git merge git will “pick up” commits from my-amazing-feature and put them on `main.\nSometimes it is obvious how to do this…\n\n\n/var/folders/tt/dwhm_p0x405cp24nvndwmvb00000gp/T/ipykernel_85325/3127778238.py:67: UserWarning:\n\nThis figure includes Axes that are not compatible with tight_layout, so results might be incorrect.\n\n\n\n\n\n\n\n\n\n\n\n…sometimes less so!\n\n\n/var/folders/tt/dwhm_p0x405cp24nvndwmvb00000gp/T/ipykernel_85325/299573845.py:76: UserWarning:\n\nThis figure includes Axes that are not compatible with tight_layout, so results might be incorrect."
+    "objectID": "week04_slides_handout.html#order-matters-filter-early",
+    "href": "week04_slides_handout.html#order-matters-filter-early",
+    "title": "Data Wrangling in R",
+    "section": "Order matters: filter early",
+    "text": "Order matters: filter early\nBoth of these give the same answer. Which is cheaper?\n\n# A: compute for every row, then throw most away\ngapminder |&gt;\n  mutate(gdp_billions = gdpPercap * pop / 1e9) |&gt;\n  filter(year == 2007, continent == \"Asia\")\n\n# B: throw rows away first, then compute\ngapminder |&gt;\n  filter(year == 2007, continent == \"Asia\") |&gt;\n  mutate(gdp_billions = gdpPercap * pop / 1e9)\n\n\nB is cheaper. Filtering first means mutate() runs on ~30 rows, not ~1700. Rule of thumb: filter() as early as you can.\n\n\nOn gapminder the difference is invisible, but on a million-row dataset it’s the difference between instant and painful. This is the one performance idea to give them today."
   },
   {
-    "objectID": "week03_slides_handout.html#merge-conflicts-1",
-    "href": "week03_slides_handout.html#merge-conflicts-1",
-    "title": "Reproducible Research and Project Management",
-    "section": "Merge Conflicts",
-    "text": "Merge Conflicts\nIf Git can’t work out how to merge you will get a merge conflict.\nGit will mark conflicting lines in the file."
+    "objectID": "week04_slides_handout.html#shortcut-count",
+    "href": "week04_slides_handout.html#shortcut-count",
+    "title": "Data Wrangling in R",
+    "section": "Shortcut: count",
+    "text": "Shortcut: count\n\n\n\n\n\n\nImportantTask\n\n\n\nHow many countries are in each continent in 2007?\n\n\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  count(continent)\n\n# A tibble: 5 × 2\n  continent     n\n  &lt;fct&gt;     &lt;int&gt;\n1 Africa       52\n2 Americas     25\n3 Asia         33\n4 Europe       30\n5 Oceania       2\n\n\n\n\ncount(continent) is just a tidy shorthand for group_by(continent) |&gt; summarise(n = n())."
   },
   {
-    "objectID": "week03_slides.html#objectives",
-    "href": "week03_slides.html#objectives",
-    "title": "Reproducible Research and Project Management",
+    "objectID": "week04_slides_handout.html#long-vs.-wide",
+    "href": "week04_slides_handout.html#long-vs.-wide",
+    "title": "Data Wrangling in R",
+    "section": "Long vs. wide",
+    "text": "Long vs. wide\ngapminder is tall — many rows per country. Sometimes we want years as columns instead, e.g. to compare 1952 with 2007 directly.\n\n\n\n\n\n\nImportantTask\n\n\n\nReshape so each row is a country and each year is its own lifeExp column.\n\n\n\n\ngapminder_wide &lt;- gapminder |&gt;\n  select(country, year, lifeExp) |&gt;\n  pivot_wider(names_from = year, values_from = lifeExp)\ngapminder_wide\n\n# A tibble: 142 × 13\n   country `1952` `1957` `1962` `1967` `1972` `1977` `1982` `1987` `1992` `1997`\n   &lt;fct&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n 1 Afghan…   28.8   30.3   32.0   34.0   36.1   38.4   39.9   40.8   41.7   41.8\n 2 Albania   55.2   59.3   64.8   66.2   67.7   68.9   70.4   72     71.6   73.0\n 3 Algeria   43.1   45.7   48.3   51.4   54.5   58.0   61.4   65.8   67.7   69.2\n 4 Angola    30.0   32.0   34     36.0   37.9   39.5   39.9   39.9   40.6   41.0\n 5 Argent…   62.5   64.4   65.1   65.6   67.1   68.5   69.9   70.8   71.9   73.3\n 6 Austra…   69.1   70.3   70.9   71.1   71.9   73.5   74.7   76.3   77.6   78.8\n 7 Austria   66.8   67.5   69.5   70.1   70.6   72.2   73.2   74.9   76.0   77.5\n 8 Bahrain   50.9   53.8   56.9   59.9   63.3   65.6   69.1   70.8   72.6   73.9\n 9 Bangla…   37.5   39.3   41.2   43.5   45.3   46.9   50.0   52.8   56.0   59.4\n10 Belgium   68     69.2   70.2   70.9   71.4   72.8   73.9   75.4   76.5   77.5\n# ℹ 132 more rows\n# ℹ 2 more variables: `2002` &lt;dbl&gt;, `2007` &lt;dbl&gt;\n\n\n\n\nnames_from = the column whose values become new column names; values_from = the column that fills the cells. Draw the reshape on the board with a 2×2 toy example if it doesn’t click — this is the hardest idea in the deck."
+  },
+  {
+    "objectID": "week04_slides_handout.html#using-the-wide-shape",
+    "href": "week04_slides_handout.html#using-the-wide-shape",
+    "title": "Data Wrangling in R",
+    "section": "Using the wide shape",
+    "text": "Using the wide shape\n\n\n\n\n\n\nImportantTask\n\n\n\nCompute the change in life expectancy from 1952 to 2007 for each country.\n\n\n\n\ngapminder_wide |&gt;\n  mutate(change = `2007` - `1952`) |&gt;\n  select(country, change)\n\n# A tibble: 142 × 2\n   country     change\n   &lt;fct&gt;        &lt;dbl&gt;\n 1 Afghanistan   15.0\n 2 Albania       21.2\n 3 Algeria       29.2\n 4 Angola        12.7\n 5 Argentina     12.8\n 6 Australia     12.1\n 7 Austria       13.0\n 8 Bahrain       24.7\n 9 Bangladesh    26.6\n10 Belgium       11.4\n# ℹ 132 more rows\n\n\n\n\nThe backticks around `2007` and `1952` tell R these are column names, not numbers. You’d need them for any name with spaces or symbols too."
+  },
+  {
+    "objectID": "week04_slides_handout.html#the-inverse-pivot_longer",
+    "href": "week04_slides_handout.html#the-inverse-pivot_longer",
+    "title": "Data Wrangling in R",
+    "section": "The inverse: pivot_longer",
+    "text": "The inverse: pivot_longer\n\n\n\n\n\n\nImportantTask\n\n\n\nTurn the wide table back into a tall one.\n\n\n\n\ngapminder_wide |&gt;\n  pivot_longer(\n    cols = -country,\n    names_to = \"year\",\n    values_to = \"lifeExp\"\n  )\n\n# A tibble: 1,704 × 3\n   country     year  lifeExp\n   &lt;fct&gt;       &lt;chr&gt;   &lt;dbl&gt;\n 1 Afghanistan 1952     28.8\n 2 Afghanistan 1957     30.3\n 3 Afghanistan 1962     32.0\n 4 Afghanistan 1967     34.0\n 5 Afghanistan 1972     36.1\n 6 Afghanistan 1977     38.4\n 7 Afghanistan 1982     39.9\n 8 Afghanistan 1987     40.8\n 9 Afghanistan 1992     41.7\n10 Afghanistan 1997     41.8\n# ℹ 1,694 more rows\n\n\n\n\ncols = -country means “every column except country” — a tidyselect helper, so we don’t list all the years by hand.\n\n\npivot_longer and pivot_wider are inverses. Note year comes back as &lt;chr&gt; text, not a number — it was a column name a moment ago. A quick mutate(year = as.integer(year)) fixes it if asked. Also mention separate_wider_delim() from the notes for splitting one column into two (the table3 “cases/population” case) if time allows."
+  },
+  {
+    "objectID": "week04_slides_handout.html#today-you-can-now",
+    "href": "week04_slides_handout.html#today-you-can-now",
+    "title": "Data Wrangling in R",
+    "section": "Today you can now:",
+    "text": "Today you can now:\n\n\nload delimited data with read_csv() / read_delim()\n\n\n\n\ntransform with mutate, select, filter, arrange, summarise\n\n\n\n\naggregate per group with group_by() and count()\n\n\n\n\nreshape with pivot_wider() and pivot_longer()"
+  },
+  {
+    "objectID": "week04_slides_handout.html#read-the-notes",
+    "href": "week04_slides_handout.html#read-the-notes",
+    "title": "Data Wrangling in R",
+    "section": "Read the notes",
+    "text": "Read the notes\nWe didn’t cover in detail:\n\nthe tidy data philosophy (each variable a column, each observation a row, each cell one value)\nother loaders (Excel, parquet, JSON, databases)\ntidyselect helpers (starts_with(), where(), …)\nsplitting columns with separate_wider_delim()"
+  },
+  {
+    "objectID": "week04_slides.html#agenda",
+    "href": "week04_slides.html#agenda",
+    "title": "Data Wrangling in R",
     "section": "Objectives",
-    "text": "Objectives\n\nKnow the principles of reproducibility and literate programming, and how they can be realised in R using Quarto.\nKnow how to collaborate and track your code using git."
+    "text": "Objectives\nBy the end of this lecture you will be able to:\n\n\nload delimited data into R with readr (read_csv(), read_delim())\n\n\n\n\ntransform data with the core dplyr verbs — mutate(), select(), filter(), arrange(), summarise()\n\n\n\n\naggregate within groups using group_by() and count()\n\n\n\n\nreshape between long and wide with tidyr’s pivot_*() functions"
   },
   {
-    "objectID": "week03_slides.html#scenario",
-    "href": "week03_slides.html#scenario",
-    "title": "Reproducible Research and Project Management",
-    "section": "Scenario",
-    "text": "Scenario\n\nWe have been given some legacy R code and asked to “tidy it up” and produce a report based on it.\nWe’ll do so with Quarto + Git."
+    "objectID": "week04_slides.html#one-import-is-all-you-need",
+    "href": "week04_slides.html#one-import-is-all-you-need",
+    "title": "Data Wrangling in R",
+    "section": "One Import is All You Need",
+    "text": "One Import is All You Need\n\nlibrary(tidyverse)   # readr + dplyr + tidyr + ggplot2 + ...\n\n\nThe tidyverse is a bundle of packages that share a design philosophy. Loading it gives us readr (loading), dplyr (transforming) and tidyr (reshaping) all at once.\n\n\nPoint out the startup message: it lists the attached packages and flags any conflicts (e.g. dplyr::filter() masks stats::filter()). This is normal. Contrast with library(dplyr) alone from last week — today we want the whole toolkit."
   },
   {
-    "objectID": "week03_slides.html#what-is-git",
-    "href": "week03_slides.html#what-is-git",
-    "title": "Reproducible Research and Project Management",
-    "section": "What is Git?",
-    "text": "What is Git?\n\nGit is a source control system.\nProvides mechanisms for:\n\nBacking up.\nCheckpointing code.\nDeveloping new features without breaking working code.\nCollaboration."
+    "objectID": "week04_slides.html#reading-a-csv",
+    "href": "week04_slides.html#reading-a-csv",
+    "title": "Data Wrangling in R",
+    "section": "Reading a CSV",
+    "text": "Reading a CSV\n\n\n\n\n\n\nTask\n\n\nLoad data/penguins.csv and take a look. What type of object comes back?\n\n\n\n\n\npenguins &lt;- read_csv(\"data/penguins.csv\")\npenguins\n\n# A tibble: 344 × 9\n   rowid species island    bill_length_mm bill_depth_mm flipper_length_mm\n   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;\n 1     1 Adelie  Torgersen           39.1          18.7               181\n 2     2 Adelie  Torgersen           39.5          17.4               186\n 3     3 Adelie  Torgersen           40.3          18                 195\n 4     4 Adelie  Torgersen           NA            NA                  NA\n 5     5 Adelie  Torgersen           36.7          19.3               193\n 6     6 Adelie  Torgersen           39.3          20.6               190\n 7     7 Adelie  Torgersen           38.9          17.8               181\n 8     8 Adelie  Torgersen           39.2          19.6               195\n 9     9 Adelie  Torgersen           34.1          18.1               193\n10    10 Adelie  Torgersen           42            20.2               190\n# ℹ 334 more rows\n# ℹ 3 more variables: body_mass_g &lt;dbl&gt;, sex &lt;chr&gt;, year &lt;dbl&gt;\n\n\n\n\nCSV = Comma Separated Values: plain text, columns split by ,, rows split by a newline. read_csv() returns a tibble — a modern data frame with nicer printing.\n\n\nOpen penguins.csv in a text editor first so they see the commas and the header row. Note the column-type spec read_csv prints — it guessed &lt;dbl&gt;, &lt;chr&gt; etc. for us. Emphasise: the printout tells you the dimensions and the type of every column."
   },
   {
-    "objectID": "week03_slides.html#starting-a-git-repo",
-    "href": "week03_slides.html#starting-a-git-repo",
-    "title": "Reproducible Research and Project Management",
-    "section": "Starting a Git Repo",
-    "text": "Starting a Git Repo\n\ngit init\ngit add\ngit commit\nConnecting with GitHub\ngit push"
+    "objectID": "week04_slides.html#other-delimiters",
+    "href": "week04_slides.html#other-delimiters",
+    "title": "Data Wrangling in R",
+    "section": "Other delimiters",
+    "text": "Other delimiters\n\n\n\n\n\n\nTask\n\n\nThe file data/penguins_pipe.txt holds the same data, but columns are separated by | instead of ,. Try read_csv() on it — then load it properly.\n\n\n\n\n\nread_delim(\"data/penguins_pipe.txt\", delim = \"|\")\n\n# A tibble: 344 × 9\n   rowid species island    bill_length_mm bill_depth_mm flipper_length_mm\n   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;\n 1     1 Adelie  Torgersen           39.1          18.7               181\n 2     2 Adelie  Torgersen           39.5          17.4               186\n 3     3 Adelie  Torgersen           40.3          18                 195\n 4     4 Adelie  Torgersen           NA            NA                  NA\n 5     5 Adelie  Torgersen           36.7          19.3               193\n 6     6 Adelie  Torgersen           39.3          20.6               190\n 7     7 Adelie  Torgersen           38.9          17.8               181\n 8     8 Adelie  Torgersen           39.2          19.6               195\n 9     9 Adelie  Torgersen           34.1          18.1               193\n10    10 Adelie  Torgersen           42            20.2               190\n# ℹ 334 more rows\n# ℹ 3 more variables: body_mass_g &lt;dbl&gt;, sex &lt;chr&gt;, year &lt;dbl&gt;\n\n\n\n\nread_csv() is just read_delim() with delim = \",\". For any other delimiter (tabs → read_tsv(), or anything via read_delim(delim = ...)) you pick the matching reader.\n\n\nFirst do read_csv(\"data/penguins_pipe.txt\") and let it fail / mangle — everything lands in one column. The lesson: look at the file (open it) to find the delimiter, then choose the reader. Mention that if you don’t know the format you experiment until it loads."
   },
   {
-    "objectID": "week03_slides.html#what-is-literate-programming",
-    "href": "week03_slides.html#what-is-literate-programming",
-    "title": "Reproducible Research and Project Management",
-    "section": "What is “Literate Programming”?",
-    "text": "What is “Literate Programming”?\nLiterate programming is a methodology introduced by Donald Knuth, whereby:\n\nExplanations are written alongside code\nThe document can be “rendered” (“knitted”) to produce a readable report.\nChanges in code are automatically reflected in the output to reduce manual mistakes.\n\nFrameworks like Quarto implement Literate programming."
+    "objectID": "week04_slides.html#the-five-verbs",
+    "href": "week04_slides.html#the-five-verbs",
+    "title": "Data Wrangling in R",
+    "section": "The five verbs",
+    "text": "The five verbs\ndplyr gives us a small set of readable verbs:\n\n\nmutate() — add or change columns\nselect() — pick columns\nfilter() — pick rows\narrange() — reorder rows\nsummarise() — collapse many rows to a summary"
   },
   {
-    "objectID": "week03_slides.html#about-quarto",
-    "href": "week03_slides.html#about-quarto",
-    "title": "Reproducible Research and Project Management",
-    "section": "About Quarto",
-    "text": "About Quarto\nQuarto documents:\n\nStart with a YAML header (see demo)\nIntermix markdown text…\n…with code chunks (```{r}...)."
+    "objectID": "week04_slides.html#mutate-add-a-column",
+    "href": "week04_slides.html#mutate-add-a-column",
+    "title": "Data Wrangling in R",
+    "section": "mutate: add a column",
+    "text": "mutate: add a column\n\n\n\n\n\n\nTask\n\n\nAdd a column gdp_billions = GDP per capita × population ÷ 1e9.\n\n\n\n\n\ngapminder |&gt;\n  mutate(gdp_billions = gdpPercap * pop / 1e9)\n\n# A tibble: 1,704 × 7\n   country     continent  year lifeExp      pop gdpPercap gdp_billions\n   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;        &lt;dbl&gt;\n 1 Afghanistan Asia       1952    28.8  8425333      779.         6.57\n 2 Afghanistan Asia       1957    30.3  9240934      821.         7.59\n 3 Afghanistan Asia       1962    32.0 10267083      853.         8.76\n 4 Afghanistan Asia       1967    34.0 11537966      836.         9.65\n 5 Afghanistan Asia       1972    36.1 13079460      740.         9.68\n 6 Afghanistan Asia       1977    38.4 14880372      786.        11.7 \n 7 Afghanistan Asia       1982    39.9 12881816      978.        12.6 \n 8 Afghanistan Asia       1987    40.8 13867957      852.        11.8 \n 9 Afghanistan Asia       1992    41.7 16317921      649.        10.6 \n10 Afghanistan Asia       1997    41.8 22227415      635.        14.1 \n# ℹ 1,694 more rows\n\n\n\n\nThe pipe |&gt; feeds gapminder into mutate() as its first argument. Read it as “take gapminder, then mutate”."
   },
   {
-    "objectID": "week03_slides.html#markdown",
-    "href": "week03_slides.html#markdown",
-    "title": "Reproducible Research and Project Management",
-    "section": "Markdown",
-    "text": "Markdown\nMarkdown is a special way of annotating plain text that can be translated to formatted text.\nSee https://learnxinyminutes.com/markdown/."
+    "objectID": "week04_slides.html#tidyverse-functions-dont-modify-their-input",
+    "href": "week04_slides.html#tidyverse-functions-dont-modify-their-input",
+    "title": "Data Wrangling in R",
+    "section": "Tidyverse functions don’t modify their input",
+    "text": "Tidyverse functions don’t modify their input\n\n\n\n\n\n\nTask\n\n\nCheck: does gapminder now have a gdp_billions column?\n\n\n\n\n\ngapminder$gdp_billions\n\nNULL\n\n\n\n\nNULL (or an error) — mutate() returned a copy; it never touched the original. To keep the change we must assign it back.\n\n\n\ngapminder &lt;- gapminder |&gt;\n  mutate(gdp_billions = gdpPercap * pop / 1e9)\n\n\n\nTidyverse verbs are pure functions — input in, new tibble out, original untouched. More in the functional programming chapter."
   },
   {
-    "objectID": "week03_slides.html#markdown-example",
-    "href": "week03_slides.html#markdown-example",
-    "title": "Reproducible Research and Project Management",
-    "section": "Markdown Example",
-    "text": "Markdown Example\nThis is plain text, *italic* and **bold**.\n\n- We can have lists\n- and even math! $e^{i\\pi} = -1$.\n\nThis is plain text, italic and bold.\n\nWe can have lists\nand even math! \\(e^{i\\pi} = -1\\)."
+    "objectID": "week04_slides.html#select-pick-columns",
+    "href": "week04_slides.html#select-pick-columns",
+    "title": "Data Wrangling in R",
+    "section": "select: pick columns",
+    "text": "select: pick columns\n\n\n\n\n\n\nTask\n\n\nKeep only country, continent, year and gdp_billions.\n\n\n\n\n\ngapminder |&gt;\n  select(country, continent, year, gdp_billions)\n\n# A tibble: 1,704 × 4\n   country     continent  year gdp_billions\n   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;        &lt;dbl&gt;\n 1 Afghanistan Asia       1952         6.57\n 2 Afghanistan Asia       1957         7.59\n 3 Afghanistan Asia       1962         8.76\n 4 Afghanistan Asia       1967         9.65\n 5 Afghanistan Asia       1972         9.68\n 6 Afghanistan Asia       1977        11.7 \n 7 Afghanistan Asia       1982        12.6 \n 8 Afghanistan Asia       1987        11.8 \n 9 Afghanistan Asia       1992        10.6 \n10 Afghanistan Asia       1997        14.1 \n# ℹ 1,694 more rows\n\n\n\n\nMention the tidyselect helpers in passing (they’re in the notes): starts_with(), ends_with(), where(is.numeric), and -country to drop a column. Don’t dwell — just plant the seed. Remind them gapminder is still unchanged."
   },
   {
-    "objectID": "week03_slides.html#live-demo",
-    "href": "week03_slides.html#live-demo",
-    "title": "Reproducible Research and Project Management",
-    "section": "Live Demo",
-    "text": "Live Demo\n\n\n\n\n\n\nSea Ice Extents\n\n\nMigrating to Quarto"
+    "objectID": "week04_slides.html#filter-pick-rows",
+    "href": "week04_slides.html#filter-pick-rows",
+    "title": "Data Wrangling in R",
+    "section": "filter: pick rows",
+    "text": "filter: pick rows\n\n\n\n\n\n\nTask\n\n\nKeep only the rows for Asia, then show country, year, gdp_billions.\n\n\n\n\n\ngapminder |&gt;\n  filter(continent == \"Asia\") |&gt;\n  select(country, year, gdp_billions)\n\n# A tibble: 396 × 3\n   country      year gdp_billions\n   &lt;fct&gt;       &lt;int&gt;        &lt;dbl&gt;\n 1 Afghanistan  1952         6.57\n 2 Afghanistan  1957         7.59\n 3 Afghanistan  1962         8.76\n 4 Afghanistan  1967         9.65\n 5 Afghanistan  1972         9.68\n 6 Afghanistan  1977        11.7 \n 7 Afghanistan  1982        12.6 \n 8 Afghanistan  1987        11.8 \n 9 Afghanistan  1992        10.6 \n10 Afghanistan  1997        14.1 \n# ℹ 386 more rows\n\n\n\n\nNote the double ==: filter() keeps rows where the condition is TRUE.\n\n\nLive pitfall to demo: put the select() before the filter() and filter on a column you dropped — you get an error, because by then the continent column is gone. Great illustration that the pipe is a sequence: each step only sees the output of the one before it."
   },
   {
-    "objectID": "week03_slides.html#developing-a-new-feature",
-    "href": "week03_slides.html#developing-a-new-feature",
-    "title": "Reproducible Research and Project Management",
-    "section": "Developing a New Feature",
-    "text": "Developing a New Feature\n\nDear Jon,\nEven though your results look great, the points look a little bit curved. Please could you see whether a nonlinear model fits better?\nBest,\nThe Boss"
+    "objectID": "week04_slides.html#arrange-reorder-rows",
+    "href": "week04_slides.html#arrange-reorder-rows",
+    "title": "Data Wrangling in R",
+    "section": "arrange: reorder rows",
+    "text": "arrange: reorder rows\n\n\n\n\n\n\nTask\n\n\nOrder the Asian countries from highest gdp_billions to lowest.\n\n\n\n\n\ngapminder |&gt;\n  filter(continent == \"Asia\") |&gt;\n  select(country, year, gdp_billions) |&gt;\n  arrange(desc(gdp_billions))\n\n# A tibble: 396 × 3\n   country  year gdp_billions\n   &lt;fct&gt;   &lt;int&gt;        &lt;dbl&gt;\n 1 China    2007        6540.\n 2 Japan    2007        4035.\n 3 China    2002        3994.\n 4 Japan    2002        3635.\n 5 Japan    1997        3630.\n 6 Japan    1992        3335.\n 7 China    1997        2816.\n 8 Japan    1987        2732.\n 9 India    2007        2723.\n10 Japan    1982        2296.\n# ℹ 386 more rows\n\n\n\n\narrange() sorts ascending by default; wrap a column in desc() for descending."
   },
   {
-    "objectID": "week03_slides.html#solution-branches",
-    "href": "week03_slides.html#solution-branches",
-    "title": "Reproducible Research and Project Management",
-    "section": "Solution: Branches",
-    "text": "Solution: Branches\n\nGit Branch Workflow, from Wikipedia"
+    "objectID": "week04_slides.html#summarise-many-rows-one",
+    "href": "week04_slides.html#summarise-many-rows-one",
+    "title": "Data Wrangling in R",
+    "section": "summarise: many rows → one",
+    "text": "summarise: many rows → one\n\n\n\n\n\n\nTask\n\n\nWhat is the mean gdp_billions across all Asian rows?\n\n\n\n\n\ngapminder |&gt;\n  filter(continent == \"Asia\") |&gt;\n  summarise(mean_gdp = mean(gdp_billions))\n\n# A tibble: 1 × 1\n  mean_gdp\n     &lt;dbl&gt;\n1     227.\n\n\n\n\nsummarise() collapses a whole tibble to a single row. It works with mean, median, sum, min, max, and counts via n() / n_distinct().\n\n\nThis feels underwhelming on its own — one number. The payoff is the next slide: summarise() becomes powerful once we tell it to work per group."
   },
   {
-    "objectID": "week03_slides.html#branching",
-    "href": "week03_slides.html#branching",
-    "title": "Reproducible Research and Project Management",
-    "section": "Branching",
-    "text": "Branching\n\nCheck branch with git branch\nCreate a branch with git branch my-amazing-feature\nSwitch to the branch with git checkout my-amazing-feature.\nWork as normal on the branch, without affecting main."
+    "objectID": "week04_slides.html#group_by-summarise",
+    "href": "week04_slides.html#group_by-summarise",
+    "title": "Data Wrangling in R",
+    "section": "group_by + summarise",
+    "text": "group_by + summarise\n\n\n\n\n\n\nTask\n\n\nCompute the mean life expectancy for each continent.\n\n\n\n\n\ngapminder |&gt;\n  group_by(continent) |&gt;\n  summarise(avg_lifeExp = mean(lifeExp))\n\n# A tibble: 5 × 2\n  continent avg_lifeExp\n  &lt;fct&gt;           &lt;dbl&gt;\n1 Africa           48.9\n2 Americas         64.7\n3 Asia             60.1\n4 Europe           71.9\n5 Oceania          74.3\n\n\n\n\ngroup_by() doesn’t change the data — it tags it. The next summarise() then runs once per group, giving one row per continent.\n\n\nDo gapminder |&gt; group_by(continent) on its own first: the printout gains a Groups: continent [5] line but the rows look identical. Then add the summarise and watch it collapse. That “tag, then aggregate” model is the thing to land."
   },
   {
-    "objectID": "week03_slides.html#merging",
-    "href": "week03_slides.html#merging",
-    "title": "Reproducible Research and Project Management",
-    "section": "Merging",
-    "text": "Merging\nWe often need to merge changes between branches. This is done using git merge.\nOnce done making changes on my-amazing-feature:\n\nReturn to main with git checkout main\nMerge changes with git merge my-amazing-feature\nEnter a message\nPush to GitHub."
+    "objectID": "week04_slides.html#a-real-question",
+    "href": "week04_slides.html#a-real-question",
+    "title": "Data Wrangling in R",
+    "section": "A real question",
+    "text": "A real question\n\n\n\n\n\n\nTask\n\n\nWhich countries have the highest average GDP since 1960?\n\n\n\n\nWe first need to parse this into a sequence of verbs:\n\nGroup by country,\nFilter to years after 1960,\nSummarize to get the average GDP (bonus: max, and number of records).\n\n\n\n\ngapminder |&gt;\n  filter(year &gt; 1960) |&gt;\n  group_by(country) |&gt;\n  summarise(\n    mean_gdp = mean(gdp_billions),\n    max_gdp  = max(gdp_billions),\n    n_years  = n(),\n    .groups  = \"drop\"\n  ) |&gt;\n  arrange(desc(mean_gdp))\n\n# A tibble: 142 × 4\n   country        mean_gdp max_gdp n_years\n   &lt;fct&gt;             &lt;dbl&gt;   &lt;dbl&gt;   &lt;int&gt;\n 1 United States     7200.  12934.      10\n 2 Japan             2476.   4035.      10\n 3 China             1981.   6540.      10\n 4 Germany           1828.   2651.      10\n 5 United Kingdom    1221.   2018.      10\n 6 France            1181.   1861.      10\n 7 Italy             1039.   1661.      10\n 8 India              990.   2723.      10\n 9 Brazil             945.   1723.      10\n10 Mexico             689.   1302.      10\n# ℹ 132 more rows\n\n\n\n\nThis is the centrepiece — build it line by line, re-running after each pipe so they see the tibble grow columns. Points to make live:\n\nn() counts rows in each group.\n.groups = \"drop\" silences the “grouped output” message (optional, but tidy).\nIf mean/max ever return NA, add na.rm = TRUE — demo by introducing an NA if you have time."
   },
   {
-    "objectID": "week03_slides.html#merge-conflicts",
-    "href": "week03_slides.html#merge-conflicts",
-    "title": "Reproducible Research and Project Management",
-    "section": "Merge Conflicts",
-    "text": "Merge Conflicts\nWhen you run git merge git will “pick up” commits from my-amazing-feature and put them on `main.\nSometimes it is obvious how to do this…"
+    "objectID": "week04_slides.html#order-matters-filter-early",
+    "href": "week04_slides.html#order-matters-filter-early",
+    "title": "Data Wrangling in R",
+    "section": "Order matters: filter early",
+    "text": "Order matters: filter early\nBoth of these give the same answer. Which is cheaper?\n\n# A: compute for every row, then throw most away\ngapminder |&gt;\n  mutate(gdp_billions = gdpPercap * pop / 1e9) |&gt;\n  filter(year == 2007, continent == \"Asia\")\n\n# B: throw rows away first, then compute\ngapminder |&gt;\n  filter(year == 2007, continent == \"Asia\") |&gt;\n  mutate(gdp_billions = gdpPercap * pop / 1e9)\n\n\nB is cheaper. Filtering first means mutate() runs on ~30 rows, not ~1700. Rule of thumb: filter() as early as you can.\n\n\nOn gapminder the difference is invisible, but on a million-row dataset it’s the difference between instant and painful. This is the one performance idea to give them today."
   },
   {
-    "objectID": "week03_slides.html#merge-conflicts-1",
-    "href": "week03_slides.html#merge-conflicts-1",
-    "title": "Reproducible Research and Project Management",
-    "section": "Merge Conflicts",
-    "text": "Merge Conflicts\nIf Git can’t work out how to merge you will get a merge conflict.\nGit will mark conflicting lines in the file."
+    "objectID": "week04_slides.html#shortcut-count",
+    "href": "week04_slides.html#shortcut-count",
+    "title": "Data Wrangling in R",
+    "section": "Shortcut: count",
+    "text": "Shortcut: count\n\n\n\n\n\n\nTask\n\n\nHow many countries are in each continent in 2007?\n\n\n\n\n\ngapminder |&gt;\n  filter(year == 2007) |&gt;\n  count(continent)\n\n# A tibble: 5 × 2\n  continent     n\n  &lt;fct&gt;     &lt;int&gt;\n1 Africa       52\n2 Americas     25\n3 Asia         33\n4 Europe       30\n5 Oceania       2\n\n\n\n\ncount(continent) is just a tidy shorthand for group_by(continent) |&gt; summarise(n = n())."
   },
   {
-    "objectID": "lab03_slides.html#these-are-problem-sheets",
-    "href": "lab03_slides.html#these-are-problem-sheets",
-    "title": "Lab 3: Reproducible Quarto & Collaboration",
-    "section": "These are problem sheets",
-    "text": "These are problem sheets\n\nWork at your own pace — you are not expected to finish everything.\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
+    "objectID": "week04_slides.html#long-vs.-wide",
+    "href": "week04_slides.html#long-vs.-wide",
+    "title": "Data Wrangling in R",
+    "section": "Long vs. wide",
+    "text": "Long vs. wide\ngapminder is tall — many rows per country. Sometimes we want years as columns instead, e.g. to compare 1952 with 2007 directly.\n\n\n\n\n\n\nTask\n\n\nReshape so each row is a country and each year is its own lifeExp column.\n\n\n\n\n\ngapminder_wide &lt;- gapminder |&gt;\n  select(country, year, lifeExp) |&gt;\n  pivot_wider(names_from = year, values_from = lifeExp)\ngapminder_wide\n\n# A tibble: 142 × 13\n   country `1952` `1957` `1962` `1967` `1972` `1977` `1982` `1987` `1992` `1997`\n   &lt;fct&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n 1 Afghan…   28.8   30.3   32.0   34.0   36.1   38.4   39.9   40.8   41.7   41.8\n 2 Albania   55.2   59.3   64.8   66.2   67.7   68.9   70.4   72     71.6   73.0\n 3 Algeria   43.1   45.7   48.3   51.4   54.5   58.0   61.4   65.8   67.7   69.2\n 4 Angola    30.0   32.0   34     36.0   37.9   39.5   39.9   39.9   40.6   41.0\n 5 Argent…   62.5   64.4   65.1   65.6   67.1   68.5   69.9   70.8   71.9   73.3\n 6 Austra…   69.1   70.3   70.9   71.1   71.9   73.5   74.7   76.3   77.6   78.8\n 7 Austria   66.8   67.5   69.5   70.1   70.6   72.2   73.2   74.9   76.0   77.5\n 8 Bahrain   50.9   53.8   56.9   59.9   63.3   65.6   69.1   70.8   72.6   73.9\n 9 Bangla…   37.5   39.3   41.2   43.5   45.3   46.9   50.0   52.8   56.0   59.4\n10 Belgium   68     69.2   70.2   70.9   71.4   72.8   73.9   75.4   76.5   77.5\n# ℹ 132 more rows\n# ℹ 2 more variables: `2002` &lt;dbl&gt;, `2007` &lt;dbl&gt;\n\n\n\n\nnames_from = the column whose values become new column names; values_from = the column that fills the cells. Draw the reshape on the board with a 2×2 toy example if it doesn’t click — this is the hardest idea in the deck."
   },
   {
-    "objectID": "lab03_slides.html#getting-started",
-    "href": "lab03_slides.html#getting-started",
-    "title": "Lab 3: Reproducible Quarto & Collaboration",
-    "section": "Getting started",
-    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_03_2627.\nOpen the lab README.md and work through the tasks."
+    "objectID": "week04_slides.html#using-the-wide-shape",
+    "href": "week04_slides.html#using-the-wide-shape",
+    "title": "Data Wrangling in R",
+    "section": "Using the wide shape",
+    "text": "Using the wide shape\n\n\n\n\n\n\nTask\n\n\nCompute the change in life expectancy from 1952 to 2007 for each country.\n\n\n\n\n\ngapminder_wide |&gt;\n  mutate(change = `2007` - `1952`) |&gt;\n  select(country, change)\n\n# A tibble: 142 × 2\n   country     change\n   &lt;fct&gt;        &lt;dbl&gt;\n 1 Afghanistan   15.0\n 2 Albania       21.2\n 3 Algeria       29.2\n 4 Angola        12.7\n 5 Argentina     12.8\n 6 Australia     12.1\n 7 Austria       13.0\n 8 Bahrain       24.7\n 9 Bangladesh    26.6\n10 Belgium       11.4\n# ℹ 132 more rows\n\n\n\n\nThe backticks around `2007` and `1952` tell R these are column names, not numbers. You’d need them for any name with spaces or symbols too."
   },
   {
-    "objectID": "lab03_slides.html#todays-plan",
-    "href": "lab03_slides.html#todays-plan",
-    "title": "Lab 3: Reproducible Quarto & Collaboration",
-    "section": "Today’s plan",
-    "text": "Today’s plan\n\nBlock 1 (45 min) — Reproducible Quarto\n☕ Break (15 min)\nBlock 2 (45 min) — Git for collaboration"
+    "objectID": "week04_slides.html#the-inverse-pivot_longer",
+    "href": "week04_slides.html#the-inverse-pivot_longer",
+    "title": "Data Wrangling in R",
+    "section": "The inverse: pivot_longer",
+    "text": "The inverse: pivot_longer\n\n\n\n\n\n\nTask\n\n\nTurn the wide table back into a tall one.\n\n\n\n\n\ngapminder_wide |&gt;\n  pivot_longer(\n    cols = -country,\n    names_to = \"year\",\n    values_to = \"lifeExp\"\n  )\n\n# A tibble: 1,704 × 3\n   country     year  lifeExp\n   &lt;fct&gt;       &lt;chr&gt;   &lt;dbl&gt;\n 1 Afghanistan 1952     28.8\n 2 Afghanistan 1957     30.3\n 3 Afghanistan 1962     32.0\n 4 Afghanistan 1967     34.0\n 5 Afghanistan 1972     36.1\n 6 Afghanistan 1977     38.4\n 7 Afghanistan 1982     39.9\n 8 Afghanistan 1987     40.8\n 9 Afghanistan 1992     41.7\n10 Afghanistan 1997     41.8\n# ℹ 1,694 more rows\n\n\n\n\ncols = -country means “every column except country” — a tidyselect helper, so we don’t list all the years by hand.\n\n\npivot_longer and pivot_wider are inverses. Note year comes back as &lt;chr&gt; text, not a number — it was a column name a moment ago. A quick mutate(year = as.integer(year)) fixes it if asked. Also mention separate_wider_delim() from the notes for splitting one column into two (the table3 “cases/population” case) if time allows."
   },
   {
-    "objectID": "lab03_slides.html#task-1-reproducible-quarto",
-    "href": "lab03_slides.html#task-1-reproducible-quarto",
-    "title": "Lab 3: Reproducible Quarto & Collaboration",
-    "section": "Task 1 — Reproducible Quarto",
-    "text": "Task 1 — Reproducible Quarto\n\nThere is some data analysis and commentary in bond.R.\nThe task is to convert it to Quarto.\nSee the lab README.md for the full checklist.\n~30 minutes — work at your own pace, then we’ll go through it."
+    "objectID": "week04_slides.html#today-you-can-now",
+    "href": "week04_slides.html#today-you-can-now",
+    "title": "Data Wrangling in R",
+    "section": "Today you can now:",
+    "text": "Today you can now:\n\n\nload delimited data with read_csv() / read_delim()\n\n\n\n\ntransform with mutate, select, filter, arrange, summarise\n\n\n\n\naggregate per group with group_by() and count()\n\n\n\n\nreshape with pivot_wider() and pivot_longer()"
   },
   {
-    "objectID": "lab03_slides.html#advanced-quarto-options",
-    "href": "lab03_slides.html#advanced-quarto-options",
-    "title": "Lab 3: Reproducible Quarto & Collaboration",
-    "section": "Advanced Quarto Options",
-    "text": "Advanced Quarto Options\nI’ll now demo some advanced finishing touches."
+    "objectID": "week04_slides.html#read-the-notes",
+    "href": "week04_slides.html#read-the-notes",
+    "title": "Data Wrangling in R",
+    "section": "Read the notes",
+    "text": "Read the notes\nWe didn’t cover in detail:\n\nthe tidy data philosophy (each variable a column, each observation a row, each cell one value)\nother loaders (Excel, parquet, JSON, databases)\ntidyselect helpers (starts_with(), where(), …)\nsplitting columns with separate_wider_delim()"
   },
   {
-    "objectID": "lab03_slides.html#before-the-break-add-a-collaborator",
-    "href": "lab03_slides.html#before-the-break-add-a-collaborator",
-    "title": "Lab 3: Reproducible Quarto & Collaboration",
-    "section": "Before the break: add a collaborator",
-    "text": "Before the break: add a collaborator\n\nPair up with someone next to you.\nPerson A adds their partner as a collaborator:\n\nOn your forked repo: Settings → Collaborators.\nAdd Person B’s GitHub username.\n\nPerson B accepts the emailed invite.\nGet this going now — it’ll be ready when we come back."
+    "objectID": "course_intro.html#about-the-course",
+    "href": "course_intro.html#about-the-course",
+    "title": "Week 1 Slides",
+    "section": "About the Course",
+    "text": "About the Course\nThis is a double-badged module: MATH2051 and MATH6195. Taught material:\n\n1 hour lecture (16:00-17:00 in 58/1007, L/R C)\n2 hour lab (Mondays, 14:00-16:00 in 25/1009)"
   },
   {
-    "objectID": "lab03_slides.html#task-2-collaborating",
-    "href": "lab03_slides.html#task-2-collaborating",
-    "title": "Lab 3: Reproducible Quarto & Collaboration",
-    "section": "Task 2 — Collaborating",
-    "text": "Task 2 — Collaborating\n\nPerson B clones Person A’s repo.\nYou’ll both work in the same repo and practise fixing merge conflicts.\nSee the lab README.md for the steps."
+    "objectID": "course_intro.html#lectures",
+    "href": "course_intro.html#lectures",
+    "title": "Week 1 Slides",
+    "section": "Lectures",
+    "text": "Lectures\n\n1 hour session.\nI will demo some new techniques that we will focus on in the labs."
   },
   {
-    "objectID": "lab02_slides.html#these-are-problem-sheets",
-    "href": "lab02_slides.html#these-are-problem-sheets",
-    "title": "Lab 2: Coding in R",
-    "section": "These are problem sheets",
-    "text": "These are problem sheets\n\nThe lab worksheet is a problem sheet, not a walkthrough — it is deliberately longer than one session.\nYou are not expected to finish everything. Work at your own pace and go as far as you get.\nI will try to guide you through the material in this presentation, but feel free to linger on earlier exercises (or go ahead).\nI’ll stop everyone at certain points to demonstrate some of the solutions."
+    "objectID": "course_intro.html#labs",
+    "href": "course_intro.html#labs",
+    "title": "Week 1 Slides",
+    "section": "Labs",
+    "text": "Labs\n\n2 hour session.\nYou will code!\nPart of the Course Material.\n\nYou will be assessed on material from the labs.\nI will attempt to record the labs, but cannot guarantee the quality of the recordings.\n\nBoth lab worksheets and solutions will still be available to everyone."
   },
   {
-    "objectID": "lab02_slides.html#solutions",
-    "href": "lab02_slides.html#solutions",
-    "title": "Lab 2: Coding in R",
-    "section": "Solutions",
-    "text": "Solutions\n\nPublished on Fridays in a solutions branch.\nE.g. show solutions to lab 1."
+    "objectID": "course_intro.html#office-hour",
+    "href": "course_intro.html#office-hour",
+    "title": "Week 1 Slides",
+    "section": "Office Hour",
+    "text": "Office Hour\n\nMondays at 13:00 (right before the lab)\nIn my office (Building 39, Room 2025)."
   },
   {
-    "objectID": "lab02_slides.html#getting-started",
-    "href": "lab02_slides.html#getting-started",
-    "title": "Lab 2: Coding in R",
-    "section": "Getting started",
-    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_02_2627.\nOpen lab_02.qmd in RStudio and work through it, running each chunk as you go.\nAsk for help — put your hand up and we will come round."
+    "objectID": "course_intro.html#assessment---summary",
+    "href": "course_intro.html#assessment---summary",
+    "title": "Week 1 Slides",
+    "section": "Assessment - Summary",
+    "text": "Assessment - Summary\n\n20% Mini Coursework\n80% Supervised Coursework"
   },
   {
-    "objectID": "lab02_slides.html#todays-plan",
-    "href": "lab02_slides.html#todays-plan",
-    "title": "Lab 2: Coding in R",
-    "section": "Today’s plan",
-    "text": "Today’s plan\n\nBlock 1 (45 min) — Foundations & data structures\n☕ Break (15 min)\nBlock 2 (45 min) — Control flow, pipes & debugging"
+    "objectID": "course_intro.html#assessment---mini-courseworks",
+    "href": "course_intro.html#assessment---mini-courseworks",
+    "title": "Week 1 Slides",
+    "section": "Assessment - Mini Courseworks",
+    "text": "Assessment - Mini Courseworks\n\nFour take-home mini courseworks. (5% each, total 20%)\n\nWeeks 2, 4, 6 and 10.\nYou will have one week to complete each coursework.\nSubmission via GitHub (using Classroom50).\nAutograded."
   },
   {
-    "objectID": "lab02_slides.html#block-1",
-    "href": "lab02_slides.html#block-1",
-    "title": "Lab 2: Coding in R",
-    "section": "Block 1",
-    "text": "Block 1\n\nPart 1 — R Fundamentals: work through at your own pace.\nPart 1b — Lists: get here if you have time.\nPart 2 — Advanced Array Indexing."
+    "objectID": "course_intro.html#assessment---mini-courseworks-1",
+    "href": "course_intro.html#assessment---mini-courseworks-1",
+    "title": "Week 1 Slides",
+    "section": "Assessment - Mini Courseworks",
+    "text": "Assessment - Mini Courseworks\n\nGenAI allowed in the mini-courseworks.\nYou will nee do to know how to use Quarto and Git to submit the mini-courseworks!"
   },
   {
-    "objectID": "lab02_slides.html#block-2",
-    "href": "lab02_slides.html#block-2",
-    "title": "Lab 2: Coding in R",
-    "section": "Block 2",
-    "text": "Block 2\n\nPart 3 — Control Flow: focus on the non-Advanced tasks.\nPart 4 — Pipes and Part 5 — Debugging: pick these up if you have time."
+    "objectID": "course_intro.html#assessment---mini-courseworks-2",
+    "href": "course_intro.html#assessment---mini-courseworks-2",
+    "title": "Week 1 Slides",
+    "section": "Assessment - Mini Courseworks",
+    "text": "Assessment - Mini Courseworks\n\n\n\n\n\n\nWarning\n\n\nIt is essential that you upload your GitHub Username to Blackboard; otherwise you cannot complete the mini-courseworks."
+  },
+  {
+    "objectID": "course_intro.html#assessment---supervised-courseworks",
+    "href": "course_intro.html#assessment---supervised-courseworks",
+    "title": "Week 1 Slides",
+    "section": "Assessment - Supervised Courseworks",
+    "text": "Assessment - Supervised Courseworks\n\nTwo in-person supervised courseworks. (40% each, total 80%)\n\nA1 Week 8 - Tuesday 10th November, 11:00-13:00, 25/1009. Covers Chapters 1-6.\nA2 Week 12 - Tuesday, 8th December, 11:00-13:00, 25/1009. Covers the entire module."
+  },
+  {
+    "objectID": "course_intro.html#assessment---supervised-courseworks-1",
+    "href": "course_intro.html#assessment---supervised-courseworks-1",
+    "title": "Week 1 Slides",
+    "section": "Assessment - Supervised Courseworks",
+    "text": "Assessment - Supervised Courseworks\n\nGenAI blocked in supervised coursework.\nUses University computers."
+  },
+  {
+    "objectID": "course_intro.html#main-text",
+    "href": "course_intro.html#main-text",
+    "title": "Week 1 Slides",
+    "section": "Main Text",
+    "text": "Main Text\n\n“R for Data Science”, https://r4ds.hadley.nz"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "",
+    "section": "",
+    "text": "Lab\n\nCourse Introduction\nChapter 1 Slides\nLab 1 Slides\n\nLecture\n\nChapter 2 Slides\n\n\n\n\n\n\nLab\n\nLab 2 Slides\n\nLecture\n\nChapter 3 Slides\n\n\n\n\n\n\nLab\n\nLab 3 Slides\n\nLecture\n\nChapter 4 Slides"
+  },
+  {
+    "objectID": "index.html#course-slides",
+    "href": "index.html#course-slides",
+    "title": "",
+    "section": "",
+    "text": "Lab\n\nCourse Introduction\nChapter 1 Slides\nLab 1 Slides\n\nLecture\n\nChapter 2 Slides\n\n\n\n\n\n\nLab\n\nLab 2 Slides\n\nLecture\n\nChapter 3 Slides\n\n\n\n\n\n\nLab\n\nLab 3 Slides\n\nLecture\n\nChapter 4 Slides"
+  },
+  {
+    "objectID": "week02_slides_handout.html",
+    "href": "week02_slides_handout.html",
+    "title": "Coding in R",
+    "section": "",
+    "text": "By the end of this lecture you will be able to:\n\n\ncreate and inspect R’s core data structures — variables, vectors, lists and data frames\n\n\n\n\nmake vectorised decisions with if_else() and case_when(), instead of loops\n\n\n\n\nwrite functions and compose them with the pipe, |&gt;"
+  },
+  {
+    "objectID": "week02_slides_handout.html#agenda",
+    "href": "week02_slides_handout.html#agenda",
+    "title": "Coding in R",
+    "section": "",
+    "text": "By the end of this lecture you will be able to:\n\n\ncreate and inspect R’s core data structures — variables, vectors, lists and data frames\n\n\n\n\nmake vectorised decisions with if_else() and case_when(), instead of loops\n\n\n\n\nwrite functions and compose them with the pipe, |&gt;"
+  },
+  {
+    "objectID": "week02_slides_handout.html#packages",
+    "href": "week02_slides_handout.html#packages",
+    "title": "Coding in R",
+    "section": "Packages",
+    "text": "Packages\n\ninstall.packages(\"dplyr\")   # ONCE, in the console\nlibrary(dplyr)              # EVERY new session\n\n\n\n\n\n\n\nWarningNever put install.packages() in a .qmd\n\n\n\nQuarto re-runs every chunk on every render — the package would be re-installed from CRAN each time you render.\nRule: Install in the console; load with library() in the document."
+  },
+  {
+    "objectID": "week02_slides_handout.html#your-first-variables",
+    "href": "week02_slides_handout.html#your-first-variables",
+    "title": "Coding in R",
+    "section": "Your first variables",
+    "text": "Your first variables\n\n\n\n\n\n\nImportantTask\n\n\n\nCreate three variables — a number, some text, and a truth value — then ask R what type each one is.\n\n\n\n\nx &lt;- 5\ny &lt;- \"Hello\"\nz &lt;- TRUE\n\ntypeof(x)\n\n[1] \"double\"\n\ntypeof(y)\n\n[1] \"character\"\n\ntypeof(z)\n\n[1] \"logical\"\n\n\n\n\nPoint out double, character, logical. Mention the chapter’s aside: &lt;- is idiomatic R, = is fine, both accepted in assessments."
+  },
+  {
+    "objectID": "week02_slides_handout.html#r-is-dynamically-typed",
+    "href": "week02_slides_handout.html#r-is-dynamically-typed",
+    "title": "Coding in R",
+    "section": "R is dynamically typed",
+    "text": "R is dynamically typed\n\n\n\n\n\n\nImportantTask\n\n\n\nDemonstrate dynamic typing in R\n\n\n\n\nnumber &lt;- 5\ntypeof(number)\n\n[1] \"double\"\n\nnumber &lt;- \"hello\"\ntypeof(number)\n\n[1] \"character\"\n\n\n\n\nR does not require variable types. It also does not check types when you call a function!"
+  },
+  {
+    "objectID": "week02_slides_handout.html#building-vectors",
+    "href": "week02_slides_handout.html#building-vectors",
+    "title": "Coding in R",
+    "section": "Building vectors",
+    "text": "Building vectors\n\n\n\n\n\n\nImportantTask\n\n\n\nMake a vector of the numbers 1 to 5 with c(), then check its type and length. What happens if you check the length of the plain number x from before?\n\n\n\n\nvector &lt;- c(1, 2, 3, 4, 5)\n\ntypeof(vector)   # still \"double\"!\n\n[1] \"double\"\n\nlength(vector)\n\n[1] 5\n\nlength(x)        # scalars ARE length-1 vectors\n\n[1] 1\n\n\n\n\nIn R there are no scalars — everything is a vector."
+  },
+  {
+    "objectID": "week02_slides_handout.html#indexing-r-counts-from-1",
+    "href": "week02_slides_handout.html#indexing-r-counts-from-1",
+    "title": "Coding in R",
+    "section": "Indexing: R counts from 1",
+    "text": "Indexing: R counts from 1\n\n\n\n\n\n\nImportantTask\n\n\n\nGet the 2nd element, the 5th element, and elements 2 through 4.\n\n\n\n\nvector[2]\n\n[1] 2\n\nvector[5]     # the LAST element — it would be index 4 in Python!\n\n[1] 5\n\nvector[2:4]\n\n[1] 2 3 4\n\n\n\n\nShow vector[0]: it returns an empty vector, no error."
+  },
+  {
+    "objectID": "week02_slides_handout.html#logical-indexing",
+    "href": "week02_slides_handout.html#logical-indexing",
+    "title": "Coding in R",
+    "section": "Logical indexing",
+    "text": "Logical indexing\n\n\n\n\n\n\nImportantTask\n\n\n\nUse a vector of TRUE/FALSE to pick out elements — then negate it with ! to pick the others.\n\n\n\n\nelements &lt;- c(TRUE, FALSE, TRUE, TRUE, FALSE)\n\nvector[elements]    # positions 1, 3, 4\n\n[1] 1 3 4\n\nvector[!elements]   # elementwise negation: positions 2, 5\n\n[1] 2 5\n\n\n\n\nThis is the idiom that powers filtering data in every week to come."
+  },
+  {
+    "objectID": "week02_slides_handout.html#lists-containers-for-anything",
+    "href": "week02_slides_handout.html#lists-containers-for-anything",
+    "title": "Coding in R",
+    "section": "Lists: containers for anything",
+    "text": "Lists: containers for anything\n\n\n\n\n\n\nImportantTask\n\n\n\nBuild a list about a penguin — two bits of text, a numeric vector, and a count — then pull out elements by name and by position.\n\n\n\n\nl &lt;- list(\n  name = \"Flipper\",\n  species = \"Adelie\",\n  measurements = c(210, 217, 230),\n  n_measurements = 3\n)\n\nl$name\n\n[1] \"Flipper\"\n\nl$measurements\n\n[1] 210 217 230\n\nl[[3]]\n\n[1] 210 217 230\n\n\n\n\nDemo the difference between [3] and [[3]] - a list vs. the element. Comment on why the names might be better than the numbers."
+  },
+  {
+    "objectID": "week02_slides_handout.html#data-frames-lists-of-equal-length-vectors",
+    "href": "week02_slides_handout.html#data-frames-lists-of-equal-length-vectors",
+    "title": "Coding in R",
+    "section": "Data frames: lists of equal-length vectors",
+    "text": "Data frames: lists of equal-length vectors\n\n\n\n\n\n\nImportantTask\n\n\n\nBuild a small table of penguins — name, species, flipper length — then get a column with $, a row with [2, ], and a single entry.\n\n\n\n\ndf &lt;- data.frame(\n  name              = c(\"Flipper\", \"Tux\", \"Pingu\"),\n  species           = c(\"Adelie\", \"Gentoo\", \"Emperor\"),\n  flipper_length_mm = c(210, 217, 230)\n)\n\ndf\n\n     name species flipper_length_mm\n1 Flipper  Adelie               210\n2     Tux  Gentoo               217\n3   Pingu Emperor               230\n\ndf$name              # access a column\n\n[1] \"Flipper\" \"Tux\"     \"Pingu\"  \n\ndf$flipper_length_mm\n\n[1] 210 217 230\n\ndf[2, ]              # row 2\n\n  name species flipper_length_mm\n2  Tux  Gentoo               217\n\ndf[2, \"species\"]     # single entry\n\n[1] \"Gentoo\"\n\n\n\n\n\n\n\n\n\nTipTibbles\n\n\n\nData frames have a modern cousin, the tibble (tidyverse). Same functionality, nicer printing. We’ll switch to tibble in the data weeks — for today data.frame is fine."
+  },
+  {
+    "objectID": "week02_slides_handout.html#reminder-if-else",
+    "href": "week02_slides_handout.html#reminder-if-else",
+    "title": "Coding in R",
+    "section": "Reminder: if / else",
+    "text": "Reminder: if / else\n\nx &lt;- 1\nif (x &lt; 0) {\n  print(\"x was negative\")\n} else if (x == 0) {   # else MUST be on the same line as }\n  print(\"x was 0\")\n} else {\n  print(\"x was positive\")\n}\n\n\n~1 min. They have seen if/else before — don’t dwell. Two things to say: else must be on the same line as the closing brace, and plain if makes ONE decision. The real question: what if we need the same decision for every element of a vector? → next slide."
+  },
+  {
+    "objectID": "week02_slides_handout.html#if_else-a-vectorised-conditional",
+    "href": "week02_slides_handout.html#if_else-a-vectorised-conditional",
+    "title": "Coding in R",
+    "section": "if_else: a vectorised conditional",
+    "text": "if_else: a vectorised conditional\n\n\n\n\n\n\nImportantTask\n\n\n\nClassify each element of x &lt;- c(3, 1, 4, 1, 5) as “big” or “small” depending on whether it exceeds 2.\n\n\n\n\nlibrary(dplyr)\n\nWarning: package 'dplyr' was built under R version 4.4.3\n\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nx &lt;- c(3, 1, 4, 1, 5)\n\nif_else(x &gt; 2, \"big\", \"small\")\n\n[1] \"big\"   \"small\" \"big\"   \"small\" \"big\""
+  },
+  {
+    "objectID": "week02_slides_handout.html#case_when-many-conditions",
+    "href": "week02_slides_handout.html#case_when-many-conditions",
+    "title": "Coding in R",
+    "section": "case_when: many conditions",
+    "text": "case_when: many conditions\n\n\n\n\n\n\nImportantTask\n\n\n\nClassify x as “small” (&lt; 2), “medium” (&lt; 5), or “large” (everything else).\n\n\n\n\ncase_when(\n  x &lt; 2 ~ \"small\",\n  x &lt; 5 ~ \"medium\",\n  TRUE  ~ \"large\"\n)\n\n[1] \"medium\" \"small\"  \"medium\" \"small\"  \"large\" \n\n\n\n\nOrder matters: swap the first two conditions and “small” disappears."
+  },
+  {
+    "objectID": "week02_slides_handout.html#writing-functions",
+    "href": "week02_slides_handout.html#writing-functions",
+    "title": "Coding in R",
+    "section": "Writing Functions",
+    "text": "Writing Functions\n\n\n\n\n\n\nImportantTask\n\n\n\nWrite a function add(x, y).\n\n\n\n\nadd &lt;- function(x, y) {\n  x + y        # the LAST expression is the return value\n}\n\nadd(1, 10)\n\n[1] 11\n\n\n\n\nNo return() needed."
+  },
+  {
+    "objectID": "week02_slides_handout.html#guard-clauses-return",
+    "href": "week02_slides_handout.html#guard-clauses-return",
+    "title": "Coding in R",
+    "section": "Guard clauses: return",
+    "text": "Guard clauses: return\n\n\n\n\n\n\nImportantTask\n\n\n\nWrite clip(x, lower, upper) that forces a value into a range — e.g. for cleaning impossible measurements.\n\n\n\n\nclip &lt;- function(x, lower, upper) {\n  if (x &lt; lower) return(lower)   # guard clause\n  if (x &gt; upper) return(upper)\n  x                              # still here? it's in range\n}\n\nclip(5, 0, 10)\n\n[1] 5\n\nclip(-3, 0, 10)\n\n[1] 0\n\nclip(42, 0, 10)\n\n[1] 10\n\n\n\n\nNote that you could also use case_when to do this"
+  },
+  {
+    "objectID": "week02_slides_handout.html#functions-are-variables",
+    "href": "week02_slides_handout.html#functions-are-variables",
+    "title": "Coding in R",
+    "section": "Functions are Variables",
+    "text": "Functions are Variables\n\n\nsapply(1:10, function(x) clip(x, 3, 7))\n\n [1] 3 3 3 4 5 6 7 7 7 7\n\n\n\n\nA function you never named — an anonymous function — passed straight into sapply.\nIt is called a “higher order function.”"
+  },
+  {
+    "objectID": "week02_slides_handout.html#composing-functions-fgx",
+    "href": "week02_slides_handout.html#composing-functions-fgx",
+    "title": "Coding in R",
+    "section": "Composing functions: f(g(x))",
+    "text": "Composing functions: f(g(x))\n\ntimes_ten &lt;- function(y) y * 10\nadd_five &lt;- function(x) x + 5\n\nx &lt;- 10\ntimes_ten(add_five(x))\n\n\nReadable — up to a point."
+  },
+  {
+    "objectID": "week02_slides_handout.html#the-pipe",
+    "href": "week02_slides_handout.html#the-pipe",
+    "title": "Coding in R",
+    "section": "The pipe: |>",
+    "text": "The pipe: |&gt;\n\n\n\n\n\n\nImportantTask\n\n\n\nImplement the above logic using the pipe operator |&gt;\n\n\n\n\nx |&gt; add_five() |&gt; times_ten()\n\n[1] 150\n\n\n\n\nMuch more readable.\n\n\nThe parentheses after each function are required — the pipe inserts the left-hand side into the FIRST argument.\nMention %&gt;% (magrittr) exists and behaves almost identically, but |&gt; is base R."
+  },
+  {
+    "objectID": "week02_slides_handout.html#when-youre-stuck",
+    "href": "week02_slides_handout.html#when-youre-stuck",
+    "title": "Coding in R",
+    "section": "When you’re stuck",
+    "text": "When you’re stuck\n\n?mean — documentation (also ?dplyr, even ?`+`)\nexample(mean) — run the docs’ examples\n??\"linear regression\" — search all installed packages\nRead the error message first — then search it verbatim online\n\n\n\n\n\n\n\nTipAI tools\n\n\n\nGreat for getting unblocked — but they hallucinate. Verify everything with ?, and never paste sensitive data into them. The docs are always right; the AI is usually helpful."
+  },
+  {
+    "objectID": "week02_slides_handout.html#for-next-week",
+    "href": "week02_slides_handout.html#for-next-week",
+    "title": "Coding in R",
+    "section": "For next week",
+    "text": "For next week\nToday you can now:\n\n\ncreate variables, vectors, lists and data frames\n\n\n\n\nmake vectorised decisions with if_else() and case_when()\n\n\n\n\nwrite functions and compose them with the pipe"
+  },
+  {
+    "objectID": "week02_slides_handout.html#additional-tasks",
+    "href": "week02_slides_handout.html#additional-tasks",
+    "title": "Coding in R",
+    "section": "Additional Tasks",
+    "text": "Additional Tasks\nRead the notes. We didn’t cover:\n\nmatrices\nmissing data (NA)\nwhile/next\nclosures (advanced)\ndebugging"
   },
   {
     "objectID": "week02_slides.html#agenda",
@@ -581,242 +798,312 @@
     "text": "Additional Tasks\nRead the notes. We didn’t cover:\n\nmatrices\nmissing data (NA)\nwhile/next\nclosures (advanced)\ndebugging"
   },
   {
-    "objectID": "week02_slides_handout.html",
-    "href": "week02_slides_handout.html",
-    "title": "Coding in R",
+    "objectID": "lab02_slides.html#these-are-problem-sheets",
+    "href": "lab02_slides.html#these-are-problem-sheets",
+    "title": "Lab 2: Coding in R",
+    "section": "These are problem sheets",
+    "text": "These are problem sheets\n\nThe lab worksheet is a problem sheet, not a walkthrough — it is deliberately longer than one session.\nYou are not expected to finish everything. Work at your own pace and go as far as you get.\nI will try to guide you through the material in this presentation, but feel free to linger on earlier exercises (or go ahead).\nI’ll stop everyone at certain points to demonstrate some of the solutions."
+  },
+  {
+    "objectID": "lab02_slides.html#solutions",
+    "href": "lab02_slides.html#solutions",
+    "title": "Lab 2: Coding in R",
+    "section": "Solutions",
+    "text": "Solutions\n\nPublished on Fridays in a solutions branch.\nE.g. show solutions to lab 1."
+  },
+  {
+    "objectID": "lab02_slides.html#getting-started",
+    "href": "lab02_slides.html#getting-started",
+    "title": "Lab 2: Coding in R",
+    "section": "Getting started",
+    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_02_2627.\nOpen lab_02.qmd in RStudio and work through it, running each chunk as you go.\nAsk for help — put your hand up and we will come round."
+  },
+  {
+    "objectID": "lab02_slides.html#todays-plan",
+    "href": "lab02_slides.html#todays-plan",
+    "title": "Lab 2: Coding in R",
+    "section": "Today’s plan",
+    "text": "Today’s plan\n\nBlock 1 (45 min) — Foundations & data structures\n☕ Break (15 min)\nBlock 2 (45 min) — Control flow, pipes & debugging"
+  },
+  {
+    "objectID": "lab02_slides.html#block-1",
+    "href": "lab02_slides.html#block-1",
+    "title": "Lab 2: Coding in R",
+    "section": "Block 1",
+    "text": "Block 1\n\nPart 1 — R Fundamentals: work through at your own pace.\nPart 1b — Lists: get here if you have time.\nPart 2 — Advanced Array Indexing."
+  },
+  {
+    "objectID": "lab02_slides.html#block-2",
+    "href": "lab02_slides.html#block-2",
+    "title": "Lab 2: Coding in R",
+    "section": "Block 2",
+    "text": "Block 2\n\nPart 3 — Control Flow: focus on the non-Advanced tasks.\nPart 4 — Pipes and Part 5 — Debugging: pick these up if you have time."
+  },
+  {
+    "objectID": "lab03_slides.html#these-are-problem-sheets",
+    "href": "lab03_slides.html#these-are-problem-sheets",
+    "title": "Lab 3: Reproducible Quarto & Collaboration",
+    "section": "These are problem sheets",
+    "text": "These are problem sheets\n\nWork at your own pace — you are not expected to finish everything.\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
+  },
+  {
+    "objectID": "lab03_slides.html#getting-started",
+    "href": "lab03_slides.html#getting-started",
+    "title": "Lab 3: Reproducible Quarto & Collaboration",
+    "section": "Getting started",
+    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_03_2627.\nOpen the lab README.md and work through the tasks."
+  },
+  {
+    "objectID": "lab03_slides.html#todays-plan",
+    "href": "lab03_slides.html#todays-plan",
+    "title": "Lab 3: Reproducible Quarto & Collaboration",
+    "section": "Today’s plan",
+    "text": "Today’s plan\n\nBlock 1 (45 min) — Reproducible Quarto\n☕ Break (15 min)\nBlock 2 (45 min) — Git for collaboration"
+  },
+  {
+    "objectID": "lab03_slides.html#task-1-reproducible-quarto",
+    "href": "lab03_slides.html#task-1-reproducible-quarto",
+    "title": "Lab 3: Reproducible Quarto & Collaboration",
+    "section": "Task 1 — Reproducible Quarto",
+    "text": "Task 1 — Reproducible Quarto\n\nThere is some data analysis and commentary in bond.R.\nThe task is to convert it to Quarto.\nSee the lab README.md for the full checklist.\n~30 minutes — work at your own pace, then we’ll go through it."
+  },
+  {
+    "objectID": "lab03_slides.html#advanced-quarto-options",
+    "href": "lab03_slides.html#advanced-quarto-options",
+    "title": "Lab 3: Reproducible Quarto & Collaboration",
+    "section": "Advanced Quarto Options",
+    "text": "Advanced Quarto Options\nI’ll now demo some advanced finishing touches."
+  },
+  {
+    "objectID": "lab03_slides.html#before-the-break-add-a-collaborator",
+    "href": "lab03_slides.html#before-the-break-add-a-collaborator",
+    "title": "Lab 3: Reproducible Quarto & Collaboration",
+    "section": "Before the break: add a collaborator",
+    "text": "Before the break: add a collaborator\n\nPair up with someone next to you.\nPerson A adds their partner as a collaborator:\n\nOn your forked repo: Settings → Collaborators.\nAdd Person B’s GitHub username.\n\nPerson B accepts the emailed invite.\nGet this going now — it’ll be ready when we come back."
+  },
+  {
+    "objectID": "lab03_slides.html#task-2-collaborating",
+    "href": "lab03_slides.html#task-2-collaborating",
+    "title": "Lab 3: Reproducible Quarto & Collaboration",
+    "section": "Task 2 — Collaborating",
+    "text": "Task 2 — Collaborating\n\nPerson B clones Person A’s repo.\nYou’ll both work in the same repo and practise fixing merge conflicts.\nSee the lab README.md for the steps."
+  },
+  {
+    "objectID": "week03_slides.html#objectives",
+    "href": "week03_slides.html#objectives",
+    "title": "Reproducible Research and Project Management",
+    "section": "Objectives",
+    "text": "Objectives\n\nKnow the principles of reproducibility and literate programming, and how they can be realised in R using Quarto.\nKnow how to collaborate and track your code using git."
+  },
+  {
+    "objectID": "week03_slides.html#scenario",
+    "href": "week03_slides.html#scenario",
+    "title": "Reproducible Research and Project Management",
+    "section": "Scenario",
+    "text": "Scenario\n\nWe have been given some legacy R code and asked to “tidy it up” and produce a report based on it.\nWe’ll do so with Quarto + Git."
+  },
+  {
+    "objectID": "week03_slides.html#what-is-git",
+    "href": "week03_slides.html#what-is-git",
+    "title": "Reproducible Research and Project Management",
+    "section": "What is Git?",
+    "text": "What is Git?\n\nGit is a source control system.\nProvides mechanisms for:\n\nBacking up.\nCheckpointing code.\nDeveloping new features without breaking working code.\nCollaboration."
+  },
+  {
+    "objectID": "week03_slides.html#starting-a-git-repo",
+    "href": "week03_slides.html#starting-a-git-repo",
+    "title": "Reproducible Research and Project Management",
+    "section": "Starting a Git Repo",
+    "text": "Starting a Git Repo\n\ngit init\ngit add\ngit commit\nConnecting with GitHub\ngit push"
+  },
+  {
+    "objectID": "week03_slides.html#what-is-literate-programming",
+    "href": "week03_slides.html#what-is-literate-programming",
+    "title": "Reproducible Research and Project Management",
+    "section": "What is “Literate Programming”?",
+    "text": "What is “Literate Programming”?\nLiterate programming is a methodology introduced by Donald Knuth, whereby:\n\nExplanations are written alongside code\nThe document can be “rendered” (“knitted”) to produce a readable report.\nChanges in code are automatically reflected in the output to reduce manual mistakes.\n\nFrameworks like Quarto implement Literate programming."
+  },
+  {
+    "objectID": "week03_slides.html#about-quarto",
+    "href": "week03_slides.html#about-quarto",
+    "title": "Reproducible Research and Project Management",
+    "section": "About Quarto",
+    "text": "About Quarto\nQuarto documents:\n\nStart with a YAML header (see demo)\nIntermix markdown text…\n…with code chunks (```{r}...)."
+  },
+  {
+    "objectID": "week03_slides.html#markdown",
+    "href": "week03_slides.html#markdown",
+    "title": "Reproducible Research and Project Management",
+    "section": "Markdown",
+    "text": "Markdown\nMarkdown is a special way of annotating plain text that can be translated to formatted text.\nSee https://learnxinyminutes.com/markdown/."
+  },
+  {
+    "objectID": "week03_slides.html#markdown-example",
+    "href": "week03_slides.html#markdown-example",
+    "title": "Reproducible Research and Project Management",
+    "section": "Markdown Example",
+    "text": "Markdown Example\nThis is plain text, *italic* and **bold**.\n\n- We can have lists\n- and even math! $e^{i\\pi} = -1$.\n\nThis is plain text, italic and bold.\n\nWe can have lists\nand even math! \\(e^{i\\pi} = -1\\)."
+  },
+  {
+    "objectID": "week03_slides.html#live-demo",
+    "href": "week03_slides.html#live-demo",
+    "title": "Reproducible Research and Project Management",
+    "section": "Live Demo",
+    "text": "Live Demo\n\n\n\n\n\n\nSea Ice Extents\n\n\nMigrating to Quarto"
+  },
+  {
+    "objectID": "week03_slides.html#developing-a-new-feature",
+    "href": "week03_slides.html#developing-a-new-feature",
+    "title": "Reproducible Research and Project Management",
+    "section": "Developing a New Feature",
+    "text": "Developing a New Feature\n\nDear Jon,\nEven though your results look great, the points look a little bit curved. Please could you see whether a nonlinear model fits better?\nBest,\nThe Boss"
+  },
+  {
+    "objectID": "week03_slides.html#solution-branches",
+    "href": "week03_slides.html#solution-branches",
+    "title": "Reproducible Research and Project Management",
+    "section": "Solution: Branches",
+    "text": "Solution: Branches\n\nGit Branch Workflow, from Wikipedia"
+  },
+  {
+    "objectID": "week03_slides.html#branching",
+    "href": "week03_slides.html#branching",
+    "title": "Reproducible Research and Project Management",
+    "section": "Branching",
+    "text": "Branching\n\nCheck branch with git branch\nCreate a branch with git branch my-amazing-feature\nSwitch to the branch with git checkout my-amazing-feature.\nWork as normal on the branch, without affecting main."
+  },
+  {
+    "objectID": "week03_slides.html#merging",
+    "href": "week03_slides.html#merging",
+    "title": "Reproducible Research and Project Management",
+    "section": "Merging",
+    "text": "Merging\nWe often need to merge changes between branches. This is done using git merge.\nOnce done making changes on my-amazing-feature:\n\nReturn to main with git checkout main\nMerge changes with git merge my-amazing-feature\nEnter a message\nPush to GitHub."
+  },
+  {
+    "objectID": "week03_slides.html#merge-conflicts",
+    "href": "week03_slides.html#merge-conflicts",
+    "title": "Reproducible Research and Project Management",
+    "section": "Merge Conflicts",
+    "text": "Merge Conflicts\nWhen you run git merge git will “pick up” commits from my-amazing-feature and put them on `main.\nSometimes it is obvious how to do this…"
+  },
+  {
+    "objectID": "week03_slides.html#merge-conflicts-1",
+    "href": "week03_slides.html#merge-conflicts-1",
+    "title": "Reproducible Research and Project Management",
+    "section": "Merge Conflicts",
+    "text": "Merge Conflicts\nIf Git can’t work out how to merge you will get a merge conflict.\nGit will mark conflicting lines in the file."
+  },
+  {
+    "objectID": "week03_slides_handout.html",
+    "href": "week03_slides_handout.html",
+    "title": "Reproducible Research and Project Management",
     "section": "",
-    "text": "By the end of this lecture you will be able to:\n\n\ncreate and inspect R’s core data structures — variables, vectors, lists and data frames\n\n\n\n\nmake vectorised decisions with if_else() and case_when(), instead of loops\n\n\n\n\nwrite functions and compose them with the pipe, |&gt;"
+    "text": "Know the principles of reproducibility and literate programming, and how they can be realised in R using Quarto.\nKnow how to collaborate and track your code using git."
   },
   {
-    "objectID": "week02_slides_handout.html#agenda",
-    "href": "week02_slides_handout.html#agenda",
-    "title": "Coding in R",
+    "objectID": "week03_slides_handout.html#objectives",
+    "href": "week03_slides_handout.html#objectives",
+    "title": "Reproducible Research and Project Management",
     "section": "",
-    "text": "By the end of this lecture you will be able to:\n\n\ncreate and inspect R’s core data structures — variables, vectors, lists and data frames\n\n\n\n\nmake vectorised decisions with if_else() and case_when(), instead of loops\n\n\n\n\nwrite functions and compose them with the pipe, |&gt;"
+    "text": "Know the principles of reproducibility and literate programming, and how they can be realised in R using Quarto.\nKnow how to collaborate and track your code using git."
   },
   {
-    "objectID": "week02_slides_handout.html#packages",
-    "href": "week02_slides_handout.html#packages",
-    "title": "Coding in R",
-    "section": "Packages",
-    "text": "Packages\n\ninstall.packages(\"dplyr\")   # ONCE, in the console\nlibrary(dplyr)              # EVERY new session\n\n\n\n\n\n\n\nWarningNever put install.packages() in a .qmd\n\n\n\nQuarto re-runs every chunk on every render — the package would be re-installed from CRAN each time you render.\nRule: Install in the console; load with library() in the document."
+    "objectID": "week03_slides_handout.html#scenario",
+    "href": "week03_slides_handout.html#scenario",
+    "title": "Reproducible Research and Project Management",
+    "section": "Scenario",
+    "text": "Scenario\n\nWe have been given some legacy R code and asked to “tidy it up” and produce a report based on it.\nWe’ll do so with Quarto + Git."
   },
   {
-    "objectID": "week02_slides_handout.html#your-first-variables",
-    "href": "week02_slides_handout.html#your-first-variables",
-    "title": "Coding in R",
-    "section": "Your first variables",
-    "text": "Your first variables\n\n\n\n\n\n\nImportantTask\n\n\n\nCreate three variables — a number, some text, and a truth value — then ask R what type each one is.\n\n\n\n\nx &lt;- 5\ny &lt;- \"Hello\"\nz &lt;- TRUE\n\ntypeof(x)\n\n[1] \"double\"\n\ntypeof(y)\n\n[1] \"character\"\n\ntypeof(z)\n\n[1] \"logical\"\n\n\n\n\nPoint out double, character, logical. Mention the chapter’s aside: &lt;- is idiomatic R, = is fine, both accepted in assessments."
+    "objectID": "week03_slides_handout.html#what-is-git",
+    "href": "week03_slides_handout.html#what-is-git",
+    "title": "Reproducible Research and Project Management",
+    "section": "What is Git?",
+    "text": "What is Git?\n\nGit is a source control system.\nProvides mechanisms for:\n\nBacking up.\nCheckpointing code.\nDeveloping new features without breaking working code.\nCollaboration."
   },
   {
-    "objectID": "week02_slides_handout.html#r-is-dynamically-typed",
-    "href": "week02_slides_handout.html#r-is-dynamically-typed",
-    "title": "Coding in R",
-    "section": "R is dynamically typed",
-    "text": "R is dynamically typed\n\n\n\n\n\n\nImportantTask\n\n\n\nDemonstrate dynamic typing in R\n\n\n\n\nnumber &lt;- 5\ntypeof(number)\n\n[1] \"double\"\n\nnumber &lt;- \"hello\"\ntypeof(number)\n\n[1] \"character\"\n\n\n\n\nR does not require variable types. It also does not check types when you call a function!"
+    "objectID": "week03_slides_handout.html#starting-a-git-repo",
+    "href": "week03_slides_handout.html#starting-a-git-repo",
+    "title": "Reproducible Research and Project Management",
+    "section": "Starting a Git Repo",
+    "text": "Starting a Git Repo\n\ngit init\ngit add\ngit commit\nConnecting with GitHub\ngit push"
   },
   {
-    "objectID": "week02_slides_handout.html#building-vectors",
-    "href": "week02_slides_handout.html#building-vectors",
-    "title": "Coding in R",
-    "section": "Building vectors",
-    "text": "Building vectors\n\n\n\n\n\n\nImportantTask\n\n\n\nMake a vector of the numbers 1 to 5 with c(), then check its type and length. What happens if you check the length of the plain number x from before?\n\n\n\n\nvector &lt;- c(1, 2, 3, 4, 5)\n\ntypeof(vector)   # still \"double\"!\n\n[1] \"double\"\n\nlength(vector)\n\n[1] 5\n\nlength(x)        # scalars ARE length-1 vectors\n\n[1] 1\n\n\n\n\nIn R there are no scalars — everything is a vector."
+    "objectID": "week03_slides_handout.html#what-is-literate-programming",
+    "href": "week03_slides_handout.html#what-is-literate-programming",
+    "title": "Reproducible Research and Project Management",
+    "section": "What is “Literate Programming”?",
+    "text": "What is “Literate Programming”?\nLiterate programming is a methodology introduced by Donald Knuth, whereby:\n\nExplanations are written alongside code\nThe document can be “rendered” (“knitted”) to produce a readable report.\nChanges in code are automatically reflected in the output to reduce manual mistakes.\n\nFrameworks like Quarto implement Literate programming."
   },
   {
-    "objectID": "week02_slides_handout.html#indexing-r-counts-from-1",
-    "href": "week02_slides_handout.html#indexing-r-counts-from-1",
-    "title": "Coding in R",
-    "section": "Indexing: R counts from 1",
-    "text": "Indexing: R counts from 1\n\n\n\n\n\n\nImportantTask\n\n\n\nGet the 2nd element, the 5th element, and elements 2 through 4.\n\n\n\n\nvector[2]\n\n[1] 2\n\nvector[5]     # the LAST element — it would be index 4 in Python!\n\n[1] 5\n\nvector[2:4]\n\n[1] 2 3 4\n\n\n\n\nShow vector[0]: it returns an empty vector, no error."
+    "objectID": "week03_slides_handout.html#about-quarto",
+    "href": "week03_slides_handout.html#about-quarto",
+    "title": "Reproducible Research and Project Management",
+    "section": "About Quarto",
+    "text": "About Quarto\nQuarto documents:\n\nStart with a YAML header (see demo)\nIntermix markdown text…\n…with code chunks (```{r}...)."
   },
   {
-    "objectID": "week02_slides_handout.html#logical-indexing",
-    "href": "week02_slides_handout.html#logical-indexing",
-    "title": "Coding in R",
-    "section": "Logical indexing",
-    "text": "Logical indexing\n\n\n\n\n\n\nImportantTask\n\n\n\nUse a vector of TRUE/FALSE to pick out elements — then negate it with ! to pick the others.\n\n\n\n\nelements &lt;- c(TRUE, FALSE, TRUE, TRUE, FALSE)\n\nvector[elements]    # positions 1, 3, 4\n\n[1] 1 3 4\n\nvector[!elements]   # elementwise negation: positions 2, 5\n\n[1] 2 5\n\n\n\n\nThis is the idiom that powers filtering data in every week to come."
+    "objectID": "week03_slides_handout.html#markdown",
+    "href": "week03_slides_handout.html#markdown",
+    "title": "Reproducible Research and Project Management",
+    "section": "Markdown",
+    "text": "Markdown\nMarkdown is a special way of annotating plain text that can be translated to formatted text.\nSee https://learnxinyminutes.com/markdown/."
   },
   {
-    "objectID": "week02_slides_handout.html#lists-containers-for-anything",
-    "href": "week02_slides_handout.html#lists-containers-for-anything",
-    "title": "Coding in R",
-    "section": "Lists: containers for anything",
-    "text": "Lists: containers for anything\n\n\n\n\n\n\nImportantTask\n\n\n\nBuild a list about a penguin — two bits of text, a numeric vector, and a count — then pull out elements by name and by position.\n\n\n\n\nl &lt;- list(\n  name = \"Flipper\",\n  species = \"Adelie\",\n  measurements = c(210, 217, 230),\n  n_measurements = 3\n)\n\nl$name\n\n[1] \"Flipper\"\n\nl$measurements\n\n[1] 210 217 230\n\nl[[3]]\n\n[1] 210 217 230\n\n\n\n\nDemo the difference between [3] and [[3]] - a list vs. the element. Comment on why the names might be better than the numbers."
+    "objectID": "week03_slides_handout.html#markdown-example",
+    "href": "week03_slides_handout.html#markdown-example",
+    "title": "Reproducible Research and Project Management",
+    "section": "Markdown Example",
+    "text": "Markdown Example\nThis is plain text, *italic* and **bold**.\n\n- We can have lists\n- and even math! $e^{i\\pi} = -1$.\n\nThis is plain text, italic and bold.\n\nWe can have lists\nand even math! \\(e^{i\\pi} = -1\\)."
   },
   {
-    "objectID": "week02_slides_handout.html#data-frames-lists-of-equal-length-vectors",
-    "href": "week02_slides_handout.html#data-frames-lists-of-equal-length-vectors",
-    "title": "Coding in R",
-    "section": "Data frames: lists of equal-length vectors",
-    "text": "Data frames: lists of equal-length vectors\n\n\n\n\n\n\nImportantTask\n\n\n\nBuild a small table of penguins — name, species, flipper length — then get a column with $, a row with [2, ], and a single entry.\n\n\n\n\ndf &lt;- data.frame(\n  name              = c(\"Flipper\", \"Tux\", \"Pingu\"),\n  species           = c(\"Adelie\", \"Gentoo\", \"Emperor\"),\n  flipper_length_mm = c(210, 217, 230)\n)\n\ndf\n\n     name species flipper_length_mm\n1 Flipper  Adelie               210\n2     Tux  Gentoo               217\n3   Pingu Emperor               230\n\ndf$name              # access a column\n\n[1] \"Flipper\" \"Tux\"     \"Pingu\"  \n\ndf$flipper_length_mm\n\n[1] 210 217 230\n\ndf[2, ]              # row 2\n\n  name species flipper_length_mm\n2  Tux  Gentoo               217\n\ndf[2, \"species\"]     # single entry\n\n[1] \"Gentoo\"\n\n\n\n\n\n\n\n\n\nTipTibbles\n\n\n\nData frames have a modern cousin, the tibble (tidyverse). Same functionality, nicer printing. We’ll switch to tibble in the data weeks — for today data.frame is fine."
+    "objectID": "week03_slides_handout.html#live-demo",
+    "href": "week03_slides_handout.html#live-demo",
+    "title": "Reproducible Research and Project Management",
+    "section": "Live Demo",
+    "text": "Live Demo\n\n\n\n\n\n\nTipSea Ice Extents\n\n\n\nMigrating to Quarto"
   },
   {
-    "objectID": "week02_slides_handout.html#reminder-if-else",
-    "href": "week02_slides_handout.html#reminder-if-else",
-    "title": "Coding in R",
-    "section": "Reminder: if / else",
-    "text": "Reminder: if / else\n\nx &lt;- 1\nif (x &lt; 0) {\n  print(\"x was negative\")\n} else if (x == 0) {   # else MUST be on the same line as }\n  print(\"x was 0\")\n} else {\n  print(\"x was positive\")\n}\n\n\n~1 min. They have seen if/else before — don’t dwell. Two things to say: else must be on the same line as the closing brace, and plain if makes ONE decision. The real question: what if we need the same decision for every element of a vector? → next slide."
+    "objectID": "week03_slides_handout.html#developing-a-new-feature",
+    "href": "week03_slides_handout.html#developing-a-new-feature",
+    "title": "Reproducible Research and Project Management",
+    "section": "Developing a New Feature",
+    "text": "Developing a New Feature\n\nDear Jon,\nEven though your results look great, the points look a little bit curved. Please could you see whether a nonlinear model fits better?\nBest,\nThe Boss\n\n\n\n\n\n\n\n\nWarning\n\n\n\nI want to write the new feature. I also want to have the live code accessible for bug fixing."
   },
   {
-    "objectID": "week02_slides_handout.html#if_else-a-vectorised-conditional",
-    "href": "week02_slides_handout.html#if_else-a-vectorised-conditional",
-    "title": "Coding in R",
-    "section": "if_else: a vectorised conditional",
-    "text": "if_else: a vectorised conditional\n\n\n\n\n\n\nImportantTask\n\n\n\nClassify each element of x &lt;- c(3, 1, 4, 1, 5) as “big” or “small” depending on whether it exceeds 2.\n\n\n\n\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nx &lt;- c(3, 1, 4, 1, 5)\n\nif_else(x &gt; 2, \"big\", \"small\")\n\n[1] \"big\"   \"small\" \"big\"   \"small\" \"big\""
+    "objectID": "week03_slides_handout.html#solution-branches",
+    "href": "week03_slides_handout.html#solution-branches",
+    "title": "Reproducible Research and Project Management",
+    "section": "Solution: Branches",
+    "text": "Solution: Branches\n\n\n\nGit Branch Workflow, from Wikipedia"
   },
   {
-    "objectID": "week02_slides_handout.html#case_when-many-conditions",
-    "href": "week02_slides_handout.html#case_when-many-conditions",
-    "title": "Coding in R",
-    "section": "case_when: many conditions",
-    "text": "case_when: many conditions\n\n\n\n\n\n\nImportantTask\n\n\n\nClassify x as “small” (&lt; 2), “medium” (&lt; 5), or “large” (everything else).\n\n\n\n\ncase_when(\n  x &lt; 2 ~ \"small\",\n  x &lt; 5 ~ \"medium\",\n  TRUE  ~ \"large\"\n)\n\n[1] \"medium\" \"small\"  \"medium\" \"small\"  \"large\" \n\n\n\n\nOrder matters: swap the first two conditions and “small” disappears."
+    "objectID": "week03_slides_handout.html#branching",
+    "href": "week03_slides_handout.html#branching",
+    "title": "Reproducible Research and Project Management",
+    "section": "Branching",
+    "text": "Branching\n\nCheck branch with git branch\nCreate a branch with git branch my-amazing-feature\nSwitch to the branch with git checkout my-amazing-feature.\nWork as normal on the branch, without affecting main."
   },
   {
-    "objectID": "week02_slides_handout.html#writing-functions",
-    "href": "week02_slides_handout.html#writing-functions",
-    "title": "Coding in R",
-    "section": "Writing Functions",
-    "text": "Writing Functions\n\n\n\n\n\n\nImportantTask\n\n\n\nWrite a function add(x, y).\n\n\n\n\nadd &lt;- function(x, y) {\n  x + y        # the LAST expression is the return value\n}\n\nadd(1, 10)\n\n[1] 11\n\n\n\n\nNo return() needed."
+    "objectID": "week03_slides_handout.html#merging",
+    "href": "week03_slides_handout.html#merging",
+    "title": "Reproducible Research and Project Management",
+    "section": "Merging",
+    "text": "Merging\nWe often need to merge changes between branches. This is done using git merge.\nOnce done making changes on my-amazing-feature:\n\nReturn to main with git checkout main\nMerge changes with git merge my-amazing-feature\nEnter a message\nPush to GitHub."
   },
   {
-    "objectID": "week02_slides_handout.html#guard-clauses-return",
-    "href": "week02_slides_handout.html#guard-clauses-return",
-    "title": "Coding in R",
-    "section": "Guard clauses: return",
-    "text": "Guard clauses: return\n\n\n\n\n\n\nImportantTask\n\n\n\nWrite clip(x, lower, upper) that forces a value into a range — e.g. for cleaning impossible measurements.\n\n\n\n\nclip &lt;- function(x, lower, upper) {\n  if (x &lt; lower) return(lower)   # guard clause\n  if (x &gt; upper) return(upper)\n  x                              # still here? it's in range\n}\n\nclip(5, 0, 10)\n\n[1] 5\n\nclip(-3, 0, 10)\n\n[1] 0\n\nclip(42, 0, 10)\n\n[1] 10\n\n\n\n\nNote that you could also use case_when to do this"
+    "objectID": "week03_slides_handout.html#merge-conflicts",
+    "href": "week03_slides_handout.html#merge-conflicts",
+    "title": "Reproducible Research and Project Management",
+    "section": "Merge Conflicts",
+    "text": "Merge Conflicts\nWhen you run git merge git will “pick up” commits from my-amazing-feature and put them on `main.\nSometimes it is obvious how to do this…\n\n\n/var/folders/tt/dwhm_p0x405cp24nvndwmvb00000gp/T/ipykernel_38435/3127778238.py:67: UserWarning:\n\nThis figure includes Axes that are not compatible with tight_layout, so results might be incorrect.\n\n\n\n\n\n\n\n\n\n\n\n…sometimes less so!\n\n\n/var/folders/tt/dwhm_p0x405cp24nvndwmvb00000gp/T/ipykernel_38435/299573845.py:76: UserWarning:\n\nThis figure includes Axes that are not compatible with tight_layout, so results might be incorrect."
   },
   {
-    "objectID": "week02_slides_handout.html#functions-are-variables",
-    "href": "week02_slides_handout.html#functions-are-variables",
-    "title": "Coding in R",
-    "section": "Functions are Variables",
-    "text": "Functions are Variables\n\n\nsapply(1:10, function(x) clip(x, 3, 7))\n\n [1] 3 3 3 4 5 6 7 7 7 7\n\n\n\n\nA function you never named — an anonymous function — passed straight into sapply.\nIt is called a “higher order function.”"
-  },
-  {
-    "objectID": "week02_slides_handout.html#composing-functions-fgx",
-    "href": "week02_slides_handout.html#composing-functions-fgx",
-    "title": "Coding in R",
-    "section": "Composing functions: f(g(x))",
-    "text": "Composing functions: f(g(x))\n\ntimes_ten &lt;- function(y) y * 10\nadd_five &lt;- function(x) x + 5\n\nx &lt;- 10\ntimes_ten(add_five(x))\n\n\nReadable — up to a point."
-  },
-  {
-    "objectID": "week02_slides_handout.html#the-pipe",
-    "href": "week02_slides_handout.html#the-pipe",
-    "title": "Coding in R",
-    "section": "The pipe: |>",
-    "text": "The pipe: |&gt;\n\n\n\n\n\n\nImportantTask\n\n\n\nImplement the above logic using the pipe operator |&gt;\n\n\n\n\nx |&gt; add_five() |&gt; times_ten()\n\n[1] 150\n\n\n\n\nMuch more readable.\n\n\nThe parentheses after each function are required — the pipe inserts the left-hand side into the FIRST argument.\nMention %&gt;% (magrittr) exists and behaves almost identically, but |&gt; is base R."
-  },
-  {
-    "objectID": "week02_slides_handout.html#when-youre-stuck",
-    "href": "week02_slides_handout.html#when-youre-stuck",
-    "title": "Coding in R",
-    "section": "When you’re stuck",
-    "text": "When you’re stuck\n\n?mean — documentation (also ?dplyr, even ?`+`)\nexample(mean) — run the docs’ examples\n??\"linear regression\" — search all installed packages\nRead the error message first — then search it verbatim online\n\n\n\n\n\n\n\nTipAI tools\n\n\n\nGreat for getting unblocked — but they hallucinate. Verify everything with ?, and never paste sensitive data into them. The docs are always right; the AI is usually helpful."
-  },
-  {
-    "objectID": "week02_slides_handout.html#for-next-week",
-    "href": "week02_slides_handout.html#for-next-week",
-    "title": "Coding in R",
-    "section": "For next week",
-    "text": "For next week\nToday you can now:\n\n\ncreate variables, vectors, lists and data frames\n\n\n\n\nmake vectorised decisions with if_else() and case_when()\n\n\n\n\nwrite functions and compose them with the pipe"
-  },
-  {
-    "objectID": "week02_slides_handout.html#additional-tasks",
-    "href": "week02_slides_handout.html#additional-tasks",
-    "title": "Coding in R",
-    "section": "Additional Tasks",
-    "text": "Additional Tasks\nRead the notes. We didn’t cover:\n\nmatrices\nmissing data (NA)\nwhile/next\nclosures (advanced)\ndebugging"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "",
-    "section": "",
-    "text": "Lab\n\nCourse Introduction\nChapter 1 Slides\nLab 1 Slides\n\nLecture\n\nChapter 2 Slides\n\n\n\n\n\n\nLab\n\nLab 2 Slides\n\nLecture\n\nChapter 3 Slides\n\n\n\n\n\n\nLab\n\nLab 3 Slides"
-  },
-  {
-    "objectID": "index.html#course-slides",
-    "href": "index.html#course-slides",
-    "title": "",
-    "section": "",
-    "text": "Lab\n\nCourse Introduction\nChapter 1 Slides\nLab 1 Slides\n\nLecture\n\nChapter 2 Slides\n\n\n\n\n\n\nLab\n\nLab 2 Slides\n\nLecture\n\nChapter 3 Slides\n\n\n\n\n\n\nLab\n\nLab 3 Slides"
-  },
-  {
-    "objectID": "course_intro.html#about-the-course",
-    "href": "course_intro.html#about-the-course",
-    "title": "Week 1 Slides",
-    "section": "About the Course",
-    "text": "About the Course\nThis is a double-badged module: MATH2051 and MATH6195. Taught material:\n\n1 hour lecture (16:00-17:00 in 58/1007, L/R C)\n2 hour lab (Mondays, 14:00-16:00 in 25/1009)"
-  },
-  {
-    "objectID": "course_intro.html#lectures",
-    "href": "course_intro.html#lectures",
-    "title": "Week 1 Slides",
-    "section": "Lectures",
-    "text": "Lectures\n\n1 hour session.\nI will demo some new techniques that we will focus on in the labs."
-  },
-  {
-    "objectID": "course_intro.html#labs",
-    "href": "course_intro.html#labs",
-    "title": "Week 1 Slides",
-    "section": "Labs",
-    "text": "Labs\n\n2 hour session.\nYou will code!\nPart of the Course Material.\n\nYou will be assessed on material from the labs.\nI will attempt to record the labs, but cannot guarantee the quality of the recordings.\n\nBoth lab worksheets and solutions will still be available to everyone."
-  },
-  {
-    "objectID": "course_intro.html#office-hour",
-    "href": "course_intro.html#office-hour",
-    "title": "Week 1 Slides",
-    "section": "Office Hour",
-    "text": "Office Hour\n\nMondays at 13:00 (right before the lab)\nIn my office (Building 39, Room 2025)."
-  },
-  {
-    "objectID": "course_intro.html#assessment---summary",
-    "href": "course_intro.html#assessment---summary",
-    "title": "Week 1 Slides",
-    "section": "Assessment - Summary",
-    "text": "Assessment - Summary\n\n20% Mini Coursework\n80% Supervised Coursework"
-  },
-  {
-    "objectID": "course_intro.html#assessment---mini-courseworks",
-    "href": "course_intro.html#assessment---mini-courseworks",
-    "title": "Week 1 Slides",
-    "section": "Assessment - Mini Courseworks",
-    "text": "Assessment - Mini Courseworks\n\nFour take-home mini courseworks. (5% each, total 20%)\n\nWeeks 2, 4, 6 and 10.\nYou will have one week to complete each coursework.\nSubmission via GitHub (using Classroom50).\nAutograded."
-  },
-  {
-    "objectID": "course_intro.html#assessment---mini-courseworks-1",
-    "href": "course_intro.html#assessment---mini-courseworks-1",
-    "title": "Week 1 Slides",
-    "section": "Assessment - Mini Courseworks",
-    "text": "Assessment - Mini Courseworks\n\nGenAI allowed in the mini-courseworks.\nYou will nee do to know how to use Quarto and Git to submit the mini-courseworks!"
-  },
-  {
-    "objectID": "course_intro.html#assessment---mini-courseworks-2",
-    "href": "course_intro.html#assessment---mini-courseworks-2",
-    "title": "Week 1 Slides",
-    "section": "Assessment - Mini Courseworks",
-    "text": "Assessment - Mini Courseworks\n\n\n\n\n\n\nWarning\n\n\nIt is essential that you upload your GitHub Username to Blackboard; otherwise you cannot complete the mini-courseworks."
-  },
-  {
-    "objectID": "course_intro.html#assessment---supervised-courseworks",
-    "href": "course_intro.html#assessment---supervised-courseworks",
-    "title": "Week 1 Slides",
-    "section": "Assessment - Supervised Courseworks",
-    "text": "Assessment - Supervised Courseworks\n\nTwo in-person supervised courseworks. (40% each, total 80%)\n\nA1 Week 8 - Tuesday 10th November, 11:00-13:00, 25/1009. Covers Chapters 1-6.\nA2 Week 12 - Tuesday, 8th December, 11:00-13:00, 25/1009. Covers the entire module."
-  },
-  {
-    "objectID": "course_intro.html#assessment---supervised-courseworks-1",
-    "href": "course_intro.html#assessment---supervised-courseworks-1",
-    "title": "Week 1 Slides",
-    "section": "Assessment - Supervised Courseworks",
-    "text": "Assessment - Supervised Courseworks\n\nGenAI blocked in supervised coursework.\nUses University computers."
-  },
-  {
-    "objectID": "course_intro.html#main-text",
-    "href": "course_intro.html#main-text",
-    "title": "Week 1 Slides",
-    "section": "Main Text",
-    "text": "Main Text\n\n“R for Data Science”, https://r4ds.hadley.nz"
+    "objectID": "week03_slides_handout.html#merge-conflicts-1",
+    "href": "week03_slides_handout.html#merge-conflicts-1",
+    "title": "Reproducible Research and Project Management",
+    "section": "Merge Conflicts",
+    "text": "Merge Conflicts\nIf Git can’t work out how to merge you will get a merge conflict.\nGit will mark conflicting lines in the file."
   },
   {
     "objectID": "lab01_slides.html#about-the-lab",
