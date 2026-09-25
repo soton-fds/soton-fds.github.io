@@ -6,10 +6,10 @@
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-bb62276ab45c84d9efd712f51ff97b5a.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.10.18">
 
-  <title>Reproducible Research and Project Management</title>
+  <title>Lab 4: Loading, Checking &amp; Tidying Data</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -33,72 +33,6 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
-    /* CSS for syntax highlighting */
-    html { -webkit-text-size-adjust: 100%; }
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-      }
-    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-    div.sourceCode
-      { color: #24292e;  }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span { color: #24292e; } /* Normal */
-    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
-    code span.an { color: #6a737d; } /* Annotation */
-    code span.at { color: #d73a49; } /* Attribute */
-    code span.bn { color: #005cc5; } /* BaseN */
-    code span.bu { color: #d73a49; } /* BuiltIn */
-    code span.cf { color: #d73a49; } /* ControlFlow */
-    code span.ch { color: #032f62; } /* Char */
-    code span.cn { color: #005cc5; } /* Constant */
-    code span.co { color: #6a737d; } /* Comment */
-    code span.cv { color: #6a737d; } /* CommentVar */
-    code span.do { color: #6a737d; } /* Documentation */
-    code span.dt { color: #d73a49; } /* DataType */
-    code span.dv { color: #005cc5; } /* DecVal */
-    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
-    code span.ex { color: #d73a49; font-weight: bold; } /* Extension */
-    code span.fl { color: #005cc5; } /* Float */
-    code span.fu { color: #6f42c1; } /* Function */
-    code span.im { color: #032f62; } /* Import */
-    code span.in { color: #6a737d; } /* Information */
-    code span.kw { color: #d73a49; } /* Keyword */
-    code span.op { color: #24292e; } /* Operator */
-    code span.ot { color: #6f42c1; } /* Other */
-    code span.pp { color: #d73a49; } /* Preprocessor */
-    code span.re { color: #6a737d; } /* RegionMarker */
-    code span.sc { color: #005cc5; } /* SpecialChar */
-    code span.ss { color: #032f62; } /* SpecialString */
-    code span.st { color: #032f62; } /* String */
-    code span.va { color: #e36209; } /* Variable */
-    code span.vs { color: #032f62; } /* VerbatimString */
-    code span.wa { color: #ff5555; } /* Warning */
   </style>
   <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-2740581606dc327e82f18f789b69d8a0.css">
   <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -116,7 +50,6 @@
     }
     .reveal .slide:not(.center) {
       height: 100%;
-      overflow-y: auto;
     }
     .reveal .slide.scrollable {
       overflow-y: auto;
@@ -199,211 +132,68 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Reproducible Research and Project Management</h1>
+  <h1 class="title">Lab 4: Loading, Checking &amp; Tidying Data</h1>
+  <p class="subtitle"><a href="https://github.com/soton-fds/lab_04_2627">github.com/soton-fds/lab_04_2627</a></p>
 
 <div class="quarto-title-authors">
 </div>
 
 </section>
-<section id="objectives" class="slide level2">
-<h2>Objectives</h2>
+<section id="these-are-problem-sheets" class="slide level2">
+<h2>These are <em>problem sheets</em></h2>
 <ul>
-<li>Know the principles of reproducibility and literate programming, and how they can be realised in <code>R</code> using Quarto.</li>
-<li>Know how to collaborate and track your code using <code>git</code>.</li>
+<li>Work at your own pace — you are <strong>not expected to finish everything</strong>.</li>
+<li>Tasks marked <strong>Extension</strong> are for if you finish early.</li>
+<li>I’ll stop everyone at certain points to demonstrate solutions.</li>
+<li>Put your hand up if you get stuck and we’ll come round.</li>
+</ul>
+</section>
+<section id="getting-started" class="slide level2">
+<h2>Getting started</h2>
+<ul>
+<li><strong>Fork and clone</strong> <a href="https://github.com/soton-fds/lab_04_2627">github.com/soton-fds/lab_04_2627</a>.</li>
+<li>Open <code>lab_04.qmd</code> in RStudio and work through it, writing your answers in the solution boxes.</li>
+<li>The lab accompanies the <a href="https://soton-fds.github.io/week04.html">Week 4 notes</a>.</li>
+</ul>
+</section>
+<section id="todays-plan" class="slide level2">
+<h2>Today’s plan</h2>
+<ul>
+<li><strong>Block 1</strong> (45 min) — Loading and checking data</li>
+<li>☕ <strong>Break</strong> (15 min)</li>
+<li><strong>Block 2</strong> (45 min) — Transforming and tidying data</li>
 </ul>
 </section>
 <section>
-<section id="why-does-reproducibility-matter" class="title-slide slide level1 center">
-<h1>Why does Reproducibility Matter?</h1>
+<section id="block-1-loading-and-checking-data" class="title-slide slide level1 center">
+<h1>Block 1 — Loading and checking data</h1>
 
 </section>
-<section class="slide level2">
-
-
-<img data-src="img/amyloid-article.png" class="r-stretch"></section>
-<section class="slide level2">
-
-
-<img data-src="img/amyloid-retraction.png" class="r-stretch"></section>
-<section id="scenario" class="slide level2">
-<h2>Scenario</h2>
+<section id="block-1" class="slide level2">
+<h2>Block 1</h2>
 <ul>
-<li>We have been given some legacy <code>R</code> code and asked to “tidy it up” and produce a report based on it.</li>
-<li>We’ll do so with Quarto + Git.</li>
+<li><strong>Task 1 — Loading Data</strong> (~10 min): load the three files in <code>data/part1/</code>.</li>
+<li><strong>Task 1b — Checking Loaded Data</strong> (~25 min): loading without an error ≠ loading <em>correctly</em>! We’ll then go through some of the traps.</li>
+<li><strong>Task 2 — <code>dplyr</code></strong>: make a start if you have time.</li>
 </ul>
 </section></section>
+<section id="break-15-minutes" class="title-slide slide level1 center">
+<h1>☕ Break — 15 minutes</h1>
+
+</section>
+
 <section>
-<section id="part-1-getting-started-with-git" class="title-slide slide level1 center">
-<h1>Part 1: Getting Started with Git</h1>
+<section id="block-2-transforming-and-tidying-data" class="title-slide slide level1 center">
+<h1>Block 2 — Transforming and tidying data</h1>
 
 </section>
-<section id="what-is-git" class="slide level2">
-<h2>What is Git?</h2>
+<section id="block-2" class="slide level2">
+<h2>Block 2</h2>
 <ul>
-<li>Git is a <em>source control system</em>.</li>
-<li>Provides mechanisms for:
-<ul>
-<li>Backing up.</li>
-<li>Checkpointing code.</li>
-<li>Developing new features without breaking working code.</li>
-<li>Collaboration.</li>
-</ul></li>
+<li><strong>Task 2 — <code>dplyr</code></strong> (~25 min): work through the <code>diamonds</code> questions, then sanity-check your “unusually large” diamonds. We’ll then look at what the checks turned up.</li>
+<li><strong>Task 3 — <code>tidyr</code></strong> (~20 min): is the assessment data tidy? Tidy it with <code>pivot_longer</code> and <code>separate_wider_delim</code>.</li>
+<li><strong>Extensions</strong>: pick these up if you have time.</li>
 </ul>
-</section>
-<section id="starting-a-git-repo" class="slide level2">
-<h2>Starting a Git Repo</h2>
-<ul>
-<li><code>git init</code></li>
-<li><code>git add</code></li>
-<li><code>git commit</code></li>
-<li>Connecting with GitHub</li>
-<li><code>git push</code></li>
-</ul>
-</section></section>
-<section>
-<section id="part-2-quarto-reproducibility-and-literate-programming" class="title-slide slide level1 center">
-<h1>Part 2: Quarto, Reproducibility and Literate Programming</h1>
-
-</section>
-<section id="what-is-literate-programming" class="slide level2">
-<h2>What is “Literate Programming”?</h2>
-<p>Literate programming is a methodology introduced by Donald Knuth, whereby:</p>
-<ul>
-<li>Explanations are written alongside code</li>
-<li>The document can be “rendered” (“knitted”) to produce a readable report.</li>
-<li>Changes in code are automatically reflected in the output to reduce manual mistakes.</li>
-</ul>
-<p>Frameworks like Quarto implement Literate programming.</p>
-</section>
-<section id="about-quarto" class="slide level2">
-<h2>About Quarto</h2>
-<p>Quarto documents:</p>
-<ul>
-<li>Start with a YAML header (see demo)</li>
-<li>Intermix <em>markdown text</em>…</li>
-<li>…with code chunks (```<code>{r}...</code>).</li>
-</ul>
-</section>
-<section id="markdown" class="slide level2">
-<h2>Markdown</h2>
-<p>Markdown is a special way of annotating plain text that can be translated to formatted text.</p>
-<p>See <a href="https://learnxinyminutes.com/markdown/">https://learnxinyminutes.com/markdown/</a>.</p>
-</section>
-<section id="markdown-example" class="slide level2">
-<h2>Markdown Example</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource html number-lines code-with-copy"><code class="sourceCode html"><span id="cb1-1"><a aria-label="1"></a>This is plain text, *italic* and **bold**.</span>
-<span id="cb1-2"><a aria-label="2"></a></span>
-<span id="cb1-3"><a aria-label="3"></a>- We can have lists</span>
-<span id="cb1-4"><a aria-label="4"></a>- and even math! $e^{i\pi} = -1$.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<blockquote>
-<p>This is plain text, <em>italic</em> and <strong>bold</strong>.</p>
-<ul>
-<li>We can have lists</li>
-<li>and even math! <span class="math inline">\(e^{i\pi} = -1\)</span>.</li>
-</ul>
-</blockquote>
-</section>
-<section id="live-demo" class="slide level2">
-<h2>Live Demo</h2>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Sea Ice Extents</strong></p>
-</div>
-<div class="callout-content">
-<p>Migrating to Quarto</p>
-</div>
-</div>
-</div>
-</section></section>
-<section>
-<section id="part-3-branching-and-merging" class="title-slide slide level1 center">
-<h1>Part 3: Branching and Merging</h1>
-
-</section>
-<section id="developing-a-new-feature" class="slide level2">
-<h2>Developing a New Feature</h2>
-<blockquote>
-<p>Dear Jon,</p>
-<p>Even though your results look great, the points look a little bit curved. Please could you see whether a nonlinear model fits better?</p>
-<p>Best,</p>
-<p>The Boss</p>
-</blockquote>
-</section>
-<section class="slide level2">
-
-<div class="callout callout-warning callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Warning</strong></p>
-</div>
-<div class="callout-content">
-<p>I want to write the new feature. I also want to have the <em>live</em> code accessible for bug fixing.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="solution-branches" class="slide level2">
-<h2>Solution: Branches</h2>
-
-<img data-src="images/branch.svg" class="r-stretch quarto-figure-center"><p class="caption"><em>Git Branch Workflow, from Wikipedia</em></p></section>
-<section id="branching" class="slide level2">
-<h2>Branching</h2>
-<ul>
-<li><em>Check</em> branch with <code>git branch</code></li>
-<li><em>Create</em> a branch with <code>git branch my-amazing-feature</code></li>
-<li><em>Switch</em> to the branch with <code>git checkout my-amazing-feature</code>.</li>
-<li>Work as normal on the branch, without affecting <code>main</code>.</li>
-</ul>
-</section>
-<section id="merging" class="slide level2">
-<h2>Merging</h2>
-<p>We often need to <em>merge</em> changes between branches. This is done using <code>git merge</code>.</p>
-<p>Once done making changes on <code>my-amazing-feature</code>:</p>
-<ul>
-<li><em>Return to main</em> with <code>git checkout main</code></li>
-<li><em>Merge changes</em> with <code>git merge my-amazing-feature</code></li>
-<li><em>Enter a message</em></li>
-<li>Push to GitHub.</li>
-</ul>
-</section>
-<section id="merge-conflicts" class="slide level2">
-<h2>Merge Conflicts</h2>
-<p>When you run <code>git merge</code> git will “pick up” commits from <code>my-amazing-feature</code> and put them on `main.</p>
-<p>Sometimes it is obvious how to do this…</p>
-<div id="ee844a83" class="cell" data-execution_count="1">
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="week03_slides_files/figure-revealjs/cell-2-output-1.png" width="787" height="384"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section class="slide level2">
-
-<p>…sometimes less so!</p>
-<div id="7a577584" class="cell" data-execution_count="2">
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="week03_slides_files/figure-revealjs/cell-3-output-1.png" width="787" height="384"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="merge-conflicts-1" class="slide level2">
-<h2>Merge Conflicts</h2>
-<p>If Git can’t work out how to merge you will get a <em>merge conflict</em>.</p>
-<p>Git will mark conflicting lines in the file.</p>
 
 
 </section></section>
@@ -463,7 +253,7 @@
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: 'c/t',
+        slideNumber: false,
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -621,156 +411,6 @@
           RevealZoom
         ]
       });
-    </script>
-    <!--
-      Run-time show/hide switch for answer code chunks.
-
-      Answer chunks are wrapped in `::: {.answer}` in the .qmd and are rendered
-      with both source (`echo: true`) and output (`output: true`) baked into the
-      HTML. This switch then shows/hides them purely client-side, so it works in
-      the HTML handout and the revealjs deck alike.
-
-      Placement:
-        - Handout (HTML)  -> injected into the right-hand margin sidebar.
-        - Presentation    -> a floating switch, fixed at the top-right.
-
-      Default: answers SHOWN (switch on). Set INITIAL_HIDDEN = true below to
-      start with answers hidden.
-    -->
-    <style>
-      /* When the body carries this class, every answer chunk is hidden. */
-      body.answers-hidden .answer { display: none !important; }
-
-      /* Hide speaker notes in the HTML handout. The handout renders `::: {.notes}`
-         as `div.notes`; the revealjs deck uses `aside.notes` for its speaker
-         view, so it is left untouched. */
-      div.notes { display: none !important; }
-
-      .answer-switch {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
-        font: 500 14px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
-        color: inherit;
-        -webkit-user-select: none;
-        user-select: none;
-      }
-      .answer-switch input {
-        position: absolute;
-        opacity: 0;
-        width: 0;
-        height: 0;
-      }
-      .answer-switch .answer-switch-track {
-        position: relative;
-        flex: none;
-        width: 38px;
-        height: 22px;
-        background: #bbb;
-        border-radius: 999px;
-        transition: background 0.15s ease;
-      }
-      .answer-switch .answer-switch-thumb {
-        position: absolute;
-        top: 2px;
-        left: 2px;
-        width: 18px;
-        height: 18px;
-        background: #fff;
-        border-radius: 50%;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-        transition: transform 0.15s ease;
-      }
-      .answer-switch input:checked + .answer-switch-track { background: #2ca560; }
-      .answer-switch input:checked + .answer-switch-track .answer-switch-thumb {
-        transform: translateX(16px);
-      }
-      .answer-switch input:focus-visible + .answer-switch-track {
-        outline: 2px solid #2ca560;
-        outline-offset: 2px;
-      }
-
-      /* Floating variant, used in the revealjs deck. */
-      .answer-switch--floating {
-        position: fixed;
-        top: 12px;
-        right: 12px;
-        z-index: 10000;
-        padding: 6px 10px;
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 8px;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
-      }
-
-      /* Sidebar variant, used in the HTML handout. */
-      .answer-switch--sidebar { margin: 0 0 1rem 0; }
-
-      @media print {
-        .answer-switch { display: none !important; }
-      }
-    </style>
-
-    <script>
-      (function () {
-        // Set to true to start with answers hidden by default.
-        var INITIAL_HIDDEN = false;
-
-        var body = document.body;
-        if (INITIAL_HIDDEN) body.classList.add("answers-hidden");
-
-        // Build the switch: [input][track[thumb]] label.
-        var label = document.createElement("label");
-        label.className = "answer-switch";
-
-        var input = document.createElement("input");
-        input.type = "checkbox";
-        input.id = "answer-toggle";
-        input.checked = !body.classList.contains("answers-hidden");
-
-        var track = document.createElement("span");
-        track.className = "answer-switch-track";
-        var thumb = document.createElement("span");
-        thumb.className = "answer-switch-thumb";
-        track.appendChild(thumb);
-
-        var text = document.createElement("span");
-        text.className = "answer-switch-text";
-        text.textContent = "Answers";
-
-        label.appendChild(input);
-        label.appendChild(track);
-        label.appendChild(text);
-
-        function sync() {
-          body.classList.toggle("answers-hidden", !input.checked);
-        }
-        input.addEventListener("change", sync);
-
-        // Press "a" to toggle (handy while presenting). Ignore when typing in a
-        // field or when a modifier is held.
-        document.addEventListener("keydown", function (e) {
-          if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey) return;
-          var t = e.target;
-          if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
-          if (e.key === "a" || e.key === "A") {
-            input.checked = !input.checked;
-            sync();
-          }
-        });
-
-        // Place it: into the handout's right-hand margin sidebar if present,
-        // otherwise float it (revealjs and any other layout).
-        var sidebar = document.querySelector("#quarto-margin-sidebar");
-        var isReveal = !!document.querySelector(".reveal");
-        if (sidebar && !isReveal) {
-          label.classList.add("answer-switch--sidebar");
-          sidebar.insertBefore(label, sidebar.firstChild);
-        } else {
-          label.classList.add("answer-switch--floating");
-          body.appendChild(label);
-        }
-      })();
     </script>
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
