@@ -263,7 +263,7 @@
     "href": "week03_slides_handout.html#merge-conflicts",
     "title": "Reproducible Research and Project Management",
     "section": "Merge Conflicts",
-    "text": "Merge Conflicts\nWhen you run git merge git will “pick up” commits from my-amazing-feature and put them on `main.\nSometimes it is obvious how to do this…\n\n\n/var/folders/tt/dwhm_p0x405cp24nvndwmvb00000gp/T/ipykernel_49840/3127778238.py:67: UserWarning:\n\nThis figure includes Axes that are not compatible with tight_layout, so results might be incorrect.\n\n\n\n\n\n\n\n\n\n\n\n…sometimes less so!\n\n\n/var/folders/tt/dwhm_p0x405cp24nvndwmvb00000gp/T/ipykernel_49840/299573845.py:76: UserWarning:\n\nThis figure includes Axes that are not compatible with tight_layout, so results might be incorrect."
+    "text": "Merge Conflicts\nWhen you run git merge git will “pick up” commits from my-amazing-feature and put them on `main.\nSometimes it is obvious how to do this…\n\n\n/var/folders/tt/dwhm_p0x405cp24nvndwmvb00000gp/T/ipykernel_90547/3127778238.py:67: UserWarning:\n\nThis figure includes Axes that are not compatible with tight_layout, so results might be incorrect.\n\n\n\n\n\n\n\n\n\n\n\n…sometimes less so!\n\n\n/var/folders/tt/dwhm_p0x405cp24nvndwmvb00000gp/T/ipykernel_90547/299573845.py:76: UserWarning:\n\nThis figure includes Axes that are not compatible with tight_layout, so results might be incorrect."
   },
   {
     "objectID": "week03_slides_handout.html#merge-conflicts-1",
@@ -425,6 +425,20 @@
     "title": "Lab 3: Reproducible Quarto & Collaboration",
     "section": "Task 2 — Collaborating",
     "text": "Task 2 — Collaborating\n\nPerson B clones Person A’s repo.\nYou’ll both work in the same repo and practise fixing merge conflicts.\nSee the lab README.md for the steps."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "",
+    "section": "",
+    "text": "Lab\n\nCourse Introduction\nChapter 1 Slides\nLab 1 Slides\n\nLecture\n\nChapter 2 Slides\n\n\n\n\n\n\nLab\n\nLab 2 Slides\n\nLecture\n\nChapter 3 Slides\n\n\n\n\n\n\nLab\n\nLab 3 Slides\n\nLecture\n\nChapter 4 Slides\n\n\n\n\n\n\nLab\n\nLab 4 Slides\n\nLecture\n\nChapter 5 Slides\n\n\n\n\n\n\nLecture\n\nChapter 6 Slides"
+  },
+  {
+    "objectID": "index.html#course-slides",
+    "href": "index.html#course-slides",
+    "title": "",
+    "section": "",
+    "text": "Lab\n\nCourse Introduction\nChapter 1 Slides\nLab 1 Slides\n\nLecture\n\nChapter 2 Slides\n\n\n\n\n\n\nLab\n\nLab 2 Slides\n\nLecture\n\nChapter 3 Slides\n\n\n\n\n\n\nLab\n\nLab 3 Slides\n\nLecture\n\nChapter 4 Slides\n\n\n\n\n\n\nLab\n\nLab 4 Slides\n\nLecture\n\nChapter 5 Slides\n\n\n\n\n\n\nLecture\n\nChapter 6 Slides"
   },
   {
     "objectID": "lab02_slides.html#these-are-problem-sheets",
@@ -756,18 +770,634 @@
     "text": "Additional Tasks\nRead the notes. We didn’t cover:\n\nmatrices\nmissing data (NA)\nwhile/next\nclosures (advanced)\ndebugging"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "",
-    "section": "",
-    "text": "Lab\n\nCourse Introduction\nChapter 1 Slides\nLab 1 Slides\n\nLecture\n\nChapter 2 Slides\n\n\n\n\n\n\nLab\n\nLab 2 Slides\n\nLecture\n\nChapter 3 Slides\n\n\n\n\n\n\nLab\n\nLab 3 Slides\n\nLecture\n\nChapter 4 Slides\n\n\n\n\n\n\nLab\n\nLab 4 Slides"
+    "objectID": "week05_slides.html#agenda",
+    "href": "week05_slides.html#agenda",
+    "title": "Joins, Strings and Dates",
+    "section": "Objectives",
+    "text": "Objectives\nBy the end of this lecture you will be able to:\n\n\nexplain why data is often split across several tables, and combine them with dplyr’s *_join() functions\n\n\n\n\nclean and standardise free text with stringr\n\n\n\n\nparse and work with dates, times and time zones using lubridate"
   },
   {
-    "objectID": "index.html#course-slides",
-    "href": "index.html#course-slides",
-    "title": "",
+    "objectID": "week05_slides.html#packages",
+    "href": "week05_slides.html#packages",
+    "title": "Joins, Strings and Dates",
+    "section": "Packages",
+    "text": "Packages\n\nlibrary(tidyverse)   # includes stringr and lubridate\nlibrary(janitor)     # helpers for messy data\n\n\nstringr (strings) and lubridate (dates) come with the tidyverse. janitor is a separate package — install it once in the console if you don’t have it."
+  },
+  {
+    "objectID": "week05_slides.html#two-tables",
+    "href": "week05_slides.html#two-tables",
+    "title": "Joins, Strings and Dates",
+    "section": "Two tables",
+    "text": "Two tables\n\n\n\n\n\n\nTask\n\n\nLoad data/student_data.csv and data/student_grades.csv. How are the two tables linked?\n\n\n\n\n\nstudent_data &lt;- read_csv(\"data/student_data.csv\")\nstudent_grades &lt;- read_csv(\"data/student_grades.csv\")\nstudent_data\n\n# A tibble: 20 × 4\n      ID `Given Name` `Family Name` `Date of Birth`\n   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;                   &lt;dbl&gt;\n 1     1 Adaora       Nkomo                   37205\n 2     2 Hiroshi      Tanaka                  37845\n 3     3 Aaliyah      Williams                37505\n 4     4 Dimitri      Volkov                  37717\n 5     5 Amara        Baptiste                37387\n 6     6 Rajesh       Krishnamurthy           38218\n 7     7 Lin          Yifan                   38146\n 8     8 Kofi         Asante                  37596\n 9     9 Esperanza    Delgado                 38167\n10    10 Yuki         Nakamura                37590\n11    11 Tariq        Ibn Rashid              37472\n12    12 Indira       Sharma                  37803\n13    13 Yang         Siyu                    37283\n14    14 Amina        Okonkwo                 37852\n15    15 Lars         Andersen                37900\n16    16 Nkem         Chukwu                  37865\n17    17 Sofia        Popović                 38162\n18    18 Kwame        Mensah                  37870\n19    19 Chen         Jiayu                   37282\n20    20 Enzo         Martinelli              37481\n\nstudent_grades\n\n# A tibble: 59 × 3\n   `Student ID` Course   Grade\n          &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;\n 1            1 MATH6195    68\n 2            2 MATH6195    67\n 3            3 MATH6195    68\n 4            4 MATH6195    74\n 5            5 MATH6195    52\n 6            6 MATH6195    85\n 7            8 MATH6195    60\n 8            9 MATH6195    61\n 9           10 MATH6195    65\n10           11 MATH6195    90\n# ℹ 49 more rows\n\n\n\n\nID in one table matches Student ID in the other. Each student has many grades: a one-to-many relationship."
+  },
+  {
+    "objectID": "week05_slides.html#why-not-one-big-table",
+    "href": "week05_slides.html#why-not-one-big-table",
+    "title": "Joins, Strings and Dates",
+    "section": "Why not one big table?",
+    "text": "Why not one big table?\n\n\nSize: a flat table repeats every student’s name for every course\n\n\n\n\nIntegrity: a name change is made in one place\n\n\n\n\nFlexibility: new tables (e.g. references) can link to students without touching grades\n\n\n\n\nClarity: the structure mirrors the real world — “each student takes many courses”\n\n\n\nKeep this short — the point is that real data arrives split up on purpose, so joining is a routine step, not a workaround. The SQL week will return to this idea."
+  },
+  {
+    "objectID": "week05_slides.html#clean-the-column-names-first",
+    "href": "week05_slides.html#clean-the-column-names-first",
+    "title": "Joins, Strings and Dates",
+    "section": "Clean the column names first",
+    "text": "Clean the column names first\n\n\n\n\n\n\nTask\n\n\nColumn names like Date of Birth need backticks every time. Fix this for both tables.\n\n\n\n\n\nstudent_data &lt;- clean_names(student_data)\nstudent_grades &lt;- clean_names(student_grades)\nnames(student_data)\n\n[1] \"id\"            \"given_name\"    \"family_name\"   \"date_of_birth\"\n\nnames(student_grades)\n\n[1] \"student_id\" \"course\"     \"grade\"     \n\n\n\n\nclean_names() converts everything to snake_case. Make it a habit when loading messy data."
+  },
+  {
+    "objectID": "week05_slides.html#inner_join",
+    "href": "week05_slides.html#inner_join",
+    "title": "Joins, Strings and Dates",
+    "section": "inner_join",
+    "text": "inner_join\n\n\n\n\n\n\nTask\n\n\nCombine the tables so each grade row also shows the student’s name.\n\n\n\n\n\njoined &lt;- inner_join(student_data, student_grades,\n                     by = c(\"id\" = \"student_id\"))\njoined\n\n# A tibble: 53 × 6\n      id given_name family_name date_of_birth course   grade\n   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;\n 1     1 Adaora     Nkomo               37205 MATH6195    68\n 2     1 Adaora     Nkomo               37205 MATH2010    59\n 3     1 Adaora     Nkomo               37205 MATH2011    58\n 4     2 Hiroshi    Tanaka              37845 MATH6195    67\n 5     2 Hiroshi    Tanaka              37845 MATH2010    72\n 6     2 Hiroshi    Tanaka              37845 MATH2011    72\n 7     3 Aaliyah    Williams            37505 MATH6195    68\n 8     3 Aaliyah    Williams            37505 MATH2010    65\n 9     3 Aaliyah    Williams            37505 MATH2011    71\n10     4 Dimitri    Volkov              37717 MATH6195    74\n# ℹ 43 more rows\n\n\n\n\nby pairs a column on the left with a column on the right. The key column appears once, under its left-hand name.\n\n\nMention the newer equivalent join_by(id == student_id) — they will see it in documentation and online. Both work; the notes use by = c(...)."
+  },
+  {
+    "objectID": "week05_slides.html#where-did-the-rows-go",
+    "href": "week05_slides.html#where-did-the-rows-go",
+    "title": "Joins, Strings and Dates",
+    "section": "Where did the rows go?",
+    "text": "Where did the rows go?\n\n\n\n\n\n\nTask\n\n\nCompare the number of rows in joined and student_grades. Which students have been lost, and why?\n\n\n\n\n\nnrow(joined)\n\n[1] 53\n\nnrow(student_grades)\n\n[1] 59\n\nsetdiff(student_grades$student_id, student_data$id)  # grades, no student\n\n[1] 21 22\n\nsetdiff(student_data$id, joined$id)                  # student, no grades\n\n[1] 7\n\n\n\n\nAn inner join keeps only rows with a match in both tables.\n\n\nStudents 21 and 22 have grades but no student record; student 7 has no grades at all. anti_join(student_data, student_grades, by = ...) answers the same question and returns the full rows — it’s in the notes."
+  },
+  {
+    "objectID": "week05_slides.html#left_join-right_join-full_join",
+    "href": "week05_slides.html#left_join-right_join-full_join",
+    "title": "Joins, Strings and Dates",
+    "section": "left_join, right_join, full_join",
+    "text": "left_join, right_join, full_join\n\n\n\nJoin\nKeeps\n\n\n\n\ninner_join\nrows matched in both tables\n\n\nleft_join\nevery row of the left table\n\n\nright_join\nevery row of the right table\n\n\nfull_join\nevery row of both tables\n\n\n\n\n\n\n\n\n\nTask\n\n\nUse a join that keeps student 7. Then use one that keeps students 7, 21 and 22.\n\n\n\n\n\nstudent_data |&gt;\n  left_join(student_grades, by = c(\"id\" = \"student_id\")) |&gt;\n  filter(id == 7)\n\n# A tibble: 1 × 6\n     id given_name family_name date_of_birth course grade\n  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;\n1     7 Lin        Yifan               38146 &lt;NA&gt;      NA\n\nstudent_data |&gt;\n  full_join(student_grades, by = c(\"id\" = \"student_id\")) |&gt;\n  filter(id %in% c(7, 21, 22))\n\n# A tibble: 7 × 6\n     id given_name family_name date_of_birth course   grade\n  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;\n1     7 Lin        Yifan               38146 &lt;NA&gt;        NA\n2    21 &lt;NA&gt;       &lt;NA&gt;                   NA MATH6195    70\n3    22 &lt;NA&gt;       &lt;NA&gt;                   NA MATH6195    89\n4    21 &lt;NA&gt;       &lt;NA&gt;                   NA MATH2010    71\n5    22 &lt;NA&gt;       &lt;NA&gt;                   NA MATH2010    56\n6    21 &lt;NA&gt;       &lt;NA&gt;                   NA MATH2011    62\n7    22 &lt;NA&gt;       &lt;NA&gt;                   NA MATH2011    84\n\n\n\n\nWhere there is no match, the missing columns are filled with NA.\n\n\nDraw two overlapping circles on the board. full_join is SQL’s FULL OUTER JOIN. semi_join, anti_join and cross_join are in the notes."
+  },
+  {
+    "objectID": "week05_slides.html#joins-last-weeks-verbs",
+    "href": "week05_slides.html#joins-last-weeks-verbs",
+    "title": "Joins, Strings and Dates",
+    "section": "Joins + last week’s verbs",
+    "text": "Joins + last week’s verbs\n\n\n\n\n\n\nTask\n\n\nCompute each student’s mean grade and number of courses, with their name, best first.\n\n\n\n\n\nstudent_data |&gt;\n  inner_join(student_grades, by = c(\"id\" = \"student_id\")) |&gt;\n  group_by(id, given_name, family_name) |&gt;\n  summarise(mean_grade = mean(grade), n_courses = n(), .groups = \"drop\") |&gt;\n  arrange(desc(mean_grade))\n\n# A tibble: 19 × 5\n      id given_name family_name   mean_grade n_courses\n   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;              &lt;dbl&gt;     &lt;int&gt;\n 1    14 Amina      Okonkwo             83           2\n 2    11 Tariq      Ibn Rashid          76.7         3\n 3     8 Kofi       Asante              74.7         3\n 4     4 Dimitri    Volkov              74.5         2\n 5    13 Yang       Siyu                70.7         3\n 6     2 Hiroshi    Tanaka              70.3         3\n 7    10 Yuki       Nakamura            70           3\n 8    12 Indira     Sharma              69           3\n 9     9 Esperanza  Delgado             68.7         3\n10     3 Aaliyah    Williams            68           3\n11     5 Amara      Baptiste            67.7         3\n12     6 Rajesh     Krishnamurthy       67           3\n13    20 Enzo       Martinelli          66           3\n14    15 Lars       Andersen            64.5         2\n15    17 Sofia      Popović             62.3         3\n16     1 Adaora     Nkomo               61.7         3\n17    18 Kwame      Mensah              61.7         3\n18    16 Nkem       Chukwu              55.7         3\n19    19 Chen       Jiayu               55           2\n\n\n\n\nFollow-up question: what happens with left_join instead? Student 7 appears with mean_grade = NA and n_courses = 1 — n() counts the NA row. A good illustration that the choice of join changes the answer."
+  },
+  {
+    "objectID": "week05_slides.html#two-common-surprises",
+    "href": "week05_slides.html#two-common-surprises",
+    "title": "Joins, Strings and Dates",
+    "section": "Two common surprises",
+    "text": "Two common surprises\n\n\n\n\n\n\nDuplicated column names\n\n\nIf both tables have a non-key column with the same name (say notes), you get notes.x and notes.y. Control this with the suffix argument.\n\n\n\n\n\n\n\n\n\nMany-to-many joins\n\n\nIf both tables have several rows per key, you get every combination — the row count can explode. dplyr warns you; it is usually a mistake.\n\n\n\n\nRule of thumb: check nrow() before and after every join."
+  },
+  {
+    "objectID": "week05_slides.html#stringr",
+    "href": "week05_slides.html#stringr",
+    "title": "Joins, Strings and Dates",
+    "section": "stringr",
+    "text": "stringr\nEvery function starts str_ and is vectorised: it works on one string or a whole column.\n\nstr_length(c(\"Alice\", \"Bob\", \"Dave\"))\n\n[1] 5 3 4\n\n\n\nFree text from forms is rarely clean:\n\nmessy_names &lt;- c(\"  Alice  \", \"BOB\", \"cara-mae\", \"  dave \")"
+  },
+  {
+    "objectID": "week05_slides.html#case-and-whitespace",
+    "href": "week05_slides.html#case-and-whitespace",
+    "title": "Joins, Strings and Dates",
+    "section": "Case and whitespace",
+    "text": "Case and whitespace\n\n\n\n\n\n\nTask\n\n\nRemove the stray spaces from messy_names and give them consistent capitalisation.\n\n\n\n\n\nstr_trim(messy_names)\n\n[1] \"Alice\"    \"BOB\"      \"cara-mae\" \"dave\"    \n\nstr_squish(\"  too    many   spaces \")\n\n[1] \"too many spaces\"\n\nstr_to_title(str_squish(messy_names))\n\n[1] \"Alice\"    \"Bob\"      \"Cara-Mae\" \"Dave\"    \n\n\n\n\nstr_trim() removes spaces at the ends; str_squish() also collapses runs inside. Case: str_to_lower(), str_to_upper(), str_to_title()."
+  },
+  {
+    "objectID": "week05_slides.html#detecting-patterns",
+    "href": "week05_slides.html#detecting-patterns",
+    "title": "Joins, Strings and Dates",
+    "section": "Detecting patterns",
+    "text": "Detecting patterns\n\n\n\n\n\n\nTask\n\n\nWhich names contain an \"a\"? Why isn’t \"Alice\" one of them?\n\n\n\n\n\nstr_detect(messy_names, \"a\")\n\n[1] FALSE FALSE  TRUE  TRUE\n\nstr_detect(str_to_lower(messy_names), \"a\")\n\n[1]  TRUE FALSE  TRUE  TRUE\n\n\n\n\nMatching is case-sensitive — standardise case first. str_detect() returns TRUE/FALSE, so it drops straight into filter()."
+  },
+  {
+    "objectID": "week05_slides.html#replacing-and-removing",
+    "href": "week05_slides.html#replacing-and-removing",
+    "title": "Joins, Strings and Dates",
+    "section": "Replacing and removing",
+    "text": "Replacing and removing\n\n\n\n\n\n\nTask\n\n\nTurn \"cara-mae\" into \"cara mae\", and get just the number from \"MATH6195\".\n\n\n\n\n\nstr_replace(\"cara-mae\", \"-\", \" \")\n\n[1] \"cara mae\"\n\nstr_replace_all(\"a-b-c-d\", \"-\", \"_\")\n\n[1] \"a_b_c_d\"\n\nstr_remove(\"MATH6195\", \"MATH\")\n\n[1] \"6195\"\n\n\n\n\nstr_replace() changes the first match; str_replace_all() changes every match."
+  },
+  {
+    "objectID": "week05_slides.html#in-a-pipeline",
+    "href": "week05_slides.html#in-a-pipeline",
+    "title": "Joins, Strings and Dates",
+    "section": "In a pipeline",
+    "text": "In a pipeline\n\n\n\n\n\n\nTask\n\n\nClean a whole column of names inside mutate().\n\n\n\n\n\ntibble(raw = messy_names) |&gt;\n  mutate(clean = str_to_title(str_squish(raw)))\n\n# A tibble: 4 × 2\n  raw         clean   \n  &lt;chr&gt;       &lt;chr&gt;   \n1 \"  Alice  \" Alice   \n2 \"BOB\"       Bob     \n3 \"cara-mae\"  Cara-Mae\n4 \"  dave \"   Dave    \n\n\n\n\n\n\n\n\n\nRegular expressions\n\n\nPatterns are regular expressions: ., * and ? have special meanings. Not examined, but worth learning — try regex101."
+  },
+  {
+    "objectID": "week05_slides.html#dates-are-ambiguous",
+    "href": "week05_slides.html#dates-are-ambiguous",
+    "title": "Joins, Strings and Dates",
+    "section": "Dates are ambiguous",
+    "text": "Dates are ambiguous\nIs 08/11/2025 11 August or 8 November?\n\n\n\n\n\n\nTask\n\n\nParse \"2025-August-11\", \"11/08/25\" and \"8.11.2025\" as the same date.\n\n\n\n\n\nd1 &lt;- ymd(\"2025-August-11\")\nd2 &lt;- dmy(\"11/08/25\")\nd3 &lt;- mdy(\"8.11.2025\")\nc(d1, d2, d3)\n\n[1] \"2025-08-11\" \"2025-08-11\" \"2025-08-11\"\n\nclass(d1)\n\n[1] \"Date\"\n\n\n\n\nYou tell lubridate the order (ymd, dmy, mdy); it copes with the separators. Always check parsed dates.\n\n\nFor full control, as.Date(x, format = \"%d/%m/%Y\"). The printed date looks like a string but has class Date, so arithmetic works."
+  },
+  {
+    "objectID": "week05_slides.html#excel-dates",
+    "href": "week05_slides.html#excel-dates",
+    "title": "Joins, Strings and Dates",
+    "section": "Excel dates",
+    "text": "Excel dates\n\n\n\n\n\n\nTask\n\n\nWhat is in student_data$date_of_birth? Convert it to real dates.\n\n\n\n\n\nstudent_data$date_of_birth\n\n [1] 37205 37845 37505 37717 37387 38218 38146 37596 38167 37590 37472 37803\n[13] 37283 37852 37900 37865 38162 37870 37282 37481\n\nstudent_data &lt;- student_data |&gt;\n  mutate(date_of_birth = excel_numeric_to_date(date_of_birth))\nstudent_data$date_of_birth\n\n [1] \"2001-11-10\" \"2003-08-12\" \"2002-09-06\" \"2003-04-06\" \"2002-05-11\"\n [6] \"2004-08-19\" \"2004-06-08\" \"2002-12-06\" \"2004-06-29\" \"2002-11-30\"\n[11] \"2002-08-04\" \"2003-07-01\" \"2002-01-27\" \"2003-08-19\" \"2003-10-06\"\n[16] \"2003-09-01\" \"2004-06-24\" \"2003-09-06\" \"2002-01-26\" \"2002-08-13\"\n\n\n\n\nExcel stores dates as days since 30 December 1899. Reading the .xlsx with readxl handles this, but the numbers often leak into CSVs."
+  },
+  {
+    "objectID": "week05_slides.html#working-with-dates",
+    "href": "week05_slides.html#working-with-dates",
+    "title": "Joins, Strings and Dates",
+    "section": "Working with dates",
+    "text": "Working with dates\n\n\n\n\n\n\nTask\n\n\nAdd two new columns to student_data: the year each student was born, and their current age (rounded down). Then sort so the oldest student comes first.\n\n\n\n\n\nstudent_data |&gt;\n  mutate(\n    birth_year = year(date_of_birth),\n    age = floor(time_length(interval(date_of_birth, today()), \"years\"))\n  ) |&gt;\n  arrange(date_of_birth)   # earliest birthday = oldest\n\n# A tibble: 20 × 6\n      id given_name family_name   date_of_birth birth_year   age\n   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;         &lt;date&gt;             &lt;dbl&gt; &lt;dbl&gt;\n 1     1 Adaora     Nkomo         2001-11-10          2001    24\n 2    19 Chen       Jiayu         2002-01-26          2002    24\n 3    13 Yang       Siyu          2002-01-27          2002    24\n 4     5 Amara      Baptiste      2002-05-11          2002    24\n 5    11 Tariq      Ibn Rashid    2002-08-04          2002    24\n 6    20 Enzo       Martinelli    2002-08-13          2002    24\n 7     3 Aaliyah    Williams      2002-09-06          2002    24\n 8    10 Yuki       Nakamura      2002-11-30          2002    23\n 9     8 Kofi       Asante        2002-12-06          2002    23\n10     4 Dimitri    Volkov        2003-04-06          2003    23\n11    12 Indira     Sharma        2003-07-01          2003    23\n12     2 Hiroshi    Tanaka        2003-08-12          2003    23\n13    14 Amina      Okonkwo       2003-08-19          2003    23\n14    16 Nkem       Chukwu        2003-09-01          2003    23\n15    18 Kwame      Mensah        2003-09-06          2003    23\n16    15 Lars       Andersen      2003-10-06          2003    22\n17     7 Lin        Yifan         2004-06-08          2004    22\n18    17 Sofia      Popović       2004-06-24          2004    22\n19     9 Esperanza  Delgado       2004-06-29          2004    22\n20     6 Rajesh     Krishnamurthy 2004-08-19          2004    22\n\n\n\n\nWhy not today() - date_of_birth? That gives days — and converting days to years is awkward because of leap years.\n\n\nWhy sort by date_of_birth rather than desc(age)? Rounded ages tie — lots of students are 24 — and ties keep their original (ID) order. Dates sort chronologically, so they give the true order. Also month(), day(). as.period() gives an exact “years, months, days” difference — in the notes."
+  },
+  {
+    "objectID": "week05_slides.html#times-and-time-zones",
+    "href": "week05_slides.html#times-and-time-zones",
+    "title": "Joins, Strings and Dates",
+    "section": "Times and time zones",
+    "text": "Times and time zones\n\n\n\n\n\n\nTask\n\n\nA server logs an event at 2025-08-11 11:33:01 UTC. What did the clocks in Tokyo say at that moment?\n\n\n\n\n\nt1 &lt;- ymd_hms(\"2025-08-11 11:33:01\")\ntz(t1)\n\n[1] \"UTC\"\n\nwith_tz(t1, \"Asia/Tokyo\")    # convert: read the same moment off a Tokyo clock\n\n[1] \"2025-08-11 20:33:01 JST\"\n\n\n\n\nSame event, so only the displayed time changes: 11:33 UTC is 20:33 in Tokyo."
+  },
+  {
+    "objectID": "week05_slides.html#fixing-the-wrong-time-zone",
+    "href": "week05_slides.html#fixing-the-wrong-time-zone",
+    "title": "Joins, Strings and Dates",
+    "section": "Fixing the wrong time zone",
+    "text": "Fixing the wrong time zone\n\n\n\n\n\n\nTask\n\n\nA sensor in Tokyo wrote 2025-08-11 11:33:01 in Tokyo local time, but R read it as UTC. Correct the time zone.\n\n\n\n\n\nt2 &lt;- force_tz(t1, \"Asia/Tokyo\")   # relabel: keep 11:33, change the zone\nt2\n\n[1] \"2025-08-11 11:33:01 JST\"\n\nt2 - t1                            # a genuinely different moment\n\nTime difference of -9 hours"
+  },
+  {
+    "objectID": "week05_slides.html#time-zone-summary",
+    "href": "week05_slides.html#time-zone-summary",
+    "title": "Joins, Strings and Dates",
+    "section": "Time Zone Summary",
+    "text": "Time Zone Summary\n\n\n\n\nClock shows\nIs it the same event?\n\n\n\n\nwith_tz()\nchanges (11:33 → 20:33)\nyes — just viewed from Tokyo\n\n\nforce_tz()\nstays 11:33\nno — now 9 hours earlier\n\n\n\nUse with_tz() to view a correct time somewhere else. Use force_tz() only to fix a time that was recorded with the wrong zone."
+  },
+  {
+    "objectID": "week05_slides.html#today-you-can-now",
+    "href": "week05_slides.html#today-you-can-now",
+    "title": "Joins, Strings and Dates",
+    "section": "Today you can now:",
+    "text": "Today you can now:\n\n\ncombine tables with inner_join, left_join, right_join, full_join — and check what was lost\n\n\n\n\nclean text with str_trim, str_squish, str_to_*, str_detect, str_replace\n\n\n\n\nparse dates with ymd/dmy/mdy, compute ages, and convert time zones"
+  },
+  {
+    "objectID": "week05_slides.html#read-the-notes",
+    "href": "week05_slides.html#read-the-notes",
+    "title": "Joins, Strings and Dates",
+    "section": "Read the notes",
+    "text": "Read the notes\nWe didn’t cover in detail:\n\nsemi_join, anti_join, cross_join and join_by()\nstr_sub, str_split, str_c, and regular expressions\nas.period() for calendar differences\nformatting dates as text with format() (e.g. \"%d %b %y\")"
+  },
+  {
+    "objectID": "week05_slides_handout.html",
+    "href": "week05_slides_handout.html",
+    "title": "Joins, Strings and Dates",
     "section": "",
-    "text": "Lab\n\nCourse Introduction\nChapter 1 Slides\nLab 1 Slides\n\nLecture\n\nChapter 2 Slides\n\n\n\n\n\n\nLab\n\nLab 2 Slides\n\nLecture\n\nChapter 3 Slides\n\n\n\n\n\n\nLab\n\nLab 3 Slides\n\nLecture\n\nChapter 4 Slides\n\n\n\n\n\n\nLab\n\nLab 4 Slides"
+    "text": "By the end of this lecture you will be able to:\n\n\nexplain why data is often split across several tables, and combine them with dplyr’s *_join() functions\n\n\n\n\nclean and standardise free text with stringr\n\n\n\n\nparse and work with dates, times and time zones using lubridate"
+  },
+  {
+    "objectID": "week05_slides_handout.html#agenda",
+    "href": "week05_slides_handout.html#agenda",
+    "title": "Joins, Strings and Dates",
+    "section": "",
+    "text": "By the end of this lecture you will be able to:\n\n\nexplain why data is often split across several tables, and combine them with dplyr’s *_join() functions\n\n\n\n\nclean and standardise free text with stringr\n\n\n\n\nparse and work with dates, times and time zones using lubridate"
+  },
+  {
+    "objectID": "week05_slides_handout.html#packages",
+    "href": "week05_slides_handout.html#packages",
+    "title": "Joins, Strings and Dates",
+    "section": "Packages",
+    "text": "Packages\n\nlibrary(tidyverse)   # includes stringr and lubridate\nlibrary(janitor)     # helpers for messy data\n\n\nstringr (strings) and lubridate (dates) come with the tidyverse. janitor is a separate package — install it once in the console if you don’t have it."
+  },
+  {
+    "objectID": "week05_slides_handout.html#two-tables",
+    "href": "week05_slides_handout.html#two-tables",
+    "title": "Joins, Strings and Dates",
+    "section": "Two tables",
+    "text": "Two tables\n\n\n\n\n\n\nImportantTask\n\n\n\nLoad data/student_data.csv and data/student_grades.csv. How are the two tables linked?\n\n\n\n\nstudent_data &lt;- read_csv(\"data/student_data.csv\")\nstudent_grades &lt;- read_csv(\"data/student_grades.csv\")\nstudent_data\n\n# A tibble: 20 × 4\n      ID `Given Name` `Family Name` `Date of Birth`\n   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;                   &lt;dbl&gt;\n 1     1 Adaora       Nkomo                   37205\n 2     2 Hiroshi      Tanaka                  37845\n 3     3 Aaliyah      Williams                37505\n 4     4 Dimitri      Volkov                  37717\n 5     5 Amara        Baptiste                37387\n 6     6 Rajesh       Krishnamurthy           38218\n 7     7 Lin          Yifan                   38146\n 8     8 Kofi         Asante                  37596\n 9     9 Esperanza    Delgado                 38167\n10    10 Yuki         Nakamura                37590\n11    11 Tariq        Ibn Rashid              37472\n12    12 Indira       Sharma                  37803\n13    13 Yang         Siyu                    37283\n14    14 Amina        Okonkwo                 37852\n15    15 Lars         Andersen                37900\n16    16 Nkem         Chukwu                  37865\n17    17 Sofia        Popović                 38162\n18    18 Kwame        Mensah                  37870\n19    19 Chen         Jiayu                   37282\n20    20 Enzo         Martinelli              37481\n\nstudent_grades\n\n# A tibble: 59 × 3\n   `Student ID` Course   Grade\n          &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;\n 1            1 MATH6195    68\n 2            2 MATH6195    67\n 3            3 MATH6195    68\n 4            4 MATH6195    74\n 5            5 MATH6195    52\n 6            6 MATH6195    85\n 7            8 MATH6195    60\n 8            9 MATH6195    61\n 9           10 MATH6195    65\n10           11 MATH6195    90\n# ℹ 49 more rows\n\n\n\n\nID in one table matches Student ID in the other. Each student has many grades: a one-to-many relationship."
+  },
+  {
+    "objectID": "week05_slides_handout.html#why-not-one-big-table",
+    "href": "week05_slides_handout.html#why-not-one-big-table",
+    "title": "Joins, Strings and Dates",
+    "section": "Why not one big table?",
+    "text": "Why not one big table?\n\n\nSize: a flat table repeats every student’s name for every course\n\n\n\n\nIntegrity: a name change is made in one place\n\n\n\n\nFlexibility: new tables (e.g. references) can link to students without touching grades\n\n\n\n\nClarity: the structure mirrors the real world — “each student takes many courses”\n\n\n\nKeep this short — the point is that real data arrives split up on purpose, so joining is a routine step, not a workaround. The SQL week will return to this idea."
+  },
+  {
+    "objectID": "week05_slides_handout.html#clean-the-column-names-first",
+    "href": "week05_slides_handout.html#clean-the-column-names-first",
+    "title": "Joins, Strings and Dates",
+    "section": "Clean the column names first",
+    "text": "Clean the column names first\n\n\n\n\n\n\nImportantTask\n\n\n\nColumn names like Date of Birth need backticks every time. Fix this for both tables.\n\n\n\n\nstudent_data &lt;- clean_names(student_data)\nstudent_grades &lt;- clean_names(student_grades)\nnames(student_data)\n\n[1] \"id\"            \"given_name\"    \"family_name\"   \"date_of_birth\"\n\nnames(student_grades)\n\n[1] \"student_id\" \"course\"     \"grade\"     \n\n\n\n\nclean_names() converts everything to snake_case. Make it a habit when loading messy data."
+  },
+  {
+    "objectID": "week05_slides_handout.html#inner_join",
+    "href": "week05_slides_handout.html#inner_join",
+    "title": "Joins, Strings and Dates",
+    "section": "inner_join",
+    "text": "inner_join\n\n\n\n\n\n\nImportantTask\n\n\n\nCombine the tables so each grade row also shows the student’s name.\n\n\n\n\njoined &lt;- inner_join(student_data, student_grades,\n                     by = c(\"id\" = \"student_id\"))\njoined\n\n# A tibble: 53 × 6\n      id given_name family_name date_of_birth course   grade\n   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;\n 1     1 Adaora     Nkomo               37205 MATH6195    68\n 2     1 Adaora     Nkomo               37205 MATH2010    59\n 3     1 Adaora     Nkomo               37205 MATH2011    58\n 4     2 Hiroshi    Tanaka              37845 MATH6195    67\n 5     2 Hiroshi    Tanaka              37845 MATH2010    72\n 6     2 Hiroshi    Tanaka              37845 MATH2011    72\n 7     3 Aaliyah    Williams            37505 MATH6195    68\n 8     3 Aaliyah    Williams            37505 MATH2010    65\n 9     3 Aaliyah    Williams            37505 MATH2011    71\n10     4 Dimitri    Volkov              37717 MATH6195    74\n# ℹ 43 more rows\n\n\n\n\nby pairs a column on the left with a column on the right. The key column appears once, under its left-hand name.\n\n\nMention the newer equivalent join_by(id == student_id) — they will see it in documentation and online. Both work; the notes use by = c(...)."
+  },
+  {
+    "objectID": "week05_slides_handout.html#where-did-the-rows-go",
+    "href": "week05_slides_handout.html#where-did-the-rows-go",
+    "title": "Joins, Strings and Dates",
+    "section": "Where did the rows go?",
+    "text": "Where did the rows go?\n\n\n\n\n\n\nImportantTask\n\n\n\nCompare the number of rows in joined and student_grades. Which students have been lost, and why?\n\n\n\n\nnrow(joined)\n\n[1] 53\n\nnrow(student_grades)\n\n[1] 59\n\nsetdiff(student_grades$student_id, student_data$id)  # grades, no student\n\n[1] 21 22\n\nsetdiff(student_data$id, joined$id)                  # student, no grades\n\n[1] 7\n\n\n\n\nAn inner join keeps only rows with a match in both tables.\n\n\nStudents 21 and 22 have grades but no student record; student 7 has no grades at all. anti_join(student_data, student_grades, by = ...) answers the same question and returns the full rows — it’s in the notes."
+  },
+  {
+    "objectID": "week05_slides_handout.html#left_join-right_join-full_join",
+    "href": "week05_slides_handout.html#left_join-right_join-full_join",
+    "title": "Joins, Strings and Dates",
+    "section": "left_join, right_join, full_join",
+    "text": "left_join, right_join, full_join\n\n\n\nJoin\nKeeps\n\n\n\n\ninner_join\nrows matched in both tables\n\n\nleft_join\nevery row of the left table\n\n\nright_join\nevery row of the right table\n\n\nfull_join\nevery row of both tables\n\n\n\n\n\n\n\n\n\nImportantTask\n\n\n\nUse a join that keeps student 7. Then use one that keeps students 7, 21 and 22.\n\n\n\n\nstudent_data |&gt;\n  left_join(student_grades, by = c(\"id\" = \"student_id\")) |&gt;\n  filter(id == 7)\n\n# A tibble: 1 × 6\n     id given_name family_name date_of_birth course grade\n  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;\n1     7 Lin        Yifan               38146 &lt;NA&gt;      NA\n\nstudent_data |&gt;\n  full_join(student_grades, by = c(\"id\" = \"student_id\")) |&gt;\n  filter(id %in% c(7, 21, 22))\n\n# A tibble: 7 × 6\n     id given_name family_name date_of_birth course   grade\n  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;\n1     7 Lin        Yifan               38146 &lt;NA&gt;        NA\n2    21 &lt;NA&gt;       &lt;NA&gt;                   NA MATH6195    70\n3    22 &lt;NA&gt;       &lt;NA&gt;                   NA MATH6195    89\n4    21 &lt;NA&gt;       &lt;NA&gt;                   NA MATH2010    71\n5    22 &lt;NA&gt;       &lt;NA&gt;                   NA MATH2010    56\n6    21 &lt;NA&gt;       &lt;NA&gt;                   NA MATH2011    62\n7    22 &lt;NA&gt;       &lt;NA&gt;                   NA MATH2011    84\n\n\n\n\nWhere there is no match, the missing columns are filled with NA.\n\n\nDraw two overlapping circles on the board. full_join is SQL’s FULL OUTER JOIN. semi_join, anti_join and cross_join are in the notes."
+  },
+  {
+    "objectID": "week05_slides_handout.html#joins-last-weeks-verbs",
+    "href": "week05_slides_handout.html#joins-last-weeks-verbs",
+    "title": "Joins, Strings and Dates",
+    "section": "Joins + last week’s verbs",
+    "text": "Joins + last week’s verbs\n\n\n\n\n\n\nImportantTask\n\n\n\nCompute each student’s mean grade and number of courses, with their name, best first.\n\n\n\n\nstudent_data |&gt;\n  inner_join(student_grades, by = c(\"id\" = \"student_id\")) |&gt;\n  group_by(id, given_name, family_name) |&gt;\n  summarise(mean_grade = mean(grade), n_courses = n(), .groups = \"drop\") |&gt;\n  arrange(desc(mean_grade))\n\n# A tibble: 19 × 5\n      id given_name family_name   mean_grade n_courses\n   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;              &lt;dbl&gt;     &lt;int&gt;\n 1    14 Amina      Okonkwo             83           2\n 2    11 Tariq      Ibn Rashid          76.7         3\n 3     8 Kofi       Asante              74.7         3\n 4     4 Dimitri    Volkov              74.5         2\n 5    13 Yang       Siyu                70.7         3\n 6     2 Hiroshi    Tanaka              70.3         3\n 7    10 Yuki       Nakamura            70           3\n 8    12 Indira     Sharma              69           3\n 9     9 Esperanza  Delgado             68.7         3\n10     3 Aaliyah    Williams            68           3\n11     5 Amara      Baptiste            67.7         3\n12     6 Rajesh     Krishnamurthy       67           3\n13    20 Enzo       Martinelli          66           3\n14    15 Lars       Andersen            64.5         2\n15    17 Sofia      Popović             62.3         3\n16     1 Adaora     Nkomo               61.7         3\n17    18 Kwame      Mensah              61.7         3\n18    16 Nkem       Chukwu              55.7         3\n19    19 Chen       Jiayu               55           2\n\n\n\n\nFollow-up question: what happens with left_join instead? Student 7 appears with mean_grade = NA and n_courses = 1 — n() counts the NA row. A good illustration that the choice of join changes the answer."
+  },
+  {
+    "objectID": "week05_slides_handout.html#two-common-surprises",
+    "href": "week05_slides_handout.html#two-common-surprises",
+    "title": "Joins, Strings and Dates",
+    "section": "Two common surprises",
+    "text": "Two common surprises\n\n\n\n\n\n\nWarningDuplicated column names\n\n\n\nIf both tables have a non-key column with the same name (say notes), you get notes.x and notes.y. Control this with the suffix argument.\n\n\n\n\n\n\n\n\nWarningMany-to-many joins\n\n\n\nIf both tables have several rows per key, you get every combination — the row count can explode. dplyr warns you; it is usually a mistake.\n\n\n\nRule of thumb: check nrow() before and after every join."
+  },
+  {
+    "objectID": "week05_slides_handout.html#stringr",
+    "href": "week05_slides_handout.html#stringr",
+    "title": "Joins, Strings and Dates",
+    "section": "stringr",
+    "text": "stringr\nEvery function starts str_ and is vectorised: it works on one string or a whole column.\n\nstr_length(c(\"Alice\", \"Bob\", \"Dave\"))\n\n[1] 5 3 4\n\n\n\nFree text from forms is rarely clean:\n\nmessy_names &lt;- c(\"  Alice  \", \"BOB\", \"cara-mae\", \"  dave \")"
+  },
+  {
+    "objectID": "week05_slides_handout.html#case-and-whitespace",
+    "href": "week05_slides_handout.html#case-and-whitespace",
+    "title": "Joins, Strings and Dates",
+    "section": "Case and whitespace",
+    "text": "Case and whitespace\n\n\n\n\n\n\nImportantTask\n\n\n\nRemove the stray spaces from messy_names and give them consistent capitalisation.\n\n\n\n\nstr_trim(messy_names)\n\n[1] \"Alice\"    \"BOB\"      \"cara-mae\" \"dave\"    \n\nstr_squish(\"  too    many   spaces \")\n\n[1] \"too many spaces\"\n\nstr_to_title(str_squish(messy_names))\n\n[1] \"Alice\"    \"Bob\"      \"Cara-Mae\" \"Dave\"    \n\n\n\n\nstr_trim() removes spaces at the ends; str_squish() also collapses runs inside. Case: str_to_lower(), str_to_upper(), str_to_title()."
+  },
+  {
+    "objectID": "week05_slides_handout.html#detecting-patterns",
+    "href": "week05_slides_handout.html#detecting-patterns",
+    "title": "Joins, Strings and Dates",
+    "section": "Detecting patterns",
+    "text": "Detecting patterns\n\n\n\n\n\n\nImportantTask\n\n\n\nWhich names contain an \"a\"? Why isn’t \"Alice\" one of them?\n\n\n\n\nstr_detect(messy_names, \"a\")\n\n[1] FALSE FALSE  TRUE  TRUE\n\nstr_detect(str_to_lower(messy_names), \"a\")\n\n[1]  TRUE FALSE  TRUE  TRUE\n\n\n\n\nMatching is case-sensitive — standardise case first. str_detect() returns TRUE/FALSE, so it drops straight into filter()."
+  },
+  {
+    "objectID": "week05_slides_handout.html#replacing-and-removing",
+    "href": "week05_slides_handout.html#replacing-and-removing",
+    "title": "Joins, Strings and Dates",
+    "section": "Replacing and removing",
+    "text": "Replacing and removing\n\n\n\n\n\n\nImportantTask\n\n\n\nTurn \"cara-mae\" into \"cara mae\", and get just the number from \"MATH6195\".\n\n\n\n\nstr_replace(\"cara-mae\", \"-\", \" \")\n\n[1] \"cara mae\"\n\nstr_replace_all(\"a-b-c-d\", \"-\", \"_\")\n\n[1] \"a_b_c_d\"\n\nstr_remove(\"MATH6195\", \"MATH\")\n\n[1] \"6195\"\n\n\n\n\nstr_replace() changes the first match; str_replace_all() changes every match."
+  },
+  {
+    "objectID": "week05_slides_handout.html#in-a-pipeline",
+    "href": "week05_slides_handout.html#in-a-pipeline",
+    "title": "Joins, Strings and Dates",
+    "section": "In a pipeline",
+    "text": "In a pipeline\n\n\n\n\n\n\nImportantTask\n\n\n\nClean a whole column of names inside mutate().\n\n\n\n\ntibble(raw = messy_names) |&gt;\n  mutate(clean = str_to_title(str_squish(raw)))\n\n# A tibble: 4 × 2\n  raw         clean   \n  &lt;chr&gt;       &lt;chr&gt;   \n1 \"  Alice  \" Alice   \n2 \"BOB\"       Bob     \n3 \"cara-mae\"  Cara-Mae\n4 \"  dave \"   Dave    \n\n\n\n\n\n\n\n\n\nTipRegular expressions\n\n\n\nPatterns are regular expressions: ., * and ? have special meanings. Not examined, but worth learning — try regex101."
+  },
+  {
+    "objectID": "week05_slides_handout.html#dates-are-ambiguous",
+    "href": "week05_slides_handout.html#dates-are-ambiguous",
+    "title": "Joins, Strings and Dates",
+    "section": "Dates are ambiguous",
+    "text": "Dates are ambiguous\nIs 08/11/2025 11 August or 8 November?\n\n\n\n\n\n\nImportantTask\n\n\n\nParse \"2025-August-11\", \"11/08/25\" and \"8.11.2025\" as the same date.\n\n\n\n\nd1 &lt;- ymd(\"2025-August-11\")\nd2 &lt;- dmy(\"11/08/25\")\nd3 &lt;- mdy(\"8.11.2025\")\nc(d1, d2, d3)\n\n[1] \"2025-08-11\" \"2025-08-11\" \"2025-08-11\"\n\nclass(d1)\n\n[1] \"Date\"\n\n\n\n\nYou tell lubridate the order (ymd, dmy, mdy); it copes with the separators. Always check parsed dates.\n\n\nFor full control, as.Date(x, format = \"%d/%m/%Y\"). The printed date looks like a string but has class Date, so arithmetic works."
+  },
+  {
+    "objectID": "week05_slides_handout.html#excel-dates",
+    "href": "week05_slides_handout.html#excel-dates",
+    "title": "Joins, Strings and Dates",
+    "section": "Excel dates",
+    "text": "Excel dates\n\n\n\n\n\n\nImportantTask\n\n\n\nWhat is in student_data$date_of_birth? Convert it to real dates.\n\n\n\n\nstudent_data$date_of_birth\n\n [1] 37205 37845 37505 37717 37387 38218 38146 37596 38167 37590 37472 37803\n[13] 37283 37852 37900 37865 38162 37870 37282 37481\n\nstudent_data &lt;- student_data |&gt;\n  mutate(date_of_birth = excel_numeric_to_date(date_of_birth))\nstudent_data$date_of_birth\n\n [1] \"2001-11-10\" \"2003-08-12\" \"2002-09-06\" \"2003-04-06\" \"2002-05-11\"\n [6] \"2004-08-19\" \"2004-06-08\" \"2002-12-06\" \"2004-06-29\" \"2002-11-30\"\n[11] \"2002-08-04\" \"2003-07-01\" \"2002-01-27\" \"2003-08-19\" \"2003-10-06\"\n[16] \"2003-09-01\" \"2004-06-24\" \"2003-09-06\" \"2002-01-26\" \"2002-08-13\"\n\n\n\n\nExcel stores dates as days since 30 December 1899. Reading the .xlsx with readxl handles this, but the numbers often leak into CSVs."
+  },
+  {
+    "objectID": "week05_slides_handout.html#working-with-dates",
+    "href": "week05_slides_handout.html#working-with-dates",
+    "title": "Joins, Strings and Dates",
+    "section": "Working with dates",
+    "text": "Working with dates\n\n\n\n\n\n\nImportantTask\n\n\n\nAdd two new columns to student_data: the year each student was born, and their current age (rounded down). Then sort so the oldest student comes first.\n\n\n\n\nstudent_data |&gt;\n  mutate(\n    birth_year = year(date_of_birth),\n    age = floor(time_length(interval(date_of_birth, today()), \"years\"))\n  ) |&gt;\n  arrange(date_of_birth)   # earliest birthday = oldest\n\n# A tibble: 20 × 6\n      id given_name family_name   date_of_birth birth_year   age\n   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;         &lt;date&gt;             &lt;dbl&gt; &lt;dbl&gt;\n 1     1 Adaora     Nkomo         2001-11-10          2001    24\n 2    19 Chen       Jiayu         2002-01-26          2002    24\n 3    13 Yang       Siyu          2002-01-27          2002    24\n 4     5 Amara      Baptiste      2002-05-11          2002    24\n 5    11 Tariq      Ibn Rashid    2002-08-04          2002    24\n 6    20 Enzo       Martinelli    2002-08-13          2002    24\n 7     3 Aaliyah    Williams      2002-09-06          2002    24\n 8    10 Yuki       Nakamura      2002-11-30          2002    23\n 9     8 Kofi       Asante        2002-12-06          2002    23\n10     4 Dimitri    Volkov        2003-04-06          2003    23\n11    12 Indira     Sharma        2003-07-01          2003    23\n12     2 Hiroshi    Tanaka        2003-08-12          2003    23\n13    14 Amina      Okonkwo       2003-08-19          2003    23\n14    16 Nkem       Chukwu        2003-09-01          2003    23\n15    18 Kwame      Mensah        2003-09-06          2003    23\n16    15 Lars       Andersen      2003-10-06          2003    22\n17     7 Lin        Yifan         2004-06-08          2004    22\n18    17 Sofia      Popović       2004-06-24          2004    22\n19     9 Esperanza  Delgado       2004-06-29          2004    22\n20     6 Rajesh     Krishnamurthy 2004-08-19          2004    22\n\n\n\n\nWhy not today() - date_of_birth? That gives days — and converting days to years is awkward because of leap years.\n\n\nWhy sort by date_of_birth rather than desc(age)? Rounded ages tie — lots of students are 24 — and ties keep their original (ID) order. Dates sort chronologically, so they give the true order. Also month(), day(). as.period() gives an exact “years, months, days” difference — in the notes."
+  },
+  {
+    "objectID": "week05_slides_handout.html#times-and-time-zones",
+    "href": "week05_slides_handout.html#times-and-time-zones",
+    "title": "Joins, Strings and Dates",
+    "section": "Times and time zones",
+    "text": "Times and time zones\n\n\n\n\n\n\nImportantTask\n\n\n\nA server logs an event at 2025-08-11 11:33:01 UTC. What did the clocks in Tokyo say at that moment?\n\n\n\n\nt1 &lt;- ymd_hms(\"2025-08-11 11:33:01\")\ntz(t1)\n\n[1] \"UTC\"\n\nwith_tz(t1, \"Asia/Tokyo\")    # convert: read the same moment off a Tokyo clock\n\n[1] \"2025-08-11 20:33:01 JST\"\n\n\n\n\nSame event, so only the displayed time changes: 11:33 UTC is 20:33 in Tokyo."
+  },
+  {
+    "objectID": "week05_slides_handout.html#fixing-the-wrong-time-zone",
+    "href": "week05_slides_handout.html#fixing-the-wrong-time-zone",
+    "title": "Joins, Strings and Dates",
+    "section": "Fixing the wrong time zone",
+    "text": "Fixing the wrong time zone\n\n\n\n\n\n\nImportantTask\n\n\n\nA sensor in Tokyo wrote 2025-08-11 11:33:01 in Tokyo local time, but R read it as UTC. Correct the time zone.\n\n\n\n\nt2 &lt;- force_tz(t1, \"Asia/Tokyo\")   # relabel: keep 11:33, change the zone\nt2\n\n[1] \"2025-08-11 11:33:01 JST\"\n\nt2 - t1                            # a genuinely different moment\n\nTime difference of -9 hours"
+  },
+  {
+    "objectID": "week05_slides_handout.html#time-zone-summary",
+    "href": "week05_slides_handout.html#time-zone-summary",
+    "title": "Joins, Strings and Dates",
+    "section": "Time Zone Summary",
+    "text": "Time Zone Summary\n\n\n\n\nClock shows\nIs it the same event?\n\n\n\n\nwith_tz()\nchanges (11:33 → 20:33)\nyes — just viewed from Tokyo\n\n\nforce_tz()\nstays 11:33\nno — now 9 hours earlier\n\n\n\nUse with_tz() to view a correct time somewhere else. Use force_tz() only to fix a time that was recorded with the wrong zone."
+  },
+  {
+    "objectID": "week05_slides_handout.html#today-you-can-now",
+    "href": "week05_slides_handout.html#today-you-can-now",
+    "title": "Joins, Strings and Dates",
+    "section": "Today you can now:",
+    "text": "Today you can now:\n\n\ncombine tables with inner_join, left_join, right_join, full_join — and check what was lost\n\n\n\n\nclean text with str_trim, str_squish, str_to_*, str_detect, str_replace\n\n\n\n\nparse dates with ymd/dmy/mdy, compute ages, and convert time zones"
+  },
+  {
+    "objectID": "week05_slides_handout.html#read-the-notes",
+    "href": "week05_slides_handout.html#read-the-notes",
+    "title": "Joins, Strings and Dates",
+    "section": "Read the notes",
+    "text": "Read the notes\nWe didn’t cover in detail:\n\nsemi_join, anti_join, cross_join and join_by()\nstr_sub, str_split, str_c, and regular expressions\nas.period() for calendar differences\nformatting dates as text with format() (e.g. \"%d %b %y\")"
+  },
+  {
+    "objectID": "week06_slides.html#agenda",
+    "href": "week06_slides.html#agenda",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Objectives",
+    "text": "Objectives\nBy the end of this lecture you will be able to:\n\n\nbuild plots from the components of the grammar of graphics — data, aesthetics, geometries — using ggplot2\n\n\n\n\nchoose a sensible chart type for the question being asked\n\n\n\n\nexplain how visual perception affects the way plots are read, and critique plots for clarity, honesty and accessibility"
+  },
+  {
+    "objectID": "week06_slides.html#packages-and-data",
+    "href": "week06_slides.html#packages-and-data",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Packages and data",
+    "text": "Packages and data\n\nlibrary(tidyverse)   # includes ggplot2\npenguins &lt;- read_csv(\"data/penguins.csv\")\n\n\nggplot2 is part of the tidyverse. We’ll use the Palmer penguins data from week 4.\n\n\nWarnings are switched off for this deck. Live, ggplot will print “Removed 2 rows containing missing values” — point it out once: two penguins have no measurements, and ggplot drops them rather than failing."
+  },
+  {
+    "objectID": "week06_slides.html#components-not-chart-types",
+    "href": "week06_slides.html#components-not-chart-types",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Components, not chart types",
+    "text": "Components, not chart types\nInstead of choosing “a scatter plot” or “a bar chart”, we describe a plot by its parts:\n\n\nData — a tidy tibble\nAesthetics (aes) — which variables control position, colour, size, …\nGeometries (geom_*) — what is drawn: points, lines, bars, …\n\n\n\n…plus optional stats, scales, coordinates and facets.\n\n\nThe payoff: the same handful of pieces builds every chart, so you learn one system rather than a menu of chart functions. Details of every component are in the notes."
+  },
+  {
+    "objectID": "week06_slides.html#step-1-data-and-aesthetics",
+    "href": "week06_slides.html#step-1-data-and-aesthetics",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Step 1: data and aesthetics",
+    "text": "Step 1: data and aesthetics\n\n\n\n\n\n\nTask\n\n\nSet up a plot of flipper length (x) against body mass (y). What do you see?\n\n\n\n\n\nggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g))\n\n\n\n\n\n\n\n\n\n\nAxes, but no data: we’ve said what to map, not how to draw it."
+  },
+  {
+    "objectID": "week06_slides.html#step-2-add-a-geometry",
+    "href": "week06_slides.html#step-2-add-a-geometry",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Step 2: add a geometry",
+    "text": "Step 2: add a geometry\n\n\n\n\n\n\nTask\n\n\nDraw one point per penguin.\n\n\n\n\n\nggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +\n  geom_point()\n\n\n\n\n\n\n\n\n\n\nLayers are added with +."
+  },
+  {
+    "objectID": "week06_slides.html#not",
+    "href": "week06_slides.html#not",
+    "title": "Data Visualisation with ggplot2",
+    "section": "+, not |>",
+    "text": "+, not |&gt;\n\n\n\n\n\n\nTask\n\n\nWhat’s wrong with this code?\n\n\n\n\npenguins |&gt;\n  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) |&gt;\n  geom_point()\n\nError in `geom_point()`:\n! `mapping` must be created by `aes()`.\n✖ You've supplied a &lt;ggplot2::ggplot&gt; object.\nℹ Did you use `%&gt;%` or `|&gt;` instead of `+`?\n\n\n\n\npenguins |&gt;\n  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) +\n  geom_point()\n\n\n\nPipe the data in with |&gt;; join layers with +. ggplot2 is older than the pipe — mixing them up is the most common beginner error."
+  },
+  {
+    "objectID": "week06_slides.html#step-3-more-aesthetics",
+    "href": "week06_slides.html#step-3-more-aesthetics",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Step 3: more aesthetics",
+    "text": "Step 3: more aesthetics\n\n\n\n\n\n\nTask\n\n\nColour the points by species.\n\n\n\n\n\nggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g,\n                     colour = species)) +\n  geom_point()\n\n\n\n\n\n\n\n\n\n\nA third variable, mapped to colour. size, shape and alpha (transparency) work the same way."
+  },
+  {
+    "objectID": "week06_slides.html#step-4-labels-and-theme",
+    "href": "week06_slides.html#step-4-labels-and-theme",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Step 4: labels and theme",
+    "text": "Step 4: labels and theme\n\n\n\n\n\n\nTask\n\n\nGive the plot a title, axis labels with units, and a cleaner look.\n\n\n\n\n\nggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g,\n                     colour = species)) +\n  geom_point() +\n  labs(\n    title = \"Penguin flipper length vs body mass\",\n    x = \"Flipper length (mm)\",\n    y = \"Body mass (g)\",\n    colour = \"Species\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\nEmphasise units in axis labels — this comes up again in the checklist at the end."
+  },
+  {
+    "objectID": "week06_slides.html#facets",
+    "href": "week06_slides.html#facets",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Facets",
+    "text": "Facets\n\n\n\n\n\n\nTask\n\n\nDraw a separate panel for each island.\n\n\n\n\n\nggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g,\n                     colour = species)) +\n  geom_point() +\n  facet_wrap(~island) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\nFaceting splits the data into subsets with shared axes — ideal for comparing groups side by side.\n\n\nAsk what the panels reveal: Gentoo only live on Biscoe; Chinstrap only on Dream; Adelie on all three. That’s a finding the single plot hid."
+  },
+  {
+    "objectID": "week06_slides.html#layering-geometries",
+    "href": "week06_slides.html#layering-geometries",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Layering geometries",
+    "text": "Layering geometries\n\n\n\n\n\n\nTask\n\n\nAdd a straight-line trend for each species on top of the points.\n\n\n\n\n\nggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g,\n                     colour = species)) +\n  geom_point(alpha = 0.6) +\n  geom_smooth(method = \"lm\") +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\ngeom_smooth() applies a statistical transformation (here a linear fit) before drawing. alpha = 0.6 lets overlapping points show through.\n\n\nAesthetics set in ggplot() are inherited by every layer — that’s why each species gets its own line. The notes show an extra overall dashed trend line, histogram + density, and log-scaled axes."
+  },
+  {
+    "objectID": "week06_slides.html#start-from-the-question",
+    "href": "week06_slides.html#start-from-the-question",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Start from the question",
+    "text": "Start from the question\n\n\n\n\n\n\n\n\nQuestion\nChart\nGeometry\n\n\n\n\nCompare a value across categories\nBar chart\ngeom_bar() / geom_col()\n\n\nHow is one variable distributed?\nHistogram, boxplot, violin\ngeom_histogram(), geom_boxplot()\n\n\nHow are two variables related?\nScatter plot\ngeom_point()\n\n\nHow does something change over time?\nLine chart\ngeom_line()"
+  },
+  {
+    "objectID": "week06_slides.html#bar-charts-geom_bar-vs-geom_col",
+    "href": "week06_slides.html#bar-charts-geom_bar-vs-geom_col",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Bar charts: geom_bar vs geom_col",
+    "text": "Bar charts: geom_bar vs geom_col\n\n\n\n\n\n\nTask\n\n\nPlot (a) the number of penguins of each species, and (b) the mean body mass of each species.\n\n\n\n\n\nggplot(penguins, aes(x = species)) +\n  geom_bar()\n\n\n\n\n\n\n\npenguins |&gt;\n  group_by(species) |&gt;\n  summarise(mean_mass = mean(body_mass_g, na.rm = TRUE)) |&gt;\n  ggplot(aes(x = species, y = mean_mass)) +\n  geom_col()\n\n\n\n\n\n\n\n\n\n\ngeom_bar() counts rows for you. geom_col() draws heights you have already computed.\n\n\n\ngeom_bar(): give it only an x. It uses stat = \"count\", so the bar height is the number of rows in each category. Raw data, one row per penguin.\ngeom_col(): give it an x and a y. It uses stat = \"identity\", so the bar height is exactly the y value. Summarised data, one row per bar.\nCommon errors to demo: geom_bar() with a y fails (“must only have an x or y aesthetic”); geom_col() without a y fails (“requires the following missing aesthetics: y”).\ngeom_bar(stat = \"identity\") is the same as geom_col(); students will see it in older code online."
+  },
+  {
+    "objectID": "week06_slides.html#distributions",
+    "href": "week06_slides.html#distributions",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Distributions",
+    "text": "Distributions\n\n\n\n\n\n\nTask\n\n\nCompare the distribution of body mass across species.\n\n\n\n\n\nggplot(penguins, aes(x = species, y = body_mass_g, fill = species)) +\n  geom_violin(alpha = 0.4) +\n  geom_boxplot(width = 0.15) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\nThe boxplot gives the median and quartiles; the violin shows the shape the boxplot hides (e.g. two peaks).\n\n\nBuild it in two steps: boxplot alone first, then add the violin underneath. Layer order matters — later layers are drawn on top."
+  },
+  {
+    "objectID": "week06_slides.html#change-over-time",
+    "href": "week06_slides.html#change-over-time",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Change over time",
+    "text": "Change over time\n\n\n\n\n\n\nTask\n\n\nUsing gapminder, plot life expectancy over time for the UK, Japan and South Korea.\n\n\n\n\n\nlibrary(gapminder)\ngapminder |&gt;\n  filter(country %in% c(\"United Kingdom\", \"Japan\", \"Korea, Rep.\")) |&gt;\n  ggplot(aes(x = year, y = lifeExp, colour = country)) +\n  geom_line(linewidth = 1) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\nLines join points in order, so trends and crossovers stand out — Japan overtakes the UK in the late 1960s, and South Korea almost catches up by 2007.\n\n\nGood moment to connect back: filter() from week 4 feeding straight into ggplot(). South Korea is \"Korea, Rep.\" in gapminder — a reminder to check how values are spelled in the data before filtering on them."
+  },
+  {
+    "objectID": "week06_slides.html#ggplot2-wont-stop-you",
+    "href": "week06_slides.html#ggplot2-wont-stop-you",
+    "title": "Data Visualisation with ggplot2",
+    "section": "ggplot2 won’t stop you",
+    "text": "ggplot2 won’t stop you\n\n\nThe \\(y\\)-axis starts at 94,000,000 — a small change looks like an explosion."
+  },
+  {
+    "objectID": "week06_slides.html#which-encoding-is-easiest-to-read",
+    "href": "week06_slides.html#which-encoding-is-easiest-to-read",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Which encoding is easiest to read?",
+    "text": "Which encoding is easiest to read?\n\n\n\n\n\n\nTask\n\n\nRank the five groups from largest to smallest.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTake a vote on the pie first, then reveal the bar chart. Same data; the pie is literally a stacked bar in polar coordinates (coord_polar) — a nice demonstration of the coordinate component of the grammar."
+  },
+  {
+    "objectID": "week06_slides.html#cleveland-mcgill-1984",
+    "href": "week06_slides.html#cleveland-mcgill-1984",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Cleveland & McGill (1984)",
+    "text": "Cleveland & McGill (1984)\nHow accurately do people judge…\n\n\nposition along a common scale — most accurate\n\n\n\n\nlength, then angle and slope\n\n\n\n\narea, volume, colour saturation — least accurate\n\n\n\nPut the comparison that matters most on the most accurate encoding. That’s why bar charts usually beat pie charts."
+  },
+  {
+    "objectID": "week06_slides.html#colour-blindness",
+    "href": "week06_slides.html#colour-blindness",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Colour blindness",
+    "text": "Colour blindness\n\n\n\n\n\n\nTask\n\n\nAround 8% of men and 0.5% of women are colour blind, most often red–green. Make this plot readable for them.\n\n\n\n\nggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g,\n                     colour = species)) +\n  geom_point(size = 3) +\n  scale_colour_manual(values = c(Adelie = \"red\", Chinstrap = \"green\",\n                                 Gentoo = \"blue\")) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\nggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g,\n                     colour = species, shape = species)) +\n  geom_point(size = 3) +\n  scale_colour_brewer(type = \"qual\") +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\nUse a colourblind-safe palette (viridis, ColorBrewer) and a redundant encoding like shape, so the plot survives greyscale printing too.\n\n\nWithout type = \"qual\", scale_colour_brewer() gives a sequential blue palette — ask the room why that would be wrong for species (it implies an order that doesn’t exist)."
+  },
+  {
+    "objectID": "week06_slides.html#a-checklist-for-every-plot",
+    "href": "week06_slides.html#a-checklist-for-every-plot",
+    "title": "Data Visualisation with ggplot2",
+    "section": "A checklist for every plot",
+    "text": "A checklist for every plot\n\n\nHonest scales — bar charts start at zero\n\n\n\n\nAccurate encodings — key comparison on position or length\n\n\n\n\nNo clutter — every element earns its place; use alpha for overplotting\n\n\n\n\nClear labels — title, axis names, units\n\n\n\n\nAccessible — safe palettes plus redundant encodings\n\n\n\nIf time allows, go back to the welfare chart and have them critique it against the list — it fails 1, and arguably 4."
+  },
+  {
+    "objectID": "week06_slides.html#today-you-can-now",
+    "href": "week06_slides.html#today-you-can-now",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Today you can now:",
+    "text": "Today you can now:\n\n\nbuild a plot layer by layer: ggplot() + aes() + geom_*() + labs()\n\n\n\n\npick a chart for the question — bar, distribution, scatter, line — and know geom_bar from geom_col\n\n\n\n\ncritique plots for honesty, perceptual accuracy and accessibility"
+  },
+  {
+    "objectID": "week06_slides.html#read-the-notes",
+    "href": "week06_slides.html#read-the-notes",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Read the notes",
+    "text": "Read the notes\nWe didn’t cover in detail:\n\nthe full list of grammar components: stats, scales, coordinate systems\nhistograms and density plots; log-scaled axes\nfacet_grid() and extension packages (patchwork, ggforce, gganimate)\n\nAlso useful for coursework: ggsave(\"plot.png\", width = 6, height = 4) saves the last plot."
+  },
+  {
+    "objectID": "week06_slides_handout.html",
+    "href": "week06_slides_handout.html",
+    "title": "Data Visualisation with ggplot2",
+    "section": "",
+    "text": "By the end of this lecture you will be able to:\n\n\nbuild plots from the components of the grammar of graphics — data, aesthetics, geometries — using ggplot2\n\n\n\n\nchoose a sensible chart type for the question being asked\n\n\n\n\nexplain how visual perception affects the way plots are read, and critique plots for clarity, honesty and accessibility"
+  },
+  {
+    "objectID": "week06_slides_handout.html#agenda",
+    "href": "week06_slides_handout.html#agenda",
+    "title": "Data Visualisation with ggplot2",
+    "section": "",
+    "text": "By the end of this lecture you will be able to:\n\n\nbuild plots from the components of the grammar of graphics — data, aesthetics, geometries — using ggplot2\n\n\n\n\nchoose a sensible chart type for the question being asked\n\n\n\n\nexplain how visual perception affects the way plots are read, and critique plots for clarity, honesty and accessibility"
+  },
+  {
+    "objectID": "week06_slides_handout.html#packages-and-data",
+    "href": "week06_slides_handout.html#packages-and-data",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Packages and data",
+    "text": "Packages and data\n\nlibrary(tidyverse)   # includes ggplot2\npenguins &lt;- read_csv(\"data/penguins.csv\")\n\n\nggplot2 is part of the tidyverse. We’ll use the Palmer penguins data from week 4.\n\n\nWarnings are switched off for this deck. Live, ggplot will print “Removed 2 rows containing missing values” — point it out once: two penguins have no measurements, and ggplot drops them rather than failing."
+  },
+  {
+    "objectID": "week06_slides_handout.html#components-not-chart-types",
+    "href": "week06_slides_handout.html#components-not-chart-types",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Components, not chart types",
+    "text": "Components, not chart types\nInstead of choosing “a scatter plot” or “a bar chart”, we describe a plot by its parts:\n\n\nData — a tidy tibble\nAesthetics (aes) — which variables control position, colour, size, …\nGeometries (geom_*) — what is drawn: points, lines, bars, …\n\n\n\n…plus optional stats, scales, coordinates and facets.\n\n\nThe payoff: the same handful of pieces builds every chart, so you learn one system rather than a menu of chart functions. Details of every component are in the notes."
+  },
+  {
+    "objectID": "week06_slides_handout.html#step-1-data-and-aesthetics",
+    "href": "week06_slides_handout.html#step-1-data-and-aesthetics",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Step 1: data and aesthetics",
+    "text": "Step 1: data and aesthetics\n\n\n\n\n\n\nImportantTask\n\n\n\nSet up a plot of flipper length (x) against body mass (y). What do you see?\n\n\n\n\nggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g))\n\n\n\n\n\n\n\n\n\n\nAxes, but no data: we’ve said what to map, not how to draw it."
+  },
+  {
+    "objectID": "week06_slides_handout.html#step-2-add-a-geometry",
+    "href": "week06_slides_handout.html#step-2-add-a-geometry",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Step 2: add a geometry",
+    "text": "Step 2: add a geometry\n\n\n\n\n\n\nImportantTask\n\n\n\nDraw one point per penguin.\n\n\n\n\nggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +\n  geom_point()\n\n\n\n\n\n\n\n\n\n\nLayers are added with +."
+  },
+  {
+    "objectID": "week06_slides_handout.html#not",
+    "href": "week06_slides_handout.html#not",
+    "title": "Data Visualisation with ggplot2",
+    "section": "+, not |>",
+    "text": "+, not |&gt;\n\n\n\n\n\n\nImportantTask\n\n\n\nWhat’s wrong with this code?\n\n\n\npenguins |&gt;\n  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) |&gt;\n  geom_point()\n\nError in `geom_point()`:\n! `mapping` must be created by `aes()`.\n✖ You've supplied a &lt;ggplot2::ggplot&gt; object.\nℹ Did you use `%&gt;%` or `|&gt;` instead of `+`?\n\n\n\n\npenguins |&gt;\n  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) +\n  geom_point()\n\n\n\nPipe the data in with |&gt;; join layers with +. ggplot2 is older than the pipe — mixing them up is the most common beginner error."
+  },
+  {
+    "objectID": "week06_slides_handout.html#step-3-more-aesthetics",
+    "href": "week06_slides_handout.html#step-3-more-aesthetics",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Step 3: more aesthetics",
+    "text": "Step 3: more aesthetics\n\n\n\n\n\n\nImportantTask\n\n\n\nColour the points by species.\n\n\n\n\nggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g,\n                     colour = species)) +\n  geom_point()\n\n\n\n\n\n\n\n\n\n\nA third variable, mapped to colour. size, shape and alpha (transparency) work the same way."
+  },
+  {
+    "objectID": "week06_slides_handout.html#step-4-labels-and-theme",
+    "href": "week06_slides_handout.html#step-4-labels-and-theme",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Step 4: labels and theme",
+    "text": "Step 4: labels and theme\n\n\n\n\n\n\nImportantTask\n\n\n\nGive the plot a title, axis labels with units, and a cleaner look.\n\n\n\n\nggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g,\n                     colour = species)) +\n  geom_point() +\n  labs(\n    title = \"Penguin flipper length vs body mass\",\n    x = \"Flipper length (mm)\",\n    y = \"Body mass (g)\",\n    colour = \"Species\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\nEmphasise units in axis labels — this comes up again in the checklist at the end."
+  },
+  {
+    "objectID": "week06_slides_handout.html#facets",
+    "href": "week06_slides_handout.html#facets",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Facets",
+    "text": "Facets\n\n\n\n\n\n\nImportantTask\n\n\n\nDraw a separate panel for each island.\n\n\n\n\nggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g,\n                     colour = species)) +\n  geom_point() +\n  facet_wrap(~island) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\nFaceting splits the data into subsets with shared axes — ideal for comparing groups side by side.\n\n\nAsk what the panels reveal: Gentoo only live on Biscoe; Chinstrap only on Dream; Adelie on all three. That’s a finding the single plot hid."
+  },
+  {
+    "objectID": "week06_slides_handout.html#layering-geometries",
+    "href": "week06_slides_handout.html#layering-geometries",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Layering geometries",
+    "text": "Layering geometries\n\n\n\n\n\n\nImportantTask\n\n\n\nAdd a straight-line trend for each species on top of the points.\n\n\n\n\nggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g,\n                     colour = species)) +\n  geom_point(alpha = 0.6) +\n  geom_smooth(method = \"lm\") +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\ngeom_smooth() applies a statistical transformation (here a linear fit) before drawing. alpha = 0.6 lets overlapping points show through.\n\n\nAesthetics set in ggplot() are inherited by every layer — that’s why each species gets its own line. The notes show an extra overall dashed trend line, histogram + density, and log-scaled axes."
+  },
+  {
+    "objectID": "week06_slides_handout.html#start-from-the-question",
+    "href": "week06_slides_handout.html#start-from-the-question",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Start from the question",
+    "text": "Start from the question\n\n\n\n\n\n\n\n\nQuestion\nChart\nGeometry\n\n\n\n\nCompare a value across categories\nBar chart\ngeom_bar() / geom_col()\n\n\nHow is one variable distributed?\nHistogram, boxplot, violin\ngeom_histogram(), geom_boxplot()\n\n\nHow are two variables related?\nScatter plot\ngeom_point()\n\n\nHow does something change over time?\nLine chart\ngeom_line()"
+  },
+  {
+    "objectID": "week06_slides_handout.html#bar-charts-geom_bar-vs-geom_col",
+    "href": "week06_slides_handout.html#bar-charts-geom_bar-vs-geom_col",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Bar charts: geom_bar vs geom_col",
+    "text": "Bar charts: geom_bar vs geom_col\n\n\n\n\n\n\nImportantTask\n\n\n\nPlot (a) the number of penguins of each species, and (b) the mean body mass of each species.\n\n\n\n\nggplot(penguins, aes(x = species)) +\n  geom_bar()\n\n\n\n\n\n\n\npenguins |&gt;\n  group_by(species) |&gt;\n  summarise(mean_mass = mean(body_mass_g, na.rm = TRUE)) |&gt;\n  ggplot(aes(x = species, y = mean_mass)) +\n  geom_col()\n\n\n\n\n\n\n\n\n\n\ngeom_bar() counts rows for you. geom_col() draws heights you have already computed.\n\n\n\ngeom_bar(): give it only an x. It uses stat = \"count\", so the bar height is the number of rows in each category. Raw data, one row per penguin.\ngeom_col(): give it an x and a y. It uses stat = \"identity\", so the bar height is exactly the y value. Summarised data, one row per bar.\nCommon errors to demo: geom_bar() with a y fails (“must only have an x or y aesthetic”); geom_col() without a y fails (“requires the following missing aesthetics: y”).\ngeom_bar(stat = \"identity\") is the same as geom_col(); students will see it in older code online."
+  },
+  {
+    "objectID": "week06_slides_handout.html#distributions",
+    "href": "week06_slides_handout.html#distributions",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Distributions",
+    "text": "Distributions\n\n\n\n\n\n\nImportantTask\n\n\n\nCompare the distribution of body mass across species.\n\n\n\n\nggplot(penguins, aes(x = species, y = body_mass_g, fill = species)) +\n  geom_violin(alpha = 0.4) +\n  geom_boxplot(width = 0.15) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\nThe boxplot gives the median and quartiles; the violin shows the shape the boxplot hides (e.g. two peaks).\n\n\nBuild it in two steps: boxplot alone first, then add the violin underneath. Layer order matters — later layers are drawn on top."
+  },
+  {
+    "objectID": "week06_slides_handout.html#change-over-time",
+    "href": "week06_slides_handout.html#change-over-time",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Change over time",
+    "text": "Change over time\n\n\n\n\n\n\nImportantTask\n\n\n\nUsing gapminder, plot life expectancy over time for the UK, Japan and South Korea.\n\n\n\n\nlibrary(gapminder)\ngapminder |&gt;\n  filter(country %in% c(\"United Kingdom\", \"Japan\", \"Korea, Rep.\")) |&gt;\n  ggplot(aes(x = year, y = lifeExp, colour = country)) +\n  geom_line(linewidth = 1) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\nLines join points in order, so trends and crossovers stand out — Japan overtakes the UK in the late 1960s, and South Korea almost catches up by 2007.\n\n\nGood moment to connect back: filter() from week 4 feeding straight into ggplot(). South Korea is \"Korea, Rep.\" in gapminder — a reminder to check how values are spelled in the data before filtering on them."
+  },
+  {
+    "objectID": "week06_slides_handout.html#ggplot2-wont-stop-you",
+    "href": "week06_slides_handout.html#ggplot2-wont-stop-you",
+    "title": "Data Visualisation with ggplot2",
+    "section": "ggplot2 won’t stop you",
+    "text": "ggplot2 won’t stop you\n\n\nThe \\(y\\)-axis starts at 94,000,000 — a small change looks like an explosion.\n\n\n\n\nUS military strategy in Afghanistan, 2009. The New York Times headline: “We Have Met the Enemy, and He Is PowerPoint”. Clutter defeats the message."
+  },
+  {
+    "objectID": "week06_slides_handout.html#which-encoding-is-easiest-to-read",
+    "href": "week06_slides_handout.html#which-encoding-is-easiest-to-read",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Which encoding is easiest to read?",
+    "text": "Which encoding is easiest to read?\n\n\n\n\n\n\nImportantTask\n\n\n\nRank the five groups from largest to smallest.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTake a vote on the pie first, then reveal the bar chart. Same data; the pie is literally a stacked bar in polar coordinates (coord_polar) — a nice demonstration of the coordinate component of the grammar."
+  },
+  {
+    "objectID": "week06_slides_handout.html#cleveland-mcgill-1984",
+    "href": "week06_slides_handout.html#cleveland-mcgill-1984",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Cleveland & McGill (1984)",
+    "text": "Cleveland & McGill (1984)\nHow accurately do people judge…\n\n\nposition along a common scale — most accurate\n\n\n\n\nlength, then angle and slope\n\n\n\n\narea, volume, colour saturation — least accurate\n\n\n\nPut the comparison that matters most on the most accurate encoding. That’s why bar charts usually beat pie charts."
+  },
+  {
+    "objectID": "week06_slides_handout.html#colour-blindness",
+    "href": "week06_slides_handout.html#colour-blindness",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Colour blindness",
+    "text": "Colour blindness\n\n\n\n\n\n\nImportantTask\n\n\n\nAround 8% of men and 0.5% of women are colour blind, most often red–green. Make this plot readable for them.\n\n\n\nggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g,\n                     colour = species)) +\n  geom_point(size = 3) +\n  scale_colour_manual(values = c(Adelie = \"red\", Chinstrap = \"green\",\n                                 Gentoo = \"blue\")) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\nggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g,\n                     colour = species, shape = species)) +\n  geom_point(size = 3) +\n  scale_colour_brewer(type = \"qual\") +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\nUse a colourblind-safe palette (viridis, ColorBrewer) and a redundant encoding like shape, so the plot survives greyscale printing too.\n\n\nWithout type = \"qual\", scale_colour_brewer() gives a sequential blue palette — ask the room why that would be wrong for species (it implies an order that doesn’t exist)."
+  },
+  {
+    "objectID": "week06_slides_handout.html#a-checklist-for-every-plot",
+    "href": "week06_slides_handout.html#a-checklist-for-every-plot",
+    "title": "Data Visualisation with ggplot2",
+    "section": "A checklist for every plot",
+    "text": "A checklist for every plot\n\n\nHonest scales — bar charts start at zero\n\n\n\n\nAccurate encodings — key comparison on position or length\n\n\n\n\nNo clutter — every element earns its place; use alpha for overplotting\n\n\n\n\nClear labels — title, axis names, units\n\n\n\n\nAccessible — safe palettes plus redundant encodings\n\n\n\nIf time allows, go back to the welfare chart and have them critique it against the list — it fails 1, and arguably 4."
+  },
+  {
+    "objectID": "week06_slides_handout.html#today-you-can-now",
+    "href": "week06_slides_handout.html#today-you-can-now",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Today you can now:",
+    "text": "Today you can now:\n\n\nbuild a plot layer by layer: ggplot() + aes() + geom_*() + labs()\n\n\n\n\npick a chart for the question — bar, distribution, scatter, line — and know geom_bar from geom_col\n\n\n\n\ncritique plots for honesty, perceptual accuracy and accessibility"
+  },
+  {
+    "objectID": "week06_slides_handout.html#read-the-notes",
+    "href": "week06_slides_handout.html#read-the-notes",
+    "title": "Data Visualisation with ggplot2",
+    "section": "Read the notes",
+    "text": "Read the notes\nWe didn’t cover in detail:\n\nthe full list of grammar components: stats, scales, coordinate systems\nhistograms and density plots; log-scaled axes\nfacet_grid() and extension packages (patchwork, ggforce, gganimate)\n\nAlso useful for coursework: ggsave(\"plot.png\", width = 6, height = 4) saves the last plot."
   },
   {
     "objectID": "course_intro.html#about-the-course",

@@ -733,7 +733,7 @@ Removed 2 rows containing non-finite outside the scale range (`stat_smooth()`).<
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gapminder)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"United Kingdom"</span>, <span class="st">"China"</span>, <span class="st">"Rwanda"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"United Kingdom"</span>, <span class="st">"Japan"</span>, <span class="st">"Korea, Rep."</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> lifeExp, <span class="at">colour =</span> country)) <span class="sc">+</span></span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_viridis_d</span>(<span class="at">name =</span> <span class="st">"Country"</span>) <span class="sc">+</span></span>
@@ -747,7 +747,7 @@ Removed 2 rows containing non-finite outside the scale range (`stat_smooth()`).<
 </div>
 </div>
 </div>
-<p>Because the line joins successive years, trends and turning points are easy to spot, such as the sharp drop in Rwanda in the early 1990s.</p>
+<p>Because the line joins successive years, trends and crossovers are easy to spot: Japan overtakes the United Kingdom in the late 1960s, while South Korea rises steeply and has almost caught up by 2007. Note that South Korea is recorded as <code>"Korea, Rep."</code> in <code>gapminder</code>; it is always worth checking how values are spelled in the data before filtering on them.</p>
 </section>
 </section>
 <section id="visual-perception-and-plot-interpretation" class="level2" data-number="6.3">
