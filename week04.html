@@ -256,6 +256,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./cheatsheets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tidyverse Cheat Sheets</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./slides/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course Slides</span></a>
   </div>
@@ -469,27 +475,27 @@ Note
 <pre><code>Warning: package 'dplyr' was built under R version 4.4.3</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.2.0     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   4.0.0     ✔ tibble    3.3.0
-✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.0.4     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre><code>-- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+v dplyr     1.2.0     v readr     2.1.5
+v forcats   1.0.0     v stringr   1.5.1
+v ggplot2   4.0.0     v tibble    3.3.0
+v lubridate 1.9.4     v tidyr     1.3.1
+v purrr     1.0.4     
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
+i Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/penguins.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 344 Columns: 9
-── Column specification ────────────────────────────────────────────────────────
+-- Column specification --------------------------------------------------------
 Delimiter: ","
 chr (3): species, island, sex
 dbl (6): rowid, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_...
 
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+i Use `spec()` to retrieve the full column specification for this data.
+i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 </div>
 <p><code>tidyverse</code> load operations return data in <code>tibble</code> format, a modern reimagining of <code>R</code>’s core <code>data.frame</code>. Surprisingly, <code>typeof(data)</code> returns list; this is because the core data type of a <code>tibble</code> is actually a list. We can check whether an object is a <code>tibble</code> using several functions:</p>
@@ -571,7 +577,7 @@ Tip
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gapminder)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>gapminder</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,704 × 6
+<pre><code># A tibble: 1,704 x 6
    country     continent  year lifeExp      pop gdpPercap
    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
  1 Afghanistan Asia       1952    28.8  8425333      779.
@@ -584,7 +590,7 @@ Tip
  8 Afghanistan Asia       1987    40.8 13867957      852.
  9 Afghanistan Asia       1992    41.7 16317921      649.
 10 Afghanistan Asia       1997    41.8 22227415      635.
-# ℹ 1,694 more rows</code></pre>
+# i 1,694 more rows</code></pre>
 </div>
 </div>
 <p>As we can see, the <code>gapminder</code> is an <code>r</code> <code>tibble</code>, with 1704 rows and 6 columns. Suppose we want to compute the average GDP and life expectancy of countries in Asia in 2007. Here’s an example using <code>dplyr</code> to accomplish this.</p>
@@ -596,7 +602,7 @@ Tip
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(country, lifeExp, gdp_billions) <span class="sc">|&gt;</span></span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_life_expectancy=</span><span class="fu">mean</span>(lifeExp), <span class="at">mean_gdp=</span><span class="fu">mean</span>(gdp_billions))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 2
+<pre><code># A tibble: 1 x 2
   mean_life_expectancy mean_gdp
                  &lt;dbl&gt;    &lt;dbl&gt;
 1                 70.7     628.</code></pre>
@@ -633,7 +639,7 @@ Tip
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>, continent <span class="sc">==</span> <span class="st">"Asia"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(country, lifeExp, gdp_billions)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 33 × 3
+<pre><code># A tibble: 33 x 3
    country          lifeExp gdp_billions
    &lt;fct&gt;              &lt;dbl&gt;        &lt;dbl&gt;
  1 Japan               82.6       4035. 
@@ -646,7 +652,7 @@ Tip
  8 Oman                75.6         71.5
  9 Bahrain             75.6         21.1
 10 Vietnam             74.2        208. 
-# ℹ 23 more rows</code></pre>
+# i 23 more rows</code></pre>
 </div>
 </div>
 <p>The output is the same, but because we apply the <code>mutate</code> operation before the <code>filter</code>, we will compute <code>gdp_billions</code> for all 1704 rows before discarding all but 23 rows. This is wasteful, and can have a significant performance implication on larger datasets!</p>
@@ -659,7 +665,7 @@ Tip
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(continent)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>grouped</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,704 × 6
+<pre><code># A tibble: 1,704 x 6
 # Groups:   continent [5]
    country     continent  year lifeExp      pop gdpPercap
    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
@@ -673,14 +679,14 @@ Tip
  8 Afghanistan Asia       1987    40.8 13867957      852.
  9 Afghanistan Asia       1992    41.7 16317921      649.
 10 Afghanistan Asia       1997    41.8 22227415      635.
-# ℹ 1,694 more rows</code></pre>
+# i 1,694 more rows</code></pre>
 </div>
 </div>
 <p>The result tells us that we have a <code>tibble</code> that has been separated into subgroups, and shows the first of the groups. We can access other groups as follows:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">group_keys</span>(grouped) <span class="co"># view what groups are available</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 1
+<pre><code># A tibble: 5 x 1
   continent
   &lt;fct&gt;    
 1 Africa   
@@ -691,7 +697,7 @@ Tip
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">group_split</span>(grouped)[[<span class="dv">5</span>]] <span class="co"># access the Oceania group</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 24 × 6
+<pre><code># A tibble: 24 x 6
    country   continent  year lifeExp      pop gdpPercap
    &lt;fct&gt;     &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
  1 Australia Oceania    1952    69.1  8691212    10040.
@@ -704,7 +710,7 @@ Tip
  8 Australia Oceania    1987    76.3 16257249    21889.
  9 Australia Oceania    1992    77.6 17481977    23425.
 10 Australia Oceania    1997    78.8 18565243    26998.
-# ℹ 14 more rows</code></pre>
+# i 14 more rows</code></pre>
 </div>
 </div>
 <p>Far more useful, though, is to use the <code>summarise</code> command to <em>aggregate</em> the groups directly, producing a new <code>tibble</code> with the results. The below command does this:</p>
@@ -713,7 +719,7 @@ Tip
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(continent) <span class="sc">|&gt;</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">avg_lifeExp =</span> <span class="fu">mean</span>(lifeExp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 2
+<pre><code># A tibble: 5 x 2
   continent avg_lifeExp
   &lt;fct&gt;           &lt;dbl&gt;
 1 Africa           48.9
@@ -739,7 +745,7 @@ Tip
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(continent)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 2
+<pre><code># A tibble: 5 x 2
   continent     n
   &lt;fct&gt;     &lt;int&gt;
 1 Africa       52
@@ -769,14 +775,14 @@ Tip
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">avg_lifeExp =</span> <span class="fu">mean</span>(lifeExp))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has regrouped the output.
-ℹ Summaries were computed grouped by continent and year.
-ℹ Output is grouped by continent.
-ℹ Use `summarise(.groups = "drop_last")` to silence this message.
-ℹ Use `summarise(.by = c(continent, year))` for per-operation grouping
+i Summaries were computed grouped by continent and year.
+i Output is grouped by continent.
+i Use `summarise(.groups = "drop_last")` to silence this message.
+i Use `summarise(.by = c(continent, year))` for per-operation grouping
   (`?dplyr::dplyr_by`) instead.</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 60 × 3
+<pre><code># A tibble: 60 x 3
 # Groups:   continent [5]
    continent  year avg_lifeExp
    &lt;fct&gt;     &lt;int&gt;       &lt;dbl&gt;
@@ -790,7 +796,7 @@ Tip
  8 Africa     1987        53.3
  9 Africa     1992        53.6
 10 Africa     1997        53.6
-# ℹ 50 more rows</code></pre>
+# i 50 more rows</code></pre>
 </div>
 </div>
 <p>The output is still grouped by <code>continent</code>, and any later operations (e.g.&nbsp;another <code>summarise</code> or <code>mutate</code>) will be applied <em>within each continent</em>, which is often not what we intended. To return an ungrouped <code>tibble</code>, and silence the message, pass <code>.groups = "drop"</code> to <code>summarise</code>:</p>
@@ -799,7 +805,7 @@ Tip
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(continent, year) <span class="sc">|&gt;</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">avg_lifeExp =</span> <span class="fu">mean</span>(lifeExp), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 60 × 3
+<pre><code># A tibble: 60 x 3
    continent  year avg_lifeExp
    &lt;fct&gt;     &lt;int&gt;       &lt;dbl&gt;
  1 Africa     1952        39.1
@@ -812,7 +818,7 @@ Tip
  8 Africa     1987        53.3
  9 Africa     1992        53.6
 10 Africa     1997        53.6
-# ℹ 50 more rows</code></pre>
+# i 50 more rows</code></pre>
 </div>
 </div>
 <p>Alternatively, <code>ungroup()</code> removes all grouping from a <code>tibble</code> at any point in a pipeline.</p>
@@ -829,21 +835,21 @@ Tip
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from=</span>year, <span class="at">values_from=</span>lifeExp)</span>
 <span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>gapminder_wide</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 142 × 13
+<pre><code># A tibble: 142 x 13
    country `1952` `1957` `1962` `1967` `1972` `1977` `1982` `1987` `1992` `1997`
    &lt;fct&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
- 1 Afghan…   28.8   30.3   32.0   34.0   36.1   38.4   39.9   40.8   41.7   41.8
+ 1 Afghan~   28.8   30.3   32.0   34.0   36.1   38.4   39.9   40.8   41.7   41.8
  2 Albania   55.2   59.3   64.8   66.2   67.7   68.9   70.4   72     71.6   73.0
  3 Algeria   43.1   45.7   48.3   51.4   54.5   58.0   61.4   65.8   67.7   69.2
  4 Angola    30.0   32.0   34     36.0   37.9   39.5   39.9   39.9   40.6   41.0
- 5 Argent…   62.5   64.4   65.1   65.6   67.1   68.5   69.9   70.8   71.9   73.3
- 6 Austra…   69.1   70.3   70.9   71.1   71.9   73.5   74.7   76.3   77.6   78.8
+ 5 Argent~   62.5   64.4   65.1   65.6   67.1   68.5   69.9   70.8   71.9   73.3
+ 6 Austra~   69.1   70.3   70.9   71.1   71.9   73.5   74.7   76.3   77.6   78.8
  7 Austria   66.8   67.5   69.5   70.1   70.6   72.2   73.2   74.9   76.0   77.5
  8 Bahrain   50.9   53.8   56.9   59.9   63.3   65.6   69.1   70.8   72.6   73.9
- 9 Bangla…   37.5   39.3   41.2   43.5   45.3   46.9   50.0   52.8   56.0   59.4
+ 9 Bangla~   37.5   39.3   41.2   43.5   45.3   46.9   50.0   52.8   56.0   59.4
 10 Belgium   68     69.2   70.2   70.9   71.4   72.8   73.9   75.4   76.5   77.5
-# ℹ 132 more rows
-# ℹ 2 more variables: `2002` &lt;dbl&gt;, `2007` &lt;dbl&gt;</code></pre>
+# i 132 more rows
+# i 2 more variables: `2002` &lt;dbl&gt;, `2007` &lt;dbl&gt;</code></pre>
 </div>
 </div>
 <p>Now we end up with a 142 <span class="math inline">\(\times\)</span> 13 <code>tibble</code> whose entries are <code>lifeExp</code>. We can use the “wide” dataset to easily calculate the change in life expecancy:</p>
@@ -852,7 +858,7 @@ Tip
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">change =</span> <span class="st">`</span><span class="at">2007</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">1952</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(country, change)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 142 × 2
+<pre><code># A tibble: 142 x 2
    country     change
    &lt;fct&gt;        &lt;dbl&gt;
  1 Afghanistan   15.0
@@ -865,7 +871,7 @@ Tip
  8 Bahrain       24.7
  9 Bangladesh    26.6
 10 Belgium       11.4
-# ℹ 132 more rows</code></pre>
+# i 132 more rows</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -890,7 +896,7 @@ Tip
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_to =</span> <span class="st">"lifeExp"</span></span>
 <span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,704 × 3
+<pre><code># A tibble: 1,704 x 3
    country     year  lifeExp
    &lt;fct&gt;       &lt;chr&gt;   &lt;dbl&gt;
  1 Afghanistan 1952     28.8
@@ -903,7 +909,7 @@ Tip
  8 Afghanistan 1987     40.8
  9 Afghanistan 1992     41.7
 10 Afghanistan 1997     41.8
-# ℹ 1,694 more rows</code></pre>
+# i 1,694 more rows</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -937,7 +943,7 @@ Tip
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>table3 <span class="sc">|&gt;</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate_wider_delim</span>(rate, <span class="at">delim =</span> <span class="st">"/"</span>, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"cases"</span>, <span class="st">"population"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 4
+<pre><code># A tibble: 6 x 4
   country      year cases  population
   &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;     
 1 Afghanistan  1999 745    19987071  
@@ -954,7 +960,7 @@ Tip
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate_wider_delim</span>(rate, <span class="at">delim =</span> <span class="st">"/"</span>, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"cases"</span>, <span class="st">"population"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">cases =</span> <span class="fu">as.integer</span>(cases), <span class="at">population =</span> <span class="fu">as.integer</span>(population))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 4
+<pre><code># A tibble: 6 x 4
   country      year  cases population
   &lt;chr&gt;       &lt;dbl&gt;  &lt;int&gt;      &lt;int&gt;
 1 Afghanistan  1999    745   19987071

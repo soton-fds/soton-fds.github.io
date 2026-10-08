@@ -1,0 +1,51 @@
+[
+  {
+    "objectID": "tidyr.html",
+    "href": "tidyr.html",
+    "title": "Data Tidying",
+    "section": "",
+    "text": "Cheat sheet for tidyr. Click on either page to zoom in.\n\n\n\nPage 1\n\n\n\n\n\nPage 2\n\n\n← Back to all cheat sheets"
+  },
+  {
+    "objectID": "data-transformation.html",
+    "href": "data-transformation.html",
+    "title": "Data Transformation",
+    "section": "",
+    "text": "Cheat sheet for dplyr. Click on either page to zoom in.\n\n\n\nPage 1\n\n\n\n\n\nPage 2\n\n\n← Back to all cheat sheets"
+  },
+  {
+    "objectID": "purrr.html",
+    "href": "purrr.html",
+    "title": "Functional Programming",
+    "section": "",
+    "text": "Cheat sheet for purrr. Click on either page to zoom in.\n\n\n\nPage 1\n\n\n\n\n\nPage 2\n\n\n← Back to all cheat sheets"
+  },
+  {
+    "objectID": "lubridate.html",
+    "href": "lubridate.html",
+    "title": "Dates and Times",
+    "section": "",
+    "text": "Cheat sheet for lubridate. Click on either page to zoom in.\n\n\n\nPage 1\n\n\n\n\n\nPage 2\n\n\n← Back to all cheat sheets"
+  },
+  {
+    "objectID": "data-import.html",
+    "href": "data-import.html",
+    "title": "Data Import",
+    "section": "",
+    "text": "Cheat sheet for readr and readxl. Click on either page to zoom in.\n\n\n\nPage 1\n\n\n\n\n\nPage 2\n\n\n← Back to all cheat sheets"
+  },
+  {
+    "objectID": "strings.html",
+    "href": "strings.html",
+    "title": "Strings",
+    "section": "",
+    "text": "Cheat sheet for stringr. Click on either page to zoom in.\n\n\n\nPage 1\n\n\n\n\n\nPage 2\n\n\n← Back to all cheat sheets"
+  },
+  {
+    "objectID": "data-visualization.html",
+    "href": "data-visualization.html",
+    "title": "Data Visualisation",
+    "section": "",
+    "text": "Cheat sheet for ggplot2. Click on either page to zoom in.\n\n\n\nPage 1\n\n\n\n\n\nPage 2\n\n\n← Back to all cheat sheets"
+  }
+]

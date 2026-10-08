@@ -265,33 +265,33 @@
 <span id="cb2-2"><a aria-label="2"></a>student_grades <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/student_grades.csv"</span>)</span>
 <span id="cb2-3"><a aria-label="3"></a>student_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 20 × 4
-      ID `Given Name` `Family Name` `Date of Birth`
-   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;                   &lt;dbl&gt;
- 1     1 Adaora       Nkomo                   37205
- 2     2 Hiroshi      Tanaka                  37845
- 3     3 Aaliyah      Williams                37505
- 4     4 Dimitri      Volkov                  37717
- 5     5 Amara        Baptiste                37387
- 6     6 Rajesh       Krishnamurthy           38218
- 7     7 Lin          Yifan                   38146
- 8     8 Kofi         Asante                  37596
- 9     9 Esperanza    Delgado                 38167
-10    10 Yuki         Nakamura                37590
-11    11 Tariq        Ibn Rashid              37472
-12    12 Indira       Sharma                  37803
-13    13 Yang         Siyu                    37283
-14    14 Amina        Okonkwo                 37852
-15    15 Lars         Andersen                37900
-16    16 Nkem         Chukwu                  37865
-17    17 Sofia        Popović                 38162
-18    18 Kwame        Mensah                  37870
-19    19 Chen         Jiayu                   37282
-20    20 Enzo         Martinelli              37481</code></pre>
+<pre><code># A tibble: 20 x 4
+      ID `Given Name` `Family Name`   `Date of Birth`
+   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;                     &lt;dbl&gt;
+ 1     1 Adaora       "Nkomo"                   37205
+ 2     2 Hiroshi      "Tanaka"                  37845
+ 3     3 Aaliyah      "Williams"                37505
+ 4     4 Dimitri      "Volkov"                  37717
+ 5     5 Amara        "Baptiste"                37387
+ 6     6 Rajesh       "Krishnamurthy"           38218
+ 7     7 Lin          "Yifan"                   38146
+ 8     8 Kofi         "Asante"                  37596
+ 9     9 Esperanza    "Delgado"                 38167
+10    10 Yuki         "Nakamura"                37590
+11    11 Tariq        "Ibn Rashid"              37472
+12    12 Indira       "Sharma"                  37803
+13    13 Yang         "Siyu"                    37283
+14    14 Amina        "Okonkwo"                 37852
+15    15 Lars         "Andersen"                37900
+16    16 Nkem         "Chukwu"                  37865
+17    17 Sofia        "Popovi\u0107"            38162
+18    18 Kwame        "Mensah"                  37870
+19    19 Chen         "Jiayu"                   37282
+20    20 Enzo         "Martinelli"              37481</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-label="1"></a>student_grades</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 59 × 3
+<pre><code># A tibble: 59 x 3
    `Student ID` Course   Grade
           &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
  1            1 MATH6195    68
@@ -304,7 +304,7 @@
  8            9 MATH6195    61
  9           10 MATH6195    65
 10           11 MATH6195    90
-# ℹ 49 more rows</code></pre>
+# i 49 more rows</code></pre>
 </div>
 </div>
 </div>
@@ -365,13 +365,52 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-label="1"></a>student_data <span class="ot">&lt;-</span> <span class="fu">clean_names</span>(student_data)</span>
-<span id="cb6-2"><a aria-label="2"></a>student_grades <span class="ot">&lt;-</span> <span class="fu">clean_names</span>(student_grades)</span>
-<span id="cb6-3"><a aria-label="3"></a><span class="fu">names</span>(student_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-label="1"></a>student_data <span class="ot">&lt;-</span> <span class="fu">clean_names</span>(student_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in FUN(X[[i]], ...): unable to translate '&lt;U+00C4&gt;' to native encoding</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in FUN(X[[i]], ...): unable to translate '&lt;U+00D6&gt;' to native encoding</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in FUN(X[[i]], ...): unable to translate '&lt;U+00DC&gt;' to native encoding</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in FUN(X[[i]], ...): unable to translate '&lt;U+00E4&gt;' to native encoding</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in FUN(X[[i]], ...): unable to translate '&lt;U+00F6&gt;' to native encoding</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in FUN(X[[i]], ...): unable to translate '&lt;U+00FC&gt;' to native encoding</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in FUN(X[[i]], ...): unable to translate '&lt;U+00DF&gt;' to native encoding</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in FUN(X[[i]], ...): unable to translate '&lt;U+00C6&gt;' to native encoding</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in FUN(X[[i]], ...): unable to translate '&lt;U+00E6&gt;' to native encoding</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in FUN(X[[i]], ...): unable to translate '&lt;U+00D8&gt;' to native encoding</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in FUN(X[[i]], ...): unable to translate '&lt;U+00F8&gt;' to native encoding</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in FUN(X[[i]], ...): unable to translate '&lt;U+00C5&gt;' to native encoding</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in FUN(X[[i]], ...): unable to translate '&lt;U+00E5&gt;' to native encoding</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-label="1"></a>student_grades <span class="ot">&lt;-</span> <span class="fu">clean_names</span>(student_grades)</span>
+<span id="cb20-2"><a aria-label="2"></a><span class="fu">names</span>(student_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "id"            "given_name"    "family_name"   "date_of_birth"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-label="1"></a><span class="fu">names</span>(student_grades)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-label="1"></a><span class="fu">names</span>(student_grades)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "student_id" "course"     "grade"     </code></pre>
 </div>
@@ -398,11 +437,11 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-label="1"></a>joined <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(student_data, student_grades,</span>
-<span id="cb10-2"><a aria-label="2"></a>                     <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"student_id"</span>))</span>
-<span id="cb10-3"><a aria-label="3"></a>joined</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a aria-label="1"></a>joined <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(student_data, student_grades,</span>
+<span id="cb24-2"><a aria-label="2"></a>                     <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"student_id"</span>))</span>
+<span id="cb24-3"><a aria-label="3"></a>joined</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 53 × 6
+<pre><code># A tibble: 53 x 6
       id given_name family_name date_of_birth course   grade
    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
  1     1 Adaora     Nkomo               37205 MATH6195    68
@@ -415,7 +454,7 @@
  8     3 Aaliyah    Williams            37505 MATH2010    65
  9     3 Aaliyah    Williams            37505 MATH2011    71
 10     4 Dimitri    Volkov              37717 MATH6195    74
-# ℹ 43 more rows</code></pre>
+# i 43 more rows</code></pre>
 </div>
 </div>
 </div>
@@ -453,19 +492,19 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-label="1"></a><span class="fu">nrow</span>(joined)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a aria-label="1"></a><span class="fu">nrow</span>(joined)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 53</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-label="1"></a><span class="fu">nrow</span>(student_grades)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a aria-label="1"></a><span class="fu">nrow</span>(student_grades)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 59</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-label="1"></a><span class="fu">setdiff</span>(student_grades<span class="sc">$</span>student_id, student_data<span class="sc">$</span>id)  <span class="co"># grades, no student</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a aria-label="1"></a><span class="fu">setdiff</span>(student_grades<span class="sc">$</span>student_id, student_data<span class="sc">$</span>id)  <span class="co"># grades, no student</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 21 22</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-label="1"></a><span class="fu">setdiff</span>(student_data<span class="sc">$</span>id, joined<span class="sc">$</span>id)                  <span class="co"># student, no grades</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a aria-label="1"></a><span class="fu">setdiff</span>(student_data<span class="sc">$</span>id, joined<span class="sc">$</span>id)                  <span class="co"># student, no grades</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 7</code></pre>
 </div>
@@ -531,20 +570,20 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-label="1"></a>student_data <span class="sc">|&gt;</span></span>
-<span id="cb20-2"><a aria-label="2"></a>  <span class="fu">left_join</span>(student_grades, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"student_id"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb20-3"><a aria-label="3"></a>  <span class="fu">filter</span>(id <span class="sc">==</span> <span class="dv">7</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a aria-label="1"></a>student_data <span class="sc">|&gt;</span></span>
+<span id="cb34-2"><a aria-label="2"></a>  <span class="fu">left_join</span>(student_grades, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"student_id"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb34-3"><a aria-label="3"></a>  <span class="fu">filter</span>(id <span class="sc">==</span> <span class="dv">7</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 6
+<pre><code># A tibble: 1 x 6
      id given_name family_name date_of_birth course grade
   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
 1     7 Lin        Yifan               38146 &lt;NA&gt;      NA</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-label="1"></a>student_data <span class="sc">|&gt;</span></span>
-<span id="cb22-2"><a aria-label="2"></a>  <span class="fu">full_join</span>(student_grades, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"student_id"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb22-3"><a aria-label="3"></a>  <span class="fu">filter</span>(id <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">21</span>, <span class="dv">22</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a aria-label="1"></a>student_data <span class="sc">|&gt;</span></span>
+<span id="cb36-2"><a aria-label="2"></a>  <span class="fu">full_join</span>(student_grades, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"student_id"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb36-3"><a aria-label="3"></a>  <span class="fu">filter</span>(id <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">21</span>, <span class="dv">22</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 7 × 6
+<pre><code># A tibble: 7 x 6
      id given_name family_name date_of_birth course   grade
   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
 1     7 Lin        Yifan               38146 &lt;NA&gt;        NA
@@ -591,34 +630,34 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a aria-label="1"></a>student_data <span class="sc">|&gt;</span></span>
-<span id="cb24-2"><a aria-label="2"></a>  <span class="fu">inner_join</span>(student_grades, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"student_id"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb24-3"><a aria-label="3"></a>  <span class="fu">group_by</span>(id, given_name, family_name) <span class="sc">|&gt;</span></span>
-<span id="cb24-4"><a aria-label="4"></a>  <span class="fu">summarise</span>(<span class="at">mean_grade =</span> <span class="fu">mean</span>(grade), <span class="at">n_courses =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb24-5"><a aria-label="5"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_grade))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a aria-label="1"></a>student_data <span class="sc">|&gt;</span></span>
+<span id="cb38-2"><a aria-label="2"></a>  <span class="fu">inner_join</span>(student_grades, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"student_id"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb38-3"><a aria-label="3"></a>  <span class="fu">group_by</span>(id, given_name, family_name) <span class="sc">|&gt;</span></span>
+<span id="cb38-4"><a aria-label="4"></a>  <span class="fu">summarise</span>(<span class="at">mean_grade =</span> <span class="fu">mean</span>(grade), <span class="at">n_courses =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb38-5"><a aria-label="5"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_grade))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 19 × 5
-      id given_name family_name   mean_grade n_courses
-   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;              &lt;dbl&gt;     &lt;int&gt;
- 1    14 Amina      Okonkwo             83           2
- 2    11 Tariq      Ibn Rashid          76.7         3
- 3     8 Kofi       Asante              74.7         3
- 4     4 Dimitri    Volkov              74.5         2
- 5    13 Yang       Siyu                70.7         3
- 6     2 Hiroshi    Tanaka              70.3         3
- 7    10 Yuki       Nakamura            70           3
- 8    12 Indira     Sharma              69           3
- 9     9 Esperanza  Delgado             68.7         3
-10     3 Aaliyah    Williams            68           3
-11     5 Amara      Baptiste            67.7         3
-12     6 Rajesh     Krishnamurthy       67           3
-13    20 Enzo       Martinelli          66           3
-14    15 Lars       Andersen            64.5         2
-15    17 Sofia      Popović             62.3         3
-16     1 Adaora     Nkomo               61.7         3
-17    18 Kwame      Mensah              61.7         3
-18    16 Nkem       Chukwu              55.7         3
-19    19 Chen       Jiayu               55           2</code></pre>
+<pre><code># A tibble: 19 x 5
+      id given_name family_name     mean_grade n_courses
+   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;                &lt;dbl&gt;     &lt;int&gt;
+ 1    14 Amina      "Okonkwo"             83           2
+ 2    11 Tariq      "Ibn Rashid"          76.7         3
+ 3     8 Kofi       "Asante"              74.7         3
+ 4     4 Dimitri    "Volkov"              74.5         2
+ 5    13 Yang       "Siyu"                70.7         3
+ 6     2 Hiroshi    "Tanaka"              70.3         3
+ 7    10 Yuki       "Nakamura"            70           3
+ 8    12 Indira     "Sharma"              69           3
+ 9     9 Esperanza  "Delgado"             68.7         3
+10     3 Aaliyah    "Williams"            68           3
+11     5 Amara      "Baptiste"            67.7         3
+12     6 Rajesh     "Krishnamurthy"       67           3
+13    20 Enzo       "Martinelli"          66           3
+14    15 Lars       "Andersen"            64.5         2
+15    17 Sofia      "Popovi\u0107"        62.3         3
+16     1 Adaora     "Nkomo"               61.7         3
+17    18 Kwame      "Mensah"              61.7         3
+18    16 Nkem       "Chukwu"              55.7         3
+19    19 Chen       "Jiayu"               55           2</code></pre>
 </div>
 </div>
 </div>
@@ -677,7 +716,7 @@
 <h2><code>stringr</code></h2>
 <p>Every function starts <code>str_</code> and is <strong>vectorised</strong>: it works on one string or a whole column.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a aria-label="1"></a><span class="fu">str_length</span>(<span class="fu">c</span>(<span class="st">"Alice"</span>, <span class="st">"Bob"</span>, <span class="st">"Dave"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a aria-label="1"></a><span class="fu">str_length</span>(<span class="fu">c</span>(<span class="st">"Alice"</span>, <span class="st">"Bob"</span>, <span class="st">"Dave"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5 3 4</code></pre>
 </div>
@@ -685,7 +724,7 @@
 <div class="fragment">
 <p>Free text from forms is rarely clean:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a aria-label="1"></a>messy_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"  Alice  "</span>, <span class="st">"BOB"</span>, <span class="st">"cara-mae"</span>, <span class="st">"  dave "</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a aria-label="1"></a>messy_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"  Alice  "</span>, <span class="st">"BOB"</span>, <span class="st">"cara-mae"</span>, <span class="st">"  dave "</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -706,15 +745,15 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a aria-label="1"></a><span class="fu">str_trim</span>(messy_names)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a aria-label="1"></a><span class="fu">str_trim</span>(messy_names)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Alice"    "BOB"      "cara-mae" "dave"    </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a aria-label="1"></a><span class="fu">str_squish</span>(<span class="st">"  too    many   spaces "</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a aria-label="1"></a><span class="fu">str_squish</span>(<span class="st">"  too    many   spaces "</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "too many spaces"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a aria-label="1"></a><span class="fu">str_to_title</span>(<span class="fu">str_squish</span>(messy_names))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a aria-label="1"></a><span class="fu">str_to_title</span>(<span class="fu">str_squish</span>(messy_names))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Alice"    "Bob"      "Cara-Mae" "Dave"    </code></pre>
 </div>
@@ -741,11 +780,11 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a aria-label="1"></a><span class="fu">str_detect</span>(messy_names, <span class="st">"a"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a aria-label="1"></a><span class="fu">str_detect</span>(messy_names, <span class="st">"a"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE FALSE  TRUE  TRUE</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a aria-label="1"></a><span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(messy_names), <span class="st">"a"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a aria-label="1"></a><span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(messy_names), <span class="st">"a"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  TRUE FALSE  TRUE  TRUE</code></pre>
 </div>
@@ -772,15 +811,15 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a aria-label="1"></a><span class="fu">str_replace</span>(<span class="st">"cara-mae"</span>, <span class="st">"-"</span>, <span class="st">" "</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a aria-label="1"></a><span class="fu">str_replace</span>(<span class="st">"cara-mae"</span>, <span class="st">"-"</span>, <span class="st">" "</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "cara mae"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a aria-label="1"></a><span class="fu">str_replace_all</span>(<span class="st">"a-b-c-d"</span>, <span class="st">"-"</span>, <span class="st">"_"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a aria-label="1"></a><span class="fu">str_replace_all</span>(<span class="st">"a-b-c-d"</span>, <span class="st">"-"</span>, <span class="st">"_"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "a_b_c_d"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a aria-label="1"></a><span class="fu">str_remove</span>(<span class="st">"MATH6195"</span>, <span class="st">"MATH"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a aria-label="1"></a><span class="fu">str_remove</span>(<span class="st">"MATH6195"</span>, <span class="st">"MATH"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "6195"</code></pre>
 </div>
@@ -807,10 +846,10 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a aria-label="1"></a><span class="fu">tibble</span>(<span class="at">raw =</span> messy_names) <span class="sc">|&gt;</span></span>
-<span id="cb45-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">clean =</span> <span class="fu">str_to_title</span>(<span class="fu">str_squish</span>(raw)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a aria-label="1"></a><span class="fu">tibble</span>(<span class="at">raw =</span> messy_names) <span class="sc">|&gt;</span></span>
+<span id="cb59-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">clean =</span> <span class="fu">str_to_title</span>(<span class="fu">str_squish</span>(raw)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4 × 2
+<pre><code># A tibble: 4 x 2
   raw         clean   
   &lt;chr&gt;       &lt;chr&gt;   
 1 "  Alice  " Alice   
@@ -857,14 +896,14 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a aria-label="1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">ymd</span>(<span class="st">"2025-August-11"</span>)</span>
-<span id="cb47-2"><a aria-label="2"></a>d2 <span class="ot">&lt;-</span> <span class="fu">dmy</span>(<span class="st">"11/08/25"</span>)</span>
-<span id="cb47-3"><a aria-label="3"></a>d3 <span class="ot">&lt;-</span> <span class="fu">mdy</span>(<span class="st">"8.11.2025"</span>)</span>
-<span id="cb47-4"><a aria-label="4"></a><span class="fu">c</span>(d1, d2, d3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a aria-label="1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">ymd</span>(<span class="st">"2025-August-11"</span>)</span>
+<span id="cb61-2"><a aria-label="2"></a>d2 <span class="ot">&lt;-</span> <span class="fu">dmy</span>(<span class="st">"11/08/25"</span>)</span>
+<span id="cb61-3"><a aria-label="3"></a>d3 <span class="ot">&lt;-</span> <span class="fu">mdy</span>(<span class="st">"8.11.2025"</span>)</span>
+<span id="cb61-4"><a aria-label="4"></a><span class="fu">c</span>(d1, d2, d3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2025-08-11" "2025-08-11" "2025-08-11"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a aria-label="1"></a><span class="fu">class</span>(d1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a aria-label="1"></a><span class="fu">class</span>(d1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Date"</code></pre>
 </div>
@@ -904,14 +943,14 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a aria-label="1"></a>student_data<span class="sc">$</span>date_of_birth</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a aria-label="1"></a>student_data<span class="sc">$</span>date_of_birth</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] 37205 37845 37505 37717 37387 38218 38146 37596 38167 37590 37472 37803
 [13] 37283 37852 37900 37865 38162 37870 37282 37481</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a aria-label="1"></a>student_data <span class="ot">&lt;-</span> student_data <span class="sc">|&gt;</span></span>
-<span id="cb53-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">date_of_birth =</span> <span class="fu">excel_numeric_to_date</span>(date_of_birth))</span>
-<span id="cb53-3"><a aria-label="3"></a>student_data<span class="sc">$</span>date_of_birth</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a aria-label="1"></a>student_data <span class="ot">&lt;-</span> student_data <span class="sc">|&gt;</span></span>
+<span id="cb67-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">date_of_birth =</span> <span class="fu">excel_numeric_to_date</span>(date_of_birth))</span>
+<span id="cb67-3"><a aria-label="3"></a>student_data<span class="sc">$</span>date_of_birth</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "2001-11-10" "2003-08-12" "2002-09-06" "2003-04-06" "2002-05-11"
  [6] "2004-08-19" "2004-06-08" "2002-12-06" "2004-06-29" "2002-11-30"
@@ -941,36 +980,36 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a aria-label="1"></a>student_data <span class="sc">|&gt;</span></span>
-<span id="cb55-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb55-3"><a aria-label="3"></a>    <span class="at">birth_year =</span> <span class="fu">year</span>(date_of_birth),</span>
-<span id="cb55-4"><a aria-label="4"></a>    <span class="at">age =</span> <span class="fu">floor</span>(<span class="fu">time_length</span>(<span class="fu">interval</span>(date_of_birth, <span class="fu">today</span>()), <span class="st">"years"</span>))</span>
-<span id="cb55-5"><a aria-label="5"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb55-6"><a aria-label="6"></a>  <span class="fu">arrange</span>(date_of_birth)   <span class="co"># earliest birthday = oldest</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a aria-label="1"></a>student_data <span class="sc">|&gt;</span></span>
+<span id="cb69-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb69-3"><a aria-label="3"></a>    <span class="at">birth_year =</span> <span class="fu">year</span>(date_of_birth),</span>
+<span id="cb69-4"><a aria-label="4"></a>    <span class="at">age =</span> <span class="fu">floor</span>(<span class="fu">time_length</span>(<span class="fu">interval</span>(date_of_birth, <span class="fu">today</span>()), <span class="st">"years"</span>))</span>
+<span id="cb69-5"><a aria-label="5"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb69-6"><a aria-label="6"></a>  <span class="fu">arrange</span>(date_of_birth)   <span class="co"># earliest birthday = oldest</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 20 × 6
-      id given_name family_name   date_of_birth birth_year   age
-   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;         &lt;date&gt;             &lt;dbl&gt; &lt;dbl&gt;
- 1     1 Adaora     Nkomo         2001-11-10          2001    24
- 2    19 Chen       Jiayu         2002-01-26          2002    24
- 3    13 Yang       Siyu          2002-01-27          2002    24
- 4     5 Amara      Baptiste      2002-05-11          2002    24
- 5    11 Tariq      Ibn Rashid    2002-08-04          2002    24
- 6    20 Enzo       Martinelli    2002-08-13          2002    24
- 7     3 Aaliyah    Williams      2002-09-06          2002    24
- 8    10 Yuki       Nakamura      2002-11-30          2002    23
- 9     8 Kofi       Asante        2002-12-06          2002    23
-10     4 Dimitri    Volkov        2003-04-06          2003    23
-11    12 Indira     Sharma        2003-07-01          2003    23
-12     2 Hiroshi    Tanaka        2003-08-12          2003    23
-13    14 Amina      Okonkwo       2003-08-19          2003    23
-14    16 Nkem       Chukwu        2003-09-01          2003    23
-15    18 Kwame      Mensah        2003-09-06          2003    23
-16    15 Lars       Andersen      2003-10-06          2003    22
-17     7 Lin        Yifan         2004-06-08          2004    22
-18    17 Sofia      Popović       2004-06-24          2004    22
-19     9 Esperanza  Delgado       2004-06-29          2004    22
-20     6 Rajesh     Krishnamurthy 2004-08-19          2004    22</code></pre>
+<pre><code># A tibble: 20 x 6
+      id given_name family_name     date_of_birth birth_year   age
+   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;date&gt;             &lt;dbl&gt; &lt;dbl&gt;
+ 1     1 Adaora     "Nkomo"         2001-11-10          2001    24
+ 2    19 Chen       "Jiayu"         2002-01-26          2002    24
+ 3    13 Yang       "Siyu"          2002-01-27          2002    24
+ 4     5 Amara      "Baptiste"      2002-05-11          2002    24
+ 5    11 Tariq      "Ibn Rashid"    2002-08-04          2002    24
+ 6    20 Enzo       "Martinelli"    2002-08-13          2002    24
+ 7     3 Aaliyah    "Williams"      2002-09-06          2002    24
+ 8    10 Yuki       "Nakamura"      2002-11-30          2002    23
+ 9     8 Kofi       "Asante"        2002-12-06          2002    23
+10     4 Dimitri    "Volkov"        2003-04-06          2003    23
+11    12 Indira     "Sharma"        2003-07-01          2003    23
+12     2 Hiroshi    "Tanaka"        2003-08-12          2003    23
+13    14 Amina      "Okonkwo"       2003-08-19          2003    23
+14    16 Nkem       "Chukwu"        2003-09-01          2003    23
+15    18 Kwame      "Mensah"        2003-09-06          2003    23
+16    15 Lars       "Andersen"      2003-10-06          2003    22
+17     7 Lin        "Yifan"         2004-06-08          2004    22
+18    17 Sofia      "Popovi\u0107"  2004-06-24          2004    22
+19     9 Esperanza  "Delgado"       2004-06-29          2004    22
+20     6 Rajesh     "Krishnamurthy" 2004-08-19          2004    22</code></pre>
 </div>
 </div>
 </div>
@@ -1008,12 +1047,12 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a aria-label="1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">"2025-08-11 11:33:01"</span>)</span>
-<span id="cb57-2"><a aria-label="2"></a><span class="fu">tz</span>(t1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a aria-label="1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">"2025-08-11 11:33:01"</span>)</span>
+<span id="cb71-2"><a aria-label="2"></a><span class="fu">tz</span>(t1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "UTC"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a aria-label="1"></a><span class="fu">with_tz</span>(t1, <span class="st">"Asia/Tokyo"</span>)    <span class="co"># convert: read the same moment off a Tokyo clock</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a aria-label="1"></a><span class="fu">with_tz</span>(t1, <span class="st">"Asia/Tokyo"</span>)    <span class="co"># convert: read the same moment off a Tokyo clock</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2025-08-11 20:33:01 JST"</code></pre>
 </div>
@@ -1040,12 +1079,12 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a aria-label="1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">force_tz</span>(t1, <span class="st">"Asia/Tokyo"</span>)   <span class="co"># relabel: keep 11:33, change the zone</span></span>
-<span id="cb61-2"><a aria-label="2"></a>t2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a aria-label="1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">force_tz</span>(t1, <span class="st">"Asia/Tokyo"</span>)   <span class="co"># relabel: keep 11:33, change the zone</span></span>
+<span id="cb75-2"><a aria-label="2"></a>t2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2025-08-11 11:33:01 JST"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a aria-label="1"></a>t2 <span class="sc">-</span> t1                            <span class="co"># a genuinely different moment</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a aria-label="1"></a>t2 <span class="sc">-</span> t1                            <span class="co"># a genuinely different moment</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Time difference of -9 hours</code></pre>
 </div>
@@ -1477,44 +1516,6 @@
         }
       })();
     </script>
-    
-    <script>
-      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-      // slide changes (different for each slide format).
-      (function () {
-        // dispatch for htmlwidgets
-        function fireSlideEnter() {
-          const event = window.document.createEvent("Event");
-          event.initEvent("slideenter", true, true);
-          window.document.dispatchEvent(event);
-        }
-
-        function fireSlideChanged(previousSlide, currentSlide) {
-          fireSlideEnter();
-
-          // dispatch for shiny
-          if (window.jQuery) {
-            if (previousSlide) {
-              window.jQuery(previousSlide).trigger("hidden");
-            }
-            if (currentSlide) {
-              window.jQuery(currentSlide).trigger("shown");
-            }
-          }
-        }
-
-        // hookup for slidy
-        if (window.w3c_slidy) {
-          window.w3c_slidy.add_observer(function (slide_num) {
-            // slide_num starts at position 1
-            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-          });
-        }
-
-      })();
-    </script>
-
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")

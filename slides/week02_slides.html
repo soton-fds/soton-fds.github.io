@@ -733,10 +733,27 @@ allows, one line on the relatives: `NaN` (0/0), `Inf` (1/0), `NULL`
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a aria-label="1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb45-2"><a aria-label="2"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">5</span>)</span>
-<span id="cb45-3"><a aria-label="3"></a></span>
-<span id="cb45-4"><a aria-label="4"></a><span class="fu">if_else</span>(x <span class="sc">&gt;</span> <span class="dv">2</span>, <span class="st">"big"</span>, <span class="st">"small"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a aria-label="1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a aria-label="1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">5</span>)</span>
+<span id="cb50-2"><a aria-label="2"></a></span>
+<span id="cb50-3"><a aria-label="3"></a><span class="fu">if_else</span>(x <span class="sc">&gt;</span> <span class="dv">2</span>, <span class="st">"big"</span>, <span class="st">"small"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "big"   "small" "big"   "small" "big"  </code></pre>
 </div>
@@ -760,11 +777,11 @@ allows, one line on the relatives: `NaN` (0/0), `Inf` (1/0), `NULL`
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a aria-label="1"></a><span class="fu">case_when</span>(</span>
-<span id="cb47-2"><a aria-label="2"></a>  x <span class="sc">&lt;</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"small"</span>,</span>
-<span id="cb47-3"><a aria-label="3"></a>  x <span class="sc">&lt;</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"medium"</span>,</span>
-<span id="cb47-4"><a aria-label="4"></a>  <span class="cn">TRUE</span>  <span class="sc">~</span> <span class="st">"large"</span></span>
-<span id="cb47-5"><a aria-label="5"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a aria-label="1"></a><span class="fu">case_when</span>(</span>
+<span id="cb52-2"><a aria-label="2"></a>  x <span class="sc">&lt;</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"small"</span>,</span>
+<span id="cb52-3"><a aria-label="3"></a>  x <span class="sc">&lt;</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"medium"</span>,</span>
+<span id="cb52-4"><a aria-label="4"></a>  <span class="cn">TRUE</span>  <span class="sc">~</span> <span class="st">"large"</span></span>
+<span id="cb52-5"><a aria-label="5"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "medium" "small"  "medium" "small"  "large" </code></pre>
 </div>
@@ -806,11 +823,11 @@ allows, one line on the relatives: `NaN` (0/0), `Inf` (1/0), `NULL`
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a aria-label="1"></a>add <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
-<span id="cb49-2"><a aria-label="2"></a>  x <span class="sc">+</span> y        <span class="co"># the LAST expression is the return value</span></span>
-<span id="cb49-3"><a aria-label="3"></a>}</span>
-<span id="cb49-4"><a aria-label="4"></a></span>
-<span id="cb49-5"><a aria-label="5"></a><span class="fu">add</span>(<span class="dv">1</span>, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a aria-label="1"></a>add <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb54-2"><a aria-label="2"></a>  x <span class="sc">+</span> y        <span class="co"># the LAST expression is the return value</span></span>
+<span id="cb54-3"><a aria-label="3"></a>}</span>
+<span id="cb54-4"><a aria-label="4"></a></span>
+<span id="cb54-5"><a aria-label="5"></a><span class="fu">add</span>(<span class="dv">1</span>, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 11</code></pre>
 </div>
@@ -837,21 +854,21 @@ allows, one line on the relatives: `NaN` (0/0), `Inf` (1/0), `NULL`
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a aria-label="1"></a>clip <span class="ot">&lt;-</span> <span class="cf">function</span>(x, lower, upper) {</span>
-<span id="cb51-2"><a aria-label="2"></a>  <span class="cf">if</span> (x <span class="sc">&lt;</span> lower) <span class="fu">return</span>(lower)   <span class="co"># guard clause</span></span>
-<span id="cb51-3"><a aria-label="3"></a>  <span class="cf">if</span> (x <span class="sc">&gt;</span> upper) <span class="fu">return</span>(upper)</span>
-<span id="cb51-4"><a aria-label="4"></a>  x                              <span class="co"># still here? it's in range</span></span>
-<span id="cb51-5"><a aria-label="5"></a>}</span>
-<span id="cb51-6"><a aria-label="6"></a></span>
-<span id="cb51-7"><a aria-label="7"></a><span class="fu">clip</span>(<span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a aria-label="1"></a>clip <span class="ot">&lt;-</span> <span class="cf">function</span>(x, lower, upper) {</span>
+<span id="cb56-2"><a aria-label="2"></a>  <span class="cf">if</span> (x <span class="sc">&lt;</span> lower) <span class="fu">return</span>(lower)   <span class="co"># guard clause</span></span>
+<span id="cb56-3"><a aria-label="3"></a>  <span class="cf">if</span> (x <span class="sc">&gt;</span> upper) <span class="fu">return</span>(upper)</span>
+<span id="cb56-4"><a aria-label="4"></a>  x                              <span class="co"># still here? it's in range</span></span>
+<span id="cb56-5"><a aria-label="5"></a>}</span>
+<span id="cb56-6"><a aria-label="6"></a></span>
+<span id="cb56-7"><a aria-label="7"></a><span class="fu">clip</span>(<span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a aria-label="1"></a><span class="fu">clip</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a aria-label="1"></a><span class="fu">clip</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a aria-label="1"></a><span class="fu">clip</span>(<span class="dv">42</span>, <span class="dv">0</span>, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a aria-label="1"></a><span class="fu">clip</span>(<span class="dv">42</span>, <span class="dv">0</span>, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 10</code></pre>
 </div>
@@ -875,7 +892,7 @@ allows, one line on the relatives: `NaN` (0/0), `Inf` (1/0), `NULL`
 <h2>Functions are Variables</h2>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a aria-label="1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="cf">function</span>(x) <span class="fu">clip</span>(x, <span class="dv">3</span>, <span class="dv">7</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a aria-label="1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="cf">function</span>(x) <span class="fu">clip</span>(x, <span class="dv">3</span>, <span class="dv">7</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] 3 3 3 4 5 6 7 7 7 7</code></pre>
 </div>
@@ -894,11 +911,11 @@ allows, one line on the relatives: `NaN` (0/0), `Inf` (1/0), `NULL`
 <section id="composing-functions-fgx" class="slide level2">
 <h2>Composing functions: <code>f(g(x))</code></h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a aria-label="1"></a>times_ten <span class="ot">&lt;-</span> <span class="cf">function</span>(y) y <span class="sc">*</span> <span class="dv">10</span></span>
-<span id="cb59-2"><a aria-label="2"></a>add_five <span class="ot">&lt;-</span> <span class="cf">function</span>(x) x <span class="sc">+</span> <span class="dv">5</span></span>
-<span id="cb59-3"><a aria-label="3"></a></span>
-<span id="cb59-4"><a aria-label="4"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb59-5"><a aria-label="5"></a><span class="fu">times_ten</span>(<span class="fu">add_five</span>(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a aria-label="1"></a>times_ten <span class="ot">&lt;-</span> <span class="cf">function</span>(y) y <span class="sc">*</span> <span class="dv">10</span></span>
+<span id="cb64-2"><a aria-label="2"></a>add_five <span class="ot">&lt;-</span> <span class="cf">function</span>(x) x <span class="sc">+</span> <span class="dv">5</span></span>
+<span id="cb64-3"><a aria-label="3"></a></span>
+<span id="cb64-4"><a aria-label="4"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb64-5"><a aria-label="5"></a><span class="fu">times_ten</span>(<span class="fu">add_five</span>(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="fragment">
 <p>Readable — up to a point.</p>
@@ -921,7 +938,7 @@ allows, one line on the relatives: `NaN` (0/0), `Inf` (1/0), `NULL`
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a aria-label="1"></a>x <span class="sc">|&gt;</span> <span class="fu">add_five</span>() <span class="sc">|&gt;</span> <span class="fu">times_ten</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a aria-label="1"></a>x <span class="sc">|&gt;</span> <span class="fu">add_five</span>() <span class="sc">|&gt;</span> <span class="fu">times_ten</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 150</code></pre>
 </div>
@@ -1369,44 +1386,6 @@ allows, one line on the relatives: `NaN` (0/0), `Inf` (1/0), `NULL`
         }
       })();
     </script>
-    
-    <script>
-      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-      // slide changes (different for each slide format).
-      (function () {
-        // dispatch for htmlwidgets
-        function fireSlideEnter() {
-          const event = window.document.createEvent("Event");
-          event.initEvent("slideenter", true, true);
-          window.document.dispatchEvent(event);
-        }
-
-        function fireSlideChanged(previousSlide, currentSlide) {
-          fireSlideEnter();
-
-          // dispatch for shiny
-          if (window.jQuery) {
-            if (previousSlide) {
-              window.jQuery(previousSlide).trigger("hidden");
-            }
-            if (currentSlide) {
-              window.jQuery(currentSlide).trigger("shown");
-            }
-          }
-        }
-
-        // hookup for slidy
-        if (window.w3c_slidy) {
-          window.w3c_slidy.add_observer(function (slide_num) {
-            // slide_num starts at position 1
-            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-          });
-        }
-
-      })();
-    </script>
-
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")

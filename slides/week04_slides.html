@@ -238,6 +238,9 @@
 <h2>One Import is All You Need</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-label="1"></a><span class="fu">library</span>(tidyverse)   <span class="co"># readr + dplyr + tidyr + ggplot2 + ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.4.3</code></pre>
+</div>
 </div>
 <div class="fragment">
 <p>The <code>tidyverse</code> is a <em>bundle</em> of packages that share a design philosophy. Loading it gives us <code>readr</code> (loading), <code>dplyr</code> (transforming) and <code>tidyr</code> (reshaping) all at once.</p>
@@ -278,10 +281,10 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-label="1"></a>penguins <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/penguins.csv"</span>)</span>
-<span id="cb2-2"><a aria-label="2"></a>penguins</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-label="1"></a>penguins <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/penguins.csv"</span>)</span>
+<span id="cb3-2"><a aria-label="2"></a>penguins</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 344 × 9
+<pre><code># A tibble: 344 x 9
    rowid species island    bill_length_mm bill_depth_mm flipper_length_mm
    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;
  1     1 Adelie  Torgersen           39.1          18.7               181
@@ -294,8 +297,8 @@
  8     8 Adelie  Torgersen           39.2          19.6               195
  9     9 Adelie  Torgersen           34.1          18.1               193
 10    10 Adelie  Torgersen           42            20.2               190
-# ℹ 334 more rows
-# ℹ 3 more variables: body_mass_g &lt;dbl&gt;, sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
+# i 334 more rows
+# i 3 more variables: body_mass_g &lt;dbl&gt;, sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -333,9 +336,9 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-label="1"></a><span class="fu">read_delim</span>(<span class="st">"data/penguins_pipe.txt"</span>, <span class="at">delim =</span> <span class="st">"|"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-label="1"></a><span class="fu">read_delim</span>(<span class="st">"data/penguins_pipe.txt"</span>, <span class="at">delim =</span> <span class="st">"|"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 344 × 9
+<pre><code># A tibble: 344 x 9
    rowid species island    bill_length_mm bill_depth_mm flipper_length_mm
    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;
  1     1 Adelie  Torgersen           39.1          18.7               181
@@ -348,8 +351,8 @@
  8     8 Adelie  Torgersen           39.2          19.6               195
  9     9 Adelie  Torgersen           34.1          18.1               193
 10    10 Adelie  Torgersen           42            20.2               190
-# ℹ 334 more rows
-# ℹ 3 more variables: body_mass_g &lt;dbl&gt;, sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
+# i 334 more rows
+# i 3 more variables: body_mass_g &lt;dbl&gt;, sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -395,10 +398,10 @@
 </div>
 <div class="fragment">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-label="1"></a><span class="fu">library</span>(gapminder)</span>
-<span id="cb6-2"><a aria-label="2"></a>gapminder</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-label="1"></a><span class="fu">library</span>(gapminder)</span>
+<span id="cb7-2"><a aria-label="2"></a>gapminder</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,704 × 6
+<pre><code># A tibble: 1,704 x 6
    country     continent  year lifeExp      pop gdpPercap
    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
  1 Afghanistan Asia       1952    28.8  8425333      779.
@@ -411,7 +414,7 @@
  8 Afghanistan Asia       1987    40.8 13867957      852.
  9 Afghanistan Asia       1992    41.7 16317921      649.
 10 Afghanistan Asia       1997    41.8 22227415      635.
-# ℹ 1,694 more rows</code></pre>
+# i 1,694 more rows</code></pre>
 </div>
 </div>
 </div>
@@ -446,10 +449,10 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-label="1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb8-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">gdp_billions =</span> gdpPercap <span class="sc">*</span> pop <span class="sc">/</span> <span class="fl">1e9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-label="1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">gdp_billions =</span> gdpPercap <span class="sc">*</span> pop <span class="sc">/</span> <span class="fl">1e9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,704 × 7
+<pre><code># A tibble: 1,704 x 7
    country     continent  year lifeExp      pop gdpPercap gdp_billions
    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;        &lt;dbl&gt;
  1 Afghanistan Asia       1952    28.8  8425333      779.         6.57
@@ -462,7 +465,7 @@
  8 Afghanistan Asia       1987    40.8 13867957      852.        11.8 
  9 Afghanistan Asia       1992    41.7 16317921      649.        10.6 
 10 Afghanistan Asia       1997    41.8 22227415      635.        14.1 
-# ℹ 1,694 more rows</code></pre>
+# i 1,694 more rows</code></pre>
 </div>
 </div>
 </div>
@@ -487,7 +490,10 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-label="1"></a>gapminder<span class="sc">$</span>gdp_billions</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-label="1"></a>gapminder<span class="sc">$</span>gdp_billions</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Unknown or uninitialised column: `gdp_billions`.</code></pre>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>NULL</code></pre>
 </div>
@@ -498,8 +504,8 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-label="1"></a>gapminder <span class="ot">&lt;-</span> gapminder <span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">gdp_billions =</span> gdpPercap <span class="sc">*</span> pop <span class="sc">/</span> <span class="fl">1e9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-label="1"></a>gapminder <span class="ot">&lt;-</span> gapminder <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">gdp_billions =</span> gdpPercap <span class="sc">*</span> pop <span class="sc">/</span> <span class="fl">1e9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <aside class="notes">
@@ -533,10 +539,10 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-label="1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb13-2"><a aria-label="2"></a>  <span class="fu">select</span>(country, continent, year, gdp_billions)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-label="1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a aria-label="2"></a>  <span class="fu">select</span>(country, continent, year, gdp_billions)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,704 × 4
+<pre><code># A tibble: 1,704 x 4
    country     continent  year gdp_billions
    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;        &lt;dbl&gt;
  1 Afghanistan Asia       1952         6.57
@@ -549,7 +555,7 @@
  8 Afghanistan Asia       1987        11.8 
  9 Afghanistan Asia       1992        10.6 
 10 Afghanistan Asia       1997        14.1 
-# ℹ 1,694 more rows</code></pre>
+# i 1,694 more rows</code></pre>
 </div>
 </div>
 </div>
@@ -584,11 +590,11 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-label="1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb15-2"><a aria-label="2"></a>  <span class="fu">filter</span>(continent <span class="sc">==</span> <span class="st">"Asia"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb15-3"><a aria-label="3"></a>  <span class="fu">select</span>(country, year, gdp_billions)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-label="1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a aria-label="2"></a>  <span class="fu">filter</span>(continent <span class="sc">==</span> <span class="st">"Asia"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-3"><a aria-label="3"></a>  <span class="fu">select</span>(country, year, gdp_billions)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 396 × 3
+<pre><code># A tibble: 396 x 3
    country      year gdp_billions
    &lt;fct&gt;       &lt;int&gt;        &lt;dbl&gt;
  1 Afghanistan  1952         6.57
@@ -601,7 +607,7 @@
  8 Afghanistan  1987        11.8 
  9 Afghanistan  1992        10.6 
 10 Afghanistan  1997        14.1 
-# ℹ 386 more rows</code></pre>
+# i 386 more rows</code></pre>
 </div>
 </div>
 </div>
@@ -639,12 +645,12 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-label="1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb17-2"><a aria-label="2"></a>  <span class="fu">filter</span>(continent <span class="sc">==</span> <span class="st">"Asia"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb17-3"><a aria-label="3"></a>  <span class="fu">select</span>(country, year, gdp_billions) <span class="sc">|&gt;</span></span>
-<span id="cb17-4"><a aria-label="4"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(gdp_billions))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-label="1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a aria-label="2"></a>  <span class="fu">filter</span>(continent <span class="sc">==</span> <span class="st">"Asia"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-3"><a aria-label="3"></a>  <span class="fu">select</span>(country, year, gdp_billions) <span class="sc">|&gt;</span></span>
+<span id="cb19-4"><a aria-label="4"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(gdp_billions))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 396 × 3
+<pre><code># A tibble: 396 x 3
    country  year gdp_billions
    &lt;fct&gt;   &lt;int&gt;        &lt;dbl&gt;
  1 China    2007        6540.
@@ -657,7 +663,7 @@
  8 Japan    1987        2732.
  9 India    2007        2723.
 10 Japan    1982        2296.
-# ℹ 386 more rows</code></pre>
+# i 386 more rows</code></pre>
 </div>
 </div>
 </div>
@@ -682,11 +688,11 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-label="1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb19-2"><a aria-label="2"></a>  <span class="fu">filter</span>(continent <span class="sc">==</span> <span class="st">"Asia"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb19-3"><a aria-label="3"></a>  <span class="fu">summarise</span>(<span class="at">mean_gdp =</span> <span class="fu">mean</span>(gdp_billions))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-label="1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a aria-label="2"></a>  <span class="fu">filter</span>(continent <span class="sc">==</span> <span class="st">"Asia"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a aria-label="3"></a>  <span class="fu">summarise</span>(<span class="at">mean_gdp =</span> <span class="fu">mean</span>(gdp_billions))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 1
+<pre><code># A tibble: 1 x 1
   mean_gdp
      &lt;dbl&gt;
 1     227.</code></pre>
@@ -732,11 +738,11 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-label="1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb21-2"><a aria-label="2"></a>  <span class="fu">group_by</span>(continent) <span class="sc">|&gt;</span></span>
-<span id="cb21-3"><a aria-label="3"></a>  <span class="fu">summarise</span>(<span class="at">avg_lifeExp =</span> <span class="fu">mean</span>(lifeExp))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a aria-label="1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a aria-label="2"></a>  <span class="fu">group_by</span>(continent) <span class="sc">|&gt;</span></span>
+<span id="cb23-3"><a aria-label="3"></a>  <span class="fu">summarise</span>(<span class="at">avg_lifeExp =</span> <span class="fu">mean</span>(lifeExp))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 2
+<pre><code># A tibble: 5 x 2
   continent avg_lifeExp
   &lt;fct&gt;           &lt;dbl&gt;
 1 Africa           48.9
@@ -789,18 +795,18 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a aria-label="1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb23-2"><a aria-label="2"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;</span> <span class="dv">1960</span>) <span class="sc">|&gt;</span></span>
-<span id="cb23-3"><a aria-label="3"></a>  <span class="fu">group_by</span>(country) <span class="sc">|&gt;</span></span>
-<span id="cb23-4"><a aria-label="4"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb23-5"><a aria-label="5"></a>    <span class="at">mean_gdp =</span> <span class="fu">mean</span>(gdp_billions),</span>
-<span id="cb23-6"><a aria-label="6"></a>    <span class="at">max_gdp  =</span> <span class="fu">max</span>(gdp_billions),</span>
-<span id="cb23-7"><a aria-label="7"></a>    <span class="at">n_years  =</span> <span class="fu">n</span>(),</span>
-<span id="cb23-8"><a aria-label="8"></a>    <span class="at">.groups  =</span> <span class="st">"drop"</span></span>
-<span id="cb23-9"><a aria-label="9"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb23-10"><a aria-label="10"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_gdp))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a aria-label="1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb25-2"><a aria-label="2"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;</span> <span class="dv">1960</span>) <span class="sc">|&gt;</span></span>
+<span id="cb25-3"><a aria-label="3"></a>  <span class="fu">group_by</span>(country) <span class="sc">|&gt;</span></span>
+<span id="cb25-4"><a aria-label="4"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb25-5"><a aria-label="5"></a>    <span class="at">mean_gdp =</span> <span class="fu">mean</span>(gdp_billions),</span>
+<span id="cb25-6"><a aria-label="6"></a>    <span class="at">max_gdp  =</span> <span class="fu">max</span>(gdp_billions),</span>
+<span id="cb25-7"><a aria-label="7"></a>    <span class="at">n_years  =</span> <span class="fu">n</span>(),</span>
+<span id="cb25-8"><a aria-label="8"></a>    <span class="at">.groups  =</span> <span class="st">"drop"</span></span>
+<span id="cb25-9"><a aria-label="9"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb25-10"><a aria-label="10"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_gdp))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 142 × 4
+<pre><code># A tibble: 142 x 4
    country        mean_gdp max_gdp n_years
    &lt;fct&gt;             &lt;dbl&gt;   &lt;dbl&gt;   &lt;int&gt;
  1 United States     7200.  12934.      10
@@ -813,7 +819,7 @@
  8 India              990.   2723.      10
  9 Brazil             945.   1723.      10
 10 Mexico             689.   1302.      10
-# ℹ 132 more rows</code></pre>
+# i 132 more rows</code></pre>
 </div>
 </div>
 </div>
@@ -840,15 +846,15 @@
 <h2>Order matters: <code>filter</code> early</h2>
 <p>Both of these give the same answer. Which is cheaper?</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a aria-label="1"></a><span class="co"># A: compute for every row, then throw most away</span></span>
-<span id="cb25-2"><a aria-label="2"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb25-3"><a aria-label="3"></a>  <span class="fu">mutate</span>(<span class="at">gdp_billions =</span> gdpPercap <span class="sc">*</span> pop <span class="sc">/</span> <span class="fl">1e9</span>) <span class="sc">|&gt;</span></span>
-<span id="cb25-4"><a aria-label="4"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>, continent <span class="sc">==</span> <span class="st">"Asia"</span>)</span>
-<span id="cb25-5"><a aria-label="5"></a></span>
-<span id="cb25-6"><a aria-label="6"></a><span class="co"># B: throw rows away first, then compute</span></span>
-<span id="cb25-7"><a aria-label="7"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb25-8"><a aria-label="8"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>, continent <span class="sc">==</span> <span class="st">"Asia"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb25-9"><a aria-label="9"></a>  <span class="fu">mutate</span>(<span class="at">gdp_billions =</span> gdpPercap <span class="sc">*</span> pop <span class="sc">/</span> <span class="fl">1e9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a aria-label="1"></a><span class="co"># A: compute for every row, then throw most away</span></span>
+<span id="cb27-2"><a aria-label="2"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a aria-label="3"></a>  <span class="fu">mutate</span>(<span class="at">gdp_billions =</span> gdpPercap <span class="sc">*</span> pop <span class="sc">/</span> <span class="fl">1e9</span>) <span class="sc">|&gt;</span></span>
+<span id="cb27-4"><a aria-label="4"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>, continent <span class="sc">==</span> <span class="st">"Asia"</span>)</span>
+<span id="cb27-5"><a aria-label="5"></a></span>
+<span id="cb27-6"><a aria-label="6"></a><span class="co"># B: throw rows away first, then compute</span></span>
+<span id="cb27-7"><a aria-label="7"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb27-8"><a aria-label="8"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>, continent <span class="sc">==</span> <span class="st">"Asia"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb27-9"><a aria-label="9"></a>  <span class="fu">mutate</span>(<span class="at">gdp_billions =</span> gdpPercap <span class="sc">*</span> pop <span class="sc">/</span> <span class="fl">1e9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="fragment">
 <p><strong>B is cheaper.</strong> Filtering first means <code>mutate()</code> runs on ~30 rows, not ~1700. <strong>Rule of thumb: <code>filter()</code> as early as you can.</strong></p>
@@ -884,11 +890,11 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a aria-label="1"></a>gapminder <span class="sc">|&gt;</span></span>
-<span id="cb26-2"><a aria-label="2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
-<span id="cb26-3"><a aria-label="3"></a>  <span class="fu">count</span>(continent)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a aria-label="1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a aria-label="2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb28-3"><a aria-label="3"></a>  <span class="fu">count</span>(continent)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 2
+<pre><code># A tibble: 5 x 2
   continent     n
   &lt;fct&gt;     &lt;int&gt;
 1 Africa       52
@@ -926,26 +932,26 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a aria-label="1"></a>gapminder_wide <span class="ot">&lt;-</span> gapminder <span class="sc">|&gt;</span></span>
-<span id="cb28-2"><a aria-label="2"></a>  <span class="fu">select</span>(country, year, lifeExp) <span class="sc">|&gt;</span></span>
-<span id="cb28-3"><a aria-label="3"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> year, <span class="at">values_from =</span> lifeExp)</span>
-<span id="cb28-4"><a aria-label="4"></a>gapminder_wide</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a aria-label="1"></a>gapminder_wide <span class="ot">&lt;-</span> gapminder <span class="sc">|&gt;</span></span>
+<span id="cb30-2"><a aria-label="2"></a>  <span class="fu">select</span>(country, year, lifeExp) <span class="sc">|&gt;</span></span>
+<span id="cb30-3"><a aria-label="3"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> year, <span class="at">values_from =</span> lifeExp)</span>
+<span id="cb30-4"><a aria-label="4"></a>gapminder_wide</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 142 × 13
+<pre><code># A tibble: 142 x 13
    country `1952` `1957` `1962` `1967` `1972` `1977` `1982` `1987` `1992` `1997`
    &lt;fct&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
- 1 Afghan…   28.8   30.3   32.0   34.0   36.1   38.4   39.9   40.8   41.7   41.8
+ 1 Afghan~   28.8   30.3   32.0   34.0   36.1   38.4   39.9   40.8   41.7   41.8
  2 Albania   55.2   59.3   64.8   66.2   67.7   68.9   70.4   72     71.6   73.0
  3 Algeria   43.1   45.7   48.3   51.4   54.5   58.0   61.4   65.8   67.7   69.2
  4 Angola    30.0   32.0   34     36.0   37.9   39.5   39.9   39.9   40.6   41.0
- 5 Argent…   62.5   64.4   65.1   65.6   67.1   68.5   69.9   70.8   71.9   73.3
- 6 Austra…   69.1   70.3   70.9   71.1   71.9   73.5   74.7   76.3   77.6   78.8
+ 5 Argent~   62.5   64.4   65.1   65.6   67.1   68.5   69.9   70.8   71.9   73.3
+ 6 Austra~   69.1   70.3   70.9   71.1   71.9   73.5   74.7   76.3   77.6   78.8
  7 Austria   66.8   67.5   69.5   70.1   70.6   72.2   73.2   74.9   76.0   77.5
  8 Bahrain   50.9   53.8   56.9   59.9   63.3   65.6   69.1   70.8   72.6   73.9
- 9 Bangla…   37.5   39.3   41.2   43.5   45.3   46.9   50.0   52.8   56.0   59.4
+ 9 Bangla~   37.5   39.3   41.2   43.5   45.3   46.9   50.0   52.8   56.0   59.4
 10 Belgium   68     69.2   70.2   70.9   71.4   72.8   73.9   75.4   76.5   77.5
-# ℹ 132 more rows
-# ℹ 2 more variables: `2002` &lt;dbl&gt;, `2007` &lt;dbl&gt;</code></pre>
+# i 132 more rows
+# i 2 more variables: `2002` &lt;dbl&gt;, `2007` &lt;dbl&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -980,11 +986,11 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a aria-label="1"></a>gapminder_wide <span class="sc">|&gt;</span></span>
-<span id="cb30-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">change =</span> <span class="st">`</span><span class="at">2007</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">1952</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
-<span id="cb30-3"><a aria-label="3"></a>  <span class="fu">select</span>(country, change)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a aria-label="1"></a>gapminder_wide <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">change =</span> <span class="st">`</span><span class="at">2007</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">1952</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-3"><a aria-label="3"></a>  <span class="fu">select</span>(country, change)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 142 × 2
+<pre><code># A tibble: 142 x 2
    country     change
    &lt;fct&gt;        &lt;dbl&gt;
  1 Afghanistan   15.0
@@ -997,7 +1003,7 @@
  8 Bahrain       24.7
  9 Bangladesh    26.6
 10 Belgium       11.4
-# ℹ 132 more rows</code></pre>
+# i 132 more rows</code></pre>
 </div>
 </div>
 </div>
@@ -1022,14 +1028,14 @@
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a aria-label="1"></a>gapminder_wide <span class="sc">|&gt;</span></span>
-<span id="cb32-2"><a aria-label="2"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb32-3"><a aria-label="3"></a>    <span class="at">cols =</span> <span class="sc">-</span>country,</span>
-<span id="cb32-4"><a aria-label="4"></a>    <span class="at">names_to =</span> <span class="st">"year"</span>,</span>
-<span id="cb32-5"><a aria-label="5"></a>    <span class="at">values_to =</span> <span class="st">"lifeExp"</span></span>
-<span id="cb32-6"><a aria-label="6"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a aria-label="1"></a>gapminder_wide <span class="sc">|&gt;</span></span>
+<span id="cb34-2"><a aria-label="2"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb34-3"><a aria-label="3"></a>    <span class="at">cols =</span> <span class="sc">-</span>country,</span>
+<span id="cb34-4"><a aria-label="4"></a>    <span class="at">names_to =</span> <span class="st">"year"</span>,</span>
+<span id="cb34-5"><a aria-label="5"></a>    <span class="at">values_to =</span> <span class="st">"lifeExp"</span></span>
+<span id="cb34-6"><a aria-label="6"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1,704 × 3
+<pre><code># A tibble: 1,704 x 3
    country     year  lifeExp
    &lt;fct&gt;       &lt;chr&gt;   &lt;dbl&gt;
  1 Afghanistan 1952     28.8
@@ -1042,7 +1048,7 @@
  8 Afghanistan 1987     40.8
  9 Afghanistan 1992     41.7
 10 Afghanistan 1997     41.8
-# ℹ 1,694 more rows</code></pre>
+# i 1,694 more rows</code></pre>
 </div>
 </div>
 </div>
@@ -1468,44 +1474,6 @@
         }
       })();
     </script>
-    
-    <script>
-      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-      // slide changes (different for each slide format).
-      (function () {
-        // dispatch for htmlwidgets
-        function fireSlideEnter() {
-          const event = window.document.createEvent("Event");
-          event.initEvent("slideenter", true, true);
-          window.document.dispatchEvent(event);
-        }
-
-        function fireSlideChanged(previousSlide, currentSlide) {
-          fireSlideEnter();
-
-          // dispatch for shiny
-          if (window.jQuery) {
-            if (previousSlide) {
-              window.jQuery(previousSlide).trigger("hidden");
-            }
-            if (currentSlide) {
-              window.jQuery(currentSlide).trigger("shown");
-            }
-          }
-        }
-
-        // hookup for slidy
-        if (window.w3c_slidy) {
-          window.w3c_slidy.add_observer(function (slide_num) {
-            // slide_num starts at position 1
-            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-          });
-        }
-
-      })();
-    </script>
-
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
