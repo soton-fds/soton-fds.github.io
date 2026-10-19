@@ -139,11 +139,11 @@
 </div>
 
 </section>
-<section id="these-are-problem-sheets" class="slide level2">
-<h2>These are <em>problem sheets</em></h2>
+<section id="two-files-this-week" class="slide level2">
+<h2>Two files this week</h2>
 <ul>
-<li>Work at your own pace — you are <strong>not expected to finish everything</strong>.</li>
-<li>Tasks marked <strong>Extension</strong> are for if you finish early.</li>
+<li><code>lab_05.qmd</code> is <strong>today’s lab</strong>: work through it at your own pace.</li>
+<li><code>lab_05_practice.qmd</code> is a <strong>practice sheet</strong> with more questions on the same data, for after the lab (or if you finish early).</li>
 <li>I’ll stop everyone at certain points to demonstrate solutions.</li>
 <li>Put your hand up if you get stuck and we’ll come round.</li>
 </ul>
@@ -174,7 +174,26 @@
 <ul>
 <li><strong>Task 1 — Joining Data</strong> (~25 min): load the Simpsons tables, work out how they link together, then answer the research questions with joins.</li>
 <li><strong>Task 1b — Choosing a Join</strong> (~15 min): what does an <code>inner_join</code> throw away? We’ll then go through some of the surprises in the data.</li>
+<li><strong>Finished early?</strong> Try <em>Joining Data</em> in <code>lab_05_practice.qmd</code>.</li>
 </ul>
+</section>
+<section id="module-feedback" class="slide level2">
+<h2>Module feedback</h2>
+<p>Please take a couple of minutes in the break to tell us how the module is going.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div style="text-align: center;">
+<p><strong>MSc students</strong></p>
+<p><img data-src="img/feedback_msc_qr.svg" width="300"></p>
+<p><a href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=-XhTSvQpPk2-iWadA62p2K-BixcfbkJPoA0a2N1p4D5UNzdBSFlTNkFDWEZPME9QQzYwQlIzVVZBTy4u">Open the MSc form</a></p>
+</div>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center;">
+<p><strong>BSc students</strong></p>
+<p><img data-src="img/feedback_bsc_qr.svg" width="300"></p>
+<p><a href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=-XhTSvQpPk2-iWadA62p2K-BixcfbkJPoA0a2N1p4D5UMzdXWlpWRkFTQlJFRzQ5MjRCT1JERU5BWS4u">Open the BSc form</a></p>
+</div>
+</div></div>
 </section></section>
 <section id="break-15-minutes" class="title-slide slide level1 center">
 <h1>☕ Break — 15 minutes</h1>
@@ -192,6 +211,15 @@
 <li><strong>Task 2 — String Processing</strong> (~20 min): is the longest line really a line? We’ll stop to look at what went wrong.</li>
 <li><strong>Task 3a — Parsing Dates</strong> (~15 min): the same dates written four ways, and what happens when you use the wrong function.</li>
 <li><strong>Task 3b — Date Processing</strong> (~10 min): stock market data — watch out for leap years!</li>
+<li><strong>Finished early?</strong> Try <em>String Processing</em> and <em>Dates</em> in <code>lab_05_practice.qmd</code>.</li>
+</ul>
+</section>
+<section id="after-the-lab" class="slide level2">
+<h2>After the lab</h2>
+<ul>
+<li>Finish any tasks in <code>lab_05.qmd</code> you didn’t get to.</li>
+<li>Then work through <code>lab_05_practice.qmd</code>: each section follows on from the matching lab task.</li>
+<li>If you haven’t already, please fill in the module feedback form: <a href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=-XhTSvQpPk2-iWadA62p2K-BixcfbkJPoA0a2N1p4D5UNzdBSFlTNkFDWEZPME9QQzYwQlIzVVZBTy4u">MSc</a> · <a href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=-XhTSvQpPk2-iWadA62p2K-BixcfbkJPoA0a2N1p4D5UMzdXWlpWRkFTQlJFRzQ5MjRCT1JERU5BWS4u">BSc</a></li>
 </ul>
 
 
@@ -410,6 +438,153 @@
           RevealZoom
         ]
       });
+    </script>
+    <!--
+      Seats attendance code, shown in a fixed badge at the top-right of every slide.
+
+      Setting the code:
+        - Press "t" while presenting (or click the badge) and type the code.
+          Enter saves, Escape cancels, saving an empty code removes the badge.
+        - Or open the deck with ?seats=123456 in the URL.
+
+      The code is remembered in this browser for the rest of the day (so it
+      survives a page reload), and is dropped automatically the next day.
+      Nothing is shown until a code has been set.
+    -->
+    <style>
+      .seats-code {
+        position: fixed;
+        top: 12px;
+        right: 12px;
+        z-index: 10000;
+        display: none;
+        padding: 6px 14px 8px;
+        background: #fff;
+        color: #222;
+        border: 2px solid #222;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        text-align: center;
+        cursor: pointer;
+      }
+      .seats-code.is-visible { display: block; }
+      .seats-code-label {
+        font-size: max(11px, 0.9vw);
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+      .seats-code-value,
+      .seats-code input {
+        font: 700 max(28px, 2.8vw)/1.1 ui-monospace, Menlo, Consolas, monospace;
+        letter-spacing: 0.08em;
+      }
+      .seats-code input {
+        width: 7em;
+        padding: 0 4px;
+        border: 1px solid #888;
+        border-radius: 4px;
+        text-align: center;
+      }
+      @media print { .seats-code { display: none !important; } }
+    </style>
+    <script>
+      (function () {
+        var KEY = "seats-code:" + location.pathname;
+        var today = new Date().toDateString();
+
+        var badge = document.createElement("div");
+        badge.className = "seats-code";
+        badge.title = "Click or press T to change the Seats code";
+        var label = document.createElement("div");
+        label.className = "seats-code-label";
+        label.textContent = "Seats code";
+        var value = document.createElement("div");
+        value.className = "seats-code-value";
+        badge.appendChild(label);
+        badge.appendChild(value);
+
+        function load() {
+          try {
+            var saved = JSON.parse(localStorage.getItem(KEY));
+            return saved && saved.date === today ? saved.code : "";
+          } catch (e) {
+            return "";
+          }
+        }
+
+        function save(code) {
+          try {
+            if (code) localStorage.setItem(KEY, JSON.stringify({ code: code, date: today }));
+            else localStorage.removeItem(KEY);
+          } catch (e) {}
+        }
+
+        function show(code) {
+          value.textContent = code;
+          badge.classList.toggle("is-visible", !!code);
+        }
+
+        var editing = false;
+
+        function edit() {
+          if (editing) return;
+          editing = true;
+          var old = value.textContent;
+          var input = document.createElement("input");
+          input.type = "text";
+          input.value = old;
+          input.setAttribute("aria-label", "Seats code");
+          value.replaceWith(input);
+          badge.classList.add("is-visible");
+          input.focus();
+          input.select();
+
+          function finish(code) {
+            if (!editing) return;
+            editing = false;
+            input.replaceWith(value);
+            show(code);
+          }
+          input.addEventListener("keydown", function (e) {
+            // Keep reveal.js from treating typed keys as navigation.
+            e.stopPropagation();
+            if (e.key === "Enter") {
+              var code = input.value.trim();
+              save(code);
+              finish(code);
+            } else if (e.key === "Escape") {
+              finish(old);
+            }
+          });
+          input.addEventListener("blur", function () { finish(old); });
+        }
+
+        badge.addEventListener("click", edit);
+
+        var fromUrl = new URLSearchParams(location.search).get("seats");
+        if (fromUrl !== null) save(fromUrl.trim());
+        show(fromUrl !== null ? fromUrl.trim() : load());
+
+        // Put the badge inside the reveal container (if there is one) so it also
+        // shows when only that element is in fullscreen.
+        (document.querySelector(".reveal") || document.body).appendChild(badge);
+
+        var bound = false;
+        function bindKey() {
+          if (bound || !window.Reveal || !Reveal.addKeyBinding) return;
+          bound = true;
+          Reveal.addKeyBinding({ keyCode: 84, key: "T", description: "Set Seats code" }, edit);
+        }
+        function setUp() {
+          if (!window.Reveal) return;
+          if (Reveal.isReady && Reveal.isReady()) bindKey();
+          else Reveal.on("ready", bindKey);
+        }
+        setUp();
+        window.addEventListener("load", setUp);
+      })();
     </script>
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {

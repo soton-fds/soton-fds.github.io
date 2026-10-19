@@ -1141,11 +1141,11 @@
     "text": "Task 2 — Collaborating\n\nPerson B clones Person A’s repo.\nYou’ll both work in the same repo and practise fixing merge conflicts.\nSee the lab README.md for the steps."
   },
   {
-    "objectID": "lab05_slides.html#these-are-problem-sheets",
-    "href": "lab05_slides.html#these-are-problem-sheets",
+    "objectID": "lab05_slides.html#two-files-this-week",
+    "href": "lab05_slides.html#two-files-this-week",
     "title": "Lab 5: Joins, Strings & Dates",
-    "section": "These are problem sheets",
-    "text": "These are problem sheets\n\nWork at your own pace — you are not expected to finish everything.\nTasks marked Extension are for if you finish early.\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
+    "section": "Two files this week",
+    "text": "Two files this week\n\nlab_05.qmd is today’s lab: work through it at your own pace.\nlab_05_practice.qmd is a practice sheet with more questions on the same data, for after the lab (or if you finish early).\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
   },
   {
     "objectID": "lab05_slides.html#getting-started",
@@ -1166,14 +1166,28 @@
     "href": "lab05_slides.html#block-1",
     "title": "Lab 5: Joins, Strings & Dates",
     "section": "Block 1",
-    "text": "Block 1\n\nTask 1 — Joining Data (~25 min): load the Simpsons tables, work out how they link together, then answer the research questions with joins.\nTask 1b — Choosing a Join (~15 min): what does an inner_join throw away? We’ll then go through some of the surprises in the data."
+    "text": "Block 1\n\nTask 1 — Joining Data (~25 min): load the Simpsons tables, work out how they link together, then answer the research questions with joins.\nTask 1b — Choosing a Join (~15 min): what does an inner_join throw away? We’ll then go through some of the surprises in the data.\nFinished early? Try Joining Data in lab_05_practice.qmd."
+  },
+  {
+    "objectID": "lab05_slides.html#module-feedback",
+    "href": "lab05_slides.html#module-feedback",
+    "title": "Lab 5: Joins, Strings & Dates",
+    "section": "Module feedback",
+    "text": "Module feedback\nPlease take a couple of minutes in the break to tell us how the module is going.\n\n\n\nMSc students\n\nOpen the MSc form\n\n\n\nBSc students\n\nOpen the BSc form"
   },
   {
     "objectID": "lab05_slides.html#block-2",
     "href": "lab05_slides.html#block-2",
     "title": "Lab 5: Joins, Strings & Dates",
     "section": "Block 2",
-    "text": "Block 2\n\nTask 2 — String Processing (~20 min): is the longest line really a line? We’ll stop to look at what went wrong.\nTask 3a — Parsing Dates (~15 min): the same dates written four ways, and what happens when you use the wrong function.\nTask 3b — Date Processing (~10 min): stock market data — watch out for leap years!"
+    "text": "Block 2\n\nTask 2 — String Processing (~20 min): is the longest line really a line? We’ll stop to look at what went wrong.\nTask 3a — Parsing Dates (~15 min): the same dates written four ways, and what happens when you use the wrong function.\nTask 3b — Date Processing (~10 min): stock market data — watch out for leap years!\nFinished early? Try String Processing and Dates in lab_05_practice.qmd."
+  },
+  {
+    "objectID": "lab05_slides.html#after-the-lab",
+    "href": "lab05_slides.html#after-the-lab",
+    "title": "Lab 5: Joins, Strings & Dates",
+    "section": "After the lab",
+    "text": "After the lab\n\nFinish any tasks in lab_05.qmd you didn’t get to.\nThen work through lab_05_practice.qmd: each section follows on from the matching lab task.\nIf you haven’t already, please fill in the module feedback form: MSc · BSc"
   },
   {
     "objectID": "week01_slides.html#objectives",

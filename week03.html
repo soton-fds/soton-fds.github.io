@@ -239,6 +239,30 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data Visualisation Principles</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introduction to Shiny</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Research Software Engineering and Architecture in R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">SQL for Data Science</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./week10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Working with Big Data</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
@@ -264,6 +288,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="./slides/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course Slides</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Ethics and Biases</span></a>
   </div>
 </li>
       </ul>
@@ -588,7 +618,7 @@ i Specify the column types or set `show_col_types = FALSE` to quiet this message
 <section id="advantages-and-limitations-of-quarto" class="level3" data-number="3.2.3">
 <h3 data-number="3.2.3" class="anchored" data-anchor-id="advantages-and-limitations-of-quarto"><span class="header-section-number">3.2.3</span> Advantages and Limitations of Quarto</h3>
 <p>A major advantage of Quarto is that it is easy to integrate with version control because the files are “just” plain text files. We will examine this in more detail in the next section.</p>
-<p>It is worth being clear about what Quarto does and does <em>not</em> guarantee, however. By keeping all the code needed to produce your results in a single document, Quarto ensures that the <em>process</em> which generated your output is captured and can be re-run. What it does <em>not</em> capture is the <em>computational environment</em> — the versions of <code>R</code> and of the packages you used. A document that renders perfectly today may behave differently, or fail to render at all, if a package changes in the future. Recording the environment is therefore a separate concern, and one of the requirements for reproducibility we listed above. A simple first step is to call <code>sessionInfo()</code> in your document, which prints the versions of <code>R</code> and all loaded packages; a more complete solution is the <code>renv</code> package, which we will meet in <span class="quarto-unresolved-ref">?sec-rse</span>.</p>
+<p>It is worth being clear about what Quarto does and does <em>not</em> guarantee, however. By keeping all the code needed to produce your results in a single document, Quarto ensures that the <em>process</em> which generated your output is captured and can be re-run. What it does <em>not</em> capture is the <em>computational environment</em> — the versions of <code>R</code> and of the packages you used. A document that renders perfectly today may behave differently, or fail to render at all, if a package changes in the future. Recording the environment is therefore a separate concern, and one of the requirements for reproducibility we listed above. A simple first step is to call <code>sessionInfo()</code> in your document, which prints the versions of <code>R</code> and all loaded packages; a more complete solution is the <code>renv</code> package, which we will meet in <a href="week08.html" class="quarto-xref">Week&nbsp;<span>8</span></a>.</p>
 </section>
 </section>
 <section id="introduction-to-git" class="level2" data-number="3.3">
