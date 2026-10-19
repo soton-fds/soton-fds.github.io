@@ -110,6 +110,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
@@ -298,11 +301,11 @@ window.Quarto = {
   <li><a href="#objectives" id="toc-objectives" class="nav-link active" data-scroll-target="#objectives">Objectives</a></li>
   <li><a href="#what-is-shiny" id="toc-what-is-shiny" class="nav-link" data-scroll-target="#what-is-shiny"><span class="header-section-number">7.1</span> What is Shiny?</a></li>
   <li><a href="#basic-structure-of-a-shiny-app" id="toc-basic-structure-of-a-shiny-app" class="nav-link" data-scroll-target="#basic-structure-of-a-shiny-app"><span class="header-section-number">7.2</span> Basic Structure of a Shiny App</a></li>
-  <li><a href="#how-shiny-apps-are-executed" id="toc-how-shiny-apps-are-executed" class="nav-link" data-scroll-target="#how-shiny-apps-are-executed"><span class="header-section-number">7.3</span> How Shiny Apps are Executed</a></li>
+  <li><a href="#running-shiny-apps" id="toc-running-shiny-apps" class="nav-link" data-scroll-target="#running-shiny-apps"><span class="header-section-number">7.3</span> Running Shiny Apps</a></li>
   <li><a href="#reactive-programming" id="toc-reactive-programming" class="nav-link" data-scroll-target="#reactive-programming"><span class="header-section-number">7.4</span> Reactive Programming</a>
   <ul class="collapse">
-  <li><a href="#reactive-expressions" id="toc-reactive-expressions" class="nav-link" data-scroll-target="#reactive-expressions"><span class="header-section-number">7.4.1</span> Reactive Expressions</a></li>
-  <li><a href="#observers" id="toc-observers" class="nav-link" data-scroll-target="#observers"><span class="header-section-number">7.4.2</span> Observers</a></li>
+  <li><a href="#sec-shiny-reactive" id="toc-sec-shiny-reactive" class="nav-link" data-scroll-target="#sec-shiny-reactive"><span class="header-section-number">7.4.1</span> Reactive Expressions</a></li>
+  <li><a href="#sec-shiny-observers" id="toc-sec-shiny-observers" class="nav-link" data-scroll-target="#sec-shiny-observers"><span class="header-section-number">7.4.2</span> Observers</a></li>
   </ul></li>
   <li><a href="#sec-shiny-components" id="toc-sec-shiny-components" class="nav-link" data-scroll-target="#sec-shiny-components"><span class="header-section-number">7.5</span> Common Components</a>
   <ul class="collapse">
@@ -311,8 +314,10 @@ window.Quarto = {
   <li><a href="#output-widgets-and-render-functions" id="toc-output-widgets-and-render-functions" class="nav-link" data-scroll-target="#output-widgets-and-render-functions"><span class="header-section-number">7.5.3</span> Output Widgets and Render Functions</a></li>
   <li><a href="#example-a-small-data-explorer" id="toc-example-a-small-data-explorer" class="nav-link" data-scroll-target="#example-a-small-data-explorer"><span class="header-section-number">7.5.4</span> Example: A Small Data Explorer</a></li>
   </ul></li>
-  <li><a href="#common-use-cases" id="toc-common-use-cases" class="nav-link" data-scroll-target="#common-use-cases"><span class="header-section-number">7.6</span> Common Use Cases</a></li>
-  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="header-section-number">7.7</span> Limitations</a></li>
+  <li><a href="#common-mistakes-and-debugging" id="toc-common-mistakes-and-debugging" class="nav-link" data-scroll-target="#common-mistakes-and-debugging"><span class="header-section-number">7.6</span> Common Mistakes and Debugging</a></li>
+  <li><a href="#common-use-cases" id="toc-common-use-cases" class="nav-link" data-scroll-target="#common-use-cases"><span class="header-section-number">7.7</span> Common Use Cases</a></li>
+  <li><a href="#sharing-and-deploying-apps" id="toc-sharing-and-deploying-apps" class="nav-link" data-scroll-target="#sharing-and-deploying-apps"><span class="header-section-number">7.8</span> Sharing and Deploying Apps</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="header-section-number">7.9</span> Limitations</a></li>
   </ul>
 </nav>
     </div>
@@ -350,15 +355,7 @@ window.Quarto = {
 </section>
 <section id="what-is-shiny" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="what-is-shiny"><span class="header-section-number">7.1</span> What is Shiny?</h2>
-<p>Shiny is an R package that makes it easy to build interactive web applications directly from R. Developed by RStudio (now Posit), Shiny allows users to turn analyses into interactive dashboards and tools without requiring knowledge of HTML, CSS, or JavaScript.</p>
-<p>Shiny apps are especially useful for sharing data analyses with others, enabling users to explore data and results dynamically through a web browser. This interactivity helps bridge the gap between static reports and fully custom web applications.</p>
-<p>Key features of Shiny include:</p>
-<ul>
-<li>Seamless integration with R code and packages.</li>
-<li>Automatic UI updates in response to user input.</li>
-<li>Support for a wide range of input and output widgets.</li>
-<li>Ability to deploy apps locally or on the web (e.g., via shinyapps.io or Shiny Server).</li>
-</ul>
+<p>Shiny is an R package, developed by Posit (formerly RStudio), for building interactive web applications entirely in <code>R</code>. The problem it solves is sharing an analysis with people who do not program in <code>R</code>. A static report shows only the plots and tables that you chose to include; a Shiny app lets its users change the inputs themselves — choose a subset of the data, adjust a parameter — and see the results update immediately in their web browser. You write only <code>R</code> code: Shiny generates the HTML, CSS and JavaScript that make up the web page.</p>
 <p><code>shiny</code> is not part of <code>tidyverse</code>; it is a separate package that must be installed on its own, and loaded with <code>library(shiny)</code> at the top of every app script.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -370,7 +367,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Run <code>install.packages("shiny")</code> once in your <code>R</code> console, then load it in each session with <code>library(shiny)</code>. Since Shiny apps cannot run from <code>.qmd</code> files anyway (see below), there is no risk of re-installing the package on every render.</p>
+<p>Run <code>install.packages("shiny")</code> once in your <code>R</code> console, then load it with <code>library(shiny)</code> at the top of each app script. As with Quarto documents (see <a href="week02.html" class="quarto-xref">Week&nbsp;<span>2</span></a>), never put <code>install.packages()</code> in the app script itself: the package would be re-installed every time the app starts.</p>
 </div>
 </div>
 </section>
@@ -414,9 +411,9 @@ window.Quarto = {
 </figure>
 </div>
 </section>
-<section id="how-shiny-apps-are-executed" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="how-shiny-apps-are-executed"><span class="header-section-number">7.3</span> How Shiny Apps are Executed</h2>
-<p>A static Quarto document such as this book cannot host a running web server, so Shiny apps need to be written in <code>R</code> scripts. The usual convention is a single script named <code>app.R</code> that defines <code>ui</code> and <code>server</code> and ends with a call to <code>shinyApp</code>, sometimes kept in a folder of its own with any data files alongside (<code>app.R</code> and <code>ui.R</code>/<code>server.R</code> splits are also common). There are several ways to run Shiny apps in development:</p>
+<section id="running-shiny-apps" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="running-shiny-apps"><span class="header-section-number">7.3</span> Running Shiny Apps</h2>
+<p>In this course we always write Shiny apps in <code>R</code> scripts, not in <code>.qmd</code> files. A rendered Quarto document such as this book is a static web page with no <code>R</code> process behind it, so it cannot run the apps it shows. (Quarto can in fact host Shiny apps, either in <code>server: shiny</code> documents that are served by a running <code>R</code> process, or through Shinylive, which runs <code>R</code> inside the browser; we will not use either.) The usual convention is a single script named <code>app.R</code> that defines <code>ui</code> and <code>server</code> and ends with a call to <code>shinyApp</code>, sometimes kept in a folder of its own with any data files alongside (<code>app.R</code> and <code>ui.R</code>/<code>server.R</code> splits are also common). There are several ways to run Shiny apps in development:</p>
 <ol type="1">
 <li>In an interactive session, having defined <code>ui</code> and <code>server</code>, type the code <code>shinyApp(ui, server)</code>.</li>
 <li>Save the app as <code>app.R</code> and run it through the shiny function <code>runApp</code> — for example, <code>runApp()</code> if you are working in the app’s folder, or <code>runApp("path/to/app")</code> otherwise.</li>
@@ -426,44 +423,69 @@ window.Quarto = {
 <pre><code>Listening on http://127.0.0.1:3689
 Browsing http://127.0.0.1:3689</code></pre>
 <p>This gives you a URL that you can enter into your browser to interact with the app. In <code>RStudio</code> the app will be opened automatically in a new window. While the app is running, your <code>R</code> console is busy serving it: stop the app (the stop icon in RStudio, or <code>Esc</code> in the console) to get your prompt back before continuing to work.</p>
-<p>The execution flow is as follows:</p>
-<ol type="1">
-<li><strong>Initialization:</strong> The UI is generated and displayed in the browser.</li>
-<li><strong>User Interaction:</strong> When a user interacts with an input (e.g., moves a slider), the browser sends the new input value to the server.</li>
-<li><strong>Reactivity:</strong> The server detects which outputs depend on the changed input and recalculates them.</li>
-<li><strong>Output Update:</strong> The updated outputs are sent back to the browser and displayed instantly.</li>
-</ol>
-<p>You can run Shiny apps:</p>
-<ul>
-<li><strong>Locally:</strong> Directly from your R session, accessible only on your machine.</li>
-<li><strong>Remotely:</strong> By deploying to a server (e.g., shinyapps.io), making the app accessible to others via a web link.</li>
-</ul>
-<p>This architecture allows for real-time, interactive data exploration without requiring users to install R or any packages.</p>
+<p>While the app runs, the web page in the browser and the <code>R</code> process behind it stay connected. When the app starts, the UI is generated and displayed in the browser. Each time the user changes an input, the browser sends the new value to <code>R</code>, which recalculates whatever depends on it and sends the updated outputs back to be displayed. Working out <em>what</em> needs recalculating is the job of reactive programming, the subject of the next section.</p>
 </section>
 <section id="reactive-programming" class="level2" data-number="7.4">
 <h2 data-number="7.4" class="anchored" data-anchor-id="reactive-programming"><span class="header-section-number">7.4</span> Reactive Programming</h2>
 <p>Reactive programming is a programming paradigm centred around the propagation of changes. In Shiny, this means that outputs automatically update in response to changes in inputs, without the need for explicit instructions to recalculate or redraw.</p>
-<p>Shiny achieves this through a system of “reactive expressions” and “reactive values.” When a user interacts with an input widget (like a slider or text box), Shiny tracks which outputs depend on that input. Only the affected outputs are recalculated and updated, making the app efficient and responsive.</p>
-<p>Key concepts in Shiny’s reactive programming:</p>
+<p>To make this work, Shiny builds a <em>reactive graph</em> while the app runs: a record of which pieces of reactive code read which values. When a value changes, Shiny follows the graph to find everything that depends on it, and re-runs only those pieces. Every piece of reactive code plays one of three roles in the graph:</p>
 <ul>
-<li><strong>Inputs:</strong> User interface elements that collect information from the user (e.g., sliders, text boxes).</li>
-<li><strong>Outputs:</strong> UI elements that display results or visualizations, updated automatically when their dependencies change.</li>
-<li><strong>Reactive expressions:</strong> Special functions (created with <code>reactive()</code>) that cache their results and only re-execute when their inputs change.</li>
-<li><strong>Observers:</strong> Code blocks (created with <code>observe()</code> or <code>observeEvent()</code>) that perform actions in response to changes, such as updating UI elements or triggering side effects.</li>
+<li><strong>Sources</strong> hold values that change over time. The <code>input$...</code> values set by the user are sources; so are values created in the server with <code>reactiveVal()</code> or <code>reactiveValues()</code>.</li>
+<li><strong>Conductors</strong> sit in the middle of the graph: they read sources (or other conductors), compute something from them, and pass the result on. They are created with <code>reactive()</code>, and are called <em>reactive expressions</em>.</li>
+<li><strong>Endpoints</strong> sit at the end of the graph, and are where reactive code has an effect on the outside world. There are two kinds: <em>outputs</em> (<code>output$... &lt;- render*({...})</code>), which update what the user sees, and <em>observers</em> (<code>observe()</code> and <code>observeEvent()</code>), which carry out other actions, such as changing a source or writing to the console.</li>
 </ul>
-<p>We have already seen <em>inputs</em> and <em>outputs</em>; now we will talk about <em>reactive expressions</em> and <em>observers</em>.</p>
-<section id="reactive-expressions" class="level3" data-number="7.4.1">
-<h3 data-number="7.4.1" class="anchored" data-anchor-id="reactive-expressions"><span class="header-section-number">7.4.1</span> Reactive Expressions</h3>
-<p>Reactivity in Shiny is the mechanism by which code automatically updates when inputs, or other reactive values, change. In the previous code block we already used a reactive function: <code>renderText</code>. This ensures that the <code>renderText</code> block — and with it the text displayed in the UI — is re-run whenever <code>input$num</code> changes. In the background, <code>R</code> is building a graph of dependencies on values from the UI, and updates <em>only</em> the appropriate parts of the server logic when the dependencies change.</p>
-<p>There are multiple other reactive functions:</p>
-<ul>
-<li><code>reactive({...})</code>: define a reactive expression that can be re-used in multiple places.</li>
-<li><code>reactiveVal</code>: define new reactive values that you can then get or set.</li>
-<li><code>reactiveValues()</code>: define a whole list of new reactive values that you can read and set like <code>input</code> (e.g.&nbsp;<code>values$x</code>).</li>
-<li><code>renderText</code>, <code>renderPlot</code>, <code>renderTable</code>, <code>renderUI</code>: create outputs for the UI, one for each type of <code>*Output</code> component (see <a href="#sec-shiny-components" class="quarto-xref"><span>Section 7.5</span></a>).</li>
-</ul>
-<p>Two things to watch out for when you use <code>reactive</code>: its result is retrieved by <em>calling</em> it like a function — <code>data()</code>, not <code>data</code> — and, like other reactive values, it can only be read inside reactive code (see the warning below).</p>
-<p>Here is an example in which we use <code>reactive</code> and <code>renderPlot</code> to make more complex logic.</p>
+<p>In the first example the graph was as simple as it can be: one source, <code>input$num</code>, connected directly to one endpoint, <code>output$result</code>. Moving the slider tells Shiny that <code>output$result</code> is out of date, so its <code>renderText</code> block re-runs.</p>
+<p>The table below summarises how each role is created, and how its value is read in the server.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 45%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Role</th>
+<th style="text-align: left;">Created with</th>
+<th style="text-align: left;">Read with</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Source</td>
+<td style="text-align: left;"><code>*Input("x", ...)</code> in the UI</td>
+<td style="text-align: left;"><code>input$x</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Source</td>
+<td style="text-align: left;"><code>x &lt;- reactiveVal(initial)</code></td>
+<td style="text-align: left;"><code>x()</code>; set it with <code>x(new_value)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Source</td>
+<td style="text-align: left;"><code>x &lt;- reactiveValues(a = ..., b = ...)</code></td>
+<td style="text-align: left;"><code>x$a</code>; set it with <code>x$a &lt;- new_value</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Conductor</td>
+<td style="text-align: left;"><code>x &lt;- reactive({...})</code></td>
+<td style="text-align: left;"><code>x()</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Endpoint (output)</td>
+<td style="text-align: left;"><code>output$x &lt;- render*({...})</code></td>
+<td style="text-align: left;">Not read in the server: displayed by <code>*Output("x")</code> in the UI (see <a href="#sec-shiny-components" class="quarto-xref"><span>Section 7.5</span></a>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Endpoint (observer)</td>
+<td style="text-align: left;"><code>observe({...})</code> or <code>observeEvent(event, {...})</code></td>
+<td style="text-align: left;">Not read at all: run only for its actions</td>
+</tr>
+</tbody>
+</table>
+<p>Notice that reactive expressions and <code>reactiveVal</code>s are read by <em>calling</em> them like a function — <code>x()</code>, not <code>x</code>. Like <code>input$...</code>, they can only be read inside reactive code (see the warning below).</p>
+<section id="sec-shiny-reactive" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="sec-shiny-reactive"><span class="header-section-number">7.4.1</span> Reactive Expressions</h3>
+<p>A reactive expression is useful whenever more than one endpoint needs the same intermediate result. The app below draws a random sample of 500 points, whose <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinates are normally distributed with means <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> chosen by the user. It displays the sample in a scatterplot, and prints the sample means beneath it.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -471,38 +493,68 @@ Browsing http://127.0.0.1:3689</code></pre>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fluidRow</span>(</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">column</span>(</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="dv">2</span>,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">numericInput</span>(<span class="st">"mu1"</span>, <span class="at">label =</span> <span class="fu">withMathJax</span>(<span class="st">"$$</span><span class="sc">\\</span><span class="st">mu_1$$"</span>), <span class="at">value =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">width=</span><span class="st">"80px"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">numericInput</span>(<span class="st">"mu1"</span>, <span class="at">label =</span> <span class="fu">withMathJax</span>(<span class="st">"$$</span><span class="sc">\\</span><span class="st">mu_1$$"</span>), <span class="at">value =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">width =</span> <span class="st">"80px"</span>)</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">column</span>(</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>      <span class="dv">2</span>,</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">numericInput</span>(<span class="st">"mu2"</span>, <span class="at">label =</span> <span class="fu">withMathJax</span>(<span class="st">"$$</span><span class="sc">\\</span><span class="st">mu_2$$"</span>), <span class="at">value =</span> <span class="dv">1</span>, <span class="at">width=</span><span class="st">"80px"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">numericInput</span>(<span class="st">"mu2"</span>, <span class="at">label =</span> <span class="fu">withMathJax</span>(<span class="st">"$$</span><span class="sc">\\</span><span class="st">mu_2$$"</span>), <span class="at">value =</span> <span class="dv">1</span>, <span class="at">width =</span> <span class="st">"80px"</span>)</span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plotOutput</span>(<span class="st">"plot"</span>)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">reactive</span>(<span class="fu">tibble</span>(</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">x1 =</span> <span class="fu">rnorm</span>(<span class="dv">500</span>, input<span class="sc">$</span>mu1, <span class="dv">1</span>), </span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">x2 =</span> <span class="fu">rnorm</span>(<span class="dv">500</span>, input<span class="sc">$</span>mu2, <span class="dv">1</span>))</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>(</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>(<span class="fu">data</span>(), <span class="fu">aes</span>(<span class="at">x =</span> x1, <span class="at">y =</span> x2)) <span class="sc">+</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>))</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">res =</span> <span class="dv">96</span></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>A few details in this example are worth a second look:</p>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plotOutput</span>(<span class="st">"plot"</span>),</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textOutput</span>(<span class="st">"means"</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  samples <span class="ot">&lt;-</span> <span class="fu">reactive</span>(<span class="fu">tibble</span>(</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">x1 =</span> <span class="fu">rnorm</span>(<span class="dv">500</span>, input<span class="sc">$</span>mu1, <span class="dv">1</span>),</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x2 =</span> <span class="fu">rnorm</span>(<span class="dv">500</span>, input<span class="sc">$</span>mu2, <span class="dv">1</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>(</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>(<span class="fu">samples</span>(), <span class="fu">aes</span>(<span class="at">x =</span> x1, <span class="at">y =</span> x2)) <span class="sc">+</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">res =</span> <span class="dv">96</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>means <span class="ot">&lt;-</span> <span class="fu">renderText</span>({</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Sample means:"</span>,</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>      <span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">samples</span>()<span class="sc">$</span>x1), <span class="dv">2</span>), <span class="st">"and"</span>,</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>      <span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">samples</span>()<span class="sc">$</span>x2), <span class="dv">2</span>)</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This app has two sources, one conductor and two endpoints, connected like this:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  mu1["input$mu1"] --&gt; samples["samples()"]
+  mu2["input$mu2"] --&gt; samples
+  samples --&gt; plot["output$plot"]
+  samples --&gt; means["output$means"]
+</pre>
+</div>
+<p></p><figcaption> The reactive graph of the app above: sources on the left, the conductor in the middle and endpoints on the right. An arrow means “is read by”.</figcaption> </figure><p></p>
+</div>
+</div>
+</div>
+<p>Changing <span class="math inline">\(\mu_1\)</span> marks <code>samples()</code> as out of date, and with it both of the endpoints that read it. Both endpoints then re-run; the first to do so recomputes <code>samples()</code>, while the second receives the <em>cached</em> result. This is the defining feature of a reactive expression: it re-runs only when one of the values it reads has changed, however many times it is called in between.</p>
+<p>The caching matters for more than speed. Suppose we had left out the conductor, and called <code>rnorm</code> separately inside each <code>render*</code> block. Each output would then draw its <em>own</em> sample, and the means printed beneath the plot would describe a different set of points from the ones shown in it. Computing the sample once, in a single <code>reactive</code>, guarantees that every output sees the same data.</p>
+<p>A few other details in this example are worth a second look:</p>
 <ul>
 <li><code>withMathJax</code> renders its argument as LaTeX, so the input labels display properly as <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span>.</li>
-<li><code>data</code> is a <code>reactive</code> expression, so <code>renderPlot</code> must <em>call</em> it — <code>data()</code> — rather than referring to it as a plain variable.</li>
+<li>We call the reactive expression <code>samples</code>, rather than <code>data</code>, because <code>data</code> is already the name of a built-in <code>R</code> function; reusing it makes error messages much harder to understand.</li>
 <li><code>coord_cartesian(xlim = c(-5, 5), ylim = c(-5, 5))</code> fixes the axes rather than letting <code>ggplot2</code> rescale to whatever data is currently displayed; without it, the visible area would jump around with every change to the inputs.</li>
 <li><code>res = 96</code> sets the resolution (pixels per inch) of the rendered plot image.</li>
+<li>Because <code>samples()</code> draws new random numbers each time it re-runs, the cloud of points changes shape as well as position whenever an input changes. Calling <code>set.seed()</code> (see <a href="week03.html" class="quarto-xref">Week&nbsp;<span>3</span></a>) at the start of the <code>reactive</code> block makes every draw use the same random numbers, so that changing <span class="math inline">\(\mu_1\)</span> simply slides the cloud left or right.</li>
 </ul>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -514,50 +566,65 @@ Browsing http://127.0.0.1:3689</code></pre>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Values like <code>input$mu1</code> and calls to reactive expressions like <code>data()</code> may only be read <em>inside</em> reactive code — that is, inside <code>reactive</code>, <code>render*</code>, <code>observe</code> or <code>observeEvent</code> blocks. Reading them anywhere else (for example, directly in the body of <code>server</code>) triggers an error telling you that the read is only allowed inside a reactive context. Inputs also cannot be overwritten from the server: assigning to <code>input$mu1</code> fails, because inputs are set by the user through the UI. If you need a value the server can <em>change</em>, use <code>reactiveVal</code> or <code>reactiveValues</code>.</p>
+<p>Values like <code>input$mu1</code> and calls to reactive expressions like <code>samples()</code> may only be read <em>inside</em> reactive code — that is, inside <code>reactive</code>, <code>render*</code>, <code>observe</code> or <code>observeEvent</code> blocks. Reading them anywhere else (for example, directly in the body of <code>server</code>) triggers an error. For an input the message is</p>
+<pre><code>Can't access reactive value 'mu1' outside of reactive consumer.</code></pre>
+<p>and for a reactive expression it is</p>
+<pre><code>Operation not allowed without an active reactive context.</code></pre>
+<p>A related mistake is forgetting the parentheses when reading a reactive expression: <code>samples$x1</code> instead of <code>samples()$x1</code> fails with <code>object of type 'closure' is not subsettable</code>, because <code>samples</code> is a function, not a data frame.</p>
+<p>Inputs also cannot be overwritten from the server: assigning to <code>input$mu1</code> fails with <code>Can't modify read-only reactive value 'mu1'</code>, because inputs are set by the user through the UI. If you need a value the server can <em>change</em>, use <code>reactiveVal</code> or <code>reactiveValues</code>.</p>
 </div>
 </div>
 </section>
-<section id="observers" class="level3" data-number="7.4.2">
-<h3 data-number="7.4.2" class="anchored" data-anchor-id="observers"><span class="header-section-number">7.4.2</span> Observers</h3>
-<p>Observers are another way to introduce reactivity. Whereas <code>reactive</code> statements typically return values and are designed to give reusable expressions, <code>observe</code> statements do not return values, and are used when one might want to run code with side effects (e.g.&nbsp;for logging) or to trigger UI updates manually.</p>
-<p>The two main observer functions are:</p>
+<section id="sec-shiny-observers" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="sec-shiny-observers"><span class="header-section-number">7.4.2</span> Observers</h3>
+<p>Outputs are one kind of endpoint; observers are the other. Like an output, an observer re-runs when the values it reads change, but rather than displaying something it is run purely for its <em>side effects</em>: changing a <code>reactiveVal</code>, writing a message to the console, saving a file, and so on. An observer does not return a value, so — unlike a reactive expression — nothing else in the app can read from it.</p>
+<p>This gives a simple rule of thumb for choosing between the two:</p>
 <ul>
-<li><code>observe({...})</code>: triggers if any reactive value inside the block changes</li>
-<li><code>observeEvent(event, {...})</code>: explicitly triggered only by the event specified.</li>
+<li>if you want to compute a <strong>value</strong> for other reactive code to use, use <code>reactive()</code>;</li>
+<li>if you want something to <strong>happen</strong>, use an observer.</li>
 </ul>
-<p>Here’s an example showing how <code>observeEvent</code> can be used to run code on button clicks. Button presses are the classic case for observers: an <code>actionButton</code> does not hold a value you would want to display — each press is an <em>event</em> to respond to — so buttons are usually paired with <code>observeEvent</code> rather than used inside <code>render*</code> functions.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">actionButton</span>(<span class="st">"inc"</span>, <span class="st">"Increase counter"</span>),</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">actionButton</span>(<span class="st">"reset"</span>, <span class="st">"Reset counter"</span>),</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textOutput</span>(<span class="st">"value"</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create a reactiveVal starting at 0.</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Retrieve its value by calling it, counter(); set it by calling it with an</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># argument, counter(new_value).</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> <span class="fu">reactiveVal</span>(<span class="dv">0</span>)</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Increase counter when 'inc' button is clicked</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">observeEvent</span>(input<span class="sc">$</span>inc, {</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">counter</span>(<span class="fu">counter</span>() <span class="sc">+</span> <span class="dv">1</span>)   <span class="co"># update value</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Reset counter when 'reset' button is clicked</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">observeEvent</span>(input<span class="sc">$</span>reset, {</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">counter</span>(<span class="dv">0</span>)</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Display the current value</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>value <span class="ot">&lt;-</span> <span class="fu">renderText</span>({</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"Counter is:"</span>, <span class="fu">counter</span>())   <span class="co"># read value</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>In particular, avoid using an observer to compute a value and store it in a <code>reactiveVal</code> for other code to read: a <code>reactive()</code> does the same job more simply, and only recomputes when it needs to.</p>
+<p>The two observer functions are:</p>
+<ul>
+<li><code>observe({...})</code>: re-runs whenever any reactive value read inside the block changes.</li>
+<li><code>observeEvent(event, {...})</code>: re-runs only when <code>event</code> changes, ignoring changes to any other reactive values read inside the block.</li>
+</ul>
+<p>For example, adding the following to the server of the previous app prints a message to the <code>R</code> console each time the user changes <span class="math inline">\(\mu_1\)</span> — a simple way to watch the reactive graph at work, and a useful debugging technique:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">observe</span>({</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">"mu1 is now "</span>, input<span class="sc">$</span>mu1)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Here’s an example showing how <code>observeEvent</code> can be used to run code on button clicks. Button presses are the classic case for observers. The value of an <code>actionButton</code> is the number of times it has been pressed, starting from 0. That count is rarely worth displaying in its own right: what matters is that a press has <em>happened</em>, which is an event to respond to. Buttons are therefore usually paired with <code>observeEvent</code>, which re-runs its code each time the count goes up, rather than used inside <code>render*</code> functions. By default, <code>observeEvent</code> ignores a button’s starting value of 0, so its code does not run when the app first starts.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">actionButton</span>(<span class="st">"inc"</span>, <span class="st">"Increase counter"</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">actionButton</span>(<span class="st">"reset"</span>, <span class="st">"Reset counter"</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textOutput</span>(<span class="st">"value"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create a reactiveVal starting at 0.</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Retrieve its value by calling it, counter(); set it by calling it with an</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># argument, counter(new_value).</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> <span class="fu">reactiveVal</span>(<span class="dv">0</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Increase counter when 'inc' button is clicked</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">observeEvent</span>(input<span class="sc">$</span>inc, {</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">counter</span>(<span class="fu">counter</span>() <span class="sc">+</span> <span class="dv">1</span>)   <span class="co"># update value</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Reset counter when 'reset' button is clicked</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">observeEvent</span>(input<span class="sc">$</span>reset, {</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">counter</span>(<span class="dv">0</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Display the current value</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>value <span class="ot">&lt;-</span> <span class="fu">renderText</span>({</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"Counter is:"</span>, <span class="fu">counter</span>())   <span class="co"># read value</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="sec-shiny-components" class="level2" data-number="7.5">
@@ -565,7 +632,20 @@ Browsing http://127.0.0.1:3689</code></pre>
 <p>Shiny provides a large collection of UI components; this section is a quick reference to the ones you are most likely to need in this course, ending with a worked example that combines several of them. The naming contract from the first example applies throughout: an input component’s first argument is its name, and its current value can then be read in the server as <code>input$name</code>; an output component’s name must match the <code>output$name</code> assignment that fills it. For components not listed here, the <a href="https://gallery.shinyapps.io/081-widgets-gallery/">widget gallery</a> has a live, runnable example of every input widget, the <a href="https://shiny.posit.co/r/gallery/">Shiny gallery</a> showcases complete apps, and the <a href="cheatsheets/shiny.html">Shiny cheat sheet</a> condenses the essentials onto two pages; Winston Chang’s free online book <a href="https://mastering-shiny.org/">Mastering Shiny</a> is the standard in-depth reference.</p>
 <section id="layout-functions" class="level3" data-number="7.5.1">
 <h3 data-number="7.5.1" class="anchored" data-anchor-id="layout-functions"><span class="header-section-number">7.5.1</span> Layout Functions</h3>
-<p>These components control the <em>structure</em> of the page. Every app has a <code>fluidPage</code> at its root.</p>
+<p>These components control the <em>structure</em> of the page. In this course, every app has a <code>fluidPage</code> at its root.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span><code>bslib</code> layouts
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Recent Shiny documentation and gallery apps often build their pages with functions from the <code>bslib</code> package instead, such as <code>page_sidebar()</code> and <code>card()</code>. These are a more modern way of producing the same kinds of layout. <code>fluidPage</code> and the other functions below remain fully supported, and are the ones we use in this course.</p>
+</div>
+</div>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 52%">
@@ -642,7 +722,7 @@ Browsing http://127.0.0.1:3689</code></pre>
 <tr class="even">
 <td style="text-align: left;"><code>selectInput(id, label, choices)</code></td>
 <td style="text-align: left;">One choice from a dropdown</td>
-<td style="text-align: left;"><code>choices</code> is a character vector; giving its entries <em>names</em> (e.g.&nbsp;<code>c("(Choose a species)" = "")</code>) displays the name while <code>input$&lt;id&gt;</code> takes the value. A named empty entry like the one shown is the standard way to represent “nothing chosen yet”.</td>
+<td style="text-align: left;"><code>choices</code> is a character vector; giving its entries <em>names</em> (e.g.&nbsp;<code>c("(Choose a species)" = "")</code>) displays the name while <code>input$&lt;id&gt;</code> takes the value. The first choice is selected when the app starts, so a named empty first entry like the one shown is the standard way to represent “nothing chosen yet”.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>numericInput(id, label, value)</code></td>
@@ -667,7 +747,7 @@ Browsing http://127.0.0.1:3689</code></pre>
 <tr class="odd">
 <td style="text-align: left;"><code>radioButtons(id, label, choices)</code></td>
 <td style="text-align: left;">Exactly one of several options</td>
-<td style="text-align: left;">Like a <code>selectInput</code>, but with all choices visible at once.</td>
+<td style="text-align: left;">Like a <code>selectInput</code>, but with all choices visible at once. The first choice is selected by default; pass <code>selected = character(0)</code> to start with no button selected, in which case <code>input$&lt;id&gt;</code> is <code>NULL</code> until the user picks one (so <code>req(input$&lt;id&gt;)</code> waits for a choice). Once a button is picked, the user cannot return to “none selected”.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>dateInput(id, label)</code></td>
@@ -682,7 +762,7 @@ Browsing http://127.0.0.1:3689</code></pre>
 <tr class="even">
 <td style="text-align: left;"><code>actionButton(id, label)</code></td>
 <td style="text-align: left;">Button presses</td>
-<td style="text-align: left;">A press is an <em>event</em> to respond to with <code>observeEvent</code>, not a value to display.</td>
+<td style="text-align: left;"><code>input$&lt;id&gt;</code> counts the presses, starting from 0. Respond to each press with <code>observeEvent</code>, rather than displaying the count.</td>
 </tr>
 </tbody>
 </table>
@@ -697,14 +777,14 @@ Browsing http://127.0.0.1:3689</code></pre>
 </div>
 <div class="callout-body-container callout-body">
 <p>Passing a length-two <code>value</code> to <code>sliderInput</code> produces a double-ended slider with which the user selects a <em>range</em>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sliderInput</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"years"</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Release years:"</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">min =</span> <span class="dv">1960</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">max =</span> <span class="dv">2024</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> <span class="fu">c</span>(<span class="dv">1960</span>, <span class="dv">2024</span>),</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sep =</span> <span class="st">""</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sliderInput</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"years"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Release years:"</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">min =</span> <span class="dv">1960</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">max =</span> <span class="dv">2024</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> <span class="fu">c</span>(<span class="dv">1960</span>, <span class="dv">2024</span>),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sep =</span> <span class="st">""</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The server then sees a vector of two numbers: <code>input$years[1]</code> is the lower end of the range and <code>input$years[2]</code> the upper, so <code>filter(year &gt;= input$years[1], year &lt;= input$years[2])</code> selects the rows falling inside it. (<code>sep = ""</code> just removes the thousands-separating comma from the numbers displayed on the slider.)</p>
 </div>
 </div>
@@ -761,70 +841,76 @@ Browsing http://127.0.0.1:3689</code></pre>
 </section>
 <section id="example-a-small-data-explorer" class="level3" data-number="7.5.4">
 <h3 data-number="7.5.4" class="anchored" data-anchor-id="example-a-small-data-explorer"><span class="header-section-number">7.5.4</span> Example: A Small Data Explorer</h3>
-<p>The app below combines several of the components above — a dropdown with a placeholder choice, a range slider and a tick-box on the input side; a plot and a table on the output side. It follows the usual convention for loading data: <code>read_csv</code> is called <strong>once</strong>, before the app starts, rather than inside the server, so that the file is not re-read every time an input changes.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the data once, when the app starts (not inside the server).</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/penguins.csv"</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">titlePanel</span>(<span class="st">"Penguin explorer"</span>),</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sidebarLayout</span>(</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarPanel</span>(</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">selectInput</span>(</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"species"</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Choose a species:"</span>,</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">choices =</span> <span class="fu">c</span>(<span class="st">"(Choose a species)"</span> <span class="ot">=</span> <span class="st">""</span>, <span class="st">"Adelie"</span>, <span class="st">"Gentoo"</span>, <span class="st">"Chinstrap"</span>)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sliderInput</span>(</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"mass"</span>,</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Body mass (g):"</span>,</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">min =</span> <span class="dv">2700</span>,</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">max =</span> <span class="dv">6300</span>,</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">value =</span> <span class="fu">c</span>(<span class="dv">2700</span>, <span class="dv">6300</span>),</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">sep =</span> <span class="st">""</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">checkboxInput</span>(<span class="st">"trend"</span>, <span class="st">"Show a trend line"</span>, <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mainPanel</span>(</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">plotOutput</span>(<span class="st">"plot"</span>),</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tableOutput</span>(<span class="st">"table"</span>)</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>  selected <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    penguins <span class="sc">|&gt;</span></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(</span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>        species <span class="sc">==</span> input<span class="sc">$</span>species,</span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>        body_mass_g <span class="sc">&gt;=</span> input<span class="sc">$</span>mass[<span class="dv">1</span>],</span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>        body_mass_g <span class="sc">&lt;=</span> input<span class="sc">$</span>mass[<span class="dv">2</span>]</span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req</span>(input<span class="sc">$</span>species)   <span class="co"># do nothing until a species is chosen</span></span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>    plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">selected</span>(), <span class="fu">aes</span>(<span class="at">x =</span> flipper_length_mm, <span class="at">y =</span> body_mass_g)) <span class="sc">+</span></span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>()</span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (input<span class="sc">$</span>trend) {</span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>      plot <span class="ot">&lt;-</span> plot <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>    plot</span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
-<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req</span>(input<span class="sc">$</span>species)</span>
-<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">selected</span>() <span class="sc">|&gt;</span></span>
-<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarise</span>(</span>
-<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>        <span class="at">n =</span> <span class="fu">n</span>(),</span>
-<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>        <span class="at">mean_mass =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The app below combines several of the components above — a dropdown with a placeholder choice, a range slider and a tick-box on the input side; a plot and a table on the output side. It follows the usual convention for loading data: <code>read_csv</code> is called <strong>once</strong>, before the app starts, rather than inside the server, so that the file is not re-read every time an input changes. The plot also follows the principles of <a href="week06.html" class="quarto-xref">Week&nbsp;<span>6</span></a>: <code>labs()</code> gives it a title and axis labels with units, and, as in the earlier example, <code>coord_cartesian</code> fixes the axes to cover the whole dataset, so that plots for different species and mass ranges can be compared directly rather than each being rescaled to fit its own points.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the data once, when the app starts (not inside the server).</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/penguins.csv"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">titlePanel</span>(<span class="st">"Penguin explorer"</span>),</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarPanel</span>(</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">selectInput</span>(</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"species"</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Choose a species:"</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">choices =</span> <span class="fu">c</span>(<span class="st">"(Choose a species)"</span> <span class="ot">=</span> <span class="st">""</span>, <span class="st">"Adelie"</span>, <span class="st">"Gentoo"</span>, <span class="st">"Chinstrap"</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sliderInput</span>(</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"mass"</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Body mass (g):"</span>,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">min =</span> <span class="dv">2700</span>,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">max =</span> <span class="dv">6300</span>,</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">value =</span> <span class="fu">c</span>(<span class="dv">2700</span>, <span class="dv">6300</span>),</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">sep =</span> <span class="st">""</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">checkboxInput</span>(<span class="st">"trend"</span>, <span class="st">"Show a trend line"</span>, <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">plotOutput</span>(<span class="st">"plot"</span>),</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tableOutput</span>(<span class="st">"table"</span>)</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  selected <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    penguins <span class="sc">|&gt;</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>        species <span class="sc">==</span> input<span class="sc">$</span>species,</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>        body_mass_g <span class="sc">&gt;=</span> input<span class="sc">$</span>mass[<span class="dv">1</span>],</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>        body_mass_g <span class="sc">&lt;=</span> input<span class="sc">$</span>mass[<span class="dv">2</span>]</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req</span>(input<span class="sc">$</span>species)   <span class="co"># do nothing until a species is chosen</span></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>    plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">selected</span>(), <span class="fu">aes</span>(<span class="at">x =</span> flipper_length_mm, <span class="at">y =</span> body_mass_g)) <span class="sc">+</span></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>      <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">170</span>, <span class="dv">235</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">2700</span>, <span class="dv">6300</span>)) <span class="sc">+</span></span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(</span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"Body mass against flipper length:"</span>, input<span class="sc">$</span>species, <span class="st">"penguins"</span>),</span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> <span class="st">"Flipper length (mm)"</span>,</span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Body mass (g)"</span></span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (input<span class="sc">$</span>trend) {</span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>      plot <span class="ot">&lt;-</span> plot <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>    plot</span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req</span>(input<span class="sc">$</span>species)</span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>    <span class="fu">selected</span>() <span class="sc">|&gt;</span></span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarise</span>(</span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>        <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>        <span class="at">mean_mass =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -840,8 +926,23 @@ Browsing http://127.0.0.1:3689</code></pre>
 </div>
 </section>
 </section>
-<section id="common-use-cases" class="level2" data-number="7.6">
-<h2 data-number="7.6" class="anchored" data-anchor-id="common-use-cases"><span class="header-section-number">7.6</span> Common Use Cases</h2>
+<section id="common-mistakes-and-debugging" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="common-mistakes-and-debugging"><span class="header-section-number">7.6</span> Common Mistakes and Debugging</h2>
+<p>Shiny apps tend to go wrong in a few characteristic ways, most of which are easy to fix once you recognise them.</p>
+<ul>
+<li><strong>A missing comma in the UI.</strong> The UI is one large, nested function call, so each component must be separated from the next by a comma. This is easy to forget when adding to an existing UI: to add a component after <code>titlePanel("My app")</code>, you must also add a comma after it. A missing comma stops the script from running at all, with an error such as <code>unexpected symbol</code> pointing at the component after the gap. (A comma <em>after</em> the last component, on the other hand, is harmless.)</li>
+<li><strong>Mismatched or duplicated IDs.</strong> If the name in an <code>output$...</code> assignment does not exactly match the ID of an output in the UI, or two components share the same ID, Shiny does not report an error in the <code>R</code> console: the output simply stays blank, or the app misbehaves. When an output is mysteriously empty, first compare its ID in the UI with the name used in the server, character by character.</li>
+<li><strong>Forgetting the parentheses on a reactive expression, or reading a reactive value outside reactive code.</strong> The warning in <a href="#sec-shiny-reactive" class="quarto-xref"><span>Section 7.4.1</span></a> lists the error messages these produce.</li>
+<li><strong>An error inside a <code>render*</code> function.</strong> The app keeps running, but the output displays the error message in place of its result. The same message appears in the <code>R</code> console, beginning <code>Warning: Error in</code>, along with a list of the function calls that led to it.</li>
+</ul>
+<p>To find out what is going on inside a running app, use the <code>R</code> console. Although you cannot type into it while the app runs, the server can still write to it:</p>
+<ul>
+<li><code>print()</code> or <code>message()</code> calls inside the server write to the <code>R</code> console — not to the app — each time the code around them runs. This is the same technique as in <a href="week02.html" class="quarto-xref">Week&nbsp;<span>2</span></a>; the <code>observe()</code> example in <a href="#sec-shiny-observers" class="quarto-xref"><span>Section 7.4.2</span></a> uses it to watch an input change.</li>
+<li>Adding <code>browser()</code> inside a reactive block pauses the app each time that line is reached, and gives you an interactive prompt in the console from <em>inside</em> the block. There you can inspect values such as <code>input$species</code> or <code>selected()</code>, and run code to try out a fix. Type <code>c</code> and press Enter to let the app continue, or <code>Q</code> to stop it.</li>
+</ul>
+</section>
+<section id="common-use-cases" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="common-use-cases"><span class="header-section-number">7.7</span> Common Use Cases</h2>
 <p>Shiny is widely used in a variety of contexts where interactive data exploration, visualization, or reporting is valuable. Common use cases include:</p>
 <ul>
 <li><strong>Interactive dashboards:</strong> Creating dynamic dashboards for monitoring key metrics, business intelligence, or research results.</li>
@@ -853,16 +954,21 @@ Browsing http://127.0.0.1:3689</code></pre>
 </ul>
 <p>Shiny is especially useful when you want to empower non-programmers to interact with data or models, or when you need to communicate results in a more engaging and flexible way than static reports allow. To see what is possible, browse the <a href="https://shiny.posit.co/r/gallery/">Shiny gallery</a>: two well-known examples are <a href="https://gallery.shinyapps.io/051-movie-explorer/">Movie Explorer</a>, which combines a scatterplot with filters and selectors over a films dataset, and <a href="https://vnijs.shinyapps.io/radiant/">Radiant</a>, an entire statistics package built as a shiny app.</p>
 </section>
-<section id="limitations" class="level2" data-number="7.7">
-<h2 data-number="7.7" class="anchored" data-anchor-id="limitations"><span class="header-section-number">7.7</span> Limitations</h2>
+<section id="sharing-and-deploying-apps" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="sharing-and-deploying-apps"><span class="header-section-number">7.8</span> Sharing and Deploying Apps</h2>
+<p>So far we have run apps <em>locally</em>: the app runs in your own <code>R</code> session, and only you can use it. Anyone else who wants to run an app this way needs <code>R</code>, and every package the app uses, installed — which is fine for a colleague who uses <code>R</code>, but not for the non-programmers that Shiny is designed for.</p>
+<p>To share an app more widely, you <em>deploy</em> it to a server, such as shinyapps.io or your own Shiny Server, which runs the app and makes it available through a web link. Its users then need only a web browser: the <code>R</code> code runs on the server, so they can explore the data interactively without installing <code>R</code> or any packages.</p>
+</section>
+<section id="limitations" class="level2" data-number="7.9">
+<h2 data-number="7.9" class="anchored" data-anchor-id="limitations"><span class="header-section-number">7.9</span> Limitations</h2>
 <p>While Shiny is a powerful tool, it has several limitations:</p>
 <ul>
 <li><strong>Performance:</strong> Shiny apps can become slow with large datasets or complex computations, as all processing is handled on the server side and R is single-threaded by default.</li>
-<li><strong>Scalability:</strong> Each user session runs a separate R process, which can limit scalability for many simultaneous users unless additional infrastructure (e.g., Shiny Server Pro, load balancing) is used.</li>
-<li><strong>Security:</strong> Shiny apps can expose your R environment to users, so care must be taken to sanitize inputs and avoid code injection vulnerabilities.</li>
-<li><strong>Deployment:</strong> Deploying Shiny apps for public access often requires additional setup, such as using shinyapps.io or configuring a Shiny Server, which usually cost money.</li>
+<li><strong>Scalability:</strong> On a standard server, all the users of an app share a single R process. Because R does one thing at a time, a slow computation triggered by one user makes every other user wait too. Serving many simultaneous users therefore needs additional infrastructure that runs several R processes and shares users between them (e.g., Posit Connect, or a load balancer).</li>
+<li><strong>Security:</strong> A deployed app runs R code on a server in response to whatever its users enter, so user input must be handled with care. Never run text entered by a user as code (e.g., with <code>eval(parse(text = input$x))</code>), and never paste user input into the text of a SQL query: this allows <em>SQL injection</em>, in which a user enters text that changes the query itself, for example to read or delete other tables. A deployed app also shows its data to anyone who has the link, so think carefully before displaying personal data (see <a href="./ethics.html">Data Ethics</a>).</li>
+<li><strong>Deployment:</strong> Making an app available to other people requires hosting it on a server, for example on shinyapps.io or on your own Shiny Server. Free options exist — shinyapps.io has a free tier, and the open-source Shiny Server is free to install — but they limit how many apps you can host and how much they can be used; beyond those limits, hosting costs money or needs technical expertise to set up.</li>
 <li><strong>Limited UI Customization:</strong> While Shiny provides many UI components, highly customized or modern web interfaces may require additional HTML, CSS, or JavaScript knowledge.</li>
-<li><strong>Dependency on R:</strong> Shiny apps require an R environment to run, which may not be suitable for all deployment scenarios.</li>
+<li><strong>Dependency on R:</strong> Shiny apps normally need a running R process on a server. Shinylive removes this requirement by running R entirely inside the user’s browser, so that an app can be hosted as a static web page; however, such apps are slow to load, cannot use every R package, and send all of their code and data to the user’s browser, where anyone can read them.</li>
 </ul>
 <p>Understanding these limitations helps in deciding when Shiny is the right tool and when alternative solutions (such as static reports, other dashboard frameworks, or web technologies) may be more appropriate.</p>
 
