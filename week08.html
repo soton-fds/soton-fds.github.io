@@ -268,19 +268,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#objectives" id="toc-objectives" class="nav-link active" data-scroll-target="#objectives">Objectives</a></li>
   <li><a href="#introduction-to-research-software-engineering" id="toc-introduction-to-research-software-engineering" class="nav-link" data-scroll-target="#introduction-to-research-software-engineering"><span class="header-section-number">8.1</span> Introduction to Research Software Engineering</a></li>
-  <li><a href="#functional-programming-in-r" id="toc-functional-programming-in-r" class="nav-link" data-scroll-target="#functional-programming-in-r"><span class="header-section-number">8.2</span> Functional Programming in R</a>
+  <li><a href="#sec-rse-architecture" id="toc-sec-rse-architecture" class="nav-link" data-scroll-target="#sec-rse-architecture"><span class="header-section-number">8.2</span> Software Architecture</a>
   <ul class="collapse">
-  <li><a href="#pure-functions" id="toc-pure-functions" class="nav-link" data-scroll-target="#pure-functions"><span class="header-section-number">8.2.1</span> Pure Functions</a></li>
-  <li><a href="#higher-order-functions" id="toc-higher-order-functions" class="nav-link" data-scroll-target="#higher-order-functions"><span class="header-section-number">8.2.2</span> Higher-Order Functions</a></li>
-  <li><a href="#function-composition" id="toc-function-composition" class="nav-link" data-scroll-target="#function-composition"><span class="header-section-number">8.2.3</span> Function Composition</a></li>
-  <li><a href="#currying" id="toc-currying" class="nav-link" data-scroll-target="#currying"><span class="header-section-number">8.2.4</span> Currying</a></li>
+  <li><a href="#key-principles" id="toc-key-principles" class="nav-link" data-scroll-target="#key-principles"><span class="header-section-number">8.2.1</span> Key Principles</a></li>
+  <li><a href="#an-example-repeated-code" id="toc-an-example-repeated-code" class="nav-link" data-scroll-target="#an-example-repeated-code"><span class="header-section-number">8.2.2</span> An Example: Repeated Code</a></li>
+  <li><a href="#organising-a-project" id="toc-organising-a-project" class="nav-link" data-scroll-target="#organising-a-project"><span class="header-section-number">8.2.3</span> Organising a Project</a></li>
+  <li><a href="#structure-in-research-code" id="toc-structure-in-research-code" class="nav-link" data-scroll-target="#structure-in-research-code"><span class="header-section-number">8.2.4</span> Structure in Research Code</a></li>
   </ul></li>
-  <li><a href="#key-practices-for-robust-research-software" id="toc-key-practices-for-robust-research-software" class="nav-link" data-scroll-target="#key-practices-for-robust-research-software"><span class="header-section-number">8.3</span> Key Practices for Robust Research Software</a>
+  <li><a href="#functional-programming-in-r" id="toc-functional-programming-in-r" class="nav-link" data-scroll-target="#functional-programming-in-r"><span class="header-section-number">8.3</span> Functional Programming in R</a>
   <ul class="collapse">
-  <li><a href="#defensive-programming" id="toc-defensive-programming" class="nav-link" data-scroll-target="#defensive-programming"><span class="header-section-number">8.3.1</span> Defensive Programming</a></li>
-  <li><a href="#error-handling-with-try-catch" id="toc-error-handling-with-try-catch" class="nav-link" data-scroll-target="#error-handling-with-try-catch"><span class="header-section-number">8.3.2</span> Error Handling with try-catch</a></li>
-  <li><a href="#documentation-strategies" id="toc-documentation-strategies" class="nav-link" data-scroll-target="#documentation-strategies"><span class="header-section-number">8.3.3</span> Documentation Strategies</a></li>
-  <li><a href="#other-considerations" id="toc-other-considerations" class="nav-link" data-scroll-target="#other-considerations"><span class="header-section-number">8.3.4</span> Other Considerations</a></li>
+  <li><a href="#pure-functions" id="toc-pure-functions" class="nav-link" data-scroll-target="#pure-functions"><span class="header-section-number">8.3.1</span> Pure Functions</a></li>
+  <li><a href="#higher-order-functions" id="toc-higher-order-functions" class="nav-link" data-scroll-target="#higher-order-functions"><span class="header-section-number">8.3.2</span> Higher-Order Functions</a></li>
+  <li><a href="#function-composition" id="toc-function-composition" class="nav-link" data-scroll-target="#function-composition"><span class="header-section-number">8.3.3</span> Function Composition</a></li>
+  <li><a href="#currying" id="toc-currying" class="nav-link" data-scroll-target="#currying"><span class="header-section-number">8.3.4</span> Currying</a></li>
+  </ul></li>
+  <li><a href="#key-practices-for-robust-research-software" id="toc-key-practices-for-robust-research-software" class="nav-link" data-scroll-target="#key-practices-for-robust-research-software"><span class="header-section-number">8.4</span> Key Practices for Robust Research Software</a>
+  <ul class="collapse">
+  <li><a href="#sec-rse-defensive" id="toc-sec-rse-defensive" class="nav-link" data-scroll-target="#sec-rse-defensive"><span class="header-section-number">8.4.1</span> Defensive Programming</a></li>
+  <li><a href="#error-handling-with-try-catch" id="toc-error-handling-with-try-catch" class="nav-link" data-scroll-target="#error-handling-with-try-catch"><span class="header-section-number">8.4.2</span> Error Handling with try-catch</a></li>
+  <li><a href="#sec-rse-testing" id="toc-sec-rse-testing" class="nav-link" data-scroll-target="#sec-rse-testing"><span class="header-section-number">8.4.3</span> Unit Testing (Advanced)</a></li>
+  <li><a href="#documentation-strategies" id="toc-documentation-strategies" class="nav-link" data-scroll-target="#documentation-strategies"><span class="header-section-number">8.4.4</span> Documentation Strategies</a></li>
+  <li><a href="#other-considerations" id="toc-other-considerations" class="nav-link" data-scroll-target="#other-considerations"><span class="header-section-number">8.4.5</span> Other Considerations</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -320,10 +328,125 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="8.1" class="anchored" data-anchor-id="introduction-to-research-software-engineering"><span class="header-section-number">8.1</span> Introduction to Research Software Engineering</h2>
 <p>Research software engineering (RSE) is the discipline of applying software engineering principles and practices to the development of software that supports research. Unlike simple research scripts, which are often written quickly to answer a specific question or analyze a dataset, research software is intended to be <strong>robust</strong>, <strong>reusable</strong>, and <strong>maintainable</strong> over time. This distinction is important because research increasingly relies on complex computational methods, and poorly engineered code can lead to irreproducible results, wasted effort, and difficulties in collaboration.</p>
 <p>Key aspects of research software engineering include version control, testing, documentation, and modular design. By adopting these practices, researchers can ensure that their code is understandable, reliable, and easier to share or extend. RSE also emphasizes the importance of collaboration between domain experts and software engineers, recognizing that high-quality research software is essential for reproducible and impactful science.</p>
-<p>We have already seen several RSE principles in <a href="week03.html" class="quarto-xref"><span>Chapter 3</span></a>, such as using Quarto to document analyses and adopting version control. In this lecture we will focus on designing testable and reusable code using functional principles, by interacting with the <code>purrr</code> library in <code>tidyverse</code>. We will also look at some further, more general principles.</p>
+<p>We have already seen several RSE principles in <a href="week03.html" class="quarto-xref"><span>Chapter 3</span></a>, such as using Quarto to document analyses and adopting version control. In this chapter we will first look at how to <em>structure</em> research code, then focus on designing testable and reusable code using functional principles, by interacting with the <code>purrr</code> library in <code>tidyverse</code>. We will finish with some further, more general practices.</p>
 </section>
-<section id="functional-programming-in-r" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="functional-programming-in-r"><span class="header-section-number">8.2</span> Functional Programming in R</h2>
+<section id="sec-rse-architecture" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="sec-rse-architecture"><span class="header-section-number">8.2</span> Software Architecture</h2>
+<p><em>Software architecture</em> is the high-level structure of a piece of software: how its code is divided into parts, and how those parts fit together. Research software is software, so thinking about how it is structured matters just as much as for any other program. Well-structured code is easier to understand, to test, to change, and to reuse in your next project.</p>
+<section id="key-principles" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="key-principles"><span class="header-section-number">8.2.1</span> Key Principles</h3>
+<p>A handful of principles cover most of what makes research code well structured.</p>
+<ul>
+<li><strong>Separation of concerns.</strong> Divide the code into parts that each have a single, well-defined responsibility. In a data analysis the natural parts are loading the data, cleaning it, analysing or modelling it, visualising it and reporting the results.</li>
+<li><strong>Modularity.</strong> Build those parts as independent, reusable components — in <code>R</code>, usually functions — that can be understood, tested and changed on their own.</li>
+<li><strong>Don’t repeat yourself (DRY).</strong> Every piece of knowledge should be written down in exactly one place. If you find yourself copying and pasting code, or the same hard-coded value, there is probably a better way.</li>
+<li><strong>Fail fast.</strong> Check for problems as early as possible and stop with a clear error, rather than letting a mistake travel silently through the rest of the analysis. We return to this in <a href="#sec-rse-defensive" class="quarto-xref"><span>Section 8.4.1</span></a>.</li>
+</ul>
+<p>Separation of concerns is easiest to see by comparing two versions of the same analysis. In the first, every step is fused into one long pipeline:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Everything mixed together</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"data.csv"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)) <span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fu">log</span>(x)) <span class="sc">|&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>In the second, each step is a function with a descriptive name, and each intermediate result is stored:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clear separation</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>raw_data <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"data.csv"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>clean_data <span class="ot">=</span> <span class="fu">clean_dataset</span>(raw_data)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="fu">fit_model</span>(clean_data)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_results</span>(model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The second version is longer to write, because each of <code>clean_dataset</code>, <code>fit_model</code> and <code>plot_results</code> has to be defined somewhere. But it reads as a summary of the analysis, each step can be checked on its own, and changing how the data are cleaned means editing one function rather than searching through a long pipeline.</p>
+</section>
+<section id="an-example-repeated-code" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="an-example-repeated-code"><span class="header-section-number">8.2.2</span> An Example: Repeated Code</h3>
+<p>The penguins data from <a href="week04.html" class="quarto-xref">Week&nbsp;<span>4</span></a> contains measurements of three species of penguin, recorded on three islands. Suppose we want to plot bill length against bill depth for Adelie penguins on two of those islands. The quickest approach is to write the code for the first plot, then copy, paste and edit it for the second:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"data/penguins.csv"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">"Adelie"</span>, island <span class="sc">==</span> <span class="st">"Biscoe"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm, <span class="at">colour =</span> sex)) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Adelie penguins on Biscoe"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">"Adelia"</span>, island <span class="sc">==</span> <span class="st">"Dream"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm, <span class="at">colour =</span> sex)) <span class="sc">+</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Adelie penguins on Dream"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="week08_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="week08_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<p>The second plot is empty, because of a typo — <code>"Adelia"</code> instead of <code>"Adelie"</code> — that crept in while editing the copy. <code>R</code> gives no error: filtering for a species that does not exist is perfectly valid, and simply returns no rows. This is the danger of repeated code: there are now two copies of the same logic that must be kept in step, and nothing to warn us when they drift apart.</p>
+<p>Following the DRY principle, we write the logic once, as a function, and call it twice. While we are at it, the function can also <em>fail fast</em> by checking that the species and island it is given actually appear in the data:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plot_bills <span class="ot">=</span> <span class="cf">function</span>(data, species_name, island_name) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>(species_name <span class="sc">%in%</span> data<span class="sc">$</span>species)) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"Unknown species: "</span>, species_name)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>(island_name <span class="sc">%in%</span> data<span class="sc">$</span>island)) {</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"Unknown island: "</span>, island_name)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  data <span class="sc">|&gt;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(species <span class="sc">==</span> species_name, island <span class="sc">==</span> island_name) <span class="sc">|&gt;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm, <span class="at">colour =</span> sex)) <span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="fu">paste</span>(species_name, <span class="st">"penguins on"</span>, island_name),</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Bill length (mm)"</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Bill depth (mm)"</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> <span class="st">"Sex"</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_bills</span>(penguins, <span class="st">"Adelie"</span>, <span class="st">"Biscoe"</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_bills</span>(penguins, <span class="st">"Adelie"</span>, <span class="st">"Dream"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="week08_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="week08_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<p>Now a typo in a species name stops the analysis with a clear error, rather than quietly producing an empty plot. Any improvement to the plot — such as the axis labels added above — is made in one place, and applies to every plot at once.</p>
+</section>
+<section id="organising-a-project" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="organising-a-project"><span class="header-section-number">8.2.3</span> Organising a Project</h3>
+<p>As a project grows, it helps to split its code across several files, each with its own job. A common layout for a data analysis project looks like this:</p>
+<pre><code>my-project/
+├── README.md        # what the project is, and how to run it
+├── data/            # the raw data, never edited by hand
+├── R/               # function definitions, e.g. cleaning.R and plots.R
+├── analysis.qmd     # the report, which uses the functions to run the analysis
+└── results/         # generated outputs, which can always be recreated</code></pre>
+<p>The report loads the functions it needs with <code>source()</code>, which runs an <code>R</code> script as if its contents had been typed in:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/cleaning.R"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/plots.R"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>As in <a href="week03.html" class="quarto-xref"><span>Chapter 3</span></a>, every path here is <em>relative</em> to the project folder, so the project still works when it is moved to another computer: when Quarto renders <code>analysis.qmd</code>, paths are interpreted relative to the folder containing it. Keeping the functions in their own files separates the <em>how</em> (the functions) from the <em>what</em> (the narrative of the analysis), and lets several reports, or a Shiny app, share the same functions.</p>
+</section>
+<section id="structure-in-research-code" class="level3" data-number="8.2.4">
+<h3 data-number="8.2.4" class="anchored" data-anchor-id="structure-in-research-code"><span class="header-section-number">8.2.4</span> Structure in Research Code</h3>
+<p>Research code has some features of its own. Much of it is exploratory and written quickly, to find out whether an idea works at all, and much of it is thrown away. On the other hand, the parts that survive often live much longer than anyone expected, and they need to be reproducible. There is therefore a real tension between structuring code well and iterating quickly.</p>
+<p>A reasonable compromise is to match the effort to how long the code will live:</p>
+<ul>
+<li>While exploring, rapid iteration is fine.</li>
+<li>Once you know what works, <em>refactor</em>: reorganise the code into functions, without changing what it does.</li>
+<li>Before sharing code, or building on it, clean it up.</li>
+</ul>
+<p>You do not need an elaborate design: start simple, and add structure when you notice patterns, such as the same code appearing twice. A few habits cost almost nothing even while exploring, and pay off later: use functions, even small ones; avoid hard-coded absolute paths; and write down your assumptions as you make them.</p>
+</section>
+</section>
+<section id="functional-programming-in-r" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="functional-programming-in-r"><span class="header-section-number">8.3</span> Functional Programming in R</h2>
 <p>There exist a variety of <em>programming paradigms</em> that can be used to (broadly) separate languages into different categories, for example:</p>
 <ol type="1">
 <li><strong>Procedural Programming</strong>: Organizes code into procedures or routines (functions), focusing on a sequence of computational steps to be carried out.</li>
@@ -338,71 +461,105 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Higher-order functions: It is easy to create functions that return functions. Functions like <code>lapply()</code>, <code>sapply()</code>, <code>purrr::map()</code>, and others take functions as arguments and apply them over data structures.</li>
 </ul>
 <p>The <code>tidyverse</code> library <code>purrr</code> gives access to even more functional features.</p>
-<section id="pure-functions" class="level3" data-number="8.2.1">
-<h3 data-number="8.2.1" class="anchored" data-anchor-id="pure-functions"><span class="header-section-number">8.2.1</span> Pure Functions</h3>
+<section id="pure-functions" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="pure-functions"><span class="header-section-number">8.3.1</span> Pure Functions</h3>
 <p>This is the principle that functions should have <em>no side effects</em>; the same input should always produce the same output. This makes code much easier to test, debug and reason about.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pure = good</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>add <span class="ot">=</span> <span class="cf">function</span>(x, y) x <span class="sc">+</span> y</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Impure = bad</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>increment <span class="ot">=</span> <span class="cf">function</span>() {</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    counter <span class="ot">&lt;&lt;-</span> counter <span class="sc">+</span> <span class="dv">1</span> </span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    counter</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pure = good</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>add <span class="ot">=</span> <span class="cf">function</span>(x, y) x <span class="sc">+</span> y</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Impure = bad</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>increment <span class="ot">=</span> <span class="cf">function</span>() {</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    counter <span class="ot">&lt;&lt;-</span> counter <span class="sc">+</span> <span class="dv">1</span> </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    counter</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Recall from <a href="week02.html#sec-closures" class="quarto-xref"><span>Section 2.4.3</span></a> that <code>&lt;&lt;-</code> is the super-assignment operator which can modify the global state. This should be avoided wherever possible.</p>
 </section>
-<section id="higher-order-functions" class="level3" data-number="8.2.2">
-<h3 data-number="8.2.2" class="anchored" data-anchor-id="higher-order-functions"><span class="header-section-number">8.2.2</span> Higher-Order Functions</h3>
-<section id="map-functions" class="level4" data-number="8.2.2.1">
-<h4 data-number="8.2.2.1" class="anchored" data-anchor-id="map-functions"><span class="header-section-number">8.2.2.1</span> <code>map</code> Functions</h4>
+<section id="higher-order-functions" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="higher-order-functions"><span class="header-section-number">8.3.2</span> Higher-Order Functions</h3>
+<section id="map-functions" class="level4" data-number="8.3.2.1">
+<h4 data-number="8.3.2.1" class="anchored" data-anchor-id="map-functions"><span class="header-section-number">8.3.2.1</span> <code>map</code> Functions</h4>
 <p>From <a href="week02.html#sec-higher-order-functions" class="quarto-xref"><span>Section 2.4.1</span></a>, recall that a higher order function is a function that either accepts or returns another function. These are the foundation of functional data manipulation. To give a concrete example, a common use case is to <em>map</em> a list through a function, i.e., to take each element of the list and apply a function to it. In <code>R</code> these are materialised through the <em>apply</em> family of functions. Consider the following code:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dplyr' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.2.0     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   4.0.0     ✔ tibble    3.3.0
-✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.0.4     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply = good</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>square <span class="ot">=</span> <span class="cf">function</span>(x) x<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>squared_map <span class="ot">=</span> <span class="fu">sapply</span>(x, square)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># or even using an anonymous function</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>squared_map <span class="ot">=</span> <span class="fu">sapply</span>(x, <span class="cf">function</span>(x) x<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># using purrr</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>squared_map <span class="ot">=</span> <span class="fu">map_dbl</span>(x, <span class="cf">function</span>(x) x<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># For loop = bad</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>squared_loop <span class="ot">=</span> <span class="fu">numeric</span>(<span class="fu">length</span>(x))</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(x)) {</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    squared_loop[i] <span class="ot">=</span> x[i]<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply = good</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>square <span class="ot">=</span> <span class="cf">function</span>(x) x<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>squared_map <span class="ot">=</span> <span class="fu">sapply</span>(x, square)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># or even using an anonymous function</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>squared_map <span class="ot">=</span> <span class="fu">sapply</span>(x, <span class="cf">function</span>(x) x<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># using purrr</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>squared_map <span class="ot">=</span> <span class="fu">map_dbl</span>(x, <span class="cf">function</span>(x) x<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># For loop = bad</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>squared_loop <span class="ot">=</span> <span class="fu">numeric</span>(<span class="fu">length</span>(x))</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(x)) {</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    squared_loop[i] <span class="ot">=</span> x[i]<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Using the for loop it is easier to make mistakes because, inside the loop, we can modify the global state. Adopting functional principles simplifies and clarifies the code and makes it more testable (we can test the <code>square</code> function works as intended separately).</p>
-<p>The <code>map_dbl</code> function from <code>purrr</code> is one of a family of <code>map_</code> functions that specify the return type of the vector, e.g.:</p>
-<ul>
-<li><code>map_int</code>: returns integers.</li>
-<li><code>map_chr</code>: returns strings.</li>
-</ul>
-<p><code>purr</code> offers more advanced mapping, for example to allow iterating two vectors in parallel:</p>
+<p>The <code>map_dbl</code> function from <code>purrr</code> is one member of a family of <code>map</code> functions. The most general is <code>map()</code> itself, which applies a function to each element and always returns a <em>list</em>. Because a list can hold anything, <code>map()</code> works whatever the function returns: a number, a vector, a data frame or even a plot.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>), <span class="dv">5</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">map2_dbl</span>(x, y, <span class="cf">function</span>(x,y) x<span class="sc">^</span>y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 1
+
+[[2]]
+[1] 4
+
+[[3]]
+[1] 9</code></pre>
+</div>
+</div>
+<p>When each result is a single value of a known type, the <em>typed</em> variants return a vector of that type instead:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Function</th>
+<th style="text-align: left;">Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>map()</code></td>
+<td style="text-align: left;">A list; the results can be anything.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>map_lgl()</code></td>
+<td style="text-align: left;">A logical vector.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>map_int()</code></td>
+<td style="text-align: left;">An integer vector.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>map_dbl()</code></td>
+<td style="text-align: left;">A double (decimal) vector.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>map_chr()</code></td>
+<td style="text-align: left;">A character vector.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>map_vec()</code></td>
+<td style="text-align: left;">A vector of whichever type the results share.</td>
+</tr>
+</tbody>
+</table>
+<p>The typed variants check every result, and stop with an error if one is not a single value of the right type.</p>
+<p><code>purrr</code> also offers mapping over several vectors in parallel. <code>map2</code> iterates over two vectors, passing one element of each to the function at every step, and <code>pmap</code> iterates over any number of vectors, supplied together in a list. Each comes with the same typed variants as <code>map</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>), <span class="dv">5</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">map2_dbl</span>(x, y, <span class="cf">function</span>(x, y) x<span class="sc">^</span>y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]    1    8    9   64   25  216   49  512   81 1000</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pmap_dbl</span>(<span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">7</span><span class="sc">:</span><span class="dv">9</span>), <span class="cf">function</span>(a, b, c) a <span class="sc">+</span> b <span class="sc">*</span> c)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 29 42 57</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -411,78 +568,183 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>The Formula Shorthand
+<span class="screen-reader-only">Tip</span>Shorthands for Anonymous Functions
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><code>purrr</code> also accepts a <em>one-sided formula</em> in place of an anonymous function. Write <code>~</code>, and the placeholder <code>.x</code> stands for the argument that is passed in. These two calls are equivalent:</p>
+<p>Anonymous functions are used so often with <code>purrr</code> that there are two shorter ways of writing them. <code>\(v)</code> is a shorthand for <code>function(v)</code>, built into <code>R</code> itself (since version 4.1), so it works anywhere a function is expected. <code>purrr</code> also accepts a <em>one-sided formula</em>: write <code>~</code>, and the placeholder <code>.x</code> stands for the argument that is passed in. These three calls are equivalent:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]   1   4   9  16  25  36  49  64  81 100</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="sc">~</span> .x<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, \(v) v<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]   1   4   9  16  25  36  49  64  81 100</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="sc">~</span> .x<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]   1   4   9  16  25  36  49  64  81 100</code></pre>
 </div>
 </div>
-<p>For functions of two arguments, like the accumulator used by <code>reduce</code> below, the placeholders are <code>.x</code> and <code>.y</code>:</p>
+<p>For functions of two arguments, like the accumulator used by <code>reduce</code> below, the formula’s placeholders are <code>.x</code> and <code>.y</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">reduce</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="sc">~</span> .x <span class="sc">+</span> .y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">reduce</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, \(a, b) a <span class="sc">+</span> b)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 55</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">reduce</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="sc">~</span> .x <span class="sc">+</span> .y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 55</code></pre>
 </div>
 </div>
-<p>Both styles are idiomatic; use whichever you find more readable.</p>
+<p>Any of these can span several lines by wrapping the body in braces, e.g.&nbsp;<code>\(df) { ... }</code> or <code>~ { ... }</code>; as with any function, the value of the last line is returned. All three styles are idiomatic, and you will see all of them in documentation and online, so it is worth being able to read each; use whichever you find most readable.</p>
 </div>
 </div>
 </section>
-<section id="the-reduce-function" class="level4" data-number="8.2.2.2">
-<h4 data-number="8.2.2.2" class="anchored" data-anchor-id="the-reduce-function"><span class="header-section-number">8.2.2.2</span> The <code>reduce</code> Function</h4>
+<section id="why-purrr" class="level4" data-number="8.3.2.2">
+<h4 data-number="8.3.2.2" class="anchored" data-anchor-id="why-purrr"><span class="header-section-number">8.3.2.2</span> Why <code>purrr</code>?</h4>
+<p>Base <code>R</code>’s <code>apply</code> family can do most of what <code>map</code> does, so why use <code>purrr</code> at all? The main reason is that <code>purrr</code>’s functions are <em>type stable</em>: you can tell what type of result you will get just by reading the name of the function. <code>sapply</code>, by contrast, guesses what shape to return from the results it happens to receive:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)           <span class="co"># a numeric vector</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 4 9</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) <span class="fu">c</span>(v, v<span class="sc">^</span><span class="dv">2</span>))     <span class="co"># a matrix!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    2    3
+[2,]    1    4    9</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) <span class="fu">seq_len</span>(v))    <span class="co"># a list!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 1
+
+[[2]]
+[1] 1 2
+
+[[3]]
+[1] 1 2 3</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">integer</span>(<span class="dv">0</span>), <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)    <span class="co"># an empty list, not an empty vector!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>list()</code></pre>
+</div>
+</div>
+<p>The last case is the most dangerous. Code that has always received a numeric vector from <code>sapply</code> can suddenly receive a list when its input happens to be empty — for example, when no files match a pattern — and then fail somewhere further on, far from the real cause. <code>map_dbl</code> always returns a double vector (of length zero, for an empty input), and if a result cannot fit in one it stops straight away, with an error that says which element was the problem:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="fu">integer</span>(<span class="dv">0</span>), <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>numeric(0)</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) <span class="fu">c</span>(v, v<span class="sc">^</span><span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `map_dbl()`:
+i In index: 1.
+Caused by error:
+! Result must be length 1, not 2.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_int</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) v <span class="sc">/</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `map_int()`:
+i In index: 1.
+Caused by error:
+! Can't coerce from a number to an integer.</code></pre>
+</div>
+</div>
+<p>This is the <em>fail fast</em> principle from <a href="#sec-rse-architecture" class="quarto-xref"><span>Section 8.2</span></a> in action. <code>purrr</code> is also more consistent than the <code>apply</code> family in smaller ways: every <code>map</code> function takes the data first and the function second, which suits the pipe, and the choice between them depends only on the type you want back, rather than on remembering the differences between <code>sapply</code>, <code>lapply</code>, <code>vapply</code> and <code>mapply</code>.</p>
+</section>
+<section id="working-with-lists-of-results" class="level4" data-number="8.3.2.3">
+<h4 data-number="8.3.2.3" class="anchored" data-anchor-id="working-with-lists-of-results"><span class="header-section-number">8.3.2.3</span> Working with Lists of Results</h4>
+<p>Because <code>map()</code> returns a list, it is the natural tool when each step produces something more complicated than a single value. A common example is reading several files that share the same format:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>files <span class="ot">=</span> <span class="fu">list.files</span>(<span class="st">"data/monthly"</span>, <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.csv$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>monthly <span class="ot">=</span> files <span class="sc">|&gt;</span> <span class="fu">map</span>(read_csv)      <span class="co"># a list of tibbles, one per file</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>all_data <span class="ot">=</span> monthly <span class="sc">|&gt;</span> <span class="fu">list_rbind</span>()    <span class="co"># stacked into a single tibble</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Here <code>list.files</code> returns the paths of all the files in <code>data/monthly</code> whose names match the regular expression <code>"\\.csv$"</code> (see <a href="week05.html" class="quarto-xref">Week&nbsp;<span>5</span></a>), and <code>list_rbind()</code> combines a list of data frames into one by stacking their rows. (<code>list_rbind()</code> replaces the older <code>map_dfr()</code>, which you may still see in code online.)</p>
+<p>A list of results can also be processed further before, or instead of, being combined into a single table. Below we split the penguins data into a list of three tibbles, one per species, and summarise each of them:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>by_species <span class="ot">=</span> <span class="fu">split</span>(penguins, penguins<span class="sc">$</span>species)   <span class="co"># a named list of tibbles</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>summaries <span class="ot">=</span> by_species <span class="sc">|&gt;</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(\(df) <span class="fu">summarise</span>(df, <span class="at">n =</span> <span class="fu">n</span>(), <span class="at">mean_mass =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>summaries<span class="sc">$</span>Gentoo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 2
+      n mean_mass
+  &lt;int&gt;     &lt;dbl&gt;
+1   124     5076.</code></pre>
+</div>
+</div>
+<p>Each element of <code>summaries</code> is a one-row tibble, so a single statistic can be extracted from each with <code>$</code>, and collected into a vector with a typed <code>map</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>summaries <span class="sc">|&gt;</span> <span class="fu">map_dbl</span>(\(s) s<span class="sc">$</span>mean_mass)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Adelie Chinstrap    Gentoo 
+ 3700.662  3733.088  5076.016 </code></pre>
+</div>
+</div>
+<p>Notice that the result keeps the species names from the list. <code>list_rbind()</code> can turn those names into a column when combining the summaries into a single table:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>summaries <span class="sc">|&gt;</span> <span class="fu">list_rbind</span>(<span class="at">names_to =</span> <span class="st">"species"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 x 3
+  species       n mean_mass
+  &lt;chr&gt;     &lt;int&gt;     &lt;dbl&gt;
+1 Adelie      152     3701.
+2 Chinstrap    68     3733.
+3 Gentoo      124     5076.</code></pre>
+</div>
+</div>
+<p>For a single data frame like this one, <code>group_by()</code> and <code>summarise()</code> (see <a href="week04.html" class="quarto-xref">Week&nbsp;<span>4</span></a>) produce the same table more simply. Lists of results come into their own when the data arrive in separate pieces, such as one file per month, or when each piece produces something that does not fit in a table, such as a fitted model or a plot.</p>
+</section>
+<section id="the-reduce-function" class="level4" data-number="8.3.2.4">
+<h4 data-number="8.3.2.4" class="anchored" data-anchor-id="the-reduce-function"><span class="header-section-number">8.3.2.4</span> The <code>reduce</code> Function</h4>
 <p>“Reduce” operations reduce a vector to a scalar. We perform a reduce by specifying a binary operator that takes a “current” value (or “accumulator”) and the next element of the list, and return an updated “current” value.</p>
 <p>The next example shows how we would use this approach to add up all the elements of a vector:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>sum_reduce_function <span class="ot">=</span> <span class="cf">function</span>(cur,new) cur <span class="sc">+</span> new</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>sum_x <span class="ot">=</span> <span class="fu">sum</span>(x)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>sum_x_purrr <span class="ot">=</span> <span class="fu">reduce</span>(x, sum_reduce_function) </span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(sum_x, sum_x_purrr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>sum_reduce_function <span class="ot">=</span> <span class="cf">function</span>(cur,new) cur <span class="sc">+</span> new</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>sum_x <span class="ot">=</span> <span class="fu">sum</span>(x)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>sum_x_purrr <span class="ot">=</span> <span class="fu">reduce</span>(x, sum_reduce_function) </span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(sum_x, sum_x_purrr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 55 55</code></pre>
 </div>
 </div>
 <p>We don’t necessarily need to specify a function here because we can instead use the symbolic <code>+</code> operation:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sum_x_purrr <span class="ot">=</span> <span class="fu">reduce</span>(x, <span class="st">`</span><span class="at">+</span><span class="st">`</span>) <span class="co"># equivalently</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>sum_x_purr <span class="ot">=</span> x <span class="sc">|&gt;</span> <span class="fu">reduce</span>(<span class="st">`</span><span class="at">+</span><span class="st">`</span>) <span class="co"># with pipes</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>sum_x_purrr <span class="ot">=</span> <span class="fu">reduce</span>(x, <span class="st">`</span><span class="at">+</span><span class="st">`</span>) <span class="co"># equivalently</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>sum_x_purr <span class="ot">=</span> x <span class="sc">|&gt;</span> <span class="fu">reduce</span>(<span class="st">`</span><span class="at">+</span><span class="st">`</span>) <span class="co"># with pipes</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This version of <code>reduce</code> makes the assumption that <code>cur</code> and <code>new</code> have the same type (in this case, they are both integers). What happens internally is something like:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>cur <span class="ot">=</span> <span class="fu">sum_reduce_function</span>(x[<span class="dv">1</span>], x[<span class="dv">2</span>])</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cur)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>cur <span class="ot">=</span> <span class="fu">sum_reduce_function</span>(x[<span class="dv">1</span>], x[<span class="dv">2</span>])</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cur)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">3</span><span class="sc">:</span><span class="fu">length</span>(x)) {</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    cur <span class="ot">=</span> <span class="fu">sum_reduce_function</span>(cur, x[i])</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>cur</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">3</span><span class="sc">:</span><span class="fu">length</span>(x)) {</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    cur <span class="ot">=</span> <span class="fu">sum_reduce_function</span>(cur, x[i])</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>cur</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 55</code></pre>
 </div>
 </div>
 <p>Sometimes it might not be appropriate to initialise the accumulator by applying <code>reduce</code> to the first two elements (for example, if the accumulator is not of the same type as the elements of the list). In this case we can use the <code>.init</code> argument to supply an initial value for the accumulator. The below example accumulates the sum and product of a vector with a single pass through it, which may be more efficient than multiple passes through the dataset.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>reduce_sum_prod <span class="ot">=</span> <span class="cf">function</span>(cur, new) {</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    cur<span class="sc">$</span>sum <span class="ot">=</span> cur<span class="sc">$</span>sum <span class="sc">+</span> new</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    cur<span class="sc">$</span>prod <span class="ot">=</span> cur<span class="sc">$</span>prod <span class="sc">*</span> new</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    cur</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">reduce</span>(</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    x,</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    reduce_sum_prod,</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">.init =</span> <span class="fu">list</span>(<span class="at">sum=</span><span class="dv">0</span>, <span class="at">prod=</span><span class="dv">1</span>)</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>reduce_sum_prod <span class="ot">=</span> <span class="cf">function</span>(cur, new) {</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    cur<span class="sc">$</span>sum <span class="ot">=</span> cur<span class="sc">$</span>sum <span class="sc">+</span> new</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    cur<span class="sc">$</span>prod <span class="ot">=</span> cur<span class="sc">$</span>prod <span class="sc">*</span> new</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>    cur</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="fu">reduce</span>(</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>    x,</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>    reduce_sum_prod,</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">.init =</span> <span class="fu">list</span>(<span class="at">sum=</span><span class="dv">0</span>, <span class="at">prod=</span><span class="dv">1</span>)</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$sum
 [1] 55
@@ -492,57 +754,70 @@ $prod
 </div>
 </div>
 </section>
-<section id="other-higher-order-functions" class="level4" data-number="8.2.2.3">
-<h4 data-number="8.2.2.3" class="anchored" data-anchor-id="other-higher-order-functions"><span class="header-section-number">8.2.2.3</span> Other Higher Order Functions</h4>
+<section id="other-higher-order-functions" class="level4" data-number="8.3.2.5">
+<h4 data-number="8.3.2.5" class="anchored" data-anchor-id="other-higher-order-functions"><span class="header-section-number">8.3.2.5</span> Other Higher Order Functions</h4>
 <p><code>purrr</code> it allows us to filter elements from vectors using a predicate; this is similar to the <code>filter</code> functions from <code>dplyr</code> (see <a href="week04.html#sec-tidyverse-core" class="quarto-xref"><span>Section 4.4.2</span></a>), but works on vectors, not just <code>tibbles</code>. We can also perform other operations, like checking whether all elements match a predicate or none do.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">keep</span>(<span class="cf">function</span>(x) x <span class="sc">&gt;</span> <span class="dv">5</span>) <span class="co"># the second argument is a function that returns a boolean</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">keep</span>(<span class="cf">function</span>(x) x <span class="sc">&gt;</span> <span class="dv">5</span>) <span class="co"># the second argument is a function that returns a boolean</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  6  7  8  9 10</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is called a predicate.</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">every</span>(<span class="cf">function</span>(x) x <span class="sc">&gt;</span> <span class="dv">5</span>) <span class="co"># do all elements match?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is called a predicate.</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">every</span>(<span class="cf">function</span>(x) x <span class="sc">&gt;</span> <span class="dv">5</span>) <span class="co"># do all elements match?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">none</span>(<span class="cf">function</span>(x) x <span class="sc">&gt;</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">none</span>(<span class="cf">function</span>(x) x <span class="sc">&gt;</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
 </div>
 <p>The same calls, using the formula shorthand:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">keep</span>(<span class="sc">~</span> .x <span class="sc">&gt;</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">keep</span>(<span class="sc">~</span> .x <span class="sc">&gt;</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  6  7  8  9 10</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">every</span>(<span class="sc">~</span> .x <span class="sc">&gt;</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">every</span>(<span class="sc">~</span> .x <span class="sc">&gt;</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE</code></pre>
 </div>
 </div>
+<p>These functions work on lists just as well as on vectors. For example, with the list of species summaries from <a href="#working-with-lists-of-results">Working with Lists of Results</a>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># which species have a mean body mass above 4kg?</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>summaries <span class="sc">|&gt;</span> <span class="fu">keep</span>(\(s) s<span class="sc">$</span>mean_mass <span class="sc">&gt;</span> <span class="dv">4000</span>) <span class="sc">|&gt;</span> <span class="fu">names</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Gentoo"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># were at least 50 penguins of every species measured?</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>summaries <span class="sc">|&gt;</span> <span class="fu">every</span>(\(s) s<span class="sc">$</span>n <span class="sc">&gt;=</span> <span class="dv">50</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
 </section>
 </section>
-<section id="function-composition" class="level3" data-number="8.2.3">
-<h3 data-number="8.2.3" class="anchored" data-anchor-id="function-composition"><span class="header-section-number">8.2.3</span> Function Composition</h3>
+<section id="function-composition" class="level3" data-number="8.3.3">
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="function-composition"><span class="header-section-number">8.3.3</span> Function Composition</h3>
 <p>We have already seen how this is implemented in <code>R</code> using the pipe operator; see <a href="week02.html#sec-pipes" class="quarto-xref"><span>Section 2.4.2</span></a></p>
 </section>
-<section id="currying" class="level3" data-number="8.2.4">
-<h3 data-number="8.2.4" class="anchored" data-anchor-id="currying"><span class="header-section-number">8.2.4</span> Currying</h3>
+<section id="currying" class="level3" data-number="8.3.4">
+<h3 data-number="8.3.4" class="anchored" data-anchor-id="currying"><span class="header-section-number">8.3.4</span> Currying</h3>
 <p>Currying is the process of taking a function and fixing some arguments of it, for example to allow it to be used in <code>map</code> functions. This is implemented in <code>purrr</code> using <code>partial</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>add_10 <span class="ot">=</span> <span class="fu">partial</span>(<span class="st">`</span><span class="at">+</span><span class="st">`</span>, <span class="dv">10</span>)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">map_dbl</span>(add_10)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>add_10 <span class="ot">=</span> <span class="fu">partial</span>(<span class="st">`</span><span class="at">+</span><span class="st">`</span>, <span class="dv">10</span>)</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">map_dbl</span>(add_10)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] 11 12 13 14 15 16 17 18 19 20</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>names <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Ada Lovelace"</span>, <span class="st">"Alan Turing"</span>, <span class="st">"Grace Hopper"</span>)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>add_hello <span class="ot">=</span> <span class="fu">partial</span>(paste, <span class="st">"Hello"</span>)</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>names <span class="sc">|&gt;</span> <span class="fu">map_vec</span>(add_hello)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>names <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Ada Lovelace"</span>, <span class="st">"Alan Turing"</span>, <span class="st">"Grace Hopper"</span>)</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>add_hello <span class="ot">=</span> <span class="fu">partial</span>(paste, <span class="st">"Hello"</span>)</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>names <span class="sc">|&gt;</span> <span class="fu">map_vec</span>(add_hello)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Hello Ada Lovelace" "Hello Alan Turing"  "Hello Grace Hopper"</code></pre>
 </div>
@@ -550,50 +825,66 @@ $prod
 <p>In the second example, <code>partial</code> fixes the first argument of <code>paste</code> — the base-<code>R</code> string-combining function we met in <a href="week02.html" class="quarto-xref">Week&nbsp;<span>2</span></a> — producing a function that greets each name in turn.</p>
 </section>
 </section>
-<section id="key-practices-for-robust-research-software" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="key-practices-for-robust-research-software"><span class="header-section-number">8.3</span> Key Practices for Robust Research Software</h2>
+<section id="key-practices-for-robust-research-software" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="key-practices-for-robust-research-software"><span class="header-section-number">8.4</span> Key Practices for Robust Research Software</h2>
 <p>The principles above help to write good, reusable code, but there are some further principles that make the whole software lifecycle more sustainable.</p>
-<section id="defensive-programming" class="level3" data-number="8.3.1">
-<h3 data-number="8.3.1" class="anchored" data-anchor-id="defensive-programming"><span class="header-section-number">8.3.1</span> Defensive Programming</h3>
+<section id="sec-rse-defensive" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="sec-rse-defensive"><span class="header-section-number">8.4.1</span> Defensive Programming</h3>
 <p>Defensive programming is the principle that functions should check that the inputs are expected before performing any operations. We saw an example of this in Lab 2, where the <code>-</code> operator implicitly wraps vectors if they are not of the same length:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>x <span class="sc">-</span> y <span class="co"># we might expect that this throws an error - but it does not!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>x <span class="sc">-</span> y <span class="co"># we might expect that this throws an error - but it does not!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0 0 2 2</code></pre>
 </div>
 </div>
 <p>This had an impact in a <code>distance</code> function we wrote:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>distance <span class="ot">=</span> <span class="cf">function</span>(x, y) <span class="fu">sqrt</span>(<span class="fu">sum</span>((x<span class="sc">-</span>y)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">distance</span>(x, y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>distance <span class="ot">=</span> <span class="cf">function</span>(x, y) <span class="fu">sqrt</span>(<span class="fu">sum</span>((x<span class="sc">-</span>y)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="fu">distance</span>(x, y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.828427</code></pre>
 </div>
 </div>
 <p>To implement this defensively, we can use the <code>stop</code> function, which causes <code>R</code> to throw an error with an error message.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>distance_defensive <span class="ot">=</span> <span class="cf">function</span>(x, y) {</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(x) <span class="sc">||</span> <span class="sc">!</span><span class="fu">is.numeric</span>(y)) {</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">stop</span>(<span class="st">"Both x and y must be numeric vectors."</span>)</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(x) <span class="sc">!=</span> <span class="fu">length</span>(y)) {</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">stop</span>(<span class="st">"x and y must have the same length."</span>)</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> y)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a><span class="fu">distance_defensive</span>(x, y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>distance_defensive <span class="ot">=</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(x) <span class="sc">||</span> <span class="sc">!</span><span class="fu">is.numeric</span>(y)) {</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">stop</span>(<span class="st">"Both x and y must be numeric vectors."</span>)</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(x) <span class="sc">!=</span> <span class="fu">length</span>(y)) {</span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">stop</span>(<span class="st">"x and y must have the same length."</span>)</span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> y)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb77-10"><a href="#cb77-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-11"><a href="#cb77-11" aria-hidden="true" tabindex="-1"></a><span class="fu">distance_defensive</span>(x, y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in distance_defensive(x, y): x and y must have the same length.</code></pre>
 </div>
 </div>
 <p>Now the function complains if we pass in vectors that are invalid.</p>
+<p><code>stopifnot()</code> offers a more compact way to write checks like these. It takes one or more conditions, does nothing if they are all <code>TRUE</code>, and otherwise stops with an error at the first condition that is not. Giving each condition a name sets the error message to report if it fails:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>distance_stopifnot <span class="ot">=</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stopifnot</span>(</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Both x and y must be numeric vectors."</span> <span class="ot">=</span> <span class="fu">is.numeric</span>(x) <span class="sc">&amp;&amp;</span> <span class="fu">is.numeric</span>(y),</span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"x and y must have the same length."</span> <span class="ot">=</span> <span class="fu">length</span>(x) <span class="sc">==</span> <span class="fu">length</span>(y)</span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> y)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a><span class="fu">distance_stopifnot</span>(x, y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in distance_stopifnot(x, y): x and y must have the same length.</code></pre>
+</div>
+</div>
+<p>Without names, <code>stopifnot</code> reports the failing condition itself, e.g.&nbsp;<code>length(x) == length(y) is not TRUE</code>. That is fine for quick checks, but a written explanation is much more helpful to somebody else using your function.</p>
 </section>
-<section id="error-handling-with-try-catch" class="level3" data-number="8.3.2">
-<h3 data-number="8.3.2" class="anchored" data-anchor-id="error-handling-with-try-catch"><span class="header-section-number">8.3.2</span> Error Handling with try-catch</h3>
+<section id="error-handling-with-try-catch" class="level3" data-number="8.4.2">
+<h3 data-number="8.4.2" class="anchored" data-anchor-id="error-handling-with-try-catch"><span class="header-section-number">8.4.2</span> Error Handling with try-catch</h3>
 <p>In addition to defensive programming, robust research software should gracefully handle unexpected errors. In R, this can be achieved using <code>try</code> and <code>tryCatch</code>.</p>
 <ul>
 <li><code>try(expr)</code> evaluates an expression and continues execution even if an error occurs, returning the error as an object.</li>
@@ -601,51 +892,138 @@ $prod
 </ul>
 <p>For example:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">try</span>(<span class="fu">distance_defensive</span>(x,y))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">try</span>(<span class="fu">distance_defensive</span>(x,y))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Error in distance_defensive(x, y) : x and y must have the same length.</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">"The error was 'caught', so I can print it here:</span><span class="sc">\n</span><span class="st">"</span>, result))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">"The error was 'caught', so I can print it here:</span><span class="sc">\n</span><span class="st">"</span>, result))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>The error was 'caught', so I can print it here:
 Error in distance_defensive(x, y) : x and y must have the same length.</code></pre>
 </div>
 </div>
 <p>The message is assembled with <code>paste0()</code> and printed with <code>cat()</code> (both introduced in <a href="week02.html" class="quarto-xref">Week&nbsp;<span>2</span></a>); without the <code>try</code>, the error would have stopped the script before the <code>cat</code> call.</p>
+<p><code>tryCatch</code> is most useful when the same operation is repeated many times, and one failure should not stop all the others. A common case is reading a collection of files with <code>map</code> (see <a href="#working-with-lists-of-results">Working with Lists of Results</a>): if one file is missing or corrupt, <code>read_csv</code> stops with an error, and the whole <code>map</code> call fails with it, discarding the files that were read successfully. Instead, we can write a function that returns <code>NULL</code> for any file it cannot read, and reports the problem with a message:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>read_csv_or_null <span class="ot">=</span> <span class="cf">function</span>(path) {</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tryCatch</span>(</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">read_csv</span>(path, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">error =</span> <span class="cf">function</span>(e) {</span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">message</span>(<span class="st">"Skipping "</span>, path, <span class="st">": it could not be read."</span>)</span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>            <span class="cn">NULL</span></span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb85-10"><a href="#cb85-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-11"><a href="#cb85-11" aria-hidden="true" tabindex="-1"></a>files <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"data/penguins.csv"</span>, <span class="st">"data/no_such_file.csv"</span>, <span class="st">"data/student_grades.csv"</span>)</span>
+<span id="cb85-12"><a href="#cb85-12" aria-hidden="true" tabindex="-1"></a>tables <span class="ot">=</span> files <span class="sc">|&gt;</span> <span class="fu">set_names</span>() <span class="sc">|&gt;</span> <span class="fu">map</span>(read_csv_or_null)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Skipping data/no_such_file.csv: it could not be read.</code></pre>
+</div>
+</div>
+<p>The first argument of <code>tryCatch</code> is the code to run. If it raises an error, the function given as <code>error</code> is called instead, with the error itself as its argument <code>e</code> (inside it, <code>conditionMessage(e)</code> returns the error’s message), and whatever that function returns becomes the result of <code>tryCatch</code>. <code>set_names()</code> names each element of a vector after its own value, so that the elements of <code>tables</code> are labelled with the file each came from:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>tables <span class="sc">|&gt;</span> <span class="fu">map_lgl</span>(is.null)           <span class="co"># which files could not be read?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      data/penguins.csv   data/no_such_file.csv data/student_grades.csv 
+                  FALSE                    TRUE                   FALSE </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>tables <span class="sc">|&gt;</span> <span class="fu">compact</span>() <span class="sc">|&gt;</span> <span class="fu">map_int</span>(nrow) <span class="co"># rows in each file that could be read</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      data/penguins.csv data/student_grades.csv 
+                    344                      59 </code></pre>
+</div>
+</div>
+<p><code>compact()</code> drops the <code>NULL</code> elements of a list, leaving only the tables that were read successfully. (<code>tryCatch</code> can also handle warnings, by passing a function as <code>warning</code>, and run clean-up code whatever happens, through <code>finally</code>.)</p>
+<p><code>purrr</code> provides a more functional shortcut for this pattern. <code>possibly()</code> is a higher-order function: it takes a function, and returns a new version of it that returns a default value, given by <code>otherwise</code>, instead of raising an error:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>read_csv_or_null <span class="ot">=</span> <span class="fu">possibly</span>(\(path) <span class="fu">read_csv</span>(path, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>), <span class="at">otherwise =</span> <span class="cn">NULL</span>)</span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>files <span class="sc">|&gt;</span> <span class="fu">set_names</span>() <span class="sc">|&gt;</span> <span class="fu">map</span>(read_csv_or_null) <span class="sc">|&gt;</span> <span class="fu">map_lgl</span>(is.null)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      data/penguins.csv   data/no_such_file.csv data/student_grades.csv 
+                  FALSE                    TRUE                   FALSE </code></pre>
+</div>
+</div>
+<p>Unlike our <code>tryCatch</code> version, <code>possibly</code> fails silently, so it is worth checking afterwards which elements fell back to the default, as above. Its relative <code>safely()</code> keeps the error as well: the function it returns gives a list containing either a <code>result</code> or an <code>error</code>, so that you can inspect what went wrong.</p>
 </section>
-<section id="documentation-strategies" class="level3" data-number="8.3.3">
-<h3 data-number="8.3.3" class="anchored" data-anchor-id="documentation-strategies"><span class="header-section-number">8.3.3</span> Documentation Strategies</h3>
+<section id="sec-rse-testing" class="level3" data-number="8.4.3">
+<h3 data-number="8.4.3" class="anchored" data-anchor-id="sec-rse-testing"><span class="header-section-number">8.4.3</span> Unit Testing (Advanced)</h3>
+<p>Throughout this chapter we have claimed that small, pure functions are easy to <em>test</em>. A <em>unit test</em> is a piece of code that calls a function with inputs for which we already know the right answer, and checks that the function returns it. Because a pure function always gives the same output for the same inputs, a test that passes today will keep passing until somebody changes the function — at which point a failing test tells them straight away that something has broken.</p>
+<p>The simplest unit tests need nothing beyond base <code>R</code>: the <code>stopifnot()</code> function from <a href="#sec-rse-defensive" class="quarto-xref"><span>Section 8.4.1</span></a> is enough. In tests we often leave the conditions unnamed, since the condition itself is then reported if it fails. Below, we collect some tests for a distance function into a function of their own, which takes the distance function to be tested as its argument:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>check_distance <span class="ot">=</span> <span class="cf">function</span>(distance_fn) {</span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># a 3-4-5 right-angled triangle</span></span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stopifnot</span>(<span class="fu">distance_fn</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>)) <span class="sc">==</span> <span class="dv">5</span>)</span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># any point is at distance zero from itself</span></span>
+<span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stopifnot</span>(<span class="fu">distance_fn</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)) <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb93-6"><a href="#cb93-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># vectors of different lengths must be rejected with an error</span></span>
+<span id="cb93-7"><a href="#cb93-7" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">=</span> <span class="fu">try</span>(<span class="fu">distance_fn</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>), <span class="at">silent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb93-8"><a href="#cb93-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stopifnot</span>(<span class="fu">inherits</span>(result, <span class="st">"try-error"</span>))</span>
+<span id="cb93-9"><a href="#cb93-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"All tests passed."</span></span>
+<span id="cb93-10"><a href="#cb93-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The last test uses <code>try</code> to run a call that <em>should</em> fail: <code>silent = TRUE</code> stops <code>try</code> from printing the error, and <code>inherits(result, "try-error")</code> checks that an error really did occur.</p>
+<p>The defensive version of the function from <a href="#sec-rse-defensive" class="quarto-xref"><span>Section 8.4.1</span></a> passes every test:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_distance</span>(distance_defensive)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "All tests passed."</code></pre>
+</div>
+</div>
+<p>The original version, however, fails the last test, because it silently recycles the shorter vector rather than stopping with an error:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_distance</span>(distance)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in check_distance(distance): inherits(result, "try-error") is not TRUE</code></pre>
+</div>
+</div>
+<p>Had this test existed when the original <code>distance</code> was written, the recycling bug would have been caught immediately, rather than surfacing later as a wrong answer.</p>
+<p>The tests above compare numbers with <code>==</code>, which is safe here because each answer is a whole number. For results that are not, compare with <code>isTRUE(all.equal(...))</code> instead, which allows for tiny rounding errors (see <a href="week02.html" class="quarto-xref">Week&nbsp;<span>2</span></a>).</p>
+<p>For larger projects, the <code>testthat</code> package (install it with <code>install.packages("testthat")</code>) is the standard testing framework in <code>R</code>. Each test is given a description, so that a failure report says exactly which behaviour has broken, and <code>expect_*</code> functions express the checks:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(testthat)</span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"distance is correct for a 3-4-5 triangle"</span>, {</span>
+<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">expect_equal</span>(<span class="fu">distance</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>)), <span class="dv">5</span>)</span>
+<span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb98-6"><a href="#cb98-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-7"><a href="#cb98-7" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"distance rejects vectors of different lengths"</span>, {</span>
+<span id="cb98-8"><a href="#cb98-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">expect_error</span>(<span class="fu">distance</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>))</span>
+<span id="cb98-9"><a href="#cb98-9" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>expect_equal</code> allows for tiny rounding errors, like <code>all.equal</code>. Tests are usually kept in files of their own in a <code>tests/</code> folder of the project (see <a href="#sec-rse-architecture" class="quarto-xref"><span>Section 8.2</span></a>), and the whole collection is run with <code>testthat::test_dir("tests")</code> every time the code changes.</p>
+</section>
+<section id="documentation-strategies" class="level3" data-number="8.4.4">
+<h3 data-number="8.4.4" class="anchored" data-anchor-id="documentation-strategies"><span class="header-section-number">8.4.4</span> Documentation Strategies</h3>
 <p>We have seen how to provide comments in <code>R</code> code. Quarto documents are also themselves a kind of documentation, allowing us to write explanatory text around our analysis. However, if implementing pure <code>R</code> functions it is important to provide further documentation to explain what the function does, what arguments it takes, and what it returns. If implemented properly, these will appear on hovering the function in RStudio, or when using <code>?function</code>.</p>
 <p>One of the most convenient ways to accomplish this is using the <code>roxygen2</code> library. This allows us to provide documentation in comments, in our <code>R</code> code. If we were then to compile our code into an R package (beyond the scope of this course), we could use <code>roxygen2</code> to autogenerate documentation for users.</p>
 <p><code>roxygen2</code> requires comments in a specific format. Here’s an example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' The Euclidean distance between two vectors.</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' Returns the Euclidean distance between the vectors x and y, implemented as \sqrt(\sum (x_i - y_i)^2)</span></span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param x The first vector</span></span>
-<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param y The second vector</span></span>
-<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return The distance between x and y</span></span>
-<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="co">#' @examples</span></span>
-<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="co">#' x = c(1,2)</span></span>
-<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a><span class="co">#' y = c(3,4)</span></span>
-<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a><span class="co">#' distance(x,y)</span></span>
-<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a><span class="co">#' @export</span></span>
-<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a><span class="co">#' @author Jon Cockayne</span></span>
-<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>distance <span class="ot">=</span> <span class="cf">function</span>(x, y) {</span>
-<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(x) <span class="sc">||</span> <span class="sc">!</span><span class="fu">is.numeric</span>(y)) {</span>
-<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">stop</span>(<span class="st">"Both x and y must be numeric vectors."</span>)</span>
-<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(x) <span class="sc">!=</span> <span class="fu">length</span>(y)) {</span>
-<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">stop</span>(<span class="st">"x and y must have the same length."</span>)</span>
-<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> y)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' The Euclidean distance between two vectors.</span></span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' Returns the Euclidean distance between the vectors x and y, implemented as \sqrt(\sum (x_i - y_i)^2)</span></span>
+<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param x The first vector</span></span>
+<span id="cb99-6"><a href="#cb99-6" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param y The second vector</span></span>
+<span id="cb99-7"><a href="#cb99-7" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return The distance between x and y</span></span>
+<span id="cb99-8"><a href="#cb99-8" aria-hidden="true" tabindex="-1"></a><span class="co">#' @examples</span></span>
+<span id="cb99-9"><a href="#cb99-9" aria-hidden="true" tabindex="-1"></a><span class="co">#' x = c(1,2)</span></span>
+<span id="cb99-10"><a href="#cb99-10" aria-hidden="true" tabindex="-1"></a><span class="co">#' y = c(3,4)</span></span>
+<span id="cb99-11"><a href="#cb99-11" aria-hidden="true" tabindex="-1"></a><span class="co">#' distance(x,y)</span></span>
+<span id="cb99-12"><a href="#cb99-12" aria-hidden="true" tabindex="-1"></a><span class="co">#' @export</span></span>
+<span id="cb99-13"><a href="#cb99-13" aria-hidden="true" tabindex="-1"></a><span class="co">#' @author Jon Cockayne</span></span>
+<span id="cb99-14"><a href="#cb99-14" aria-hidden="true" tabindex="-1"></a>distance <span class="ot">=</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb99-15"><a href="#cb99-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(x) <span class="sc">||</span> <span class="sc">!</span><span class="fu">is.numeric</span>(y)) {</span>
+<span id="cb99-16"><a href="#cb99-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">stop</span>(<span class="st">"Both x and y must be numeric vectors."</span>)</span>
+<span id="cb99-17"><a href="#cb99-17" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb99-18"><a href="#cb99-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(x) <span class="sc">!=</span> <span class="fu">length</span>(y)) {</span>
+<span id="cb99-19"><a href="#cb99-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">stop</span>(<span class="st">"x and y must have the same length."</span>)</span>
+<span id="cb99-20"><a href="#cb99-20" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb99-21"><a href="#cb99-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> y)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb99-22"><a href="#cb99-22" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="other-considerations" class="level3" data-number="8.3.4">
-<h3 data-number="8.3.4" class="anchored" data-anchor-id="other-considerations"><span class="header-section-number">8.3.4</span> Other Considerations</h3>
-<p>There are two final points that are beyond the scope of this course, but nevertheless important topics. These are included mainly to give you references to how to implement them in <code>R</code>.</p>
+<section id="other-considerations" class="level3" data-number="8.4.5">
+<h3 data-number="8.4.5" class="anchored" data-anchor-id="other-considerations"><span class="header-section-number">8.4.5</span> Other Considerations</h3>
+<p>There is one final point that is beyond the scope of this course, but is nevertheless an important topic. It is included mainly to give you a reference to how to implement it in <code>R</code>.</p>
 <ul>
-<li><strong>Unit Testing</strong> is the process whereby we write code to test that functions we have implemented return the expected result. In large codebases this can help to catch errors that get introduced when making modifications. In <code>R</code> unit tests can be implemented using the <code>testthat</code> library.</li>
 <li><strong>Dependency Management</strong> was mentioned in <a href="week02.html" class="quarto-xref"><span>Chapter 2</span></a>; it is bad practice to use <code>install.packages</code> to install packages in your Quarto scripts, but we still need to communicate what packages are required by our software to users. In <code>R</code> this can be implemented using the <code>renv</code> package, which allows us to document dependencies and freeze particular versions required.</li>
 </ul>
 
