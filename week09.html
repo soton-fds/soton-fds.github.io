@@ -275,13 +275,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#creating-a-sqlite-db" id="toc-creating-a-sqlite-db" class="nav-link" data-scroll-target="#creating-a-sqlite-db"><span class="header-section-number">9.2.1</span> Creating a SQLite DB</a></li>
   <li><a href="#creating-tables" id="toc-creating-tables" class="nav-link" data-scroll-target="#creating-tables"><span class="header-section-number">9.2.2</span> Creating Tables</a></li>
+  <li><a href="#create-read-update-and-delete" id="toc-create-read-update-and-delete" class="nav-link" data-scroll-target="#create-read-update-and-delete"><span class="header-section-number">9.2.3</span> Create, Read, Update and Delete</a></li>
+  <li><a href="#advanced-queries" id="toc-advanced-queries" class="nav-link" data-scroll-target="#advanced-queries"><span class="header-section-number">9.2.4</span> Advanced Queries</a></li>
+  <li><a href="#sec-sql-reading" id="toc-sec-sql-reading" class="nav-link" data-scroll-target="#sec-sql-reading"><span class="header-section-number">9.2.5</span> Reading SQL Queries</a></li>
   </ul></li>
-  <li><a href="#other-sqlite-types" id="toc-other-sqlite-types" class="nav-link" data-scroll-target="#other-sqlite-types"><span class="header-section-number">9.3</span> Other SQLite Types</a></li>
-  <li><a href="#create-read-update-and-delete" id="toc-create-read-update-and-delete" class="nav-link" data-scroll-target="#create-read-update-and-delete"><span class="header-section-number">9.3.1</span> Create, Read, Update and Delete</a></li>
-  <li><a href="#advanced-queries" id="toc-advanced-queries" class="nav-link" data-scroll-target="#advanced-queries"><span class="header-section-number">9.3.2</span> Advanced Queries</a></li>
-  <li><a href="#why-use-sql-vs.-r" id="toc-why-use-sql-vs.-r" class="nav-link" data-scroll-target="#why-use-sql-vs.-r"><span class="header-section-number">9.4</span> Why Use SQL vs.&nbsp;R</a>
+  <li><a href="#why-use-sql-vs.-r" id="toc-why-use-sql-vs.-r" class="nav-link" data-scroll-target="#why-use-sql-vs.-r"><span class="header-section-number">9.3</span> Why Use SQL vs.&nbsp;R</a>
   <ul class="collapse">
-  <li><a href="#the-bridge-dbplyr" id="toc-the-bridge-dbplyr" class="nav-link" data-scroll-target="#the-bridge-dbplyr"><span class="header-section-number">9.4.1</span> The Bridge: <code>dbplyr</code></a></li>
+  <li><a href="#the-bridge-dbplyr" id="toc-the-bridge-dbplyr" class="nav-link" data-scroll-target="#the-bridge-dbplyr"><span class="header-section-number">9.3.1</span> The Bridge: <code>dbplyr</code></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -312,16 +312,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="unnumbered anchored" data-anchor-id="objectives">Objectives</h2>
 <ul>
 <li>Understand SQL as a declarative language for transforming data.</li>
-<li>Know how to use SQL joins, GROUP BY aggregations and subqueries.</li>
+<li>Be able to read and interpret SQL queries, including joins, <code>GROUP BY</code> aggregations and subqueries.</li>
 <li>Appreciate the tradeoffs of doing computation in-database rather than in <code>R</code>.</li>
-<li>Write queries that are reusable and support reproducibility.</li>
+<li>Use <code>dbplyr</code> to query a database from <code>R</code>, and read the SQL that it generates.</li>
 </ul>
 </section>
 <section id="what-is-a-relational-database" class="level2" data-number="9.1">
 <h2 data-number="9.1" class="anchored" data-anchor-id="what-is-a-relational-database"><span class="header-section-number">9.1</span> What is a Relational Database?</h2>
 <p>A relational database is a structured collection of data organized into tables (also called relations). Each table consists of rows (records) and columns (fields), where each column has a specific data type and each row represents a single entry.</p>
 <p>To draw analogies with data frames, each table is essentially a data frame. However, the data frames are linked through a <em>key</em> mechanism. Each table has a column that is referred to as a <em>primary key</em> which is like a unique identifier for the row. Often this is an integer, but it can be other things (e.g.&nbsp;a string, or a UUID). The important thing is that each value of a primary key can exist only once in the table, to ensure the row can be identified uniquely.</p>
-<p>A table can also have columns <em>foreign keys</em>, which are values that refer to primary keys in other tables, thus allowing for <em>relations</em> between the tables. If a column is labelled as a foreign key, consistency checks will be performed to ensure that the foreign key exists in the table it refers to.</p>
+<p>A table can also have <em>foreign keys</em>: columns whose values refer to primary keys in other tables, thus allowing for <em>relations</em> between the tables. If a column is labelled as a foreign key, consistency checks will be performed to ensure that the foreign key exists in the table it refers to.</p>
 <section id="why-use-relational-databases" class="level3" data-number="9.1.1">
 <h3 data-number="9.1.1" class="anchored" data-anchor-id="why-use-relational-databases"><span class="header-section-number">9.1.1</span> Why use Relational Databases?</h3>
 <p>Relational databases offer several advantages:</p>
@@ -339,10 +339,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="what-is-sql" class="level2" data-number="9.2">
 <h2 data-number="9.2" class="anchored" data-anchor-id="what-is-sql"><span class="header-section-number">9.2</span> What is SQL?</h2>
 <p>SQL (Structured Query Language) is a standardized language used to manage and manipulate relational databases. It allows users to define, query, update, and control access to data stored in tables. SQL is declarative, meaning you specify <em>what</em> data you want, not <em>how</em> to retrieve it. Common SQL operations include selecting data (<code>SELECT</code>), filtering (<code>WHERE</code>), joining tables (<code>JOIN</code>), aggregating results (<code>GROUP BY</code>), and modifying data (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>). SQL is widely supported by database systems such as MySQL, PostgreSQL, SQLite, and Microsoft SQL Server, though there are some features that differ between implementations. In this course we will focus on <code>sqlite</code>, since it is widely available and does not require access to a server on which to host the database.</p>
-<p>Much like <code>R</code>, <code>SQL</code> is typically written in plain text into text files, with the extension <code>.sql</code>. <code>SQL</code> is also stricter on formatting; all SQL statements must be terminated with a semicolon (<code>;</code>).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Using SQLite
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this chapter we describe how relational databases behave in general, as provided by database servers such as PostgreSQL or MySQL. SQLite supports all of the SQL in this chapter, but it is a deliberately lightweight system, and its behaviour differs from that of a database server in some places — for example, in how strictly it enforces some of the rules described here. More generally, every database system has its own <em>dialect</em> of SQL, so it is worth checking the documentation of the system you are using.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Reading, not writing, SQL
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this course you will not be expected to write SQL yourself. You should, however, be able to <em>read</em> SQL: to interpret a query you are given, and explain what it does and what it returns (<a href="#sec-sql-reading" class="quarto-xref"><span>Section 9.2.5</span></a> gives a guide to doing this). When we work with databases from <code>R</code>, we will write <code>dplyr</code> code and let the <code>dbplyr</code> package translate it into SQL for us (see <a href="#the-bridge-dbplyr">The Bridge: <code>dbplyr</code></a>).</p>
+</div>
+</div>
+<p>Much like <code>R</code>, <code>SQL</code> is typically written in plain text into text files, with the extension <code>.sql</code>. <code>SQL</code> is also stricter on formatting: a script containing several statements must separate them with semicolons (<code>;</code>), and it is good practice to end every statement with one.</p>
 <section id="creating-a-sqlite-db" class="level3" data-number="9.2.1">
 <h3 data-number="9.2.1" class="anchored" data-anchor-id="creating-a-sqlite-db"><span class="header-section-number">9.2.1</span> Creating a SQLite DB</h3>
-<p>In this course you will mostly be supplied with pre-build SQLite databases to work with. There are various ways to create a database from scratch. One user-friendly way is using the <a href="https://sqlitebrowser.org/dl/">DB Browser for SQLite</a>. This gives the facility to create new databases and execute arbitrary SQL scripts on them, as well as interactive ways to create tables and insert data.</p>
+<p>In this course you will mostly be supplied with pre-built SQLite databases to work with. There are various ways to create a database from scratch. One user-friendly way is using the <a href="https://sqlitebrowser.org/dl/">DB Browser for SQLite</a>. This gives the facility to create new databases and execute arbitrary SQL scripts on them, as well as interactive ways to create tables and insert data.</p>
 </section>
 <section id="creating-tables" class="level3" data-number="9.2.2">
 <h3 data-number="9.2.2" class="anchored" data-anchor-id="creating-tables"><span class="header-section-number">9.2.2</span> Creating Tables</h3>
@@ -353,59 +379,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="op">..</span>.,</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;</span><span class="kw">constraints</span><span class="op">&gt;</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>It is idiomatic for keywords (e.g.&nbsp;<code>CREATE TABLE</code>) to be in all caps. Unlike <code>R</code> the column types must be specified at table creation and the database will be very strict in checking inserted values match the specified type.</p>
-<p>Types that can be used vary according to database implementation. In SQLite the following types are available:</p>
+<p>It is idiomatic for keywords (e.g.&nbsp;<code>CREATE TABLE</code>) to be in all caps. Unlike <code>R</code>, the column types must be specified when the table is created, and the database checks that the values inserted into each column match its type.</p>
+<p>The types that can be used vary between database systems, but most provide at least the following (sometimes under slightly different names):</p>
 <ul>
-<li><code>INTEGER</code></li>
-<li><code>REAL</code>: a decimal number</li>
-<li><code>TEXT</code>: a text string</li>
-<li><code>BLOB</code>: binary data (we won’t use these.)</li>
+<li><code>INTEGER</code>: a whole number.</li>
+<li><code>REAL</code>: a decimal number (called <code>DOUBLE PRECISION</code> or <code>FLOAT</code> in some systems).</li>
+<li><code>TEXT</code>: a text string (often <code>VARCHAR</code>).</li>
+<li><code>BOOLEAN</code>: true or false.</li>
+<li><code>DATE</code> and <code>TIMESTAMP</code>: dates, and dates with times.</li>
+<li><code>BLOB</code>: binary data (we won’t use these).</li>
 </ul>
-<p>In addition to the type, <em>one</em> column in a table can be designated as <code>PRIMARY KEY</code>, indicating that it is should contain the unique identifier for each row. We can further add the text <code>AUTOINCREMENT</code> after <code>PRIMARY KEY</code> to have SQLite manage inserting new IDs automatically; this avoids having to check what the largest ID in a table is before inserting.</p>
-</section>
-</section>
-<section id="other-sqlite-types" class="level2 callout-info" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="other-sqlite-types"><span class="header-section-number">9.3</span> Other SQLite Types</h2>
-<p>The list above is <em>all</em> types available in SQLite, which is quite limited. Particular omissions (and workarounds) are:</p>
-<ul>
-<li>Boolean types. These should be stored as an integer, with 0 for false and 1 for true. SQLite recognises the keywords <code>TRUE</code> and <code>FALSE</code>, but these are just macros that bind to the integers given above.</li>
-<li>Dates. We can encode these into strings, real numbers or integers. We won’t use these in the course.</li>
-</ul>
-<p>A richer set of datatypes are available in other database implementations</p>
-</section>
+<p>The examples in this chapter use only <code>INTEGER</code>, <code>REAL</code> and <code>TEXT</code>.</p>
+<p>In addition to the type, a column can be designated as the table’s <code>PRIMARY KEY</code>, indicating that it contains the unique identifier for each row. A table has at most one primary key, but it can span several columns, when it is the <em>combination</em> of their values that identifies each row; this is written as a constraint, <code>PRIMARY KEY (column_1, column_2)</code>, after the column definitions. We can further add the text <code>AUTOINCREMENT</code> after <code>PRIMARY KEY</code> to have the database generate new IDs automatically; this avoids having to check what the largest ID in a table is before inserting. (The keyword for this is one of the places where database systems differ: SQLite uses <code>AUTOINCREMENT</code>, while for example MySQL uses <code>AUTO_INCREMENT</code>.)</p>
 <p>In addition to types, tables can also have constraints. Examples of constraints include:</p>
 <ul>
 <li><code>UNIQUE</code>: the column is not a primary key but each row can only contain unique values.</li>
 <li><code>FOREIGN KEY</code>: the column references the primary key in another table. The syntax for this differs, as we’ll see next.</li>
 </ul>
-<p>Here is an example that creates two tables, with primary keys and some other details, and links them through another table.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Unlike R, comments in SQL start with two hyphens</span></span>
+<p>The SQL examples in the rest of this section are run, in order, against a small SQLite database, so that you can see the result of each query beneath it.</p>
+<p>Here is an example that creates three tables, each with a primary key: <code>customers</code>, <code>products</code>, and <code>orders</code>, which links the other two together through foreign keys.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Unlike R, comments in SQL start with two hyphens</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- Create customers table</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> customers (</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> AUTOINCREMENT, </span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    first_name TEXT,</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    last_name TEXT,</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    email TEXT</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>);</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">-- Create products table</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> products (</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> AUTOINCREMENT,</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    product_name TEXT,</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    price <span class="dt">REAL</span>,</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    stock <span class="dt">INTEGER</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>);</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">-- Create orders table</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> orders (</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> AUTOINCREMENT,</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    customer_id <span class="dt">INTEGER</span>,</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    product_id <span class="dt">INTEGER</span>,</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    quantity <span class="dt">INTEGER</span>,</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- Constrain with two foreign keys:</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (customer_id) <span class="kw">REFERENCES</span> customers(<span class="kw">id</span>),</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (product_id) <span class="kw">REFERENCES</span> products(<span class="kw">id</span>)</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Create products table</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> products (</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> AUTOINCREMENT,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    product_name TEXT,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    price <span class="dt">REAL</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    stock <span class="dt">INTEGER</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Create orders table</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> orders (</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> AUTOINCREMENT,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    customer_id <span class="dt">INTEGER</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    product_id <span class="dt">INTEGER</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    quantity <span class="dt">INTEGER</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- Constrain with two foreign keys:</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (customer_id) <span class="kw">REFERENCES</span> customers(<span class="kw">id</span>),</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (product_id) <span class="kw">REFERENCES</span> products(<span class="kw">id</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -419,62 +442,312 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We can also remove tables using the <code>DROP TABLE</code> syntax. This will delete all the data in the table, so should be used with care! A helpful command is <code>DROP TABLE IF EXISTS</code> which will drop the table only if it exists, otherwise do nothing.</p>
 </div>
 </div>
-<section id="create-read-update-and-delete" class="level3" data-number="9.3.1">
-<h3 data-number="9.3.1" class="anchored" data-anchor-id="create-read-update-and-delete"><span class="header-section-number">9.3.1</span> Create, Read, Update and Delete</h3>
-<p>Once the table structure has been initialised, the four basic operations of persistent storage are Create, Read, Update and Delete (often abbreviated as CRUD).</p>
-<section id="create" class="level4" data-number="9.3.1.1">
-<h4 data-number="9.3.1.1" class="anchored" data-anchor-id="create"><span class="header-section-number">9.3.1.1</span> Create</h4>
-<p>Inserting records into a table is accomplished with the <code>INSERT</code> command.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Insert data into customers table</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- Specifying the column names we want to insert into is good practice,</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- as it avoids a dependency on the order of database columns as well </span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- as allowing us to avoid needing to pass an ID.</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> customers(first_name, last_name, email) <span class="kw">VALUES</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Alice'</span>, <span class="st">'Smith'</span>, <span class="st">'alice.smith@email.com'</span>), <span class="co">-- We don't need to pass an ID because of AUTOINCREMENT</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Bob'</span>, <span class="st">'Jones'</span>, <span class="st">'bob.jones@email.com'</span>),</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Carol'</span>, <span class="st">'Lee'</span>, <span class="st">'carol.lee@email.com'</span>);</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">-- Insert data into products table</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> products(product_name, price, stock) <span class="kw">VALUES</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Widget'</span>, <span class="fl">19.99</span>, <span class="dv">10</span>),</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Gadget'</span>, <span class="fl">29.99</span>, <span class="dv">5</span>),</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Thingamajig'</span>, <span class="fl">9.99</span>, <span class="dv">2</span>);</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">-- Insert data into orders table</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> orders(customer_id, product_id, amount) <span class="kw">VALUES</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>),</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>),</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">4</span>),</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="read" class="level4" data-number="9.3.1.2">
-<h4 data-number="9.3.1.2" class="anchored" data-anchor-id="read"><span class="header-section-number">9.3.1.2</span> Read</h4>
+<section id="create-read-update-and-delete" class="level3" data-number="9.2.3">
+<h3 data-number="9.2.3" class="anchored" data-anchor-id="create-read-update-and-delete"><span class="header-section-number">9.2.3</span> Create, Read, Update and Delete</h3>
+<p>Once the table structure has been initialised, the four basic operations of persistent storage are Create, Read, Update and Delete (often abbreviated as CRUD).</p>
+<section id="create" class="level4" data-number="9.2.3.1">
+<h4 data-number="9.2.3.1" class="anchored" data-anchor-id="create"><span class="header-section-number">9.2.3.1</span> Create</h4>
+<p>Inserting records into a table is accomplished with the <code>INSERT</code> command.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Insert data into customers table</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- Specifying the column names we want to insert into is good practice,</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- as it avoids a dependency on the order of database columns as well </span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- as allowing us to avoid needing to pass an ID.</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> customers(first_name, last_name, email) <span class="kw">VALUES</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Alice'</span>, <span class="st">'Smith'</span>, <span class="st">'alice.smith@email.com'</span>), <span class="co">-- We don't need to pass an ID because of AUTOINCREMENT</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Bob'</span>, <span class="st">'Jones'</span>, <span class="st">'bob.jones@email.com'</span>),</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Carol'</span>, <span class="st">'Lee'</span>, <span class="st">'carol.lee@email.com'</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Insert data into products table</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> products(product_name, price, stock) <span class="kw">VALUES</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Widget'</span>, <span class="fl">19.99</span>, <span class="dv">10</span>),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Gadget'</span>, <span class="fl">29.99</span>, <span class="dv">5</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Thingamajig'</span>, <span class="fl">9.99</span>, <span class="dv">2</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Insert data into orders table</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> orders(customer_id, product_id, quantity) <span class="kw">VALUES</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">4</span>),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="read" class="level4" data-number="9.2.3.2">
+<h4 data-number="9.2.3.2" class="anchored" data-anchor-id="read"><span class="header-section-number">9.2.3.2</span> Read</h4>
 <p>We can read from a table using the <code>SELECT</code> command.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> customers</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- subset columns</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> product_name <span class="kw">FROM</span> products</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">-- FILTER </span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> products</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> stock <span class="op">&lt;=</span> <span class="dv">5</span>;</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">-- limit number of results</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> orders <span class="kw">LIMIT</span> <span class="dv">2</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> customers;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>3 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">id</th>
+<th style="text-align: left;">first_name</th>
+<th style="text-align: left;">last_name</th>
+<th style="text-align: left;">email</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Alice</td>
+<td style="text-align: left;">Smith</td>
+<td style="text-align: left;">alice.smith@email.com</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Bob</td>
+<td style="text-align: left;">Jones</td>
+<td style="text-align: left;">bob.jones@email.com</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Carol</td>
+<td style="text-align: left;">Lee</td>
+<td style="text-align: left;">carol.lee@email.com</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- subset columns</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> product_name <span class="kw">FROM</span> products;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>3 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">product_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Widget</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gadget</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Thingamajig</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- filter rows</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> products</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> stock <span class="op">&lt;=</span> <span class="dv">5</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>2 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">id</th>
+<th style="text-align: left;">product_name</th>
+<th style="text-align: right;">price</th>
+<th style="text-align: right;">stock</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Gadget</td>
+<td style="text-align: right;">29.99</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Thingamajig</td>
+<td style="text-align: right;">9.99</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- limit number of results</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> orders <span class="kw">LIMIT</span> <span class="dv">2</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>2 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">id</th>
+<th style="text-align: right;">customer_id</th>
+<th style="text-align: right;">product_id</th>
+<th style="text-align: right;">quantity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We can also sort the results, and remove duplicates:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- sort products by price, most expensive first</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> product_name, price <span class="kw">FROM</span> products</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> price <span class="kw">DESC</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>3 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">product_name</th>
+<th style="text-align: right;">price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Gadget</td>
+<td style="text-align: right;">29.99</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Widget</td>
+<td style="text-align: right;">19.99</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Thingamajig</td>
+<td style="text-align: right;">9.99</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- combined with LIMIT: the single most expensive product</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> product_name, price <span class="kw">FROM</span> products</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> price <span class="kw">DESC</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">product_name</th>
+<th style="text-align: right;">price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Gadget</td>
+<td style="text-align: right;">29.99</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- each customer who has placed an order, listed once</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">DISTINCT</span> customer_id <span class="kw">FROM</span> orders;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>3 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">customer_id</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><code>ORDER BY</code> sorts the rows by one or more columns, in ascending order unless the column is followed by <code>DESC</code>. Without an <code>ORDER BY</code>, the database makes no promise about the order in which it returns rows. <code>DISTINCT</code> removes duplicate rows from the result: each customer appears once, however many orders they have placed.</p>
 <p>We can also directly <code>JOIN</code> tables using SQL, to produce more complex queries.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="co">-- specify columns to select</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    orders.<span class="kw">id</span>, </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    products.product_name, </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    orders.amount, </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    customers.first_name, </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    customers.last_name </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> customers <span class="co">-- specify all the tables we are selecting from</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> products</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> orders </span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">ON</span> <span class="co">-- describe how they should be joined together</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    orders.product_id <span class="op">=</span> products.<span class="kw">id</span> </span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> orders.customer_id <span class="op">=</span> customers.<span class="kw">id</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="co">-- specify columns to select</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    orders.<span class="kw">id</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    products.product_name,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    orders.quantity,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    customers.first_name,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    customers.last_name</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> orders <span class="co">-- the table to start from</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- each JOIN adds a table, with ON saying how its rows match</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> customers <span class="kw">ON</span> orders.customer_id <span class="op">=</span> customers.<span class="kw">id</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> products <span class="kw">ON</span> orders.product_id <span class="op">=</span> products.<span class="kw">id</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>5 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">id</th>
+<th style="text-align: left;">product_name</th>
+<th style="text-align: right;">quantity</th>
+<th style="text-align: left;">first_name</th>
+<th style="text-align: left;">last_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Gadget</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Alice</td>
+<td style="text-align: left;">Smith</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Thingamajig</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Alice</td>
+<td style="text-align: left;">Smith</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Widget</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Bob</td>
+<td style="text-align: left;">Jones</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Gadget</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Bob</td>
+<td style="text-align: left;">Jones</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">Thingamajig</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Carol</td>
+<td style="text-align: left;">Lee</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Each <code>JOIN</code> adds one table to the query, and its <code>ON</code> condition says which of the new table’s rows match each existing row: here, each order is matched to the customer who placed it and the product that was ordered. Because the tables contain columns with the same names (all three have an <code>id</code>), each column is written as <code>table.column</code> to make clear which table it comes from.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -485,89 +758,336 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The other join types we saw in Week 5 also exist in SQL. The syntax <code>JOIN</code> is a shorthand for <code>INNER JOIN</code>. Using <code>OUTER JOIN</code> instead of <code>JOIN</code> has the obvious effect.</p>
+<p>The other join types we saw in <a href="week05.html" class="quarto-xref">Week&nbsp;<span>5</span></a> also exist in SQL. The syntax <code>JOIN</code> is a shorthand for <code>INNER JOIN</code>, while <code>LEFT JOIN</code>, <code>RIGHT JOIN</code> and <code>FULL OUTER JOIN</code> are the equivalents of <code>left_join</code>, <code>right_join</code> and <code>full_join</code>. (<code>OUTER JOIN</code> on its own is not valid: you must say which kind of outer join you mean.)</p>
 </div>
 </div>
 </section>
-<section id="update" class="level4" data-number="9.3.1.3">
-<h4 data-number="9.3.1.3" class="anchored" data-anchor-id="update"><span class="header-section-number">9.3.1.3</span> Update</h4>
+<section id="update" class="level4" data-number="9.2.3.3">
+<h4 data-number="9.2.3.3" class="anchored" data-anchor-id="update"><span class="header-section-number">9.2.3.3</span> Update</h4>
 <p>Updating records is accomplished with the <code>UPDATE</code> command:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Update the price of a product</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">UPDATE</span> products</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> price <span class="op">=</span> <span class="fl">24.99</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> product_name <span class="op">=</span> <span class="st">'Gadget'</span>;</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">-- Update the stock for a specific product</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">UPDATE</span> products</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> stock <span class="op">=</span> stock <span class="op">+</span> <span class="dv">5</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="op">=</span> <span class="dv">1</span>;</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">-- Update a customer's email address</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="kw">UPDATE</span> customers</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> email <span class="op">=</span> <span class="st">'alice.new@email.com'</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="op">=</span> <span class="dv">1</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Update the price of a product</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">UPDATE</span> products</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> price <span class="op">=</span> <span class="fl">24.99</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> product_name <span class="op">=</span> <span class="st">'Gadget'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Update the stock for a specific product</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">UPDATE</span> products</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> stock <span class="op">=</span> stock <span class="op">+</span> <span class="dv">5</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="op">=</span> <span class="dv">1</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Update a customer's email address</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">UPDATE</span> customers</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> email <span class="op">=</span> <span class="st">'alice.new@email.com'</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="op">=</span> <span class="dv">1</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
-<section id="delete" class="level4" data-number="9.3.1.4">
-<h4 data-number="9.3.1.4" class="anchored" data-anchor-id="delete"><span class="header-section-number">9.3.1.4</span> Delete</h4>
+<section id="delete" class="level4" data-number="9.2.3.4">
+<h4 data-number="9.2.3.4" class="anchored" data-anchor-id="delete"><span class="header-section-number">9.2.3.4</span> Delete</h4>
 <p>As you might expect, deleting is accomplished with <code>DELETE</code>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Delete a specific order by id</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> orders</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="op">=</span> <span class="dv">3</span>;</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">-- Delete all products with zero stock</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> products</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> stock <span class="op">=</span> <span class="dv">0</span>;</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">-- Delete a customer by email</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> customers</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> email <span class="op">=</span> <span class="st">'bob.jones@email.com'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Delete a specific order by id</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> orders</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="op">=</span> <span class="dv">3</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Delete all products with zero stock</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> products</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> stock <span class="op">=</span> <span class="dv">0</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Delete a customer by email</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> customers</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> email <span class="op">=</span> <span class="st">'bob.jones@email.com'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 </section>
-<section id="advanced-queries" class="level3" data-number="9.3.2">
-<h3 data-number="9.3.2" class="anchored" data-anchor-id="advanced-queries"><span class="header-section-number">9.3.2</span> Advanced Queries</h3>
+<section id="advanced-queries" class="level3" data-number="9.2.4">
+<h3 data-number="9.2.4" class="anchored" data-anchor-id="advanced-queries"><span class="header-section-number">9.2.4</span> Advanced Queries</h3>
 <p>SQL is a Turing Complete language in its own right; in theory you could write visualisation routines in it so you can use it for the entire data science pipeline, though one might argue that other languages are more appropriate for this! However, it is helpful to know some more advanced syntax that can help with specific query types.</p>
-<section id="aggregation" class="level4" data-number="9.3.2.1">
-<h4 data-number="9.3.2.1" class="anchored" data-anchor-id="aggregation"><span class="header-section-number">9.3.2.1</span> Aggregation</h4>
+<section id="aggregation" class="level4" data-number="9.2.4.1">
+<h4 data-number="9.2.4.1" class="anchored" data-anchor-id="aggregation"><span class="header-section-number">9.2.4.1</span> Aggregation</h4>
 <p>We can perform aggregation using the <code>GROUP BY</code> statement, which is the analogue of <code>group_by</code> in <code>dplyr</code>. This allows us to lump multiple records into a group and specify how they should be aggregated. Some example statements are given below. The first counts the total number of orders for each customer.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Count orders per customer</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> customer_id, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">as</span> order_count</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> orders</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> customer_id;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The syntax <code>COUNT(*)</code> specifies a <em>calculated column</em>, where the <code>*</code> indicates that this should count the elements of the groups that appear in the <code>GROUP BY</code> statement.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Count orders per customer</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> customer_id, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">as</span> order_count</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> orders</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> customer_id;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>3 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">customer_id</th>
+<th style="text-align: right;">order_count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The syntax <code>COUNT(*)</code> specifies a <em>calculated column</em>: the number of rows in each group defined by the <code>GROUP BY</code> statement. <code>COUNT(*)</code> counts every row, whereas <code>COUNT(column_name)</code> counts only the rows in which that column is not missing (<code>NULL</code>).</p>
 <p>The next statement calculates total revenue for each product.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Total revenue per product</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> product_id, product_name, <span class="fu">SUM</span>(amount <span class="op">*</span> price) <span class="kw">as</span> total_revenue</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> orders </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> products </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">ON</span> orders.product_id <span class="op">=</span> products.<span class="kw">id</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> product_id;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>SUM(amount * price)</code> specifies that we should calculate <code>amount * price</code> for each order, and then <code>SUM</code> over the groups specified.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Total revenue per product</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> product_id, product_name, <span class="fu">SUM</span>(quantity <span class="op">*</span> price) <span class="kw">AS</span> total_revenue</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> orders</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> products</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">ON</span> orders.product_id <span class="op">=</span> products.<span class="kw">id</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> product_id, product_name;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>2 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">product_id</th>
+<th style="text-align: left;">product_name</th>
+<th style="text-align: right;">total_revenue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Gadget</td>
+<td style="text-align: right;">124.95</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Thingamajig</td>
+<td style="text-align: right;">29.97</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><code>SUM(quantity * price)</code> specifies that we should calculate <code>quantity * price</code> for each order, and then <code>SUM</code> over the groups specified. <code>AS</code> gives the calculated column a name. Notice that <code>product_name</code> appears in the <code>GROUP BY</code> as well as <code>product_id</code>: every column in the <code>SELECT</code> must either be grouped by, or be calculated by an aggregate function such as <code>SUM</code> or <code>COUNT</code>. (Here each <code>product_id</code> has a single <code>product_name</code>, so grouping by both gives the same groups as grouping by <code>product_id</code> alone.)</p>
 </section>
-<section id="subqueries" class="level4" data-number="9.3.2.2">
-<h4 data-number="9.3.2.2" class="anchored" data-anchor-id="subqueries"><span class="header-section-number">9.3.2.2</span> Subqueries</h4>
+<section id="subqueries" class="level4" data-number="9.2.4.2">
+<h4 data-number="9.2.4.2" class="anchored" data-anchor-id="subqueries"><span class="header-section-number">9.2.4.2</span> Subqueries</h4>
 <p>Sometimes we might not be able to compute a table of interest using a single query; we might need to perform two queries to accomplish this. For example, if we want to view the details of customers who have placed more than one order, we first need to execute a query on the <code>orders</code> table to identify those customers, then filter the <code>customers</code> table based on the IDs. To accomplish this we can use <em>subqueries</em>, to nest the <code>orders</code> query inside another query.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Find customers who have placed more than one order</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> first_name, last_name</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> customers</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="kw">IN</span> (</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> customer_id</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> orders</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">GROUP</span> <span class="kw">BY</span> customer_id</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">HAVING</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="op">&gt;</span> <span class="dv">1</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Find customers who have placed more than one order</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> first_name, last_name</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> customers</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="kw">IN</span> (</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> customer_id</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> orders</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">GROUP</span> <span class="kw">BY</span> customer_id</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">HAVING</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="op">&gt;</span> <span class="dv">1</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">first_name</th>
+<th style="text-align: left;">last_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Alice</td>
+<td style="text-align: left;">Smith</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Note that this introduces the <code>HAVING</code> syntax for <code>GROUP BY</code> also, allowing us to filter groups, as well as the <code>IN</code> syntax for specifying a <em>list</em> of IDs to compare to, rather than a single ID.</p>
 <p>The next query identifies products that have never been ordered, again by querying the <code>orders</code> table first.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Find products that have never been ordered</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> product_name</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> products</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="kw">NOT</span> <span class="kw">IN</span> ( <span class="co">-- NOT IN also works!</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> product_id</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> orders</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Find products that have never been ordered</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> product_name</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> products</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="kw">NOT</span> <span class="kw">IN</span> ( <span class="co">-- NOT IN also works!</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> product_id</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> orders</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">product_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Widget</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="missing-values" class="level4" data-number="9.2.4.3">
+<h4 data-number="9.2.4.3" class="anchored" data-anchor-id="missing-values"><span class="header-section-number">9.2.4.3</span> Missing Values</h4>
+<p>Missing values are represented in SQL by <code>NULL</code>, the equivalent of <code>NA</code> in <code>R</code> (see <a href="week02.html" class="quarto-xref">Week&nbsp;<span>2</span></a>). Like <code>NA</code>, <code>NULL</code> means “unknown”, so any comparison with it is also unknown: a condition such as <code>email = NULL</code> is never true, and a <code>WHERE</code> clause using it keeps no rows at all. To test whether a value is missing, use <code>IS NULL</code> or <code>IS NOT NULL</code> instead:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- customers with no email address recorded</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> first_name, last_name</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> customers</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> email <span class="kw">IS</span> <span class="kw">NULL</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<caption>0 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">first_name</th>
+<th style="text-align: left;">last_name</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+</div>
+<p>Every customer in our small database has an email address, so this query returns no rows.</p>
+<p>Aggregate functions such as <code>SUM</code> and <code>AVG</code> skip <code>NULL</code>s, as if <code>na.rm = TRUE</code> had been set in <code>R</code>; so does <code>COUNT(column_name)</code>, whereas <code>COUNT(*)</code> counts every row.</p>
+<p><code>NULL</code>s also cause a subtle trap in queries using <code>NOT IN</code>. Suppose that an order had been recorded without a product, so that its <code>product_id</code> is <code>NULL</code>. The subquery in the “never been ordered” example would then return a list containing a <code>NULL</code>, and since the database cannot tell whether a product’s <code>id</code> is equal to an unknown value, <code>id NOT IN (...)</code> is never true: the query returns no rows at all, without any error. Excluding the <code>NULL</code>s inside the subquery avoids the problem:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> product_name</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> products</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="kw">NOT</span> <span class="kw">IN</span> (</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> product_id</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> orders</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">WHERE</span> product_id <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">product_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Widget</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section>
 </section>
-<section id="why-use-sql-vs.-r" class="level2" data-number="9.4">
-<h2 data-number="9.4" class="anchored" data-anchor-id="why-use-sql-vs.-r"><span class="header-section-number">9.4</span> Why Use SQL vs.&nbsp;R</h2>
+<section id="sec-sql-reading" class="level3" data-number="9.2.5">
+<h3 data-number="9.2.5" class="anchored" data-anchor-id="sec-sql-reading"><span class="header-section-number">9.2.5</span> Reading SQL Queries</h3>
+<p>You will have noticed that most SQL clauses have a direct counterpart in <code>dplyr</code>, which we met in <a href="week04.html" class="quarto-xref">Week&nbsp;<span>4</span></a> and <a href="week05.html" class="quarto-xref"><span>5</span></a>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 35%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">SQL</th>
+<th style="text-align: left;"><code>dplyr</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>FROM table</code></td>
+<td style="text-align: left;">the data frame at the start of the pipe</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>JOIN other ON ...</code></td>
+<td style="text-align: left;"><code>inner_join(other, by = ...)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>LEFT JOIN other ON ...</code></td>
+<td style="text-align: left;"><code>left_join(other, by = ...)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>WHERE condition</code></td>
+<td style="text-align: left;"><code>filter(condition)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>GROUP BY column</code></td>
+<td style="text-align: left;"><code>group_by(column)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>COUNT(*)</code>, <code>SUM(x)</code>, <code>AVG(x)</code>, …</td>
+<td style="text-align: left;"><code>n()</code>, <code>sum(x)</code>, <code>mean(x)</code>, …, inside <code>summarise()</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>HAVING condition</code></td>
+<td style="text-align: left;"><code>filter(condition)</code> after <code>summarise()</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>SELECT column_1, column_2</code></td>
+<td style="text-align: left;"><code>select(column_1, column_2)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>expression AS name</code></td>
+<td style="text-align: left;"><code>mutate(name = expression)</code>, or <code>name = expression</code> inside <code>summarise()</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>DISTINCT</code></td>
+<td style="text-align: left;"><code>distinct()</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>ORDER BY column DESC</code></td>
+<td style="text-align: left;"><code>arrange(desc(column))</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>LIMIT n</code></td>
+<td style="text-align: left;"><code>head(n)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>column IS NULL</code></td>
+<td style="text-align: left;"><code>is.na(column)</code></td>
+</tr>
+</tbody>
+</table>
+<p>The main difference is in the <em>order</em> of the steps. A <code>dplyr</code> pipeline is written in the order in which it runs, from top to bottom. A SQL query is always written in the same fixed order, beginning with <code>SELECT</code>, but the database evaluates its clauses in a different order:</p>
+<ol type="1">
+<li><code>FROM</code> and <code>JOIN</code>: assemble the rows from the tables.</li>
+<li><code>WHERE</code>: keep only the rows that satisfy the condition.</li>
+<li><code>GROUP BY</code>: split the remaining rows into groups.</li>
+<li><code>HAVING</code>: keep only the groups that satisfy the condition.</li>
+<li><code>SELECT</code>: compute the columns of the result, including aggregates such as <code>COUNT(*)</code>.</li>
+<li><code>DISTINCT</code>: remove duplicate rows.</li>
+<li><code>ORDER BY</code>: sort the result.</li>
+<li><code>LIMIT</code>: keep only the first few rows.</li>
+</ol>
+<p>To read a query, therefore, start at <code>FROM</code> rather than at <code>SELECT</code>. For example, this query</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> customer_id, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> order_count</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> orders</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> quantity <span class="op">&gt;=</span> <span class="dv">2</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> customer_id</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="kw">HAVING</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="op">&gt;</span> <span class="dv">1</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> order_count <span class="kw">DESC</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>reads, in evaluation order: take the <code>orders</code> table; keep the orders of at least two items; group them by customer; keep the customers with more than one such order; for each, report the customer’s ID and their number of orders; sort with the most orders first; and keep the top five. In <code>dplyr</code>, the same steps appear in the same order:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>orders <span class="sc">|&gt;</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(quantity <span class="sc">&gt;=</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(customer_id) <span class="sc">|&gt;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">order_count =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(order_count <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(order_count)) <span class="sc">|&gt;</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The evaluation order also explains some of SQL’s rules. <code>WHERE</code> filters individual rows <em>before</em> they are grouped, so it cannot refer to aggregates such as <code>COUNT(*)</code>; that is the job of <code>HAVING</code>, which filters the groups afterwards. Similarly, in most databases a name defined with <code>AS</code> in the <code>SELECT</code> can be used in <code>ORDER BY</code>, which comes later, but not in <code>WHERE</code>, which comes earlier.</p>
+<p><code>dbplyr</code>, which we meet below, does this translation in the other direction: it turns a <code>dplyr</code> pipeline into SQL, which we can read using the same approach.</p>
+</section>
+</section>
+<section id="why-use-sql-vs.-r" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="why-use-sql-vs.-r"><span class="header-section-number">9.3</span> Why Use SQL vs.&nbsp;R</h2>
 <p>You will by now have noticed that the SQL operations described above replicate a lot of operations we learned how to do in R in Weeks 4-5. We have already discussed the advantages of using relational databases as a storage mechanism, but the question remains of the order of operations. In other words, what are the advantages of:</p>
 <ul>
 <li>Running a query in SQL and importing the result to R, rather than</li>
@@ -582,28 +1102,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Data Integrity</strong>: SQL databases enforce constraints (such as primary and foreign keys) that help maintain data consistency. Manipulating data within the database ensures these constraints are respected, reducing the risk of introducing errors.</li>
 </ul>
 <p>However, R provides a more flexible and expressive environment for statistical analysis, visualization, and modelling. In practice, a common workflow is to use SQL to extract and preprocess the relevant subset of data, and then use R for further analysis and visualization.</p>
-<!-- TODO: ORDER BY, DISTINCT, NULLs -->
-<section id="the-bridge-dbplyr" class="level3" data-number="9.4.1">
-<h3 data-number="9.4.1" class="anchored" data-anchor-id="the-bridge-dbplyr"><span class="header-section-number">9.4.1</span> The Bridge: <code>dbplyr</code></h3>
-<p>The <code>R</code> library <code>dbplyr</code> allows you to connect to a database and interact with it as though it were <code>dplyr</code>, while still getting SQL level performance. Supposing we have the database generated above stored in <code>data/customers.db</code>, here’s an example of how we can interact with it using <code>dbplyr</code>.</p>
+<section id="the-bridge-dbplyr" class="level3" data-number="9.3.1">
+<h3 data-number="9.3.1" class="anchored" data-anchor-id="the-bridge-dbplyr"><span class="header-section-number">9.3.1</span> The Bridge: <code>dbplyr</code></h3>
+<p>The <code>R</code> library <code>dbplyr</code> allows you to connect to a database and interact with it as though it were <code>dplyr</code>, while still getting SQL level performance. The file <code>data/customers.db</code> contains a larger version of the database above: it has the same three tables, created with the same <code>CREATE TABLE</code> statements, but contains more customers, products and orders, so the results below differ from those of the small examples above. Here’s how we can interact with it using <code>dbplyr</code>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># additional packages required</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("DBI")</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("dbplyr")</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("RSQLite")</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># additional packages required</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("DBI")</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("dbplyr")</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("RSQLite")</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: package 'dplyr' was built under R version 4.4.3</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbplyr)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Connect to the SQLite database</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">"data/customers.db"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbplyr)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Connect to the SQLite database</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">"data/customers.db"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The <code>con</code> object provides some standard database functionality that we can use to, for example, run SQL code:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, <span class="st">"SELECT * FROM customers"</span>) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, <span class="st">"SELECT * FROM customers"</span>) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  id first_name last_name                    email
 1  1      David     Brown  david.brown@example.com
@@ -616,13 +1135,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>However, it is more useful to use the high-level interface provided by <code>dbplyr</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reference tables as lazy tibbles</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>customers <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"customers"</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>products <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"products"</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>orders <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"orders"</span>)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># note that it is reported as ?? x 4 - tidyverse has not loaded the entire table</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>customers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reference tables as lazy tibbles</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>customers <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"customers"</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>products <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"products"</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>orders <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"orders"</span>)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="co"># note that it is reported as ?? x 4 - tidyverse has not loaded the entire table</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>customers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   table&lt;`customers`&gt; [?? x 4]
 # Database: sqlite 3.51.1 [/Users/jon/Teaching/fds/notes/data/customers.db]
@@ -638,16 +1157,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  8     8 Karen      Thomas    karen.thomas@example.com 
  9     9 Leo        Jackson   leo.jackson@example.com  
 10    10 Mona       White     mona.white@example.com   
-# ℹ more rows</code></pre>
+# i more rows</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Find total orders per customer</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>query <span class="ot">=</span> orders <span class="sc">|&gt;</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(customer_id) <span class="sc">|&gt;</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">order_count =</span> <span class="fu">n</span>())  <span class="co"># n() - shortcut for counting rows</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Find total orders per customer</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>query <span class="ot">=</span> orders <span class="sc">|&gt;</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(customer_id) <span class="sc">|&gt;</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">order_count =</span> <span class="fu">n</span>())  <span class="co"># n() - shortcut for counting rows</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>At this point <code>query</code> is not a <code>tibble</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>query</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>query</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 2]
 # Database: sqlite 3.51.1 [/Users/jon/Teaching/fds/notes/data/customers.db]
@@ -663,9 +1182,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  8           8           5
  9           9           5
 10          10           5
-# ℹ more rows</code></pre>
+# i more rows</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "tbl_SQLiteConnection" "tbl_dbi"              "tbl_sql"             
 [4] "tbl_lazy"             "tbl"                 </code></pre>
@@ -673,9 +1192,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>We can force the query to evaluate using the <code>collect()</code> function:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>query <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>query <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 23 × 2
+<pre><code># A tibble: 23 x 2
    customer_id order_count
          &lt;int&gt;       &lt;int&gt;
  1           1           6
@@ -688,12 +1207,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  8           8           5
  9           9           5
 10          10           5
-# ℹ 13 more rows</code></pre>
+# i 13 more rows</code></pre>
 </div>
 </div>
 <p>Under the hood, <code>dbplyr</code> has turned our pipes into <code>SQL</code>; we can view this with <code>show_query</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_query</span>(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_query</span>(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;SQL&gt;
 SELECT `customer_id`, COUNT(*) AS `order_count`
@@ -703,13 +1222,13 @@ GROUP BY `customer_id`</code></pre>
 </div>
 <p>A related function, <code>sql_render()</code>, <em>returns</em> the generated SQL as a string rather than printing it. Because it is a string, we can pass it to <code>dbGetQuery()</code> and run dbplyr’s generated SQL directly — a quick way to check that the query it has written does what we intend:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sql_render</span>(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sql_render</span>(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;SQL&gt; SELECT `customer_id`, COUNT(*) AS `order_count`
 FROM `orders`
 GROUP BY `customer_id`</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, <span class="fu">sql_render</span>(query))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, <span class="fu">sql_render</span>(query))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   customer_id order_count
 1            1           6
@@ -737,16 +1256,15 @@ GROUP BY `customer_id`</code></pre>
 23          23           4</code></pre>
 </div>
 </div>
-<p>Running this (can be) more efficient than pulling the whole table into R and running standard <code>dplyr</code>. Here are some more examples.</p>
+<p>Joins work in the same way. This pipeline matches each order to the customer who placed it and the product that was ordered, just like the SQL join earlier in the chapter:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Join tables to get customer names and their orders</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>orders <span class="sc">|&gt;</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(customers, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"customer_id"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(products, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"product_id"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(first_name, last_name, product_name, quantity) <span class="sc">|&gt;</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>orders <span class="sc">|&gt;</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(customers, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"customer_id"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(products, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"product_id"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(first_name, last_name, product_name, quantity) <span class="sc">|&gt;</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 107 × 4
+<pre><code># A tibble: 107 x 4
    first_name last_name product_name quantity
    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;           &lt;int&gt;
  1 David      Brown     Widget              2
@@ -759,13 +1277,67 @@ GROUP BY `customer_id`</code></pre>
  8 Jack       Anderson  Gadget              4
  9 Karen      Thomas    Gizmo               2
 10 Leo        Jackson   Implement           1
-# ℹ 97 more rows</code></pre>
+# i 97 more rows</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Disconnect when done</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="using-dbplyr-well" class="level4" data-number="9.3.1.1">
+<h4 data-number="9.3.1.1" class="anchored" data-anchor-id="using-dbplyr-well"><span class="header-section-number">9.3.1.1</span> Using <code>dbplyr</code> Well</h4>
+<p>Because <code>dbplyr</code> translates our code into SQL, rather than running it in <code>R</code>, there are a few things to bear in mind.</p>
+<p><strong>Call <code>collect()</code> as late as possible.</strong> Everything before <code>collect()</code> runs in the database, and only its result is sent to <code>R</code>; everything after it runs in <code>R</code>, on data that has already been transferred. These two pipelines give the same result:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter in the database: only the matching rows are sent to R</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>orders <span class="sc">|&gt;</span> <span class="fu">filter</span>(quantity <span class="sc">&gt;=</span> <span class="dv">3</span>) <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="co"># filter in R: the whole table is sent to R first</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>orders <span class="sc">|&gt;</span> <span class="fu">collect</span>() <span class="sc">|&gt;</span> <span class="fu">filter</span>(quantity <span class="sc">&gt;=</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>but the first sends <code>R</code> only the matching orders, while the second transfers the entire <code>orders</code> table before discarding most of it. On a table this small the difference is negligible; on one with millions of rows, it is the difference between a query that finishes in seconds and one that does not fit in memory.</p>
+<p><strong>Only functions that <code>dbplyr</code> knows how to translate can be used before <code>collect()</code>.</strong> <code>dbplyr</code> translates common functions, such as the arithmetic operators, <code>mean()</code>, <code>n()</code> and <code>paste()</code>, into their SQL equivalents. Functions without an equivalent in the database’s SQL cannot be translated, and cause an error:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>customers <span class="sc">|&gt;</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">padded_name =</span> stringr<span class="sc">::</span><span class="fu">str_pad</span>(first_name, <span class="dv">10</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `stringr::str_pad()`:
+! `str_pad()` is not available in this SQL variant.</code></pre>
+</div>
+</div>
+<p>The fix is to do as much work as possible in the database, then <code>collect()</code> the result and use the function in <code>R</code> afterwards.</p>
+<p><strong>A lazy table can only be joined to another table in the same database.</strong> Joining it to a tibble that lives in <code>R</code> fails:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>vip_customers <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>), <span class="at">level =</span> <span class="fu">c</span>(<span class="st">"gold"</span>, <span class="st">"silver"</span>))</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>customers <span class="sc">|&gt;</span> <span class="fu">inner_join</span>(vip_customers, <span class="at">by =</span> <span class="st">"id"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `auto_copy()`:
+! `x` and `y` must share the same src.
+i `x` is a &lt;tbl_SQLiteConnection/tbl_dbi/tbl_sql/tbl_lazy/tbl&gt; object.
+i `y` is a &lt;tbl_df/tbl/data.frame&gt; object.
+i Set `copy = TRUE` if `y` can be copied to the same source as `x` (may be
+  slow).</code></pre>
+</div>
+</div>
+<p>As the error message suggests, adding <code>copy = TRUE</code> copies the tibble into a temporary table in the database, after which the join can run there:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>customers <span class="sc">|&gt;</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(vip_customers, <span class="at">by =</span> <span class="st">"id"</span>, <span class="at">copy =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 x 5
+     id first_name last_name email                    level 
+  &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;                    &lt;chr&gt; 
+1     1 David      Brown     david.brown@example.com  gold  
+2     4 Grace      Wilson    grace.wilson@example.com silver</code></pre>
+</div>
+</div>
+<p>For a small tibble like this one, copying is cheap; for a large one, it may be better to <code>collect()</code> the database table first, if it is small enough, and join in <code>R</code>.</p>
+<p>Finally, we close the connection to the database once we have finished with it:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
+</section>
 </section>
 </section>
 
