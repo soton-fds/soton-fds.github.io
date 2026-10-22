@@ -255,9 +255,12 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#ethics-by-design" id="toc-ethics-by-design" class="nav-link" data-scroll-target="#ethics-by-design">Ethics by Design</a></li>
   </ul></li>
-  <li><a href="#understanding-bias-in-data-science" id="toc-understanding-bias-in-data-science" class="nav-link" data-scroll-target="#understanding-bias-in-data-science">Understanding Bias in Data Science</a>
+  <li><a href="#understanding-bias-in-data-science" id="toc-understanding-bias-in-data-science" class="nav-link" data-scroll-target="#understanding-bias-in-data-science">Understanding Bias in Data Science</a></li>
+  <li><a href="#regulatory-considerations" id="toc-regulatory-considerations" class="nav-link" data-scroll-target="#regulatory-considerations">Regulatory Considerations</a>
   <ul class="collapse">
-  <li><a href="#regulatory-considerations" id="toc-regulatory-considerations" class="nav-link" data-scroll-target="#regulatory-considerations">Regulatory Considerations</a></li>
+  <li><a href="#personal-data" id="toc-personal-data" class="nav-link" data-scroll-target="#personal-data">Personal Data</a></li>
+  <li><a href="#uk-gdpr" id="toc-uk-gdpr" class="nav-link" data-scroll-target="#uk-gdpr">UK GDPR</a></li>
+  <li><a href="#discrimination-and-protected-characteristics" id="toc-discrimination-and-protected-characteristics" class="nav-link" data-scroll-target="#discrimination-and-protected-characteristics">Discrimination and Protected Characteristics</a></li>
   <li><a href="#consequences-of-violating-gdpr" id="toc-consequences-of-violating-gdpr" class="nav-link" data-scroll-target="#consequences-of-violating-gdpr">Consequences of Violating GDPR</a></li>
   </ul></li>
   <li><a href="#managing-ethics-as-a-data-scientist" id="toc-managing-ethics-as-a-data-scientist" class="nav-link" data-scroll-target="#managing-ethics-as-a-data-scientist">Managing Ethics as a Data Scientist</a>
@@ -293,11 +296,16 @@ div.csl-indent {
 
 <section id="objectives" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="objectives">Objectives</h2>
-<p>By the end of this lecture you should be able to: - Identify ethical and regulatory considerations in data science projects. - Recognise different types of biases and their impacts. - Evaluate real-world case studies through an ethical and regulatory lens.</p>
+<p>By the end of this chapter you should be able to:</p>
+<ul>
+<li>Identify ethical and regulatory considerations in data science projects.</li>
+<li>Recognise different types of biases and their impacts.</li>
+<li>Evaluate real-world case studies through an ethical and regulatory lens.</li>
+</ul>
 </section>
 <section id="ethics-in-data-science" class="level2">
 <h2 class="anchored" data-anchor-id="ethics-in-data-science">Ethics in Data Science</h2>
-<p>Data science decisions can have profound effects on individuals and society. When data is used carelessly or unethically, it can result in discrimination, breaches of privacy, and a loss of public trust. Practising responsible data science helps prevent harm and supports fairness. Ethical considerations should inform every stage of a project, from data collection to analysis and sharing. Being transparent and accountable is <strong>crucial</strong> for building trust and ensuring that data science serves the public good.</p>
+<p>Data science decisions can have profound effects on individuals and society. When data is used carelessly or unethically, it can result in discrimination, breaches of privacy, and a loss of public trust. Practising responsible data science helps prevent harm and supports fairness. Ethical considerations should inform every stage of a project, from data collection to analysis and sharing. Being transparent and accountable is <strong>crucial</strong> for building trust and ensuring that data science serves the public good. Reproducible analyses, as in <a href="./week03.html">Week 3</a>, are part of this: they let others check exactly how a result was produced.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -308,25 +316,35 @@ div.csl-indent {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Amazon developed an AI recruiting tool to automate the process of reviewing job applicants. However, the system showed bias against women, downgrading resumes that included terms like “women’s” or were from all-women colleges. This bias stemmed from training data that reflected <strong>historical male dominance</strong> in tech roles. Despite attempts to fix the issue, Amazon ultimately scrapped the tool, highlighting the risks of relying on biased data and the importance of careful oversight in AI systems.</p>
-<p>For more information see <a href="https://www.reuters.com/article/world/insight-amazon-scraps-secret-ai-recruiting-tool-that-showed-bias-against-women-idUSKCN1MK0AG/">this</a> news article.</p>
+<p>Amazon developed an AI recruiting tool to automate the process of reviewing job applicants. However, the system showed bias against women, downgrading resumes that included terms like “women’s” or were from all-women colleges. This bias stemmed from training data that reflected <strong>historical male dominance</strong> in tech roles.</p>
+<p>The tool was never told any applicant’s gender, and Amazon edited it so that it ignored the specific terms that had been found to penalise women. But there was no guarantee that it would not find other ways to tell men and women apart: gender is revealed indirectly in many parts of a CV, such as the clubs or colleges an applicant mentions, or even the words they use to describe their experience. Information like this, which stands in for an attribute that has been removed from the data, is called a <em>proxy</em>. Amazon ultimately scrapped the tool, highlighting the risks of relying on biased data and the importance of careful oversight in AI systems.</p>
+<p>For more information, see the <a href="https://www.reuters.com/article/world/insight-amazon-scraps-secret-ai-recruiting-tool-that-showed-bias-against-women-idUSKCN1MK0AG/">Reuters article that first reported the story</a>.</p>
 </div>
 </div>
 <section id="ethics-by-design" class="level3">
 <h3 class="anchored" data-anchor-id="ethics-by-design">Ethics by Design</h3>
+<p><em>Ethics by design</em> means considering ethical questions from the very start of a project, and at every stage after it, rather than checking for problems once the analysis is finished — by which point a biased dataset, or an unnecessary collection of personal data, may be hard to undo. In practice, this means asking questions such as:</p>
+<ul>
+<li><strong>Collection:</strong> do we need all of this data? Collecting and keeping only what the analysis needs (<em>data minimisation</em>) is good practice, and also a legal requirement (see <a href="#regulatory-considerations">Regulatory Considerations</a>).</li>
+<li><strong>Analysis:</strong> who is represented in the data, and who is missing? Could the results be biased against a particular group (see <a href="#understanding-bias-in-data-science">Understanding Bias in Data Science</a>)?</li>
+<li><strong>Sharing:</strong> who will see the results? Could they be used to identify individuals, or to treat people unfairly? Are they presented honestly? A misleading plot can do harm even when the analysis behind it is correct (see the principles for honest visualisation in <a href="./week06.html#principles-for-honest-and-effective-visualisation">Week 6</a>).</li>
+<li><strong>Documentation:</strong> are these decisions written down, so that others can check them? Data cards and model cards, described in <a href="#managing-ethics-as-a-data-scientist">Managing Ethics as a Data Scientist</a>, are tools for doing this.</li>
+</ul>
 </section>
 </section>
 <section id="understanding-bias-in-data-science" class="level2">
 <h2 class="anchored" data-anchor-id="understanding-bias-in-data-science">Understanding Bias in Data Science</h2>
 <p>The main cause of the previous case study was a <em>bias</em> in the data set that was unaccounted for. Understanding the kinds of bias that can affect our analyses can help with mitigating the biases. Some examples:</p>
 <ul>
-<li><strong>Sampling Bias:</strong> Data collected is not representative of the population intended to be analyzed.</li>
-<li><strong>Selection Bias:</strong> Certain groups are systematically excluded or included, skewing results.</li>
-<li><strong>Measurement Bias:</strong> Errors in how data is collected or measured, leading to inaccurate results.</li>
-<li><strong>Confirmation Bias:</strong> Tendency to interpret or select data that confirms pre-existing beliefs.</li>
-<li><strong>Algorithmic Bias:</strong> Models produce systematically prejudiced results due to biased training data or design.</li>
+<li><strong>Sampling Bias:</strong> The data were collected from a sample that is not representative of the population intended to be analysed (for example, a survey about smartphone use conducted only among university students).</li>
+<li><strong>Selection Bias:</strong> Whether a record appears in the data depends on the outcome being studied, or on something related to it (for example, studying only the companies that are still in business, which leaves out those that failed).</li>
+<li><strong>Historical Bias:</strong> The data accurately record the past, but the past itself was unfair, so that anything learned from the data reproduces the unfairness, however well the data were sampled.</li>
+<li><strong>Measurement Bias:</strong> Errors in how data is collected or measured, leading to inaccurate results (for example, a fitness tracker that undercounts the steps of people who walk slowly or with an irregular gait).</li>
+<li><strong>Confirmation Bias:</strong> Tendency to interpret or select data that confirms pre-existing beliefs (for example, an analyst who believes remote working boosts productivity, and so focuses on the survey responses that agree).</li>
+<li><strong>Algorithmic Bias:</strong> Models produce systematically prejudiced results, because of biases in their training data (such as those above) or in their design (for example, a facial recognition system trained mostly on images of lighter-skinned people, which then misidentifies people with darker skin more often).</li>
 </ul>
-<p>In the Amazon example above there was a <em>selection bias</em>: because the training set consisted largely of male candidates, the trained algorithm exhibited the same bias towards male candidates.</p>
+<p>In the Amazon example above, the main problem was <em>historical bias</em>: the tool was trained on the CVs submitted to the company over the previous ten years, so it learned to imitate the company’s past hiring decisions, which had favoured men. Because most of those CVs came from men, the data were also unrepresentative of the applicants the tool would be used to assess.</p>
+<p>Amazon’s tool is far from the only example. COMPAS, an algorithm used in some US courts to predict whether a defendant will reoffend, was found by a 2016 investigation by ProPublica to label Black defendants who did not go on to reoffend as high risk nearly twice as often as white defendants. Credit scoring models have been criticised for giving lower scores to people in non-traditional employment, such as freelancers and gig workers, whose income is documented differently from that of salaried employees, regardless of whether they are financially stable.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -337,12 +355,14 @@ div.csl-indent {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In general, when we train machine learning algorithms, we are <em>looking</em> for algorithms that identify a bias in a training set (e.g.&nbsp;“candidates with higher scores in their data science course at University tend to do better in their jobs”). There is a difference between this kind of bias, where the algorithm identifies a genuine relationship relevant to job performance, and harmful biases, such as discrimination.</p>
-<p>The key distinction is whether the bias reflects a legitimate, job-related factor or perpetuates unfair treatment based on protected characteristics. Responsible data science requires us to critically assess which biases are acceptable (e.g., those that improve prediction based on relevant skills) and which are unethical or illegal (e.g., those that disadvantage groups based on gender, race, or other protected attributes).</p>
+<p>Every analysis and model relies on finding <em>patterns</em> in data; that is the point of them. A recruiting model <em>should</em> learn a pattern such as “candidates with higher marks in their data science course tend to do better in the job”, because it reflects a genuine relationship that is relevant to job performance. The problem is patterns that reflect, or lead to, unfair treatment of people: in particular, treatment based on protected characteristics such as sex or race (see <a href="#regulatory-considerations">Regulatory Considerations</a>). Responsible data science requires us to assess critically which patterns are legitimate (those based on relevant skills, say) and which are unethical or illegal (those that disadvantage people because of who they are).</p>
+<p>As the Amazon case shows, removing protected characteristics from the data is <em>not</em> enough to prevent this, because other variables can act as proxies for them. A postcode, for example, can be a strong proxy for ethnicity or income. The way to find out whether an analysis or model treats groups unfairly is to check: compare its results across groups defined by the protected characteristics, as described for model cards <a href="#example-model-card">below</a>.</p>
 </div>
 </div>
-<section id="regulatory-considerations" class="level3">
-<h3 class="anchored" data-anchor-id="regulatory-considerations">Regulatory Considerations</h3>
+</section>
+<section id="regulatory-considerations" class="level2">
+<h2 class="anchored" data-anchor-id="regulatory-considerations">Regulatory Considerations</h2>
+<p>Biases in data, and careless handling of personal information, are not only unethical: they can also be illegal. In the UK, the two most relevant laws are UK GDPR, which governs how personal data may be collected and used, and the Equality Act 2010, which prohibits discrimination.</p>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -356,6 +376,19 @@ div.csl-indent {
 <p>We cannot discuss the regulatory environment of every country, so we will focus on UK regulations. Moreover this is too complex of a topic to cover thoroughly in a single lecture, and regulations can change. Therefore, when applying in your own work, check the latest regulations and seek expert advice if needed. Always ensure compliance with relevant laws and guidelines, as these may differ depending on your location and the nature of your data.</p>
 </div>
 </div>
+<section id="personal-data" class="level3">
+<h3 class="anchored" data-anchor-id="personal-data">Personal Data</h3>
+<p><em>Personal data</em> is any information relating to an identified or identifiable living person. Names and email addresses are obvious examples, but a person can also be identifiable from an ID number, from their location, or from a combination of other details. UK GDPR (described below) governs the use of personal data, so the first question to ask of any dataset is whether it contains any. (Because it applies only to <em>living</em> people, data about people who have died is not covered.)</p>
+<p>There are two common ways of reducing the risks of working with personal data:</p>
+<ul>
+<li><strong>Anonymisation</strong> removes or alters the data so that individuals can no longer be identified. Truly anonymised data is not personal data, and UK GDPR no longer applies to it.</li>
+<li><strong>Pseudonymisation</strong> replaces identifying details with artificial identifiers, for example replacing each name with an ID number, while the link between the two is kept separately. This reduces the risk, but pseudonymised data <em>is</em> still personal data, because anyone with access to the link can re-identify people.</li>
+</ul>
+<p>Anonymisation is harder than it looks, because removing names is not enough: combinations of the remaining variables can identify people. A well-known study <span class="citation" data-cites="Sweeney2000">(<a href="bibliography.html#ref-Sweeney2000" role="doc-biblioref">Sweeney 2000</a>)</span> found that 87% of the US population could be uniquely identified by just their ZIP code (postcode), date of birth and sex. Joining a dataset to another source of information, as we did in <a href="./week05.html">Week 5</a>, can therefore re-identify people in data that appeared to be anonymous.</p>
+<p>We have met personal data elsewhere in this course: the <code>customers</code> table in <a href="./week09.html#creating-tables">Week 9</a> holds names and email addresses, and <a href="./week07.html#limitations">Week 7</a> warned that a Shiny app shows its data to anyone who can open it.</p>
+</section>
+<section id="uk-gdpr" class="level3">
+<h3 class="anchored" data-anchor-id="uk-gdpr">UK GDPR</h3>
 <p>From the UK Government’s <a href="https://www.gov.uk/data-protection">summary of UK GDPR</a>; data must be:</p>
 <blockquote class="blockquote">
 <ul>
@@ -367,12 +400,33 @@ div.csl-indent {
 <li>handled in a way that ensures appropriate security, including protection against unlawful or unauthorised processing, access, loss, destruction or damage</li>
 </ul>
 </blockquote>
-<p>Additional legal protection is available for analysis that involves protected characteristics, such as:</p>
+<p>The third of these principles, <em>data minimisation</em>, has a practical side for a data scientist. Read in only the columns that an analysis needs (for example, using the <code>col_select</code> argument of <code>read_csv</code>, as in <a href="./week10.html">Week 10</a>); remove identifying columns such as names as early as possible; and share summaries rather than individual records wherever you can, which is one of the advantages of doing the work in a database (<a href="./week09.html">Week 9</a>).</p>
+<p>UK GDPR gives stronger legal protection to more sensitive personal data, known as <em>special category data</em>. This includes information about a person’s:</p>
 <ul>
-<li>Race and ethnicity</li>
-<li>Political opinions and religious beliefs</li>
-<li>Sex life or orientation</li>
+<li>race or ethnic background</li>
+<li>political opinions</li>
+<li>religious beliefs</li>
+<li>trade union membership</li>
+<li>genetics, and biometrics (where used for identification)</li>
+<li>health</li>
+<li>sex life or sexual orientation</li>
 </ul>
+</section>
+<section id="discrimination-and-protected-characteristics" class="level3">
+<h3 class="anchored" data-anchor-id="discrimination-and-protected-characteristics">Discrimination and Protected Characteristics</h3>
+<p>A related, but different, idea comes from the Equality Act 2010, which makes it unlawful to discriminate against people because of a <em>protected characteristic</em>. The protected characteristics are:</p>
+<ul>
+<li>age</li>
+<li>disability</li>
+<li>gender reassignment</li>
+<li>marriage and civil partnership</li>
+<li>pregnancy and maternity</li>
+<li>race</li>
+<li>religion or belief</li>
+<li>sex</li>
+<li>sexual orientation</li>
+</ul>
+<p>The two lists overlap, but they are not the same: age and sex, for example, are protected characteristics but not special category data. Special category data concerns how sensitive information must be <em>handled</em>; protected characteristics concern how people must not be <em>treated</em>. An analysis whose results lead to people being treated differently because of a protected characteristic, as in the Amazon case study above, may be unlawful, even if no special category data is involved.</p>
 </section>
 <section id="consequences-of-violating-gdpr" class="level3">
 <h3 class="anchored" data-anchor-id="consequences-of-violating-gdpr">Consequences of Violating GDPR</h3>
@@ -390,8 +444,8 @@ div.csl-indent {
 <p>In the interests of <em>ethics by design</em>, various frameworks have been introduced to support a data scientist, both in terms of documenting potential ethical concerns in datasets and highlighting the relevant features of downstream processors (e.g.&nbsp;AI models). In this class we will focus on <em>data cards</em> and <em>model cards</em>.</p>
 <section id="data-cards" class="level3">
 <h3 class="anchored" data-anchor-id="data-cards">Data Cards</h3>
-<p>The research paper by <span class="citation" data-cites="Pushkarna2022">(<a href="bibliography.html#ref-Pushkarna2022" role="doc-biblioref">Pushkarna et al. 2022</a>)</span> proposed <em>data cards</em>, a framework for documenting datasets that includes thorough documentation of potential ethical considerations. A more digestible summary can be found <a href="https://sites.research.google/datacardsplaybook/">here</a>. The documentation required by the framework is quite extensive and includes far more information than one would typically have access to even as a data owner; completing a full data card could be challenging, but still represents the current “gold standard” for data documentation. Moreover, not every field needs to be completed in a data card to provide a useful data summary. (For example, <a href="https://www.kaggle.com">Kaggle</a> has its users complete partial data cards, and scores datasets based on the quality of the documentation).</p>
-<p>Particularly relevant to ethics is the <em>Sensitivity of Data</em> section (see <a href="https://github.com/PAIR-code/datacardsplaybook/blob/main/templates/DataCardsExtendedTemplate.md">relevant section here</a>).</p>
+<p>The research paper by <span class="citation" data-cites="Pushkarna2022">(<a href="bibliography.html#ref-Pushkarna2022" role="doc-biblioref">Pushkarna et al. 2022</a>)</span> proposed <em>data cards</em>, a framework for documenting datasets that includes thorough documentation of potential ethical considerations. A data card does for a dataset what the documentation of a function, such as the roxygen comments in <a href="./week08.html#documentation-strategies">Week 8</a>, does for code: it tells others what it is, and how it may and may not be used. A more digestible summary can be found in the <a href="https://sites.research.google/datacardsplaybook/">Data Cards Playbook</a>. The documentation required by the framework is quite extensive and includes far more information than one would typically have access to even as a data owner; completing a full data card could be challenging, but still represents the current “gold standard” for data documentation. Moreover, not every field needs to be completed in a data card to provide a useful data summary. (For example, <a href="https://www.kaggle.com">Kaggle</a> has its users complete partial data cards, and scores datasets based on the quality of the documentation).</p>
+<p>Particularly relevant to ethics is the <em>Sensitivity of Data</em> section of the <a href="https://github.com/PAIR-code/datacardsplaybook/blob/main/templates/DataCardsExtendedTemplate.md">extended data card template</a>.</p>
 <section id="practical-implementation-of-data-cards" class="level4">
 <h4 class="anchored" data-anchor-id="practical-implementation-of-data-cards">Practical Implementation of Data Cards</h4>
 <p>For this course we will use a minimal version of a data card containing the following fields.</p>
@@ -422,7 +476,7 @@ div.csl-indent {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This is an example model card for the Titanic dataset from Kaggle(https://www.kaggle.com/c/titanic):</p>
+<p>This is an example data card for the <a href="https://www.kaggle.com/c/titanic">Titanic dataset from Kaggle</a>:</p>
 <ul>
 <li>Dataset name: Titanic (Kaggle / public)</li>
 <li>Version / date: 2020-11-01</li>
@@ -430,15 +484,15 @@ div.csl-indent {
 <li>Source / provenance: Kaggle Titanic dataset — https://www.kaggle.com/c/titanic</li>
 <li>Purpose / intended use: Teaching classification; NOT for profiling or real-world commercial decisions.</li>
 <li>Composition summary: 891 rows, columns include PassengerId, Survived, Pclass, Name, Sex, Age, SibSp, Parch, Ticket, Fare, Cabin, Embarked.</li>
-<li>Protected attributes present? Yes — sex (gender). Age may be sensitive for some contexts.</li>
-<li>Missingness summary: Age ~20% missing, Cabin ~77% missing. <em>(For illustration, not accurate)</em></li>
+<li>Protected attributes present? Yes — sex and age, both protected characteristics under the Equality Act 2010.</li>
+<li>Missingness summary: Age ~20% missing (177 of 891 rows), Cabin ~77% missing (687 of 891 rows).</li>
 <li>Collection method / measurement details: Historical passenger manifest; some fields manually digitized; possible transcription errors.</li>
 <li>Known limitations / biases:
 <ul>
 <li>Not representative of modern populations.</li>
 <li>Survival correlated with class and gender due to historical boarding policies — not causal for many modern uses.</li>
 </ul></li>
-<li>Privacy/sensitivity: Public historical data, low privacy risk, but contains personal names.</li>
+<li>Privacy/sensitivity: Contains personal names, but the passengers have all died, so UK GDPR (which covers only living people) does not apply; public historical data, low privacy risk.</li>
 <li>Licence / sharing restrictions: Unknown</li>
 <li>Contact / owner: Kaggle</li>
 </ul>
@@ -495,7 +549,7 @@ Tip
 <ul>
 <li>Attaching warnings to our analysis highlighting the need for human review.</li>
 <li>Testing for systematic bias, e.g.&nbsp;by classifying records with protected characteristics and assessing empirically whether there is a bias present.</li>
-<li>Ensuring the model is not extrapolating, by checking how closely input test records correlate with the training set.</li>
+<li>Ensuring the model is not extrapolating, by checking that the records we give it resemble those in its training data (for example, that applicants come from the region the model was trained on).</li>
 </ul>
 </section>
 <section id="why-model-cards-matter" class="level4">
@@ -507,13 +561,17 @@ Tip
 <li>Make informed decisions about deploying or trusting the model.</li>
 <li>Ensure compliance with ethical and regulatory standards.</li>
 </ul>
-<p>For more details, see <a href="https://arxiv.org/abs/1810.03993">Model Cards for Model Reporting</a> and the <a href="https://modelcards.withgoogle.com/about">Google Model Card Toolkit</a>.</p>
+<p>For more details, see the paper that introduced model cards <span class="citation" data-cites="Mitchell2019">(<a href="bibliography.html#ref-Mitchell2019" role="doc-biblioref">Mitchell et al. 2019</a>)</span> and the <a href="https://modelcards.withgoogle.com/about">Google Model Card Toolkit</a>.</p>
 </section>
 </section>
 </section>
 <section id="takeaways" class="level2">
 <h2 class="anchored" data-anchor-id="takeaways">Takeaways</h2>
-<p><strong>Do’s</strong> - <strong>Do</strong> document your data and models using frameworks like data cards and model cards—transparency builds trust and helps identify risks early. - <strong>Do</strong> actively look for and mitigate biases at every stage, from data collection through to deployment and monitoring.</p>
+<p><strong>Do’s</strong></p>
+<ul>
+<li><strong>Do</strong> document your data and models using frameworks like data cards and model cards—transparency builds trust and helps identify risks early.</li>
+<li><strong>Do</strong> actively look for and mitigate biases at every stage, from data collection through to deployment and monitoring.</li>
+</ul>
 <p><strong>Don’ts</strong></p>
 <ul>
 <li><strong>Don’t</strong> ignore GDPR and regulatory requirements. Penalties can reach £17.5 million or 4% of global turnover.</li>
@@ -522,8 +580,14 @@ Tip
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-Mitchell2019" class="csl-entry" role="listitem">
+Mitchell, Margaret, Simone Wu, Andrew Zaldivar, et al. 2019. <span>“Model Cards for Model Reporting.”</span> <em>Proceedings of the Conference on Fairness, Accountability, and Transparency</em>, FAT* ’19, 220–29. <a href="https://doi.org/10.1145/3287560.3287596">https://doi.org/10.1145/3287560.3287596</a>.
+</div>
 <div id="ref-Pushkarna2022" class="csl-entry" role="listitem">
 Pushkarna, Mahima, Andrew Zaldivar, and Oddur Kjartansson. 2022. <span>“Data Cards: Purposeful and Transparent Dataset Documentation for Responsible AI.”</span> <em>2022 ACM Conference on Fairness Accountability and Transparency</em>, FAccT ’22, June, 1776–826. <a href="https://doi.org/10.1145/3531146.3533231">https://doi.org/10.1145/3531146.3533231</a>.
+</div>
+<div id="ref-Sweeney2000" class="csl-entry" role="listitem">
+Sweeney, Latanya. 2000. <em>Simple Demographics Often Identify People Uniquely</em>. Data Privacy Working Paper No. 3. Carnegie Mellon University.
 </div>
 </div>
 </section>
