@@ -110,6 +110,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="styles.css">
@@ -266,11 +269,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#lecture" id="toc-lecture" class="nav-link active" data-scroll-target="#lecture">Lecture</a></li>
+  <li><a href="#objectives" id="toc-objectives" class="nav-link active" data-scroll-target="#objectives">Objectives</a></li>
   <li><a href="#what-is-big-data" id="toc-what-is-big-data" class="nav-link" data-scroll-target="#what-is-big-data"><span class="header-section-number">10.1</span> What is Big Data</a>
   <ul class="collapse">
   <li><a href="#why-big-data-is-a-problem" id="toc-why-big-data-is-a-problem" class="nav-link" data-scroll-target="#why-big-data-is-a-problem"><span class="header-section-number">10.1.1</span> Why Big Data is a Problem</a></li>
   <li><a href="#tradeoffs-memory-compute-storage-and-speed" id="toc-tradeoffs-memory-compute-storage-and-speed" class="nav-link" data-scroll-target="#tradeoffs-memory-compute-storage-and-speed"><span class="header-section-number">10.1.2</span> Tradeoffs: Memory, Compute, Storage, and Speed</a></li>
+  <li><a href="#is-my-data-actually-big" id="toc-is-my-data-actually-big" class="nav-link" data-scroll-target="#is-my-data-actually-big"><span class="header-section-number">10.1.3</span> Is My Data Actually Big?</a></li>
   </ul></li>
   <li><a href="#working-with-big-data" id="toc-working-with-big-data" class="nav-link" data-scroll-target="#working-with-big-data"><span class="header-section-number">10.2</span> Working with Big Data</a>
   <ul class="collapse">
@@ -302,14 +306,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="lecture" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="lecture">Lecture</h2>
+<section id="objectives" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="objectives">Objectives</h2>
 <ul>
 <li>Understand what constitutes “big data” in practice and why in-memory tools like <code>R</code> or <code>tidyverse</code> might fail.</li>
 <li>Understand tradeoffs between memory, compute, storage and speed.</li>
 <li>Know about other tools for working with big data, outside of R.</li>
 <li>Be familiar with tools that scale <code>R</code> workflows to big data.</li>
 </ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>What You Need to Know
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this course you will not be asked to work with genuinely big data, or to use the specialised tools in this chapter, such as DuckDB. What you should understand is <em>why</em> large datasets cause problems, and the strategies for dealing with them: in particular, processing data in chunks and combining the results (map-reduce), and doing the work in a database rather than in <code>R</code> (<a href="week09.html" class="quarto-xref">Week&nbsp;<span>9</span></a>). You should be able to recognise when an approach would need to change as the data grow, and explain how.</p>
+</div>
+</div>
 </section>
 <section id="what-is-big-data" class="level2" data-number="10.1">
 <h2 data-number="10.1" class="anchored" data-anchor-id="what-is-big-data"><span class="header-section-number">10.1</span> What is Big Data</h2>
@@ -327,21 +344,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="tradeoffs-memory-compute-storage-and-speed" class="level3" data-number="10.1.2">
 <h3 data-number="10.1.2" class="anchored" data-anchor-id="tradeoffs-memory-compute-storage-and-speed"><span class="header-section-number">10.1.2</span> Tradeoffs: Memory, Compute, Storage, and Speed</h3>
-<p>When working with big data, it is important to understand the tradeoffs between memory, compute, storage, and speed:</p>
+<p>A computer has three main resources, and a big data workflow is usually limited by one of them:</p>
 <ul>
-<li><strong>Memory (RAM)</strong>: Fast but limited in size. Operations performed in memory are typically much faster than those involving disk storage, but you are constrained by the amount of RAM available. If your data exceeds available memory, you must use alternative strategies such as chunking, streaming, or out-of-core processing.</li>
-<li><strong>Compute (CPU/GPU)</strong>: The processing power available determines how quickly computations can be performed. More powerful CPUs or GPUs can process data faster, but may also require more memory bandwidth and generate more heat. Parallel and distributed computing can help scale up processing, but often introduces additional complexity.</li>
-<li><strong>Storage (Disk/SSD/HDD)</strong>: Storage devices can hold much larger datasets than memory, but accessing data from disk is much slower than from RAM. SSDs are faster than traditional hard drives, but still much slower than memory. Efficient data formats and indexing can help mitigate some of the speed limitations.</li>
-<li><strong>Speed (Throughput/Latency)</strong>: The overall speed of data processing depends on how quickly data can be moved between storage, memory, and compute resources. Bottlenecks often occur when data must be repeatedly read from or written to disk, or when computations are not parallelized effectively.</li>
+<li><strong>Memory (RAM)</strong>: fast, but limited in size. Tools like the <code>tidyverse</code> work on data held in memory, so data larger than the available memory cannot be loaded at all.</li>
+<li><strong>Storage (disk)</strong>: much larger than memory, but much slower to read from; a solid-state drive (SSD) is far slower than memory, and a traditional hard drive slower still. Data too large for memory must be read from storage a piece at a time, and the speed of reading often limits how fast the work can go.</li>
+<li><strong>Compute (CPU/GPU)</strong>: determines how quickly calculations can be carried out on data once they are in memory. Splitting the work between several processors, or several computers, can speed it up, at the cost of extra complexity.</li>
 </ul>
-<p>In practice, optimizing for big data workflows often involves balancing these resources: minimizing memory usage, maximizing compute efficiency, and reducing slow disk I/O. The right approach depends on the size and structure of your data, the hardware available, and the specific analysis tasks you need to perform.</p>
+<p>The overall speed of a workflow is set by whichever of these is the bottleneck, and working with big data is largely a matter of trading them off against each other: for example, reading a file in chunks uses less memory, but takes longer than reading it all at once.</p>
+<p>Two examples show how these tradeoffs play out in practice.</p>
+<p><strong>A 1TB data file.</strong> A file of this size cannot be loaded into the memory of a typical computer, so the data must be read from disk a piece at a time: either by reading the file in chunks and keeping only a summary of each one (as in Example 2 below), or by loading it into a database and letting the database do the work. The bottleneck is then the speed at which the disk can be read. At around 500MB per second, typical of a solid-state drive, a single pass through the file takes over half an hour, so it pays to compute everything you need in as few passes through the data as possible (compare <a href="week08.html" class="quarto-xref">Week&nbsp;<span>8</span></a>).</p>
+<p><strong>A data stream.</strong> Some data are never stored as a file at all, but arrive continuously: for example, the stream of every post made on a social media site. The data may arrive faster than a single computer can process them, so the bottleneck is the processor (or the network connection). Typical strategies are to process each record as it arrives, keeping only running summaries; to discard records that are not needed as early as possible; and to share the work between many computers working in parallel.</p>
+</section>
+<section id="is-my-data-actually-big" class="level3" data-number="10.1.3">
+<h3 data-number="10.1.3" class="anchored" data-anchor-id="is-my-data-actually-big"><span class="header-section-number">10.1.3</span> Is My Data Actually Big?</h3>
+<p>Before reaching for the specialised tools in the rest of this chapter, it is worth checking whether some simpler measures are enough.</p>
+<ul>
+<li><strong>Check the size.</strong> The size of a file on disk is a rough guide to how much memory it will need once loaded; once data are in <code>R</code>, <code>object.size()</code> reports how much memory an object actually uses.</li>
+<li><strong>Read only the columns you need.</strong> The <code>col_select</code> argument of <code>read_csv</code> (see <a href="week04.html" class="quarto-xref">Week&nbsp;<span>4</span></a>) reads a subset of the columns, which can reduce the memory needed considerably if the file has many columns but your analysis uses only a few.</li>
+<li><strong>Develop on a subset.</strong> The <code>n_max</code> argument of <code>read_csv</code> reads only the first rows of a file, so you can write and test your analysis quickly before running it on the full dataset. (Bear in mind that the first rows may not be representative of the rest.)</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># how much memory does the penguins data use?</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"data/penguins.csv"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(<span class="fu">object.size</span>(penguins), <span class="at">units =</span> <span class="st">"KB"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># read two columns, and only the first 100,000 rows, of a large file</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>fares <span class="ot">=</span> <span class="fu">read_csv</span>(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data/itineraries.csv"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_select =</span> <span class="fu">c</span>(startingAirport, baseFare),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_max =</span> <span class="dv">100000</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If the data still do not fit in memory, the rest of this chapter describes what to do.</p>
 </section>
 </section>
 <section id="working-with-big-data" class="level2" data-number="10.2">
 <h2 data-number="10.2" class="anchored" data-anchor-id="working-with-big-data"><span class="header-section-number">10.2</span> Working with Big Data</h2>
 <p>There are multiple options for working with big data. We will suppose, for illustration, that the data is supplied as a large CSV file. Other formats are available and potentially more suitable, including:</p>
 <ul>
-<li><strong>Relational Databases</strong>: These can run on specialised machine with much larger RAM, and support fast, smart on-disk storage when the entire dataset is too large for RAM.</li>
+<li><strong>Relational Databases</strong> (<a href="week09.html" class="quarto-xref">Week&nbsp;<span>9</span></a>): These can run on specialised machines with much larger RAM, and support fast, smart on-disk storage when the entire dataset is too large for RAM.</li>
 <li><strong>Columnar Storage Formats</strong>: Formats like <a href="https://parquet.apache.org/">Parquet</a> and <a href="https://arrow.apache.org/feather/">Feather</a> are designed for efficient storage and retrieval of large, tabular datasets. They support fast reading of only the columns you need, whereas when working with CSV files the whole file must be read to extract a column.</li>
 <li><strong>HDF5</strong>: A hierarchical data format suitable for storing large arrays and complex data structures. It is commonly used in scientific computing and supports efficient random access to subsets of data.</li>
 </ul>
@@ -352,7 +391,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Within R there are still several solutions that we will briefly cover.</p>
 <ul>
-<li><strong>dplyr</strong> with database backends (as we saw in <a href="week09.html" class="quarto-xref">Week&nbsp;<span>9</span></a>).</li>
+<li><strong>dbplyr</strong>, which runs <code>dplyr</code> code inside a database (as we saw in <a href="week09.html" class="quarto-xref">Week&nbsp;<span>9</span></a>).</li>
 <li><strong>sparklyr</strong>: Provides an interface to Apache Spark, allowing distributed data processing and machine learning from within R. This requires access to a Spark cluster, which is beyond the scope of this course.</li>
 <li><strong>duckdb</strong>: An in-process SQL OLAP database that allows fast analytical queries on large datasets, including direct querying of CSV and Parquet files without loading them fully into memory.</li>
 <li><strong>readr</strong>: Provides the function <code>read_csv_chunked</code> which can be used for simple map-reduce workflows.</li>
@@ -361,19 +400,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="example-1-duckdb" class="level3" data-number="10.2.1">
 <h3 data-number="10.2.1" class="anchored" data-anchor-id="example-1-duckdb"><span class="header-section-number">10.2.1</span> Example 1: DuckDB</h3>
 <p><a href="https://duckdb.org/"><code>duckdb</code></a> is an in-process SQL OLAP (Online Analytical Processing) database management system. OLAP systems are optimized for fast, complex analytical queries on large datasets, such as aggregations and summaries. DuckDB can be used directly from R without the need for a separate database server. In particular, it allows you to run queries on datasets stored on disk without needing to load the entire dataset into memory.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The name “duckdb” is inspired by the “duck test”: “If it looks like a duck, swims like a duck, and quacks like a duck, then it probably is a duck.” The creators chose this name because DuckDB is designed to look and behave like a traditional database system (such as SQLite or PostgreSQL), but is optimized for analytical workloads and can be embedded directly into applications. The playful name reflects its lightweight, easy-to-use nature and its ability to “just work” for data analysis tasks.</p>
-</div>
-</div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -388,44 +414,16 @@ Warning
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("duckplyr")</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dplyr' was built under R version 4.4.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.2.0     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   4.0.0     ✔ tibble    3.3.0
-✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.0.4     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(duckplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The duckplyr package is configured to fall back to dplyr when it encounters an
-incompatibility. Fallback events can be collected and uploaded for analysis to
-guide future development. By default, data will be collected but no data will
-be uploaded.
-ℹ Automatic fallback uploading is not controlled and therefore disabled, see
-  `?duckplyr::fallback()`.
-✔ Number of reports ready for upload: 57.
-→ Review with `duckplyr::fallback_review()`, upload with
-  `duckplyr::fallback_upload()`.
-ℹ Configure automatic uploading with `duckplyr::fallback_config()`.
-✔ Overwriting dplyr methods with duckplyr methods.
-ℹ Turn off with `duckplyr::methods_restore()`.</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reference the CSV file as a DuckDB table (no need to load into R memory)</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>flights <span class="ot">=</span> <span class="fu">read_csv_duckdb</span>(<span class="st">"data/itineraries.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("duckplyr")</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(duckplyr)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Reference the CSV file as a DuckDB table (no need to load into R memory)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>flights <span class="ot">=</span> <span class="fu">read_csv_duckdb</span>(<span class="st">"data/itineraries.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>First we run some basic summary statistics.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> <span class="fu">names</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> <span class="fu">names</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "legId"                             "searchDate"                       
  [3] "flightDate"                        "startingAirport"                  
@@ -442,7 +440,7 @@ be uploaded.
 [25] "segmentsDurationInSeconds"         "segmentsDistance"                 
 [27] "segmentsCabinCode"                </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">nrow=</span><span class="fu">n</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">nrow=</span><span class="fu">n</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A duckplyr data frame: 1 variable
       nrow
@@ -452,9 +450,9 @@ be uploaded.
 </div>
 <p>Next: what is the average base fare? This only requires a single pass through the dataset to compute, so <code>duckplyr</code> can handle it.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the average base fare</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_base_fare =</span> <span class="fu">mean</span>(baseFare, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the average base fare</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_base_fare =</span> <span class="fu">mean</span>(baseFare, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A duckplyr data frame: 1 variable
   mean_base_fare
@@ -462,30 +460,136 @@ be uploaded.
 1           293.</code></pre>
 </div>
 </div>
-<p>However, more complex queries throw errors; this is because <code>duckplyr</code> cannot work out how to run the query without materialising the dataset in memory.</p>
+<p>However, if we try to compute the average base fare for each departure airport in the usual way, with <code>group_by()</code>, we get an error:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute average base fare by origin city</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(startingAirport) <span class="sc">|&gt;</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_base_fare =</span> <span class="fu">mean</span>(baseFare, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_base_fare))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute average base fare by origin city</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(startingAirport) <span class="sc">|&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_base_fare =</span> <span class="fu">mean</span>(baseFare, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_base_fare))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in `group_by()`:
 ! This operation cannot be carried out by DuckDB, and the input is a
   stingy duckplyr frame.
-• Try `summarise(.by = ...)` or `mutate(.by = ...)` instead of `group_by()` and
+* Try `summarise(.by = ...)` or `mutate(.by = ...)` instead of `group_by()` and
   `ungroup()`.
-ℹ Use `compute(prudence = "lavish")` to materialize to temporary storage and
+i Use `compute(prudence = "lavish")` to materialize to temporary storage and
   continue with duckplyr.
-ℹ See `vignette("prudence")` for other options.</code></pre>
+i See `vignette("prudence")` for other options.</code></pre>
 </div>
 </div>
-<p>Note that we could write logic to run this query without materialising the dataset! This emphasises that <code>duckplyr</code> is an abstraction that is sometimes, but not always, convenient.</p>
+<p>The error message explains what has gone wrong. <code>duckplyr</code> can run most <code>dplyr</code> verbs inside DuckDB, but <code>group_by()</code> is not one of them. Running the query in <code>R</code> instead would mean loading the whole dataset into memory, so rather than attempt this, <code>duckplyr</code> stops with an error. The message also suggests a fix: <code>duckplyr</code> supports grouping through the <code>.by</code> argument of <code>summarise()</code>, which gives the same result as <code>group_by()</code> followed by <code>summarise()</code>, and which DuckDB <em>can</em> run:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute average base fare by origin city, using .by instead of group_by()</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_base_fare =</span> <span class="fu">mean</span>(baseFare, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> startingAirport) <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_base_fare))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A duckplyr data frame: 2 variables
+   startingAirport mean_base_fare
+   &lt;chr&gt;                    &lt;dbl&gt;
+ 1 OAK                       466.
+ 2 SFO                       383.
+ 3 JFK                       329.
+ 4 LAX                       328.
+ 5 IAD                       322.
+ 6 PHL                       295.
+ 7 DEN                       289.
+ 8 DTW                       281.
+ 9 CLT                       278.
+10 EWR                       256.
+11 ATL                       256.
+12 LGA                       256.
+13 MIA                       254.
+14 DFW                       248.
+15 BOS                       244.
+16 ORD                       238.</code></pre>
+</div>
+</div>
+<p>This time the whole query runs inside DuckDB, reading through the file on disk, and only the 16 rows of the result are returned to <code>R</code>. Tools like <code>duckplyr</code> support most, but not all, of <code>dplyr</code>; when something that works on an ordinary tibble fails, read the error message carefully, as it often says how to rewrite the code.</p>
+<section id="duckdb-with-dbplyr" class="level4" data-number="10.2.1.1">
+<h4 data-number="10.2.1.1" class="anchored" data-anchor-id="duckdb-with-dbplyr"><span class="header-section-number">10.2.1.1</span> DuckDB with <code>dbplyr</code></h4>
+<p>DuckDB can also be used in exactly the same way as the SQLite database in <a href="week09.html" class="quarto-xref">Week&nbsp;<span>9</span></a>: we connect to it with <code>DBI</code>, and query it with <code>dbplyr</code>. <code>dbConnect(duckdb::duckdb())</code> creates a temporary DuckDB database, and <code>duckdb::tbl_file()</code> gives a lazy table that reads directly from the CSV file, without loading it. Unlike <code>duckplyr</code>, <code>dbplyr</code> translates <code>group_by()</code> into SQL, so the grouped query works unchanged:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbplyr)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>con <span class="ot">=</span> <span class="fu">dbConnect</span>(duckdb<span class="sc">::</span><span class="fu">duckdb</span>())</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># a lazy table, reading directly from the CSV file</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>flights_db <span class="ot">=</span> duckdb<span class="sc">::</span><span class="fu">tbl_file</span>(con, <span class="st">"data/itineraries.csv"</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>query <span class="ot">=</span> flights_db <span class="sc">|&gt;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(startingAirport) <span class="sc">|&gt;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_base_fare =</span> <span class="fu">mean</span>(baseFare, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_base_fare))</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="fu">show_query</span>(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;SQL&gt;
+SELECT startingAirport, AVG(baseFare) AS mean_base_fare
+FROM (FROM 'data/itineraries.csv') q01
+GROUP BY startingAirport
+ORDER BY mean_base_fare DESC</code></pre>
+</div>
+</div>
+<p>As in <a href="week09.html" class="quarto-xref">Week&nbsp;<span>9</span></a>, <code>show_query()</code> reveals the SQL that <code>dbplyr</code> has written; the only unusual feature is that its <code>FROM</code> clause names the CSV file itself, rather than a table in the database. Running the query with <code>collect()</code> gives the same result as before:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>query <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 16 x 2
+   startingAirport mean_base_fare
+   &lt;chr&gt;                    &lt;dbl&gt;
+ 1 OAK                       466.
+ 2 SFO                       383.
+ 3 JFK                       329.
+ 4 LAX                       328.
+ 5 IAD                       322.
+ 6 PHL                       295.
+ 7 DEN                       289.
+ 8 DTW                       281.
+ 9 CLT                       278.
+10 EWR                       256.
+11 ATL                       256.
+12 LGA                       256.
+13 MIA                       254.
+14 DFW                       248.
+15 BOS                       244.
+16 ORD                       238.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Whether we use <code>duckplyr</code> or <code>dbplyr</code>, the work happens in DuckDB, which reads through the file on disk, and only the result is returned to <code>R</code>.</p>
+</section>
 </section>
 <section id="example-2-mapreduce-over-csv-chunks-in-r" class="level3" data-number="10.2.2">
 <h3 data-number="10.2.2" class="anchored" data-anchor-id="example-2-mapreduce-over-csv-chunks-in-r"><span class="header-section-number">10.2.2</span> Example 2: MapReduce over CSV Chunks in R</h3>
 <p>You can implement a simple MapReduce workflow in R by processing a large CSV file in chunks, applying a “map” function to each chunk, and then combining (“reducing”) the results. The <code>readr::read_csv_chunked()</code> function is useful for this purpose.</p>
-<p>Here’s an example that computes the mean of a column (<code>baseFare</code>) by reading the file in chunks:</p>
+<p>This is a small-scale version of the <em>MapReduce</em> model used by big data systems such as Hadoop. The data are split into pieces, each of which is processed independently (the <em>map</em> step), and the partial results are then combined into the final answer (the <em>reduce</em> step). Because each piece is processed on its own, only one piece needs to be in memory at a time; and in a system like Hadoop, the pieces can be processed on many computers at once.</p>
+<p>Here’s an example that computes the mean of <code>baseFare</code> for each departure airport (<code>startingAirport</code>), the same query as in Example 1, by reading the file in chunks. It works in two steps:</p>
+<ul>
+<li><strong>Map.</strong> The function <code>origin_fare_chunk</code> is applied to each chunk of 50,000 rows as it is read, much as <code>map</code> applies a function to each element of a list in <a href="week08.html" class="quarto-xref">Week&nbsp;<span>8</span></a>. For each airport in the chunk, it computes the <em>sum</em> of the base fares and the <em>number</em> of fares. Only these small summaries are kept: the chunk itself is discarded before the next one is read.</li>
+<li><strong>Reduce.</strong> Once the whole file has been read, the summaries from all the chunks are combined: the sums and the counts for each airport are added up, and the mean fare is the total of the fares divided by the total count.</li>
+</ul>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  file[("itineraries.csv")] --&gt; c1["chunk 1"] &amp; c2["chunk 2"] &amp; c3["..."]
+  c1 --&gt; s1["sum and count&lt;br/&gt;per airport"]
+  c2 --&gt; s2["sum and count&lt;br/&gt;per airport"]
+  c3 --&gt; s3["..."]
+  s1 &amp; s2 &amp; s3 --&gt; result["add up sums and counts;&lt;br/&gt;mean = total sum / total count"]
+</pre>
+</div>
+<p></p><figcaption> The map-reduce computation in Example 2: each chunk of the file is summarised separately, and the summaries are then combined.</figcaption> </figure><p></p>
+</div>
+</div>
+</div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -499,40 +603,42 @@ be uploaded.
 <p>This is not an ideal command to run in a Quarto notebook. It takes a very long time to run! If you run it in an R terminal you will see a nice progress bar.</p>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a callback function to process each chunk</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>origin_fare_chunk <span class="ot">&lt;-</span> <span class="cf">function</span>(chunk, pos) {</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#print(pos)</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    chunk <span class="sc">|&gt;</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">group_by</span>(startingAirport) <span class="sc">|&gt;</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">summarise</span>(</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">sum_base_fare =</span> <span class="fu">sum</span>(baseFare, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(baseFare)),</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the CSV in chunks and apply the callback</span></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">read_csv_chunked</span>(</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data/itineraries.csv"</span>,</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">callback =</span> DataFrameCallback<span class="sc">$</span><span class="fu">new</span>(origin_fare_chunk),</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">chunk_size =</span> <span class="dv">50000</span></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the results from all chunks</span></span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>final_result <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(results) <span class="sc">|&gt;</span></span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(startingAirport) <span class="sc">|&gt;</span></span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>        <span class="at">total_base_fare =</span> <span class="fu">sum</span>(sum_base_fare),</span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">total_n =</span> <span class="fu">sum</span>(n),</span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">mean_base_fare =</span> total_base_fare <span class="sc">/</span> total_n,</span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">.groups =</span> <span class="st">"drop"</span></span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_base_fare))</span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>final_result</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a callback function to process each chunk</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>origin_fare_chunk <span class="ot">&lt;-</span> <span class="cf">function</span>(chunk, pos) {</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#print(pos)</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    chunk <span class="sc">|&gt;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">group_by</span>(startingAirport) <span class="sc">|&gt;</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">summarise</span>(</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">sum_base_fare =</span> <span class="fu">sum</span>(baseFare, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(baseFare)),</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the CSV in chunks and apply the callback</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">read_csv_chunked</span>(</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data/itineraries.csv"</span>,</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">callback =</span> DataFrameCallback<span class="sc">$</span><span class="fu">new</span>(origin_fare_chunk),</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">chunk_size =</span> <span class="dv">50000</span>,</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># read only the columns we need, with their types fixed (see below)</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_types =</span> <span class="fu">cols_only</span>(<span class="at">startingAirport =</span> <span class="fu">col_character</span>(), <span class="at">baseFare =</span> <span class="fu">col_double</span>())</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the results from all chunks</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>final_result <span class="ot">&lt;-</span> results <span class="sc">|&gt;</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(startingAirport) <span class="sc">|&gt;</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">total_base_fare =</span> <span class="fu">sum</span>(sum_base_fare),</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">total_n =</span> <span class="fu">sum</span>(n),</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">mean_base_fare =</span> total_base_fare <span class="sc">/</span> total_n,</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_base_fare))</span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>final_result</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This produces the following output:</p>
 <pre><code># A tibble: 16 × 4
    startingAirport total_base_fare total_n mean_base_fare
@@ -553,6 +659,67 @@ be uploaded.
 14 DFW                 1406917690. 5674959           248.
 15 BOS                 1438004962. 5883876           244.
 16 ORD                 1311907639. 5503476           238.</code></pre>
+<p>Notice that the map step returns a sum and a count for each airport, rather than a mean: means of chunks of different sizes cannot be combined into the overall mean, but sums and counts can simply be added up. In general, the map step must return enough information for the partial results to be combined <em>exactly</em>. The reduce step is the same pattern as <code>reduce</code> with an <code>.init</code> value in <a href="week08.html" class="quarto-xref">Week&nbsp;<span>8</span></a>: an accumulator of running totals, updated with each chunk’s summary in turn.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Specify Column Types When Reading in Chunks
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>read_csv</code> normally guesses the type of each column by looking at the first rows of the file. <code>read_csv_chunked</code> guesses from the <em>first chunk only</em>, and then uses those types for every later chunk. If a column looks numeric in the first chunk but contains text further down the file, the later values cannot be read as numbers, and become <code>NA</code> — without an error. Here is a small example, in which the <code>code</code> column contains numbers for its first fifteen rows and codes such as <code>A1</code> afterwards, read in chunks of ten rows:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># A small CSV file, written out as text</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>csv_text <span class="ot">=</span> <span class="fu">I</span>(<span class="fu">paste</span>(</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"id,code"</span>, <span class="fu">paste0</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="st">","</span>, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="fu">paste0</span>(<span class="st">"A"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)))),</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>read_chunk <span class="ot">=</span> DataFrameCallback<span class="sc">$</span><span class="fu">new</span>(<span class="cf">function</span>(chunk, pos) chunk)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv_chunked</span>(csv_text, read_chunk, <span class="at">chunk_size =</span> <span class="dv">10</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tail</span>(<span class="dv">7</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 x 2
+     id  code
+  &lt;dbl&gt; &lt;dbl&gt;
+1    14    14
+2    15    15
+3    16    NA
+4    17    NA
+5    18    NA
+6    19    NA
+7    20    NA</code></pre>
+</div>
+</div>
+<p>The last five codes have been lost. Telling <code>read_csv_chunked</code> the column types with its <code>col_types</code> argument (see <code>?read_csv</code>) avoids the problem:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv_chunked</span>(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    csv_text, read_chunk, <span class="at">chunk_size =</span> <span class="dv">10</span>,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">id =</span> <span class="fu">col_integer</span>(), <span class="at">code =</span> <span class="fu">col_character</span>())</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tail</span>(<span class="dv">7</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 x 2
+     id code 
+  &lt;int&gt; &lt;chr&gt;
+1    14 14   
+2    15 15   
+3    16 A1   
+4    17 A2   
+5    18 A3   
+6    19 A4   
+7    20 A5   </code></pre>
+</div>
+</div>
+<p>For a large file, it is worth specifying the types of the columns you need in every chunked read.</p>
+</div>
+</div>
 
 
 </section>

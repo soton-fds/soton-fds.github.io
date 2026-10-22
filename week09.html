@@ -269,7 +269,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#objectives" id="toc-objectives" class="nav-link active" data-scroll-target="#objectives">Objectives</a></li>
   <li><a href="#what-is-a-relational-database" id="toc-what-is-a-relational-database" class="nav-link" data-scroll-target="#what-is-a-relational-database"><span class="header-section-number">9.1</span> What is a Relational Database?</a>
   <ul class="collapse">
-  <li><a href="#why-use-relational-databases" id="toc-why-use-relational-databases" class="nav-link" data-scroll-target="#why-use-relational-databases"><span class="header-section-number">9.1.1</span> Why use Relational Databases?</a></li>
+  <li><a href="#sec-sql-why-db" id="toc-sec-sql-why-db" class="nav-link" data-scroll-target="#sec-sql-why-db"><span class="header-section-number">9.1.1</span> Why use Relational Databases?</a></li>
   </ul></li>
   <li><a href="#what-is-sql" id="toc-what-is-sql" class="nav-link" data-scroll-target="#what-is-sql"><span class="header-section-number">9.2</span> What is SQL?</a>
   <ul class="collapse">
@@ -281,7 +281,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#why-use-sql-vs.-r" id="toc-why-use-sql-vs.-r" class="nav-link" data-scroll-target="#why-use-sql-vs.-r"><span class="header-section-number">9.3</span> Why Use SQL vs.&nbsp;R</a>
   <ul class="collapse">
-  <li><a href="#the-bridge-dbplyr" id="toc-the-bridge-dbplyr" class="nav-link" data-scroll-target="#the-bridge-dbplyr"><span class="header-section-number">9.3.1</span> The Bridge: <code>dbplyr</code></a></li>
+  <li><a href="#sec-dbplyr" id="toc-sec-dbplyr" class="nav-link" data-scroll-target="#sec-dbplyr"><span class="header-section-number">9.3.1</span> The Bridge: <code>dbplyr</code></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -322,8 +322,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>A relational database is a structured collection of data organized into tables (also called relations). Each table consists of rows (records) and columns (fields), where each column has a specific data type and each row represents a single entry.</p>
 <p>To draw analogies with data frames, each table is essentially a data frame. However, the data frames are linked through a <em>key</em> mechanism. Each table has a column that is referred to as a <em>primary key</em> which is like a unique identifier for the row. Often this is an integer, but it can be other things (e.g.&nbsp;a string, or a UUID). The important thing is that each value of a primary key can exist only once in the table, to ensure the row can be identified uniquely.</p>
 <p>A table can also have <em>foreign keys</em>: columns whose values refer to primary keys in other tables, thus allowing for <em>relations</em> between the tables. If a column is labelled as a foreign key, consistency checks will be performed to ensure that the foreign key exists in the table it refers to.</p>
-<section id="why-use-relational-databases" class="level3" data-number="9.1.1">
-<h3 data-number="9.1.1" class="anchored" data-anchor-id="why-use-relational-databases"><span class="header-section-number">9.1.1</span> Why use Relational Databases?</h3>
+<section id="sec-sql-why-db" class="level3" data-number="9.1.1">
+<h3 data-number="9.1.1" class="anchored" data-anchor-id="sec-sql-why-db"><span class="header-section-number">9.1.1</span> Why use Relational Databases?</h3>
 <p>Relational databases offer several advantages:</p>
 <ul>
 <li><strong>Data Integrity</strong>: Enforce rules (such as primary and foreign keys) to maintain accurate and consistent data.</li>
@@ -362,7 +362,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In this course you will not be expected to write SQL yourself. You should, however, be able to <em>read</em> SQL: to interpret a query you are given, and explain what it does and what it returns (<a href="#sec-sql-reading" class="quarto-xref"><span>Section 9.2.5</span></a> gives a guide to doing this). When we work with databases from <code>R</code>, we will write <code>dplyr</code> code and let the <code>dbplyr</code> package translate it into SQL for us (see <a href="#the-bridge-dbplyr">The Bridge: <code>dbplyr</code></a>).</p>
+<p>In this course you will not be expected to write SQL yourself. You should, however, be able to <em>read</em> SQL: to interpret a query you are given, and explain what it does and what it returns (<a href="#sec-sql-reading" class="quarto-xref"><span>Section 9.2.5</span></a> gives a guide to doing this). When we work with databases from <code>R</code>, we will write <code>dplyr</code> code and let the <code>dbplyr</code> package translate it into SQL for us (see <a href="#sec-dbplyr" class="quarto-xref"><span>Section 9.3.1</span></a>).</p>
 </div>
 </div>
 <p>Much like <code>R</code>, <code>SQL</code> is typically written in plain text into text files, with the extension <code>.sql</code>. <code>SQL</code> is also stricter on formatting: a script containing several statements must separate them with semicolons (<code>;</code>), and it is good practice to end every statement with one.</p>
@@ -429,6 +429,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (product_id) <span class="kw">REFERENCES</span> products(<span class="kw">id</span>)</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>Notice that the <code>customers</code> table holds <em>personal data</em>: names and email addresses. In a real database, data like this is subject to data protection law such as UK GDPR, which limits who may access it and what it may be used for (see <a href="./ethics.html">Data Ethics</a>); the access controls of a database server are one way of enforcing those limits.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -806,7 +807,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="advanced-queries" class="level3" data-number="9.2.4">
 <h3 data-number="9.2.4" class="anchored" data-anchor-id="advanced-queries"><span class="header-section-number">9.2.4</span> Advanced Queries</h3>
-<p>SQL is a Turing Complete language in its own right; in theory you could write visualisation routines in it so you can use it for the entire data science pipeline, though one might argue that other languages are more appropriate for this! However, it is helpful to know some more advanced syntax that can help with specific query types.</p>
+<p>Beyond reading, filtering and joining tables, SQL has some more advanced syntax that is useful for particular kinds of query.</p>
 <section id="aggregation" class="level4" data-number="9.2.4.1">
 <h4 data-number="9.2.4.1" class="anchored" data-anchor-id="aggregation"><span class="header-section-number">9.2.4.1</span> Aggregation</h4>
 <p>We can perform aggregation using the <code>GROUP BY</code> statement, which is the analogue of <code>group_by</code> in <code>dplyr</code>. This allows us to lump multiple records into a group and specify how they should be aggregated. Some example statements are given below. The first counts the total number of orders for each customer.</p>
@@ -1088,22 +1089,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="why-use-sql-vs.-r" class="level2" data-number="9.3">
 <h2 data-number="9.3" class="anchored" data-anchor-id="why-use-sql-vs.-r"><span class="header-section-number">9.3</span> Why Use SQL vs.&nbsp;R</h2>
-<p>You will by now have noticed that the SQL operations described above replicate a lot of operations we learned how to do in R in Weeks 4-5. We have already discussed the advantages of using relational databases as a storage mechanism, but the question remains of the order of operations. In other words, what are the advantages of:</p>
+<p>You will by now have noticed that SQL can do much of what we learned to do with <code>dplyr</code> in Weeks 4–5 (see <a href="#sec-sql-reading" class="quarto-xref"><span>Section 9.2.5</span></a>). We discussed the advantages of a database for <em>storing</em> data in <a href="#sec-sql-why-db" class="quarto-xref"><span>Section 9.1.1</span></a>. This section is about a different question: once the data are stored in a database, where should the work of filtering, joining and summarising them be done? There are two options:</p>
 <ul>
-<li>Running a query in SQL and importing the result to R, rather than</li>
-<li>Importing the data into R and then running the query.</li>
+<li>run the query in the database, and import only its result into <code>R</code>; or</li>
+<li>import the tables into <code>R</code>, and run the query there using <code>dplyr</code>.</li>
 </ul>
-<p>There are several important considerations when deciding whether to perform data manipulation in SQL before importing to R, or to import raw data into R and then process it there:</p>
+<p>Doing the work in the database has several advantages:</p>
 <ul>
-<li><strong>Efficiency</strong>: SQL databases are optimized for handling large datasets and complex queries efficiently. Filtering, joining, and aggregating data in SQL can be much faster and use less memory than performing the same operations in R, especially when working with datasets that are too large to fit comfortably in memory.</li>
-<li><strong>Minimizing Data Transfer</strong>: By using SQL to select only the data you need, you reduce the amount of data transferred from the database to R. This is particularly important when working with remote databases or very large tables, as it avoids unnecessary data movement and speeds up analysis.</li>
-<li><strong>Reproducibility</strong>: SQL queries can be saved, version-controlled, and reused, making your data extraction process transparent and reproducible. This is especially valuable in collaborative projects or when analyses need to be repeated or audited.</li>
-<li><strong>Security and Access Control</strong>: Databases often have built-in mechanisms for managing user permissions and restricting access to sensitive data. By performing data manipulation in SQL, you can leverage these controls and ensure that only authorized data is accessed or exported.</li>
-<li><strong>Data Integrity</strong>: SQL databases enforce constraints (such as primary and foreign keys) that help maintain data consistency. Manipulating data within the database ensures these constraints are respected, reducing the risk of introducing errors.</li>
+<li><strong>Less data to transfer.</strong> Only the result of the query leaves the database. A summary of a table with millions of rows might be a handful of rows, so moving it to <code>R</code> is far quicker than moving the table itself, particularly when the database is on a remote server.</li>
+<li><strong>Data larger than memory.</strong> <code>R</code> holds the data it works on in memory, whereas a database works with data stored on disk, so it can process tables far too large to load into <code>R</code> at all. In <a href="week10.html" class="quarto-xref">Week&nbsp;<span>10</span></a> we will meet DuckDB, a database designed for analysing large datasets, which can even run queries directly on CSV files stored on disk, using the same <code>dplyr</code> verbs.</li>
+<li><strong>Speed.</strong> Databases are designed for exactly these operations. They plan how to carry out each query efficiently, can use <em>indexes</em> to find matching rows without reading the whole table, and often run on a server more powerful than your own computer.</li>
+<li><strong>Privacy.</strong> If only summaries leave the database, sensitive individual-level data, such as the names and email addresses in our example, never need to be copied onto your computer. Combined with the access controls of a database server, this can make it much easier to handle personal data responsibly (see <a href="./ethics.html">Data Ethics</a>).</li>
 </ul>
-<p>However, R provides a more flexible and expressive environment for statistical analysis, visualization, and modelling. In practice, a common workflow is to use SQL to extract and preprocess the relevant subset of data, and then use R for further analysis and visualization.</p>
-<section id="the-bridge-dbplyr" class="level3" data-number="9.3.1">
-<h3 data-number="9.3.1" class="anchored" data-anchor-id="the-bridge-dbplyr"><span class="header-section-number">9.3.1</span> The Bridge: <code>dbplyr</code></h3>
+<p>Doing the work in <code>R</code> has advantages too:</p>
+<ul>
+<li><strong>Expressiveness.</strong> <code>R</code> can do far more than SQL: statistical modelling, visualisation, and the many functions provided by <code>R</code> packages. As we will see in <a href="#sec-dbplyr" class="quarto-xref"><span>Section 9.3.1</span></a>, only some <code>R</code> functions can be translated into SQL.</li>
+<li><strong>Simplicity for small data.</strong> If a table fits comfortably in memory, it is often simpler to import it once and work with it in <code>R</code>, rather than querying the database again for every change to the analysis.</li>
+</ul>
+<p>In practice, the two are usually combined: the database does the filtering, joining and summarising that reduce the data to what the analysis needs, and <code>R</code> does the rest. Whichever you choose, the query is part of your analysis, so it belongs in your code, alongside the rest of the analysis, rather than being run separately by hand: this keeps the whole analysis reproducible (<a href="week03.html" class="quarto-xref"><span>Chapter 3</span></a>). <code>dbplyr</code>, which we turn to next, makes this especially convenient, because the boundary between the two becomes a single call to <code>collect()</code>.</p>
+<section id="sec-dbplyr" class="level3" data-number="9.3.1">
+<h3 data-number="9.3.1" class="anchored" data-anchor-id="sec-dbplyr"><span class="header-section-number">9.3.1</span> The Bridge: <code>dbplyr</code></h3>
 <p>The <code>R</code> library <code>dbplyr</code> allows you to connect to a database and interact with it as though it were <code>dplyr</code>, while still getting SQL level performance. The file <code>data/customers.db</code> contains a larger version of the database above: it has the same three tables, created with the same <code>CREATE TABLE</code> statements, but contains more customers, products and orders, so the results below differ from those of the small examples above. Here’s how we can interact with it using <code>dbplyr</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># additional packages required</span></span>
