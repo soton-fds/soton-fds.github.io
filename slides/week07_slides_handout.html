@@ -165,6 +165,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Set expectations early: students will <strong>not</strong> be asked to write SQL. They must be able to <em>read</em> it, and to work with databases from <code>R</code> via <code>dbplyr</code>. Today’s SQL is all run against a small database built from the student tables of week 5.</p>
 </div>
 </section>
+<section id="what-you-need-to-know" class="level2">
+<h2 class="anchored" data-anchor-id="what-you-need-to-know">What you need to know</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>For the assessment
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You will <strong>not</strong> be asked to write SQL. You <strong>should</strong> be able to <em>read</em> a SQL query — including joins, <code>GROUP BY</code> and subqueries — and say what it does and what it returns. To work with a database yourself, you’ll write <code>dplyr</code> code and let <code>dbplyr</code> translate it into SQL.</p>
+</div>
+</div>
+<div class="notes">
+<p>Say this plainly: every SQL task today is “what does this return?”, never “write this query”. The skill is reading.</p>
+</div>
+</section>
 <section id="sec-why" class="level1">
 <h1>Why databases?</h1>
 <section id="csv-files" class="level2">
@@ -205,12 +224,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="fragment">
 <ul>
 <li>every column has a <strong>type</strong>, checked on the way in</li>
-<li>a <strong>primary key</strong> uniquely identifies each row (e.g.&nbsp;a student’s <code>id</code>)</li>
+<li>a <strong>primary key</strong> uniquely identifies each row</li>
 <li>a <strong>foreign key</strong> must match a primary key in another table (each grade’s <code>student_id</code> must be a real student)</li>
 </ul>
 </div>
 <div class="fragment">
-<p>We talk to it in <strong>SQL</strong> (Structured Query Language). SQL is <strong>declarative</strong>: you say <em>what</em> you want, and the database works out <em>how</em>.</p>
+<p>We query it in <strong>SQL</strong>: you say <em>what</em> you want; the database works out <em>how</em>.</p>
+</div>
+<div class="notes">
+<p>SQL is Structured Query Language. It is <em>declarative</em>: a query describes the result, not the steps to compute it. A student’s <code>id</code> is the primary key of the students table.</p>
 </div>
 </section>
 <section id="why-use-one" class="level2">
@@ -228,7 +250,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>PostgreSQL, MySQL, SQL Server, Oracle… we use <strong>SQLite</strong>: a single file, no server. Each system has its own <em>dialect</em> of SQL.</p>
 </div>
 <div class="notes">
-<p>Optional demo (2–3 min): open <code>notes/data/customers.db</code> in <a href="https://sqlitebrowser.org/dl/">DB Browser for SQLite</a>. Show the tables, their column types and the foreign keys under “Database Structure”. Point out it is not a plain-text file. Non-relational (“NoSQL”) databases such as MongoDB exist too, but are out of scope.</p>
+<p>Non-relational (“NoSQL”) databases such as MongoDB exist too, but are out of scope.</p>
 </div>
 </section>
 </section>
@@ -284,6 +306,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>The database <strong>refuses</strong> it. The problem from week 5 can’t happen.</p>
+</div>
+<div class="notes">
+<p><code>INSERT</code> is the C of CRUD: Create, Read (<code>SELECT</code>), Update (<code>UPDATE</code>) and Delete (<code>DELETE</code>). We’ll only <em>read</em> from here on; the notes show <code>UPDATE</code> and <code>DELETE</code>. Both change the database permanently, and without a <code>WHERE</code> they affect every row.</p>
 </div>
 </section>
 <section id="select" class="level2">
@@ -482,24 +507,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>table.column</code> says which table each column comes from.</p>
 </div>
 </section>
-<section id="changing-data" class="level2">
-<h2 class="anchored" data-anchor-id="changing-data">Changing data</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">UPDATE</span> grades</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> grade <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> student_id <span class="op">=</span> <span class="dv">15</span> <span class="kw">AND</span> course <span class="op">=</span> <span class="st">'MATH6195'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> grades</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> course <span class="op">=</span> <span class="st">'MATH2011'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="fragment">
-<p>Create (<code>INSERT</code>), Read (<code>SELECT</code>), Update, Delete: <strong>CRUD</strong>. Note the <code>WHERE</code> — without it, <em>every</em> row is updated or deleted.</p>
-</div>
-<div class="notes">
-<p><code>DROP TABLE</code> deletes a whole table and its data. These statements change the database permanently — there’s no undo.</p>
-</div>
-</section>
 <section id="group-by" class="level2">
 <h2 class="anchored" data-anchor-id="group-by"><code>GROUP BY</code></h2>
 <div class="callout callout-style-default callout-important callout-titled">
@@ -516,15 +523,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> course, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n, <span class="fu">AVG</span>(grade) <span class="kw">AS</span> mean_grade</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> grades</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> course;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> course, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n, <span class="fu">AVG</span>(grade) <span class="kw">AS</span> mean_grade</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> grades</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> course;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="answer">
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
-<caption>2 records</caption>
+<caption>3 records</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">course</th>
@@ -539,18 +546,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">64.47059</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">MATH2011</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">70.27778</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">MATH6195</td>
 <td style="text-align: right;">18</td>
-<td style="text-align: right;">69.22222</td>
+<td style="text-align: right;">67.94444</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p>One row per course, with its number of grades and mean grade — <code>group_by()</code> then <code>summarise()</code>. <code>AS</code> names a calculated column. (<code>MATH2011</code> is gone: we just deleted it.)</p>
+<p>One row per course, with its number of grades and mean grade — <code>group_by()</code> then <code>summarise()</code>. <code>AS</code> names a calculated column.</p>
 </div>
 <div class="notes">
-<p>Every column in the <code>SELECT</code> must either be in the <code>GROUP BY</code> or be an aggregate like <code>COUNT</code>, <code>SUM</code>, <code>AVG</code>. <code>COUNT(*)</code> counts rows; <code>COUNT(column)</code> counts non-missing values. Missing values in SQL are <code>NULL</code>; aggregates skip them, as if <code>na.rm = TRUE</code>.</p>
+<p>Every column in the <code>SELECT</code> must either be in the <code>GROUP BY</code> or be an aggregate like <code>COUNT</code>, <code>SUM</code>, <code>AVG</code>. <code>COUNT(*)</code> counts rows; <code>COUNT(column)</code> counts non-missing values.</p>
 </div>
 </section>
 <section id="subqueries" class="level2">
@@ -569,20 +581,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> given_name, family_name</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> students</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="kw">IN</span> (</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> student_id</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> grades</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">GROUP</span> <span class="kw">BY</span> student_id</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">HAVING</span> <span class="fu">AVG</span>(grade) <span class="op">&gt;</span> <span class="dv">75</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> given_name, family_name</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> students</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="kw">IN</span> (</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> student_id</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> grades</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">GROUP</span> <span class="kw">BY</span> student_id</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">HAVING</span> <span class="fu">AVG</span>(grade) <span class="op">&gt;</span> <span class="dv">75</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="answer">
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
-<caption>4 records</caption>
+<caption>2 records</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">given_name</th>
@@ -595,16 +607,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Ibn Rashid</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Indira</td>
-<td style="text-align: left;">Sharma</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">Amina</td>
 <td style="text-align: left;">Okonkwo</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Lars</td>
-<td style="text-align: left;">Andersen</td>
 </tr>
 </tbody>
 </table>
@@ -613,7 +617,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The inner query finds the IDs of students whose <strong>average</strong> grade is over 75; the outer query looks up their names. <code>HAVING</code> filters <strong>groups</strong>; <code>IN</code> compares against a list.</p>
 </div>
 <div class="notes">
-<p><code>NOT IN</code> works too: <code>WHERE id NOT IN (SELECT student_id FROM grades)</code> finds student 7 — the <code>anti_join()</code> of week 5. The notes describe a trap: if the subquery returns a <code>NULL</code>, <code>NOT IN</code> returns no rows at all, silently.</p>
+<p><code>NOT IN</code> works too: <code>WHERE id NOT IN (SELECT student_id FROM grades)</code> finds student 7 — the <code>anti_join()</code> of week 5.</p>
+</div>
+</section>
+<section id="missing-values" class="level2">
+<h2 class="anchored" data-anchor-id="missing-values">Missing values</h2>
+<p>Missing values in SQL are <code>NULL</code>, like <code>NA</code> in <code>R</code>.</p>
+<div class="fragment">
+<ul>
+<li>test for them with <code>IS NULL</code> / <code>IS NOT NULL</code>: a comparison such as <code>grade = NULL</code> is never true</li>
+<li>aggregates such as <code>AVG</code> and <code>SUM</code> skip <code>NULL</code>s, as if <code>na.rm = TRUE</code></li>
+</ul>
+</div>
+<div class="notes">
+<p><code>NULL</code> means <em>unknown</em>, so comparing anything with it gives “unknown”, which a <code>WHERE</code> treats as false.</p>
 </div>
 </section>
 <section id="how-to-read-a-query" class="level2">
@@ -626,17 +643,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>WHERE</code></li>
 <li><code>GROUP BY</code></li>
 <li><code>HAVING</code></li>
+</ol>
+</div><div class="column" style="width:50%;">
+<ol start="5" type="1">
 <li><code>SELECT</code></li>
 <li><code>DISTINCT</code></li>
 <li><code>ORDER BY</code></li>
 <li><code>LIMIT</code></li>
 </ol>
-</div><div class="column" style="width:50%;">
+</div>
+</div>
 <div class="fragment">
 <p>So start reading at <strong><code>FROM</code></strong>.</p>
 <p>This explains the rules: <code>WHERE</code> runs <em>before</em> grouping, so it can’t use <code>COUNT(*)</code> — that’s what <code>HAVING</code> is for.</p>
-</div>
-</div>
 </div>
 </section>
 <section id="sql-to-dplyr" class="level2">
@@ -654,21 +673,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Rewrite this query as a <code>dplyr</code> pipeline on a tibble <code>grades</code>.</p>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> student_id, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_courses</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> grades</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> grade <span class="op">&gt;=</span> <span class="dv">60</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> student_id</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">HAVING</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="op">&gt;</span> <span class="dv">1</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> n_courses <span class="kw">DESC</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> student_id, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_courses</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> grades</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> grade <span class="op">&gt;=</span> <span class="dv">60</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> student_id</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">HAVING</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="op">&gt;</span> <span class="dv">1</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> n_courses <span class="kw">DESC</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="answer">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>grades <span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(grade <span class="sc">&gt;=</span> <span class="dv">60</span>) <span class="sc">|&gt;</span>               <span class="co"># WHERE</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(student_id) <span class="sc">|&gt;</span>              <span class="co"># GROUP BY</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n_courses =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span>        <span class="co"># SELECT ... COUNT(*) AS</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n_courses <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">|&gt;</span>             <span class="co"># HAVING</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n_courses)) <span class="sc">|&gt;</span>          <span class="co"># ORDER BY ... DESC</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)                              <span class="co"># LIMIT</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>grades <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(grade <span class="sc">&gt;=</span> <span class="dv">60</span>) <span class="sc">|&gt;</span>               <span class="co"># WHERE</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(student_id) <span class="sc">|&gt;</span>              <span class="co"># GROUP BY</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n_courses =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span>        <span class="co"># SELECT ... COUNT(*) AS</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n_courses <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">|&gt;</span>             <span class="co"># HAVING</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n_courses)) <span class="sc">|&gt;</span>          <span class="co"># ORDER BY ... DESC</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)                              <span class="co"># LIMIT</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The <code>dplyr</code> steps appear in the order SQL <em>runs</em> them.</p>
 </div>
 </section>
@@ -678,19 +697,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="where-should-the-work-happen" class="level2">
 <h2 class="anchored" data-anchor-id="where-should-the-work-happen">Where should the work happen?</h2>
 <p><strong>In the database</strong>, importing only the result:</p>
+<div class="fragment">
 <ul>
 <li>less data to transfer — a summary of millions of rows may be a few rows</li>
 <li>data larger than memory</li>
 <li>speed: databases are built for this</li>
 <li>privacy: individual-level data never leaves the database</li>
 </ul>
-<div class="fragment">
+</div>
+</section>
+<section id="or-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="or-in-r">…or in <code>R</code>?</h2>
 <p><strong>In <code>R</code></strong>, after importing the tables:</p>
 <ul>
 <li><code>R</code> can do far more: models, plots, packages</li>
 <li>simpler when the data are small</li>
 </ul>
-</div>
 <div class="fragment">
 <p>Usually both: the database filters, joins and summarises; <code>R</code> does the rest.</p>
 </div>
@@ -698,26 +720,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="dbplyr" class="level2">
 <h2 class="anchored" data-anchor-id="dbplyr"><code>dbplyr</code></h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbplyr)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"students"</span>)   <span class="co"># con: made with dbConnect()</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>grades <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"grades"</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>grades</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbplyr)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"students"</span>)   <span class="co"># con: made with dbConnect()</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>grades <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"grades"</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(grades, <span class="at">n =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   table&lt;`grades`&gt; [?? x 3]
 # Database: sqlite 3.51.1 [:memory:]
-   student_id course   grade
-        &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;
- 1          1 MATH6195    68
- 2          2 MATH6195    67
- 3          3 MATH6195    68
- 4          4 MATH6195    74
- 5          5 MATH6195    52
- 6          6 MATH6195    85
- 7          8 MATH6195    60
- 8          9 MATH6195    61
- 9         10 MATH6195    65
-10         11 MATH6195    90
+  student_id course   grade
+       &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;
+1          1 MATH6195    68
+2          2 MATH6195    67
+3          3 MATH6195    68
+4          4 MATH6195    74
 # i more rows</code></pre>
 </div>
 </div>
@@ -726,8 +742,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="notes">
 <p>Connecting to a database file looks like this:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">"data/customers.db"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">"data/customers.db"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>DBI</code>, <code>RSQLite</code> and <code>dbplyr</code> are separate installs, not part of the <code>tidyverse</code>. <code>dbGetQuery(con, "SELECT ...")</code> runs raw SQL and returns a data frame.</p>
 </div>
 </section>
@@ -748,11 +764,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>query <span class="ot">&lt;-</span> grades <span class="sc">|&gt;</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(course) <span class="sc">|&gt;</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">mean_grade =</span> <span class="fu">mean</span>(grade, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">show_query</span>(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>query <span class="ot">&lt;-</span> grades <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(course) <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">mean_grade =</span> <span class="fu">mean</span>(grade, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">show_query</span>(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;SQL&gt;
 SELECT `course`, COUNT(*) AS `n`, AVG(`grade`) AS `mean_grade`
@@ -765,18 +781,19 @@ GROUP BY `course`</code></pre>
 <section id="collect" class="level2">
 <h2 class="anchored" data-anchor-id="collect"><code>collect()</code></h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "tbl_SQLiteConnection" "tbl_dbi"              "tbl_sql"             
 [4] "tbl_lazy"             "tbl"                 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>query <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>query <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 x 3
+<pre><code># A tibble: 3 x 3
   course       n mean_grade
   &lt;chr&gt;    &lt;int&gt;      &lt;dbl&gt;
 1 MATH2010    17       64.5
-2 MATH6195    18       69.2</code></pre>
+2 MATH2011    18       70.3
+3 MATH6195    18       67.9</code></pre>
 </div>
 </div>
 <div class="fragment">
@@ -801,8 +818,8 @@ GROUP BY `course`</code></pre>
 <p>Both give the same answer. Which is better, and why?</p>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>grades <span class="sc">|&gt;</span> <span class="fu">filter</span>(grade <span class="sc">&gt;</span> <span class="dv">80</span>) <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>grades <span class="sc">|&gt;</span> <span class="fu">collect</span>() <span class="sc">|&gt;</span> <span class="fu">filter</span>(grade <span class="sc">&gt;</span> <span class="dv">80</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>grades <span class="sc">|&gt;</span> <span class="fu">filter</span>(grade <span class="sc">&gt;</span> <span class="dv">80</span>) <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>grades <span class="sc">|&gt;</span> <span class="fu">collect</span>() <span class="sc">|&gt;</span> <span class="fu">filter</span>(grade <span class="sc">&gt;</span> <span class="dv">80</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="answer">
 <p>The <strong>first</strong>: the filter runs in the database, and only matching rows are sent to <code>R</code>. The second transfers the <em>whole</em> table, then throws most of it away. On millions of rows, that’s seconds versus not fitting in memory.</p>
 </div>
@@ -810,9 +827,9 @@ GROUP BY `course`</code></pre>
 <section id="limits-of-the-translation" class="level2">
 <h2 class="anchored" data-anchor-id="limits-of-the-translation">Limits of the translation</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>students <span class="sc">|&gt;</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">padded =</span> stringr<span class="sc">::</span><span class="fu">str_pad</span>(given_name, <span class="dv">10</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>students <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">padded =</span> stringr<span class="sc">::</span><span class="fu">str_pad</span>(given_name, <span class="dv">10</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in `stringr::str_pad()`:
 ! `str_pad()` is not available in this SQL variant.</code></pre>
@@ -822,11 +839,11 @@ GROUP BY `course`</code></pre>
 <p>Only functions <code>dbplyr</code> can translate to SQL work before <code>collect()</code>. Do what you can in the database, <code>collect()</code>, <em>then</em> use the rest of <code>R</code>.</p>
 </div>
 </section>
-<section id="joining" class="level2">
-<h2 class="anchored" data-anchor-id="joining">Joining</h2>
+<section id="joining-a-tibble" class="level2">
+<h2 class="anchored" data-anchor-id="joining-a-tibble">Joining a tibble</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>prizes <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="dv">11</span>, <span class="dv">6</span>), <span class="at">prize =</span> <span class="fu">c</span>(<span class="st">"Gold"</span>, <span class="st">"Silver"</span>))</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>students <span class="sc">|&gt;</span> <span class="fu">inner_join</span>(prizes, <span class="at">by =</span> <span class="st">"id"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>prizes <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="dv">11</span>, <span class="dv">6</span>), <span class="at">prize =</span> <span class="fu">c</span>(<span class="st">"Gold"</span>, <span class="st">"Silver"</span>))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>students <span class="sc">|&gt;</span> <span class="fu">inner_join</span>(prizes, <span class="at">by =</span> <span class="st">"id"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in `auto_copy()`:
 ! `x` and `y` must share the same src.
@@ -837,19 +854,23 @@ i Set `copy = TRUE` if `y` can be copied to the same source as `x` (may be
 </div>
 </div>
 <div class="fragment">
-<p>A lazy table can only join to tables <strong>in the same database</strong>. Either <code>copy = TRUE</code> (copy the tibble into the database), or <code>collect()</code> first:</p>
+<p>A lazy table can only join to tables <strong>in the same database</strong>.</p>
+</div>
+</section>
+<section id="copying-it-in" class="level2">
+<h2 class="anchored" data-anchor-id="copying-it-in">Copying it in</h2>
+<p>Either <code>copy = TRUE</code> (copy the tibble into the database), or <code>collect()</code> first:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>students <span class="sc">|&gt;</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(prizes, <span class="at">by =</span> <span class="st">"id"</span>, <span class="at">copy =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(given_name, family_name, prize) <span class="sc">|&gt;</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>students <span class="sc">|&gt;</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(prizes, <span class="at">by =</span> <span class="st">"id"</span>, <span class="at">copy =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(given_name, family_name, prize) <span class="sc">|&gt;</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 x 3
   given_name family_name   prize 
   &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt; 
 1 Tariq      Ibn Rashid    Gold  
 2 Rajesh     Krishnamurthy Silver</code></pre>
-</div>
 </div>
 </div>
 <div class="notes">
@@ -881,8 +902,8 @@ i Set `copy = TRUE` if `y` can be copied to the same source as `x` (may be
 <h2 class="anchored" data-anchor-id="read-the-notes">Read the notes</h2>
 <p>We didn’t cover in detail:</p>
 <ul>
-<li>the full CRUD syntax and column types</li>
-<li><code>NULL</code>, <code>IS NULL</code>, and the <code>NOT IN</code> trap</li>
+<li>the full CRUD syntax (<code>UPDATE</code>, <code>DELETE</code>, <code>DROP TABLE</code>) and column types</li>
+<li><code>DISTINCT</code></li>
 <li><code>sql_render()</code> and <code>dbGetQuery()</code></li>
 <li>the <code>customers.db</code> examples used in the lab</li>
 </ul>
@@ -1042,6 +1063,44 @@ i Set `copy = TRUE` if `y` can be copied to the same source as `x` (may be
     }
   })();
 </script>
+
+<script>
+  // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+  // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+  // slide changes (different for each slide format).
+  (function () {
+    // dispatch for htmlwidgets
+    function fireSlideEnter() {
+      const event = window.document.createEvent("Event");
+      event.initEvent("slideenter", true, true);
+      window.document.dispatchEvent(event);
+    }
+
+    function fireSlideChanged(previousSlide, currentSlide) {
+      fireSlideEnter();
+
+      // dispatch for shiny
+      if (window.jQuery) {
+        if (previousSlide) {
+          window.jQuery(previousSlide).trigger("hidden");
+        }
+        if (currentSlide) {
+          window.jQuery(currentSlide).trigger("shown");
+        }
+      }
+    }
+
+    // hookup for slidy
+    if (window.w3c_slidy) {
+      window.w3c_slidy.add_observer(function (slide_num) {
+        // slide_num starts at position 1
+        fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+      });
+    }
+
+  })();
+</script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
