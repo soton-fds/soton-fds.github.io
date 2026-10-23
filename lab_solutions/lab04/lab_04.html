@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lab 4</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-445b8638c3d06994fee0907d791121c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#objectives" id="toc-objectives" class="nav-link active" data-scroll-target="#objectives">Objectives</a>
+  <ul class="collapse">
+  <li><a href="#task-1-loading-data" id="toc-task-1-loading-data" class="nav-link" data-scroll-target="#task-1-loading-data">Task 1: Loading Data</a></li>
+  <li><a href="#task-1b-checking-loaded-data" id="toc-task-1b-checking-loaded-data" class="nav-link" data-scroll-target="#task-1b-checking-loaded-data">Task 1b: Checking Loaded Data</a></li>
+  <li><a href="#task-2-dplyr" id="toc-task-2-dplyr" class="nav-link" data-scroll-target="#task-2-dplyr">Task 2: <code>dplyr</code></a></li>
+  <li><a href="#task-3-tidyr" id="toc-task-3-tidyr" class="nav-link" data-scroll-target="#task-3-tidyr">Task 3: <code>tidyr</code></a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab 4</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objectives" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="objectives">Objectives</h2>
+<p>This lab accompanies the Week 4 notes, <a href="https://soton-fds.github.io/week04.html"><em>Data Wrangling I - Loading, Cleaning and Tidying</em></a>.</p>
+<ul>
+<li>Load delimited data files into <code>R</code> using <code>readr</code>, and check that the data has loaded correctly.</li>
+<li>Use <code>dplyr</code> to filter, select, mutate, arrange, group and summarise data.</li>
+<li>Recognise whether a dataset is tidy, and use <code>tidyr</code> to tidy it by pivoting and separating columns.</li>
+<li>Chain operations together into readable pipelines using <code>|&gt;</code>.</li>
+</ul>
+<section id="task-1-loading-data" class="level3">
+<h3 class="anchored" data-anchor-id="task-1-loading-data">Task 1: Loading Data</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">The directory <code>data/part1/</code> contains three data files. Load them into <code>R</code> using <code>tidyverse</code>. (Hint: the three files are not all formatted in the same way.)</label></li>
+<li><label><input type="checkbox">By default, each <code>read_*</code> function prints a message describing the columns it has read. Make sure these messages are hidden.</label></li>
+<li><label><input type="checkbox">For each of the files, display the first few rows of the file.</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"data/part1/data1.csv"</span>) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 9
+     id name           age signup_date score1 score2 average passed notes       
+  &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;date&gt;       &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;lgl&gt;  &lt;chr&gt;       
+1     1 Alice Smith     22 2025-02-01    88.5   91      89.8 TRUE   Consistent,…
+2     2 Bob Jones       24 2024-09-15    76     82.5    79.2 TRUE   Improved af…
+3     3 Carol Lee       21 2025-01-20    59     64      61.5 FALSE  Needs tutor…
+4     4 David Kim       23 2024-12-05    93.5   90      91.8 TRUE   Excellent   
+5     5 Eva Martín      22 2025-03-03    85     NA      85   TRUE   Missing sec…
+6     6 Frank O'Neil    25 2024-10-30    NA     70      70   FALSE  Missing fir…</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_tsv</span>(<span class="st">"data/part1/data2.txt"</span>) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 13
+  station_id timestamp           neighborhood   lat   lon pm2_5_ug_m3 pm10_ug_m3
+  &lt;chr&gt;      &lt;dttm&gt;              &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;
+1 AQ-001     2025-10-21 06:00:00 Downtown      40.7 -74.0          42         65
+2 AQ-002     2025-10-21 06:05:00 Riverside     40.7 -74.0          18         28
+3 AQ-003     2025-10-21 06:10:00 Industrial …  40.7 -74.0          98        165
+4 AQ-004     2025-10-21 06:15:00 Suburbia      40.7 -74.0          12         20
+5 AQ-005     2025-10-21 06:20:00 Old Town      40.7 -74.0          27         40
+6 AQ-006     2025-10-21 06:25:00 Harbor        40.7 -74.0          55         82
+# ℹ 6 more variables: no2_ppb &lt;dbl&gt;, temperature_c &lt;dbl&gt;, humidity_pct &lt;dbl&gt;,
+#   wind_m_s &lt;dbl&gt;, sensor_uptime_pct &lt;dbl&gt;, status &lt;chr&gt;</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_delim</span>(<span class="st">"data/part1/data3"</span>, <span class="at">delim =</span> <span class="st">";"</span>) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 12
+  RecordID          ISBN Title  Author Genre PubYear PriceUSD Stock LastSaleDate
+     &lt;dbl&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;      
+1        1 9780143127741 The C… M. E.… Fict…    2018     15.0    23 2025-10-10  
+2        2 9780307269997 Patte… A. Ve… Poet…    2020     12.5    12 2025-10-12  
+3        3 9781982134520 Pract… L. C.… Nonf…    2016     18       7 2025-09-30  
+4        4 9780525555360 Circu… R. K.… Scie…    2022     16.2     5 2025-10-14  
+5        5 9781593279509 Handm… S. O.… Art …    2015     27       4 2025-08-21  
+6        6 9780307743657 Tides… P. Ma… Phil…    2011     11.0    30 2025-10-11  
+# ℹ 3 more variables: LastSaleQty &lt;dbl&gt;, AvgRating &lt;dbl&gt;, SupplierID &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>The chunk option <code>#| message: false</code> (see the Week 3 notes) only takes effect when the document is rendered; if you run the code in the console the messages will still appear. As an aside, you can also hide the column messages for an individual <code>read_*</code> call by passing <code>show_col_types = FALSE</code>, which works wherever the code is run:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"data/part1/data1.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 9
+     id name           age signup_date score1 score2 average passed notes       
+  &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;date&gt;       &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;lgl&gt;  &lt;chr&gt;       
+1     1 Alice Smith     22 2025-02-01    88.5   91      89.8 TRUE   Consistent,…
+2     2 Bob Jones       24 2024-09-15    76     82.5    79.2 TRUE   Improved af…
+3     3 Carol Lee       21 2025-01-20    59     64      61.5 FALSE  Needs tutor…
+4     4 David Kim       23 2024-12-05    93.5   90      91.8 TRUE   Excellent   
+5     5 Eva Martín      22 2025-03-03    85     NA      85   TRUE   Missing sec…
+6     6 Frank O'Neil    25 2024-10-30    NA     70      70   FALSE  Missing fir…</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="task-1b-checking-loaded-data" class="level3">
+<h3 class="anchored" data-anchor-id="task-1b-checking-loaded-data">Task 1b: Checking Loaded Data</h3>
+<p>Getting data to load without an error is only the first step: <code>R</code> will happily load data in a way that is <em>wrong</em>. You should always check that what you have loaded makes sense. In this task we will look more closely at the three files from Task 1.</p>
+<p>The file <code>data3</code> contains information about books in a bookshop.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Look at the type of each column. Is the <code>ISBN</code> column stored sensibly? (Hint: an ISBN is an identifier; would it make sense to add two ISBNs together? What would happen to an ISBN that starts with a <code>0</code>?)</label></li>
+<li><label><input type="checkbox">Reload the file so that <code>ISBN</code> is stored as text. (Hint: look up the <code>col_types</code> argument of <code>read_delim</code>, and the <code>cols</code> and <code>col_character</code> functions.)</label></li>
+<li><label><input type="checkbox"><code>readr</code> also has a function called <code>read_csv2</code>, which reads files that use <code>;</code> as a delimiter. Try loading <code>data3</code> with <code>read_csv2</code> instead. Compare the <code>PriceUSD</code> and <code>AvgRating</code> columns to the raw file. What has gone wrong?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>books <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data/part1/data3"</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">delim =</span> <span class="st">";"</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">ISBN =</span> <span class="fu">col_character</span>()),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>books <span class="sc">|&gt;</span> <span class="fu">select</span>(Title, ISBN)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 2
+   Title                       ISBN         
+   &lt;chr&gt;                       &lt;chr&gt;        
+ 1 The Copper Orchard          9780143127741
+ 2 Patterns of Quiet           9780307269997
+ 3 Practical Urban Foraging    9781982134520
+ 4 Circuit Stories             9780525555360
+ 5 Handmade Typography         9781593279509
+ 6 Tides of Reason             9780307743657
+ 7 Introduction to Wild Baking 9781449340377
+ 8 Maps for Modern Gardens     9780062871253
+ 9 The Last Radio              9780143128571
+10 Data Without Tears          9780307474278
+11 A Walk Through Rust         9780735211303
+12 Quiet Machines              9781590599992</code></pre>
+</div>
+</div>
+<p><code>ISBN</code> was originally read as a number (<code>&lt;dbl&gt;</code>), because it consists only of digits. However it is an identifier, not a quantity: arithmetic on it is meaningless, and any leading zeros would be lost. It should be stored as text.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv2</span>(<span class="st">"data/part1/data3"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(Title, PriceUSD, AvgRating) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  Title                    PriceUSD AvgRating
+  &lt;chr&gt;                       &lt;dbl&gt;     &lt;dbl&gt;
+1 The Copper Orchard           1499        42
+2 Patterns of Quiet            1250        46
+3 Practical Urban Foraging     1800        40
+4 Circuit Stories              1625        44
+5 Handmade Typography          2700        47
+6 Tides of Reason              1099        39</code></pre>
+</div>
+</div>
+<p><code>read_csv2</code> is designed for the convention used in much of Europe, where <code>;</code> is the delimiter and <code>,</code> is the <em>decimal mark</em> (e.g.&nbsp;<code>14,99</code>). It therefore treats the <code>.</code> in <code>14.99</code> as a thousands separator, so the price <code>14.99</code> becomes <code>1499</code> and the rating <code>4.2</code> becomes <code>42</code>. Notice that <code>R</code> did not give an error; the only warning was an info message that is easy to ignore. This is why you should always check your loaded data against the raw file!</p>
+</div>
+<p>The file <code>data1.csv</code> contains student scores from two tests, with their average.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">How are missing scores recorded in the raw file, and what do they become when loaded into <code>R</code>? What else in the file was loaded as missing?</label></li>
+<li><label><input type="checkbox">Compute the mean of <code>score1</code>. Why do you get <code>NA</code>, and how can you fix this? (Hint: look at how <code>na.rm</code> was used in the notes.)</label></li>
+<li><label><input type="checkbox">Look at the row for Henry Zhao. Are his scores really <code>0</code>? What happens to the mean of <code>score1</code> and of <code>average</code> if he is excluded?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/part1/data1.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>students</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 9
+      id name           age signup_date score1 score2 average passed notes      
+   &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;date&gt;       &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;lgl&gt;  &lt;chr&gt;      
+ 1     1 Alice Smith     22 2025-02-01    88.5   91      89.8 TRUE   Consistent…
+ 2     2 Bob Jones       24 2024-09-15    76     82.5    79.2 TRUE   Improved a…
+ 3     3 Carol Lee       21 2025-01-20    59     64      61.5 FALSE  Needs tuto…
+ 4     4 David Kim       23 2024-12-05    93.5   90      91.8 TRUE   Excellent  
+ 5     5 Eva Martín      22 2025-03-03    85     NA      85   TRUE   Missing se…
+ 6     6 Frank O'Neil    25 2024-10-30    NA     70      70   FALSE  Missing fi…
+ 7     7 Grace Li        20 2025-04-10    72     68      70   TRUE   Borderline…
+ 8     8 Henry Zhao      24 2025-02-28     0      0       0   FALSE  Absent     
+ 9     9 Ivy Chen        22 2024-11-11    88     92      90   TRUE   &lt;NA&gt;       
+10    10 Jack Müller     23 2025-01-05    79.5   74      76.8 TRUE   Participat…</code></pre>
+</div>
+</div>
+<p>Missing scores are recorded as empty fields (e.g.&nbsp;<code>85.0,,85.00</code>), which <code>read_csv</code> converts to <code>NA</code>. The empty <code>notes</code> for Ivy Chen (<code>""</code>) has also been read as <code>NA</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>students <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_score1 =</span> <span class="fu">mean</span>(score1), <span class="at">mean_score1_narm =</span> <span class="fu">mean</span>(score1, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  mean_score1 mean_score1_narm
+        &lt;dbl&gt;            &lt;dbl&gt;
+1          NA             71.3</code></pre>
+</div>
+</div>
+<p>Any calculation involving an <code>NA</code> gives <code>NA</code>, since <code>R</code> can’t know what the missing value is. Setting <code>na.rm = TRUE</code> removes the missing values before computing the mean.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>students <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(name <span class="sc">!=</span> <span class="st">"Henry Zhao"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_score1 =</span> <span class="fu">mean</span>(score1, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">mean_average =</span> <span class="fu">mean</span>(average))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  mean_score1 mean_average
+        &lt;dbl&gt;        &lt;dbl&gt;
+1        80.2         79.3</code></pre>
+</div>
+</div>
+<p>Henry’s notes say he was “Absent”, so his scores of <code>0</code> really mean “did not take the test”, and should arguably be missing (<code>NA</code>) rather than <code>0</code>. Including him lowers the mean of <code>score1</code> from about 80 to about 71. Whether that is right depends on the question: for “how well did students who sat the test do?” he should be excluded, but for “what marks were awarded?” a <code>0</code> might be correct. This kind of problem can’t be detected by <code>R</code>; you have to look at the data.</p>
+</div>
+<p>The file <code>data2.txt</code> contains readings from air quality monitoring stations.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Create a <code>tibble</code> containing only <code>station_id</code> and the particulate matter readings (the columns measured in µg/m³). Use a tidyselect helper rather than typing out the column names.</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>air_quality <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"data/part1/data2.txt"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>air_quality <span class="sc">|&gt;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(station_id, <span class="fu">ends_with</span>(<span class="st">"_ug_m3"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 18 × 3
+   station_id pm2_5_ug_m3 pm10_ug_m3
+   &lt;chr&gt;            &lt;dbl&gt;      &lt;dbl&gt;
+ 1 AQ-001              42         65
+ 2 AQ-002              18         28
+ 3 AQ-003              98        165
+ 4 AQ-004              12         20
+ 5 AQ-005              27         40
+ 6 AQ-006              55         82
+ 7 AQ-007               9         15
+ 8 AQ-008              21         34
+ 9 AQ-009              33         50
+10 AQ-010             120        200
+11 AQ-011              15         24
+12 AQ-012              NA         NA
+13 AQ-013              39         58
+14 AQ-014             110        185
+15 AQ-015              60         90
+16 AQ-016              29         44
+17 AQ-017               8         13
+18 AQ-018              35         52</code></pre>
+</div>
+</div>
+<p>The two particulate columns both end in <code>_ug_m3</code>, so <code>ends_with</code> selects them without listing them by hand.</p>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox">How many readings are there in the file, and from how many different neighbourhoods? (Hint: look at the “Other Summarise Functions” tip in the notes.)</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>air_quality <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">n_readings =</span> <span class="fu">n</span>(), <span class="at">n_neighbourhoods =</span> <span class="fu">n_distinct</span>(neighborhood))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  n_readings n_neighbourhoods
+       &lt;int&gt;            &lt;int&gt;
+1         18               10</code></pre>
+</div>
+</div>
+<p><code>n()</code> counts the rows, while <code>n_distinct()</code> counts the number of unique values in a column.</p>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox">Which readings have a <code>status</code> other than <code>OK</code>? What do you notice about their pollution readings and <code>sensor_uptime_pct</code>?</label></li>
+<li><label><input type="checkbox">Compute the mean <code>pm2_5_ug_m3</code> over all readings, and over only the readings with status <code>OK</code>. Which would you report, and why?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>air_quality <span class="sc">|&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(status <span class="sc">!=</span> <span class="st">"OK"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(station_id, neighborhood, pm2_5_ug_m3, pm10_ug_m3, sensor_uptime_pct, status)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 6
+  station_id neighborhood pm2_5_ug_m3 pm10_ug_m3 sensor_uptime_pct status
+  &lt;chr&gt;      &lt;chr&gt;              &lt;dbl&gt;      &lt;dbl&gt;             &lt;dbl&gt; &lt;chr&gt; 
+1 AQ-006     Harbor                55         82                95 MAINT 
+2 AQ-012     Riverside             NA         NA                60 ERROR 
+3 AQ-015     Harbor                60         90                95 MAINT </code></pre>
+</div>
+</div>
+<p>Station <code>AQ-012</code> has status <code>ERROR</code>, a low uptime, and no pollution readings at all (<code>NA</code>). The two <code>MAINT</code> readings, both in Harbor, do have values, but a sensor under maintenance may not be reliable.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>air_quality <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_pm2_5 =</span> <span class="fu">mean</span>(pm2_5_ug_m3, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  mean_pm2_5
+       &lt;dbl&gt;
+1         43</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>air_quality <span class="sc">|&gt;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(status <span class="sc">==</span> <span class="st">"OK"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_pm2_5 =</span> <span class="fu">mean</span>(pm2_5_ug_m3))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  mean_pm2_5
+       &lt;dbl&gt;
+1       41.1</code></pre>
+</div>
+</div>
+<p>Removing the <code>ERROR</code> reading happens automatically with <code>na.rm = TRUE</code>, but the <code>MAINT</code> readings are only removed if we filter on <code>status</code>. Reporting the mean over <code>OK</code> readings only is the safer choice, but whatever you choose, you should say which readings were excluded and why.</p>
+</div>
+</section>
+<section id="task-2-dplyr" class="level3">
+<h3 class="anchored" data-anchor-id="task-2-dplyr">Task 2: <code>dplyr</code></h3>
+<p>The <code>diamonds</code> dataset is included as a part of <code>ggplot2</code>. If you have loaded <code>tidyverse</code> it should be already in your environment.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>diamonds</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 53,940 × 10
+   carat cut       color clarity depth table price     x     y     z
+   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1  0.23 Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43
+ 2  0.21 Premium   E     SI1      59.8    61   326  3.89  3.84  2.31
+ 3  0.23 Good      E     VS1      56.9    65   327  4.05  4.07  2.31
+ 4  0.29 Premium   I     VS2      62.4    58   334  4.2   4.23  2.63
+ 5  0.31 Good      J     SI2      63.3    58   335  4.34  4.35  2.75
+ 6  0.24 Very Good J     VVS2     62.8    57   336  3.94  3.96  2.48
+ 7  0.24 Very Good I     VVS1     62.3    57   336  3.95  3.98  2.47
+ 8  0.26 Very Good H     SI1      61.9    55   337  4.07  4.11  2.53
+ 9  0.22 Fair      E     VS2      65.1    61   337  3.87  3.78  2.49
+10  0.23 Very Good H     VS1      59.4    61   338  4     4.05  2.39
+# ℹ 53,930 more rows</code></pre>
+</div>
+</div>
+<p>It contains information about 53940 diamonds. Each row is a diamond, and each column contains information about that diamond such as:</p>
+<ul>
+<li><code>price</code>: The price of the diamond in US dollars.</li>
+<li><code>carat</code>: The weight of the diamond (1 carat = 0.2g).</li>
+<li><code>cut</code>: Quality of the cut.</li>
+<li><code>color</code>: The color of the diamond.</li>
+<li><code>clarity</code>: A measure of how clear the diamond is.</li>
+<li><code>depth</code>: Total depth percentage; <span class="math inline">\(= \frac{z}{\frac{1}{2}(x + y)} \times 100\)</span>.</li>
+<li><code>table</code>: Width of the top of the diamond relative to the widest point.</li>
+<li><code>x</code>: Length of the diamond in mm.</li>
+<li><code>y</code>: Width of the diamond in mm.</li>
+<li><code>z</code>: Depth of the diamond in mm.</li>
+</ul>
+<p>For the next few tasks you should use <code>dplyr</code> functions, using pipe syntax. Try to format your code nicely so it is readable.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Add a new column to the <code>tibble</code> called <code>volume</code> that contains the volume of the diamond (<span class="math inline">\(x \times y \times z\)</span>).</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="ot">&lt;-</span> diamonds <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">volume =</span> x <span class="sc">*</span> y <span class="sc">*</span> z)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox">Create a <code>tibble</code> containing only the numeric columns of <code>diamonds</code>. (Hint: look at the tidyselect callout in the notes.)</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">where</span>(is.numeric))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 53,940 × 8
+   carat depth table price     x     y     z volume
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+ 1  0.23  61.5    55   326  3.95  3.98  2.43   38.2
+ 2  0.21  59.8    61   326  3.89  3.84  2.31   34.5
+ 3  0.23  56.9    65   327  4.05  4.07  2.31   38.1
+ 4  0.29  62.4    58   334  4.2   4.23  2.63   46.7
+ 5  0.31  63.3    58   335  4.34  4.35  2.75   51.9
+ 6  0.24  62.8    57   336  3.94  3.96  2.48   38.7
+ 7  0.24  62.3    57   336  3.95  3.98  2.47   38.8
+ 8  0.26  61.9    55   337  4.07  4.11  2.53   42.3
+ 9  0.22  65.1    61   337  3.87  3.78  2.49   36.4
+10  0.23  59.4    61   338  4     4.05  2.39   38.7
+# ℹ 53,930 more rows</code></pre>
+</div>
+</div>
+<p><code>where(is.numeric)</code> selects every column for which <code>is.numeric</code> returns <code>TRUE</code>, dropping the factor columns <code>cut</code>, <code>color</code> and <code>clarity</code>.</p>
+</div>
+<p>Now answer the following research questions.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">What is the average price of all the diamonds in the dataset?</label></li>
+<li><label><input type="checkbox">What is the volume of the 5 highest priced diamonds?</label></li>
+<li><label><input type="checkbox">What is the average, minimum and maximum price of diamonds for each cut?</label></li>
+<li><label><input type="checkbox">Ideal is the best cut, yet it has the lowest average price. Can you explain why? (Hint: compare the average <code>carat</code> of each cut.)</label></li>
+<li><label><input type="checkbox">For each cut, what is the average price-per-carat for diamonds with that cut?</label></li>
+<li><label><input type="checkbox">What are the most common combinations of cut and colour? (Hint: look up the <code>count</code> function)</label></li>
+<li><label><input type="checkbox">Create a <code>tibble</code> containing diamonds that are “unusually” large (having volume more than three standard deviations from the mean volume)?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_price =</span> <span class="fu">mean</span>(price))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  mean_price
+       &lt;dbl&gt;
+1      3933.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(price)) <span class="sc">|&gt;</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(price, volume) <span class="sc">|&gt;</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  price volume
+  &lt;int&gt;  &lt;dbl&gt;
+1 18823   371.
+2 18818   317.
+3 18806   249.
+4 18804   341.
+5 18803   319.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(cut) <span class="sc">|&gt;</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_price =</span> <span class="fu">mean</span>(price), <span class="at">min_price =</span> <span class="fu">min</span>(price), <span class="at">max_price =</span> <span class="fu">max</span>(price)) <span class="sc">|&gt;</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_price))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 4
+  cut       mean_price min_price max_price
+  &lt;ord&gt;          &lt;dbl&gt;     &lt;int&gt;     &lt;int&gt;
+1 Premium        4584.       326     18823
+2 Fair           4359.       337     18574
+3 Very Good      3982.       336     18818
+4 Good           3929.       327     18788
+5 Ideal          3458.       326     18806</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(cut) <span class="sc">|&gt;</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_price =</span> <span class="fu">mean</span>(price), <span class="at">mean_carat =</span> <span class="fu">mean</span>(carat)) <span class="sc">|&gt;</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_price))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 3
+  cut       mean_price mean_carat
+  &lt;ord&gt;          &lt;dbl&gt;      &lt;dbl&gt;
+1 Premium        4584.      0.892
+2 Fair           4359.      1.05 
+3 Very Good      3982.      0.806
+4 Good           3929.      0.849
+5 Ideal          3458.      0.703</code></pre>
+</div>
+</div>
+<p>Ideal diamonds are, on average, the smallest, and size has a much bigger effect on price than cut does. So Ideal diamonds are cheaper on average not <em>because</em> of their cut, but because they tend to be smaller. When two variables (here cut and carat) are related like this, comparing averages for one of them can be very misleading; this is called <em>confounding</em>. The price-per-carat in the next question partly adjusts for size.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">price_per_carat =</span> price <span class="sc">/</span> carat) <span class="sc">|&gt;</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(cut) <span class="sc">|&gt;</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_price_per_carat =</span> <span class="fu">mean</span>(price_per_carat)) <span class="sc">|&gt;</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_price_per_carat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  cut       mean_price_per_carat
+  &lt;ord&gt;                    &lt;dbl&gt;
+1 Premium                  4223.
+2 Very Good                4014.
+3 Ideal                    3920.
+4 Good                     3860.
+5 Fair                     3767.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(cut, color, <span class="at">name =</span> <span class="st">"n"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(n)) <span class="sc">|&gt;</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  cut     color     n
+  &lt;ord&gt;   &lt;ord&gt; &lt;int&gt;
+1 Ideal   G      4884
+2 Ideal   E      3903
+3 Ideal   F      3826
+4 Ideal   H      3115
+5 Premium G      2924
+6 Ideal   D      2834</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(volume <span class="sc">&gt;</span> <span class="fu">mean</span>(volume) <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> <span class="fu">sd</span>(volume)) <span class="sc">|&gt;</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(volume))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 396 × 11
+   carat cut       color clarity depth table price     x     y     z volume
+   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+ 1  2    Premium   H     SI2      58.9  57   12210  8.09 58.9   8.06  3841.
+ 2  0.51 Very Good E     VS1      61.8  54.7  1970  5.12  5.15 31.8    839.
+ 3  0.51 Ideal     E     VS1      61.8  55    2075  5.15 31.8   5.12   839.
+ 4  5.01 Fair      J     I1       65.5  59   18018 10.7  10.5   6.98   790.
+ 5  4.5  Fair      J     I1       65.8  58   18531 10.2  10.2   6.72   698.
+ 6  4.13 Fair      H     I1       64.8  61   17329 10     9.85  6.43   633.
+ 7  4.01 Premium   I     I1       61    61   15223 10.1  10.1   6.17   632.
+ 8  4    Very Good I     I1       63.3  58   15984 10.0   9.94  6.31   628.
+ 9  4.01 Premium   J     I1       62.5  62   15223 10.0   9.94  6.24   621.
+10  3.67 Premium   I     I1       62.4  56   16193  9.86  9.81  6.13   593.
+# ℹ 386 more rows</code></pre>
+</div>
+</div>
+</div>
+<p>Before trusting these results, it is worth checking whether they make sense. Since all diamonds have the same density, heavier diamonds are larger, so <code>carat</code> and <code>volume</code> should be closely related.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Look at the largest few diamonds in your answer. Given their <code>carat</code>, are their volumes plausible?</label></li>
+<li><label><input type="checkbox">Add a new column called <code>volume_per_carat</code> containing the ratio of <code>volume</code> to <code>carat</code>. Look at the diamonds with the smallest and largest values of this ratio. Does this suggest there any errors in the dataset?</label></li>
+<li><label><input type="checkbox">Create a new <code>tibble</code> called <code>diamonds_clean</code> that keeps only diamonds with <code>volume_per_carat</code> between 100 and 250. How many diamonds did you remove?</label></li>
+<li><label><input type="checkbox">Repeat the “unusually large” question using <code>diamonds_clean</code>. How many diamonds do you find now, and why has the number changed?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="ot">&lt;-</span> diamonds <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">volume_per_carat =</span> volume <span class="sc">/</span> carat)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(volume_per_carat <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(carat, x, y, z, volume, volume_per_carat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20 × 6
+   carat     x     y     z volume volume_per_carat
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;            &lt;dbl&gt;
+ 1  1     6.55  6.48     0      0                0
+ 2  1.01  6.66  6.6      0      0                0
+ 3  1.1   6.5   6.47     0      0                0
+ 4  1.01  6.5   6.47     0      0                0
+ 5  1.5   7.15  7.04     0      0                0
+ 6  1.07  0     6.62     0      0                0
+ 7  1     0     0        0      0                0
+ 8  1.15  6.88  6.83     0      0                0
+ 9  1.14  0     0        0      0                0
+10  2.18  8.49  8.45     0      0                0
+11  1.56  0     0        0      0                0
+12  2.25  8.52  8.42     0      0                0
+13  1.2   0     0        0      0                0
+14  2.2   8.42  8.37     0      0                0
+15  2.25  0     0        0      0                0
+16  2.02  8.02  7.95     0      0                0
+17  2.8   8.9   8.85     0      0                0
+18  0.71  0     0        0      0                0
+19  0.71  0     0        0      0                0
+20  1.12  6.71  6.67     0      0                0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(volume_per_carat <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(volume_per_carat) <span class="sc">|&gt;</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(carat, x, y, z, volume, volume_per_carat) <span class="sc">|&gt;</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 6
+   carat     x     y     z volume volume_per_carat
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;            &lt;dbl&gt;
+ 1  1.07  6.62  6.67  1.07   47.2             44.2
+ 2  1.41  7.31  7.22  1.41   74.4             52.8
+ 3  1.53  7.43  7.5   1.53   85.3             55.7
+ 4  1.51  7.08  4.7   4     133.              88.1
+ 5  1.22  6.79  4.24  3.76  108.              88.7
+ 6  1.12  6.64  4.11  3.7   101.              90.2
+ 7  2     6.16  6.15  4.82  183.              91.3
+ 8  2.06  6.29  6.25  4.96  195.              94.7
+ 9  0.7   5.65  4.5   3      76.3            109. 
+10  1.57  7.85  5.75  3.87  175.             111. </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(volume_per_carat)) <span class="sc">|&gt;</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(carat, x, y, z, volume, volume_per_carat) <span class="sc">|&gt;</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 6
+   carat     x     y     z volume volume_per_carat
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;            &lt;dbl&gt;
+ 1  2     8.09 58.9   8.06 3841.             1920.
+ 2  0.51  5.12  5.15 31.8   839.             1644.
+ 3  0.51  5.15 31.8   5.12  839.             1644.
+ 4  0.25  5.33  5.28  3.12   87.8             351.
+ 5  0.25  5.33  5.28  3.12   87.8             351.
+ 6  0.35  5.67  5.64  3.53  113.              323.
+ 7  0.35  5.67  5.64  3.53  113.              323.
+ 8  0.35  5.57  5.53  3.66  113.              322.
+ 9  0.35  5.57  5.53  3.66  113.              322.
+10  0.39  4.51  6.02  4.44  121.              309.</code></pre>
+</div>
+</div>
+<p>Most diamonds have a <code>volume_per_carat</code> of around 163, but there are some clear errors:</p>
+<ul>
+<li>20 diamonds have at least one dimension recorded as 0, giving a volume (and ratio) of 0.</li>
+<li>Three diamonds have <code>z</code> equal to their <code>carat</code> (e.g.&nbsp;<code>carat = 1.07</code>, <code>z = 1.07</code>), which looks like the wrong value was copied into the <code>z</code> column.</li>
+<li>Three diamonds have a <code>y</code> or <code>z</code> value of over 30mm, which looks like a typing error (e.g.&nbsp;<code>58.9</code> instead of <code>5.89</code>). These are the “largest” diamonds from the previous question!</li>
+</ul>
+<p>The other diamonds with unusual ratios (e.g.&nbsp;around 90 or 320) are less clear-cut: they could be errors, or genuinely unusually-shaped diamonds. Choosing where to draw the line is a judgement call.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>diamonds_clean <span class="ot">&lt;-</span> diamonds <span class="sc">|&gt;</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(volume_per_carat <span class="sc">&gt;</span> <span class="dv">100</span>, volume_per_carat <span class="sc">&lt;</span> <span class="dv">250</span>)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(diamonds) <span class="sc">-</span> <span class="fu">nrow</span>(diamonds_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 39</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>diamonds_clean <span class="sc">|&gt;</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(volume <span class="sc">&gt;</span> <span class="fu">mean</span>(volume) <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> <span class="fu">sd</span>(volume)) <span class="sc">|&gt;</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(volume))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 471 × 12
+   carat cut       color clarity depth table price     x     y     z volume
+   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+ 1  5.01 Fair      J     I1       65.5    59 18018 10.7  10.5   6.98   790.
+ 2  4.5  Fair      J     I1       65.8    58 18531 10.2  10.2   6.72   698.
+ 3  4.13 Fair      H     I1       64.8    61 17329 10     9.85  6.43   633.
+ 4  4.01 Premium   I     I1       61      61 15223 10.1  10.1   6.17   632.
+ 5  4    Very Good I     I1       63.3    58 15984 10.0   9.94  6.31   628.
+ 6  4.01 Premium   J     I1       62.5    62 15223 10.0   9.94  6.24   621.
+ 7  3.67 Premium   I     I1       62.4    56 16193  9.86  9.81  6.13   593.
+ 8  3.65 Fair      H     I1       67.1    53 11668  9.53  9.48  6.38   576.
+ 9  3.51 Premium   J     VS2      62.5    59 18701  9.66  9.63  6.03   561.
+10  3.5  Ideal     H     I1       62.8    57 12587  9.65  9.59  6.03   558.
+# ℹ 461 more rows
+# ℹ 1 more variable: volume_per_carat &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>We removed 39 diamonds, and now find <em>more</em> unusually large diamonds than before. This is because the few enormous erroneous volumes inflated the standard deviation, raising the threshold for a diamond to count as “unusual”. The largest diamonds are now genuinely large (4–5 carats). This shows how sensitive the mean and standard deviation are to a small number of bad values, and why you should always sanity-check your data.</p>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox"><strong>Extension:</strong> Find the most expensive diamond of each cut.</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">|&gt;</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(cut) <span class="sc">|&gt;</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(price <span class="sc">==</span> <span class="fu">max</span>(price)) <span class="sc">|&gt;</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(cut)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 12
+  carat cut       color clarity depth table price     x     y     z volume
+  &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+1  2.01 Fair      G     SI1      70.6    64 18574  7.43  6.64  4.69   231.
+2  2.8  Good      G     SI2      63.8    58 18788  8.9   8.85  0        0 
+3  2    Very Good G     SI1      63.5    56 18818  7.9   7.97  5.04   317.
+4  2.29 Premium   I     VS2      60.8    60 18823  8.5   8.47  5.16   371.
+5  1.51 Ideal     G     IF       61.7    55 18806  7.37  7.41  4.56   249.
+# ℹ 1 more variable: volume_per_carat &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>After <code>group_by(cut)</code>, <code>max(price)</code> is computed separately <em>within each cut</em>, so the <code>filter</code> keeps the most expensive diamond of each cut rather than the single most expensive diamond overall. Unlike <code>summarise</code>, <code>filter</code> does not remove any grouping, so we use <code>ungroup()</code> afterwards. If two diamonds of the same cut tied for the highest price, both would be kept. Notice that the most expensive Good diamond has <code>z = 0</code>: it is one of the errors we found earlier! Its price may well be correct, but its dimensions are not.</p>
+</div>
+</section>
+<section id="task-3-tidyr" class="level3">
+<h3 class="anchored" data-anchor-id="task-3-tidyr">Task 3: <code>tidyr</code></h3>
+<p>The file <code>data/part3/assessment.csv</code> contains a messy student scores table. It records the student’s scores out of 100 across 8 possible assessments. However, not all students take all assessments, and assessments the student has not taken are recorded as <code>NA</code>.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Load the file and look at it. Recall the three rules of tidy data from the notes. Is this table tidy? If not, which rule(s) does it break?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"data/part3/assessment.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 100 × 9
+   student_id Semester1_A1 Semester1_A2 Semester1_A3 Semester1_A4 Semester2_A5
+   &lt;chr&gt;             &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;
+ 1 S001                 78           85           NA           NA           67
+ 2 S002                 NA           54           NA           60           73
+ 3 S003                 92           NA           88           NA           NA
+ 4 S004                 NA           NA           NA           45           52
+ 5 S005                100           NA           95           87           NA
+ 6 S006                 NA           NA           20           34           NA
+ 7 S007                 61           59           NA           NA           63
+ 8 S008                 NA           47           50           NA           NA
+ 9 S009                 84           NA           NA           77           NA
+10 S010                 NA           NA           33           39           45
+# ℹ 90 more rows
+# ℹ 3 more variables: Semester2_A6 &lt;dbl&gt;, Semester2_A7 &lt;dbl&gt;,
+#   Semester2_A8 &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>The table is not tidy. Each observation is one student’s score on one assessment, and the variables are the student, the semester, the assessment and the score.</p>
+<ul>
+<li><em>Each variable is a column</em>: the semester and the assessment are variables, but their values (e.g.&nbsp;<code>Semester1</code>, <code>A1</code>) are stored in the column <em>names</em> rather than in columns of their own.</li>
+<li><em>Each observation is a row</em>: each row contains up to 8 observations (one per assessment) rather than one.</li>
+</ul>
+<p>Each cell does contain a single value, so the third rule is satisfied, for now!</p>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox">Tidy the table: pivot into long format with one row per student and assessment, and drop missing scores.</label></li>
+<li><label><input type="checkbox">Compute each student’s overall average, and the number of assessments they took. (Hint: look at the “Other Summarise Functions” tip in the notes.)</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>student_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/part3/assessment.csv"</span>)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>student_data_long <span class="ot">&lt;-</span> student_data <span class="sc">|&gt;</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> <span class="sc">-</span>student_id,</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_to =</span> <span class="st">"assessment"</span>,</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_to =</span> <span class="st">"score"</span></span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">drop_na</span>(score)</span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>student_means <span class="ot">&lt;-</span> student_data_long <span class="sc">|&gt;</span></span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(student_id) <span class="sc">|&gt;</span></span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_score =</span> <span class="fu">mean</span>(score), <span class="at">n_assessments =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_score))</span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>student_means <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  student_id mean_score n_assessments
+  &lt;chr&gt;           &lt;dbl&gt;         &lt;int&gt;
+1 S047             92.7             3
+2 S068             92.2             4
+3 S055             91.5             4
+4 S063             91.5             4
+5 S088             90.5             4
+6 S093             90.5             4</code></pre>
+</div>
+</div>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox">Redo the pivot, this time using <code>starts_with</code> to choose the columns to pivot. Check you get the same result. Suppose a new column <code>student_name</code> were added to the file: which of the two approaches would still work, and why?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>student_data <span class="sc">|&gt;</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">"Semester"</span>),</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_to =</span> <span class="st">"assessment"</span>,</span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_to =</span> <span class="st">"score"</span></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">drop_na</span>(score)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 398 × 3
+   student_id assessment   score
+   &lt;chr&gt;      &lt;chr&gt;        &lt;dbl&gt;
+ 1 S001       Semester1_A1    78
+ 2 S001       Semester1_A2    85
+ 3 S001       Semester2_A5    67
+ 4 S001       Semester2_A7    91
+ 5 S002       Semester1_A2    54
+ 6 S002       Semester1_A4    60
+ 7 S002       Semester2_A5    73
+ 8 S002       Semester2_A8    88
+ 9 S003       Semester1_A1    92
+10 S003       Semester1_A3    88
+# ℹ 388 more rows</code></pre>
+</div>
+</div>
+<p>Both approaches give the same result here. However, <code>-student_id</code> means “every column except <code>student_id</code>”, so a new <code>student_name</code> column would be pivoted too, mixing names in with the scores (in fact <code>pivot_longer</code> would give an error, since it can’t combine text and numbers in one column). <code>starts_with("Semester")</code> only picks out the assessment columns, so it would keep working. Choosing columns by what they <em>are</em>, rather than by what they are not, is usually more robust.</p>
+</div>
+<p>One of the key principles of tidy data is that each cell should contain only one value. Notice that in the new dataset, the column <code>assessment</code> contains <em>two</em> values: the Semester and the Assessment ID, separated by an <code>_</code>.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Use <code>separate_wider_delim</code> to split <code>assessment</code> into two columns, one with the assessment ID and one with the Semester.</label></li>
+<li><label><input type="checkbox">Create a wide table with one row per student, and two new columns containing the average score in Semester 1 and Semester 2.</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>student_data_split <span class="ot">&lt;-</span> student_data_long <span class="sc">|&gt;</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate_wider_delim</span>(assessment, <span class="at">delim =</span> <span class="st">"_"</span>, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"semester"</span>, <span class="st">"assessment"</span>))</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>student_data_split <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 4
+   student_id semester  assessment score
+   &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;
+ 1 S001       Semester1 A1            78
+ 2 S001       Semester1 A2            85
+ 3 S001       Semester2 A5            67
+ 4 S001       Semester2 A7            91
+ 5 S002       Semester1 A2            54
+ 6 S002       Semester1 A4            60
+ 7 S002       Semester2 A5            73
+ 8 S002       Semester2 A8            88
+ 9 S003       Semester1 A1            92
+10 S003       Semester1 A3            88</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>student_data_wide <span class="ot">&lt;-</span> student_data_split <span class="sc">|&gt;</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(student_id, semester) <span class="sc">|&gt;</span></span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_score =</span> <span class="fu">mean</span>(score), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> semester, <span class="at">values_from =</span> mean_score)</span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>student_data_wide</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 100 × 3
+   student_id Semester1 Semester2
+   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;
+ 1 S001            81.5      79  
+ 2 S002            57        80.5
+ 3 S003            90        72  
+ 4 S004            45        65.3
+ 5 S005            94        73  
+ 6 S006            27        48  
+ 7 S007            60        67.5
+ 8 S008            48.5      53.5
+ 9 S009            80.5      74.5
+10 S010            36        48.5
+# ℹ 90 more rows</code></pre>
+</div>
+</div>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox">Add a column <code>improvement</code> to the wide table showing how much each student’s average score changed from Semester 1 to Semester 2. Which students improved the most, and which declined the most?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>student_improvement <span class="ot">&lt;-</span> student_data_wide <span class="sc">|&gt;</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">improvement =</span> Semester2 <span class="sc">-</span> Semester1)</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>student_improvement <span class="sc">|&gt;</span></span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(improvement)) <span class="sc">|&gt;</span></span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  student_id Semester1 Semester2 improvement
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
+1 S002              57      80.5        23.5
+2 S006              27      48          21  
+3 S004              45      65.3        20.3
+4 S010              36      48.5        12.5
+5 S022              60      71.5        11.5
+6 S007              60      67.5         7.5</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>student_improvement <span class="sc">|&gt;</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(improvement) <span class="sc">|&gt;</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  student_id Semester1 Semester2 improvement
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
+1 S005            94        73           -21
+2 S003            90        72           -18
+3 S014            93.5      81.5         -12
+4 S018            37.5      29.5          -8
+5 S019            80.5      72.5          -8
+6 S009            80.5      74.5          -6</code></pre>
+</div>
+</div>
+<p>Having one column per semester makes this a simple <code>mutate</code>; in the long format we would first have to match up each student’s two semester averages.</p>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox"><strong>Extension:</strong> We tidied this dataset in two steps: <code>pivot_longer</code> followed by <code>separate_wider_delim</code>. Can you do both in a single call to <code>pivot_longer</code>? (Hint: look at the <code>names_sep</code> argument in <code>?pivot_longer</code>.)</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>student_data_onestep <span class="ot">&lt;-</span> student_data <span class="sc">|&gt;</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">"Semester"</span>),</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"semester"</span>, <span class="st">"assessment"</span>),</span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_sep =</span> <span class="st">"_"</span>,</span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_to =</span> <span class="st">"score"</span></span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">drop_na</span>(score)</span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a>student_data_onestep <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 4
+   student_id semester  assessment score
+   &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;
+ 1 S001       Semester1 A1            78
+ 2 S001       Semester1 A2            85
+ 3 S001       Semester2 A5            67
+ 4 S001       Semester2 A7            91
+ 5 S002       Semester1 A2            54
+ 6 S002       Semester1 A4            60
+ 7 S002       Semester2 A5            73
+ 8 S002       Semester2 A8            88
+ 9 S003       Semester1 A1            92
+10 S003       Semester1 A3            88</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(student_data_onestep, student_data_split)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>Giving <code>names_to</code> two names and setting <code>names_sep = "_"</code> tells <code>pivot_longer</code> to split each column name at the <code>_</code> as it pivots, so the result is identical to the two-step version.</p>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

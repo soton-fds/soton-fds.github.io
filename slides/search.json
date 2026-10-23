@@ -39,7 +39,7 @@
     "href": "week10_slides_handout.html#three-resources",
     "title": "Working with Big Data",
     "section": "Three resources",
-    "text": "Three resources\n\n\n\n\n\n\n\n\n\nResource\nSpeed\nSize\nLimits…\n\n\n\n\nMemory (RAM)\nvery fast\n8–32 GB\nwhat the tidyverse can load at once\n\n\nStorage (disk)\nmuch slower\n100s of GB – TBs\nhow fast data can be read in pieces\n\n\nCompute (CPU/GPU)\n—\ncores\nhow fast calculations run\n\n\n\n\nThe workflow runs as fast as its bottleneck. Big data work is trading them off: reading in chunks uses less memory, but takes longer.\n\n\nStorage speeds: a solid-state drive is far slower than memory, a spinning hard drive slower still. Compute: many cores, and GPUs, help when work can be split into independent pieces — at the cost of complexity."
+    "text": "Three resources\n\n\n\nResource\nSpeed\nSize\nLimits\n\n\n\n\nMemory\nvery fast\n8–32 GB\nwhat can be loaded\n\n\nStorage\nmuch slower\nGBs – TBs\nhow fast data are read\n\n\nCompute\n—\ncores\nhow fast we calculate\n\n\n\n\nThe workflow runs as fast as its bottleneck. Big data work is trading them off: reading in chunks uses less memory, but takes longer.\n\n\nMemory is RAM: what the tidyverse works in. Storage is the disk. Compute is the CPU (or GPU). Storage speeds: a solid-state drive is far slower than memory, a spinning hard drive slower still. Compute: many cores, and GPUs, help when work can be split into independent pieces — at the cost of complexity."
   },
   {
     "objectID": "week10_slides_handout.html#find-the-bottleneck",
@@ -67,7 +67,14 @@
     "href": "week10_slides_handout.html#beyond-one-computer",
     "title": "Working with Big Data",
     "section": "Beyond one computer",
-    "text": "Beyond one computer\n\nHadoop: distributed storage (HDFS) and processing (MapReduce) across a cluster\nApache Spark: fast cluster computing, with APIs for R, Python, Scala, Java\n\n\nR is often a layer on top of these, rather than the engine:\n\ndbplyr — dplyr code run in a database (week 7)\nsparklyr — dplyr code run on a Spark cluster\nduckdb / duckplyr — a fast analytical database, in-process\nreadr::read_csv_chunked() — simple map-reduce in plain R"
+    "text": "Beyond one computer\n\nHadoop: distributed storage (HDFS) and processing (MapReduce) across a cluster\nApache Spark: fast cluster computing, with APIs for R, Python, Scala, Java"
+  },
+  {
+    "objectID": "week10_slides_handout.html#r-on-top",
+    "href": "week10_slides_handout.html#r-on-top",
+    "title": "Working with Big Data",
+    "section": "R on top",
+    "text": "R on top\nR is often a layer on top of these tools, rather than the engine:\n\ndbplyr — dplyr code run in a database (week 7)\nsparklyr — dplyr code run on a Spark cluster\nduckdb / duckplyr — a fast analytical database, in-process\nreadr::read_csv_chunked() — simple map-reduce in plain R"
   },
   {
     "objectID": "week10_slides_handout.html#a-database-without-a-server",
@@ -88,7 +95,7 @@
     "href": "week10_slides_handout.html#use-.by",
     "title": "Working with Big Data",
     "section": "Use .by",
-    "text": "Use .by\n\nflights |&gt;\n  summarise(mean_base_fare = mean(baseFare, na.rm = TRUE),\n            .by = startingAirport) |&gt;\n  arrange(desc(mean_base_fare))\n\n# A duckplyr data frame: 2 variables\n   startingAirport mean_base_fare\n   &lt;chr&gt;                    &lt;dbl&gt;\n 1 OAK                       466.\n 2 SFO                       383.\n 3 JFK                       329.\n 4 LAX                       328.\n 5 IAD                       322.\n 6 PHL                       295.\n 7 DEN                       289.\n 8 DTW                       281.\n 9 CLT                       278.\n10 EWR                       256.\n11 ATL                       256.\n12 LGA                       256.\n13 MIA                       254.\n14 DFW                       248.\n15 BOS                       244.\n16 ORD                       238.\n\n\n\nThe whole query runs in DuckDB, streaming through the file; only the 16 rows of the result come back to R."
+    "text": "Use .by\n\nflights |&gt;\n  summarise(mean_base_fare = mean(baseFare, na.rm = TRUE),\n            .by = startingAirport) |&gt;\n  arrange(desc(mean_base_fare)) |&gt;\n  print(n = 6)\n\n# A duckplyr data frame: 2 variables\n  startingAirport mean_base_fare\n  &lt;chr&gt;                    &lt;dbl&gt;\n1 OAK                       466.\n2 SFO                       383.\n3 JFK                       329.\n4 LAX                       328.\n5 IAD                       322.\n6 PHL                       295.\n# i more rows\n\n\n\nThe whole query runs in DuckDB, streaming through the file; only the 16 rows of the result come back to R."
   },
   {
     "objectID": "week10_slides_handout.html#same-thing-with-dbplyr",
@@ -102,7 +109,7 @@
     "href": "week10_slides_handout.html#split-summarise-combine",
     "title": "Working with Big Data",
     "section": "Split, summarise, combine",
-    "text": "Split, summarise, combine\n\n\n\n\n\nflowchart LR\n  file[(\"itineraries.csv\")] --&gt; c1[\"chunk 1\"] & c2[\"chunk 2\"] & c3[\"...\"]\n  c1 --&gt; s1[\"summary\"]\n  c2 --&gt; s2[\"summary\"]\n  c3 --&gt; s3[\"...\"]\n  s1 & s2 & s3 --&gt; result[\"combine\"]\n\n\n\n\n\n\n\n\nmap: process each chunk independently, keeping only a small summary\nreduce: combine the summaries into the answer\n\n\n\nOnly one chunk in memory at a time — and in Hadoop, chunks are processed on many machines at once."
+    "text": "Split, summarise, combine\n\n\n\n\n\nflowchart LR\n  file[(\"itineraries.csv\")] --&gt; c1[\"chunk 1\"] & c2[\"chunk 2\"] & c3[\"...\"]\n  c1 --&gt; s1[\"summary\"]\n  c2 --&gt; s2[\"summary\"]\n  c3 --&gt; s3[\"...\"]\n  s1 & s2 & s3 --&gt; result[\"combine\"]\n\n\n\n\n\n\n\n\nmap: process each chunk independently, keeping only a small summary\nreduce: combine the summaries into the answer\n\n\n\nOnly one chunk is in memory at a time.\n\n\nIn Hadoop, the chunks are processed on many machines at once: that’s where the speed comes from."
   },
   {
     "objectID": "week10_slides_handout.html#what-should-each-chunk-return",
@@ -116,7 +123,14 @@
     "href": "week10_slides_handout.html#chunks-in-r",
     "title": "Working with Big Data",
     "section": "Chunks in R",
-    "text": "Chunks in R\n\nsummarise_chunk &lt;- function(chunk, pos) {          # map: one chunk\n  chunk |&gt;\n    group_by(species) |&gt;\n    summarise(sum_mass = sum(body_mass_g, na.rm = TRUE),\n              n = sum(!is.na(body_mass_g)), .groups = \"drop\")\n}\n\nresults &lt;- read_csv_chunked(\n  \"data/penguins.csv\",\n  callback = DataFrameCallback$new(summarise_chunk),\n  chunk_size = 100,\n  col_types = cols_only(species = col_character(),\n                        body_mass_g = col_double())\n)\n\nresults |&gt;                                          # reduce: combine\n  group_by(species) |&gt;\n  summarise(mean_mass = sum(sum_mass) / sum(n))\n\n# A tibble: 3 x 2\n  species   mean_mass\n  &lt;chr&gt;         &lt;dbl&gt;\n1 Adelie        3701.\n2 Chinstrap     3733.\n3 Gentoo        5076.\n\n\n\nresults has one row per species per chunk; the reduce adds up the sums and counts. This is reduce() with an .init accumulator from week 9, in disguise. Exactly the same code, with chunk_size = 50000, computes the mean fare per airport from the 29 GB file — the notes show the output; it takes a long time, so don’t run it live."
+    "text": "Chunks in R\n\nsummarise_chunk &lt;- function(chunk, pos) {          # map: one chunk\n  chunk |&gt;\n    group_by(species) |&gt;\n    summarise(sum_mass = sum(body_mass_g, na.rm = TRUE),\n              n = sum(!is.na(body_mass_g)), .groups = \"drop\")\n}\n\nresults &lt;- read_csv_chunked(\n  \"data/penguins.csv\",\n  callback = DataFrameCallback$new(summarise_chunk),\n  chunk_size = 100,\n  col_types = cols_only(species = col_character(),\n                        body_mass_g = col_double())\n)\n\n\nread_csv_chunked() reads 100 rows at a time and passes each chunk to summarise_chunk(), keeping only its small result."
+  },
+  {
+    "objectID": "week10_slides_handout.html#combining-the-chunks",
+    "href": "week10_slides_handout.html#combining-the-chunks",
+    "title": "Working with Big Data",
+    "section": "Combining the chunks",
+    "text": "Combining the chunks\n\nresults              # one row per species per chunk\n\n# A tibble: 6 x 3\n  species   sum_mass     n\n  &lt;chr&gt;        &lt;dbl&gt; &lt;int&gt;\n1 Adelie      368225    99\n2 Adelie      190575    52\n3 Gentoo      241600    48\n4 Chinstrap    88600    24\n5 Gentoo      382750    75\n6 Chinstrap   165250    44\n\nresults |&gt;           # reduce: combine\n  group_by(species) |&gt;\n  summarise(mean_mass = sum(sum_mass) / sum(n))\n\n# A tibble: 3 x 2\n  species   mean_mass\n  &lt;chr&gt;         &lt;dbl&gt;\n1 Adelie        3701.\n2 Chinstrap     3733.\n3 Gentoo        5076.\n\n\n\nresults has one row per species per chunk; the reduce adds up the sums and counts. This is reduce() with an .init accumulator from week 9, in disguise. Exactly the same code, with chunk_size = 50000, computes the mean fare per airport from the 29 GB file — the notes show the output; it takes a long time, so don’t run it live."
   },
   {
     "objectID": "week10_slides_handout.html#a-chunking-trap",
@@ -172,7 +186,7 @@
     "href": "week10_slides.html#three-resources",
     "title": "Working with Big Data",
     "section": "Three resources",
-    "text": "Three resources\n\n\n\n\n\n\n\n\n\nResource\nSpeed\nSize\nLimits…\n\n\n\n\nMemory (RAM)\nvery fast\n8–32 GB\nwhat the tidyverse can load at once\n\n\nStorage (disk)\nmuch slower\n100s of GB – TBs\nhow fast data can be read in pieces\n\n\nCompute (CPU/GPU)\n—\ncores\nhow fast calculations run\n\n\n\n\nThe workflow runs as fast as its bottleneck. Big data work is trading them off: reading in chunks uses less memory, but takes longer.\n\n\nStorage speeds: a solid-state drive is far slower than memory, a spinning hard drive slower still. Compute: many cores, and GPUs, help when work can be split into independent pieces — at the cost of complexity."
+    "text": "Three resources\n\n\n\nResource\nSpeed\nSize\nLimits\n\n\n\n\nMemory\nvery fast\n8–32 GB\nwhat can be loaded\n\n\nStorage\nmuch slower\nGBs – TBs\nhow fast data are read\n\n\nCompute\n—\ncores\nhow fast we calculate\n\n\n\n\nThe workflow runs as fast as its bottleneck. Big data work is trading them off: reading in chunks uses less memory, but takes longer.\n\n\nMemory is RAM: what the tidyverse works in. Storage is the disk. Compute is the CPU (or GPU). Storage speeds: a solid-state drive is far slower than memory, a spinning hard drive slower still. Compute: many cores, and GPUs, help when work can be split into independent pieces — at the cost of complexity."
   },
   {
     "objectID": "week10_slides.html#find-the-bottleneck",
@@ -200,7 +214,14 @@
     "href": "week10_slides.html#beyond-one-computer",
     "title": "Working with Big Data",
     "section": "Beyond one computer",
-    "text": "Beyond one computer\n\nHadoop: distributed storage (HDFS) and processing (MapReduce) across a cluster\nApache Spark: fast cluster computing, with APIs for R, Python, Scala, Java\n\n\nR is often a layer on top of these, rather than the engine:\n\ndbplyr — dplyr code run in a database (week 7)\nsparklyr — dplyr code run on a Spark cluster\nduckdb / duckplyr — a fast analytical database, in-process\nreadr::read_csv_chunked() — simple map-reduce in plain R"
+    "text": "Beyond one computer\n\nHadoop: distributed storage (HDFS) and processing (MapReduce) across a cluster\nApache Spark: fast cluster computing, with APIs for R, Python, Scala, Java"
+  },
+  {
+    "objectID": "week10_slides.html#r-on-top",
+    "href": "week10_slides.html#r-on-top",
+    "title": "Working with Big Data",
+    "section": "R on top",
+    "text": "R on top\nR is often a layer on top of these tools, rather than the engine:\n\ndbplyr — dplyr code run in a database (week 7)\nsparklyr — dplyr code run on a Spark cluster\nduckdb / duckplyr — a fast analytical database, in-process\nreadr::read_csv_chunked() — simple map-reduce in plain R"
   },
   {
     "objectID": "week10_slides.html#a-database-without-a-server",
@@ -221,7 +242,7 @@
     "href": "week10_slides.html#use-.by",
     "title": "Working with Big Data",
     "section": "Use .by",
-    "text": "Use .by\n\nflights |&gt;\n  summarise(mean_base_fare = mean(baseFare, na.rm = TRUE),\n            .by = startingAirport) |&gt;\n  arrange(desc(mean_base_fare))\n\n# A duckplyr data frame: 2 variables\n   startingAirport mean_base_fare\n   &lt;chr&gt;                    &lt;dbl&gt;\n 1 OAK                       466.\n 2 SFO                       383.\n 3 JFK                       329.\n 4 LAX                       328.\n 5 IAD                       322.\n 6 PHL                       295.\n 7 DEN                       289.\n 8 DTW                       281.\n 9 CLT                       278.\n10 EWR                       256.\n11 ATL                       256.\n12 LGA                       256.\n13 MIA                       254.\n14 DFW                       248.\n15 BOS                       244.\n16 ORD                       238.\n\n\n\nThe whole query runs in DuckDB, streaming through the file; only the 16 rows of the result come back to R."
+    "text": "Use .by\n\nflights |&gt;\n  summarise(mean_base_fare = mean(baseFare, na.rm = TRUE),\n            .by = startingAirport) |&gt;\n  arrange(desc(mean_base_fare)) |&gt;\n  print(n = 6)\n\n# A duckplyr data frame: 2 variables\n  startingAirport mean_base_fare\n  &lt;chr&gt;                    &lt;dbl&gt;\n1 OAK                       466.\n2 SFO                       383.\n3 JFK                       329.\n4 LAX                       328.\n5 IAD                       322.\n6 PHL                       295.\n# i more rows\n\n\n\nThe whole query runs in DuckDB, streaming through the file; only the 16 rows of the result come back to R."
   },
   {
     "objectID": "week10_slides.html#same-thing-with-dbplyr",
@@ -235,7 +256,7 @@
     "href": "week10_slides.html#split-summarise-combine",
     "title": "Working with Big Data",
     "section": "Split, summarise, combine",
-    "text": "Split, summarise, combine\n\n\n\n\n\n\n\n\n\n\n\n\n\nmap: process each chunk independently, keeping only a small summary\nreduce: combine the summaries into the answer\n\n\n\nOnly one chunk in memory at a time — and in Hadoop, chunks are processed on many machines at once."
+    "text": "Split, summarise, combine\n\n\n\n\n\n\n\n\n\n\n\n\n\nmap: process each chunk independently, keeping only a small summary\nreduce: combine the summaries into the answer\n\n\n\nOnly one chunk is in memory at a time.\n\n\nIn Hadoop, the chunks are processed on many machines at once: that’s where the speed comes from."
   },
   {
     "objectID": "week10_slides.html#what-should-each-chunk-return",
@@ -249,7 +270,14 @@
     "href": "week10_slides.html#chunks-in-r",
     "title": "Working with Big Data",
     "section": "Chunks in R",
-    "text": "Chunks in R\n\nsummarise_chunk &lt;- function(chunk, pos) {          # map: one chunk\n  chunk |&gt;\n    group_by(species) |&gt;\n    summarise(sum_mass = sum(body_mass_g, na.rm = TRUE),\n              n = sum(!is.na(body_mass_g)), .groups = \"drop\")\n}\n\nresults &lt;- read_csv_chunked(\n  \"data/penguins.csv\",\n  callback = DataFrameCallback$new(summarise_chunk),\n  chunk_size = 100,\n  col_types = cols_only(species = col_character(),\n                        body_mass_g = col_double())\n)\n\nresults |&gt;                                          # reduce: combine\n  group_by(species) |&gt;\n  summarise(mean_mass = sum(sum_mass) / sum(n))\n\n# A tibble: 3 x 2\n  species   mean_mass\n  &lt;chr&gt;         &lt;dbl&gt;\n1 Adelie        3701.\n2 Chinstrap     3733.\n3 Gentoo        5076.\n\n\n\nresults has one row per species per chunk; the reduce adds up the sums and counts. This is reduce() with an .init accumulator from week 9, in disguise. Exactly the same code, with chunk_size = 50000, computes the mean fare per airport from the 29 GB file — the notes show the output; it takes a long time, so don’t run it live."
+    "text": "Chunks in R\n\nsummarise_chunk &lt;- function(chunk, pos) {          # map: one chunk\n  chunk |&gt;\n    group_by(species) |&gt;\n    summarise(sum_mass = sum(body_mass_g, na.rm = TRUE),\n              n = sum(!is.na(body_mass_g)), .groups = \"drop\")\n}\n\nresults &lt;- read_csv_chunked(\n  \"data/penguins.csv\",\n  callback = DataFrameCallback$new(summarise_chunk),\n  chunk_size = 100,\n  col_types = cols_only(species = col_character(),\n                        body_mass_g = col_double())\n)\n\n\nread_csv_chunked() reads 100 rows at a time and passes each chunk to summarise_chunk(), keeping only its small result."
+  },
+  {
+    "objectID": "week10_slides.html#combining-the-chunks",
+    "href": "week10_slides.html#combining-the-chunks",
+    "title": "Working with Big Data",
+    "section": "Combining the chunks",
+    "text": "Combining the chunks\n\nresults              # one row per species per chunk\n\n# A tibble: 6 x 3\n  species   sum_mass     n\n  &lt;chr&gt;        &lt;dbl&gt; &lt;int&gt;\n1 Adelie      368225    99\n2 Adelie      190575    52\n3 Gentoo      241600    48\n4 Chinstrap    88600    24\n5 Gentoo      382750    75\n6 Chinstrap   165250    44\n\nresults |&gt;           # reduce: combine\n  group_by(species) |&gt;\n  summarise(mean_mass = sum(sum_mass) / sum(n))\n\n# A tibble: 3 x 2\n  species   mean_mass\n  &lt;chr&gt;         &lt;dbl&gt;\n1 Adelie        3701.\n2 Chinstrap     3733.\n3 Gentoo        5076.\n\n\n\nresults has one row per species per chunk; the reduce adds up the sums and counts. This is reduce() with an .init accumulator from week 9, in disguise. Exactly the same code, with chunk_size = 50000, computes the mean fare per airport from the 29 GB file — the notes show the output; it takes a long time, so don’t run it live."
   },
   {
     "objectID": "week10_slides.html#a-chunking-trap",
@@ -3210,7 +3238,14 @@
     "href": "week09_slides.html#copy-paste-edit",
     "title": "Research Software Engineering and Functional Programming",
     "section": "Copy, paste, edit",
-    "text": "Copy, paste, edit\n\n\n\n\n\n\nTask\n\n\nWe want the same plot for Adelie penguins on two islands. What’s wrong here?\n\n\n\npenguins |&gt;\n  filter(species == \"Adelie\", island == \"Biscoe\") |&gt;\n  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, colour = sex)) +\n  geom_point() +\n  labs(title = \"Adelie penguins on Biscoe\")\npenguins |&gt;\n  filter(species == \"Adelia\", island == \"Dream\") |&gt;\n  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, colour = sex)) +\n  geom_point() +\n  labs(title = \"Adelie penguins on Dream\")\n\n\n\n\n\n\n\n\n\n\n\nA typo, \"Adelia\", crept in while editing the copy. R gives no error: filtering for a species that doesn’t exist is valid, and returns no rows — so the second plot is silently empty.\n\n\nLet them look for 30 seconds before revealing. The general lesson: two copies of the same logic must be kept in step, and nothing warns us when they drift apart."
+    "text": "Copy, paste, edit\n\n\n\n\n\n\nTask\n\n\nWe want the same plot for Adelie penguins on two islands. What’s wrong here?\n\n\n\n\npenguins |&gt;\n  filter(species == \"Adelie\", island == \"Biscoe\") |&gt;\n  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, colour = sex)) +\n  geom_point() +\n  labs(title = \"Adelie penguins on Biscoe\")\n\npenguins |&gt;\n  filter(species == \"Adelia\", island == \"Dream\") |&gt;\n  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, colour = sex)) +\n  geom_point() +\n  labs(title = \"Adelie penguins on Dream\")\n\n\nLet them look for 30 seconds before moving on: the next slide shows the plots."
+  },
+  {
+    "objectID": "week09_slides.html#the-result",
+    "href": "week09_slides.html#the-result",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "The result",
+    "text": "The result\n\n\n\n\n\n\n\n\n\n\n\nA typo, \"Adelia\", crept in while editing the copy. R gives no error: filtering for a species that doesn’t exist is valid, and returns no rows — so the second plot is silently empty.\n\n\nThe general lesson: two copies of the same logic must be kept in step, and nothing warns us when they drift apart."
   },
   {
     "objectID": "week09_slides.html#dry-fail-fast",
@@ -3245,14 +3280,28 @@
     "href": "week09_slides.html#paradigms",
     "title": "Research Software Engineering and Functional Programming",
     "section": "Paradigms",
-    "text": "Paradigms\n\nProcedural: a sequence of steps\nObject-oriented: objects bundling data and behaviour\nFunctional: pure functions and immutable data\n\n\nR supports all three, but is a natural fit for functional programming:\n\nfunctions are values: assign them, pass them, return them\nanonymous functions: function(x) x + 1, or \\(x) x + 1\nhigher-order functions take or return functions (week 2)"
+    "text": "Paradigms\n\nProcedural: a sequence of steps\nObject-oriented: objects bundling data and behaviour\nFunctional: pure functions and immutable data"
+  },
+  {
+    "objectID": "week09_slides.html#r-is-functional",
+    "href": "week09_slides.html#r-is-functional",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "R is functional",
+    "text": "R is functional\nR supports all three, but is a natural fit for functional programming:\n\nfunctions are values: assign them, pass them, return them\nanonymous functions: function(x) x + 1, or \\(x) x + 1\nhigher-order functions take or return functions (week 2)"
   },
   {
     "objectID": "week09_slides.html#pure-functions",
     "href": "week09_slides.html#pure-functions",
     "title": "Research Software Engineering and Functional Programming",
     "section": "Pure functions",
-    "text": "Pure functions\nA function is pure if\n\nits result depends only on its arguments, and\nit has no side effects — it changes nothing outside itself.\n\n\n\n\n\n\n\nTask\n\n\nWhich of these are pure?\n\n\n\nadd &lt;- function(x, y) x + y\n\ncounter &lt;- 0\nincrement &lt;- function() {\n  counter &lt;&lt;- counter + 1\n  counter\n}\n\nz &lt;- 10\nadd_z &lt;- function(x) x + z\n\n\nadd: pure\nincrement: impure — &lt;&lt;- changes counter outside the function (breaks 2)\nadd_z: impure — its result depends on the global z (breaks 1). Fix: pass z as an argument.\n\n\n\nAlso impure by design: rnorm (different every call, unless the seed is set), and anything that reads files, plots or prints. That’s fine — the aim is to keep the impure parts few and at the edges: read data once at the start, save once at the end, pure functions in between. Shiny is organised the same way: reactive() computes values; observers exist for side effects."
+    "text": "Pure functions\nA function is pure if\n\nits result depends only on its arguments, and\nit has no side effects — it changes nothing outside itself.\n\n\nEverything a pure function does is visible in its arguments and its return value, so it is easy to test, debug and reason about."
+  },
+  {
+    "objectID": "week09_slides.html#which-are-pure",
+    "href": "week09_slides.html#which-are-pure",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Which are pure?",
+    "text": "Which are pure?\n\n\n\n\n\n\nTask\n\n\nWhich of these functions are pure?\n\n\n\nadd &lt;- function(x, y) x + y\n\ncounter &lt;- 0\nincrement &lt;- function() {\n  counter &lt;&lt;- counter + 1\n  counter\n}\n\nz &lt;- 10\nadd_z &lt;- function(x) x + z\n\n\nadd: pure\nincrement: impure — &lt;&lt;- changes counter outside the function (breaks 2)\nadd_z: impure — its result depends on the global z (breaks 1). Fix: pass z as an argument.\n\n\n\nAlso impure by design: rnorm (different every call, unless the seed is set), and anything that reads files, plots or prints. That’s fine — the aim is to keep the impure parts few and at the edges: read data once at the start, save once at the end, pure functions in between. Shiny is organised the same way: reactive() computes values; observers exist for side effects."
   },
   {
     "objectID": "week09_slides.html#immutability",
@@ -3280,7 +3329,14 @@
     "href": "week09_slides.html#map-is-type-stable",
     "title": "Research Software Engineering and Functional Programming",
     "section": "map is type stable",
-    "text": "map is type stable\nThe name tells you the type of the result:\n\n\n\n\n\n\n\nFunction\nReturns\n\n\n\n\nmap()\na list — results can be anything\n\n\nmap_lgl(), map_int(), map_dbl(), map_chr()\na vector of that type\n\n\n\n\n\nmap_dbl(integer(0), function(v) v^2)\n\nnumeric(0)\n\nmap_dbl(1:3, function(v) c(v, v^2))\n\nError in `map_dbl()`:\ni In index: 1.\nCaused by error:\n! Result must be length 1, not 2.\n\n\n\n\nAn empty input gives an empty double; a result that doesn’t fit is an error, straight away — fail fast again."
+    "text": "map is type stable\nThe name tells you the type of the result:\n\n\n\n\n\n\n\nFunction\nReturns\n\n\n\n\nmap()\na list — results can be anything\n\n\nmap_lgl(), map_int(), map_dbl(), map_chr()\na vector of that type"
+  },
+  {
+    "objectID": "week09_slides.html#map-fails-fast",
+    "href": "week09_slides.html#map-fails-fast",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "map fails fast",
+    "text": "map fails fast\n\nmap_dbl(integer(0), function(v) v^2)\n\nnumeric(0)\n\nmap_dbl(1:3, function(v) c(v, v^2))\n\nError in `map_dbl()`:\ni In index: 1.\nCaused by error:\n! Result must be length 1, not 2.\n\n\n\nAn empty input gives an empty double; a result that doesn’t fit is an error, straight away — fail fast again."
   },
   {
     "objectID": "week09_slides.html#writing-functions-inline",
@@ -3308,21 +3364,14 @@
     "href": "week09_slides.html#an-accumulator-with-.init",
     "title": "Research Software Engineering and Functional Programming",
     "section": "An accumulator with .init",
-    "text": "An accumulator with .init\nWhen the accumulator isn’t the same type as the elements, give a starting value:\n\nreduce(\n  x,\n  \\(cur, new) list(sum = cur$sum + new, prod = cur$prod * new),\n  .init = list(sum = 0, prod = 1)\n)\n\n$sum\n[1] 55\n\n$prod\n[1] 3628800\n\n\n\nPointless for a vector in memory — sum() and prod() are faster. It pays off when each pass through the data is expensive, e.g. data spread over many files on disk. We’ll use exactly this idea for big data in week 10."
+    "text": "An accumulator with .init\nWhen the accumulator isn’t the same type as the elements, give a starting value:\n\nreduce(\n  x,\n  \\(cur, new) list(sum = cur$sum + new, prod = cur$prod * new),\n  .init = list(sum = 0, prod = 1)\n) |&gt;\n  unlist()\n\n    sum    prod \n     55 3628800 \n\n\n\nPointless here — sum() and prod() are faster — but it pays off when each pass through the data is expensive, e.g. many files on disk. We’ll use exactly this idea for big data in week 10."
   },
   {
     "objectID": "week09_slides.html#predicates",
     "href": "week09_slides.html#predicates",
     "title": "Research Software Engineering and Functional Programming",
     "section": "Predicates",
-    "text": "Predicates\nA predicate is a function that returns TRUE or FALSE.\n\nx |&gt; keep(\\(v) v &gt; 5)\n\n[1]  6  7  8  9 10\n\nx |&gt; every(\\(v) v &gt; 5)\n\n[1] FALSE\n\nx |&gt; none(\\(v) v &gt; 10)\n\n[1] TRUE\n\n\n\nThey work on lists too:\n\nsummaries |&gt; keep(\\(s) s$mean_mass &gt; 4000) |&gt; names()\n\n[1] \"Gentoo\""
-  },
-  {
-    "objectID": "week09_slides.html#partial-application",
-    "href": "week09_slides.html#partial-application",
-    "title": "Research Software Engineering and Functional Programming",
-    "section": "Partial application",
-    "text": "Partial application\nFix some arguments of a function, to get a new function of the rest:\n\nadd_10 &lt;- partial(`+`, 10)\n1:5 |&gt; map_dbl(add_10)\n\n[1] 11 12 13 14 15\n\ngreet &lt;- partial(paste, \"Hello\")\nc(\"Ada Lovelace\", \"Alan Turing\") |&gt; map_chr(greet)\n\n[1] \"Hello Ada Lovelace\" \"Hello Alan Turing\" \n\n\n\nRelated to currying (f(a, b) becomes f(a)(b)): make_multiplier from week 2 is curried multiplication. The notes also cover compose(), which packages a chain of functions as a new function."
+    "text": "Predicates\nA predicate is a function that returns TRUE or FALSE. keep() keeps the elements for which it is TRUE:\n\nx |&gt; keep(\\(v) v &gt; 5)\n\n[1]  6  7  8  9 10\n\n\n\nevery() and none() check whether all, or no, elements pass; all of them work on lists as well as vectors. They’re in the notes."
   },
   {
     "objectID": "week09_slides.html#silent-recycling",
@@ -3350,7 +3399,7 @@
     "href": "week09_slides.html#read-the-notes",
     "title": "Research Software Engineering and Functional Programming",
     "section": "Read the notes",
-    "text": "Read the notes\nWe didn’t cover in detail:\n\nhandling errors: try(), tryCatch(), and purrr::possibly() for reading many files when some may fail\nunit tests with stopifnot() and testthat\ndocumenting functions with roxygen comments (#')\ncompose(), and dependency management with renv"
+    "text": "Read the notes\nWe didn’t cover in detail:\n\nhandling errors: try(), tryCatch(), and purrr::possibly() for reading many files when some may fail\nunit tests with stopifnot() and testthat\ndocumenting functions with roxygen comments (#')\nmore higher-order functions: every(), none(), compose() and partial()\ndependency management with renv"
   },
   {
     "objectID": "week09_slides_handout.html",
@@ -3399,7 +3448,14 @@
     "href": "week09_slides_handout.html#copy-paste-edit",
     "title": "Research Software Engineering and Functional Programming",
     "section": "Copy, paste, edit",
-    "text": "Copy, paste, edit\n\n\n\n\n\n\nImportantTask\n\n\n\nWe want the same plot for Adelie penguins on two islands. What’s wrong here?\n\n\npenguins |&gt;\n  filter(species == \"Adelie\", island == \"Biscoe\") |&gt;\n  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, colour = sex)) +\n  geom_point() +\n  labs(title = \"Adelie penguins on Biscoe\")\npenguins |&gt;\n  filter(species == \"Adelia\", island == \"Dream\") |&gt;\n  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, colour = sex)) +\n  geom_point() +\n  labs(title = \"Adelie penguins on Dream\")\n\n\n\n\n\n\n\n\n\n\n\nA typo, \"Adelia\", crept in while editing the copy. R gives no error: filtering for a species that doesn’t exist is valid, and returns no rows — so the second plot is silently empty.\n\n\nLet them look for 30 seconds before revealing. The general lesson: two copies of the same logic must be kept in step, and nothing warns us when they drift apart."
+    "text": "Copy, paste, edit\n\n\n\n\n\n\nImportantTask\n\n\n\nWe want the same plot for Adelie penguins on two islands. What’s wrong here?\n\n\n\npenguins |&gt;\n  filter(species == \"Adelie\", island == \"Biscoe\") |&gt;\n  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, colour = sex)) +\n  geom_point() +\n  labs(title = \"Adelie penguins on Biscoe\")\n\npenguins |&gt;\n  filter(species == \"Adelia\", island == \"Dream\") |&gt;\n  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, colour = sex)) +\n  geom_point() +\n  labs(title = \"Adelie penguins on Dream\")\n\n\nLet them look for 30 seconds before moving on: the next slide shows the plots."
+  },
+  {
+    "objectID": "week09_slides_handout.html#the-result",
+    "href": "week09_slides_handout.html#the-result",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "The result",
+    "text": "The result\n\n\n\n\n\n\n\n\n\n\n\nA typo, \"Adelia\", crept in while editing the copy. R gives no error: filtering for a species that doesn’t exist is valid, and returns no rows — so the second plot is silently empty.\n\n\nThe general lesson: two copies of the same logic must be kept in step, and nothing warns us when they drift apart."
   },
   {
     "objectID": "week09_slides_handout.html#dry-fail-fast",
@@ -3434,14 +3490,28 @@
     "href": "week09_slides_handout.html#paradigms",
     "title": "Research Software Engineering and Functional Programming",
     "section": "Paradigms",
-    "text": "Paradigms\n\nProcedural: a sequence of steps\nObject-oriented: objects bundling data and behaviour\nFunctional: pure functions and immutable data\n\n\nR supports all three, but is a natural fit for functional programming:\n\nfunctions are values: assign them, pass them, return them\nanonymous functions: function(x) x + 1, or \\(x) x + 1\nhigher-order functions take or return functions (week 2)"
+    "text": "Paradigms\n\nProcedural: a sequence of steps\nObject-oriented: objects bundling data and behaviour\nFunctional: pure functions and immutable data"
+  },
+  {
+    "objectID": "week09_slides_handout.html#r-is-functional",
+    "href": "week09_slides_handout.html#r-is-functional",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "R is functional",
+    "text": "R is functional\nR supports all three, but is a natural fit for functional programming:\n\nfunctions are values: assign them, pass them, return them\nanonymous functions: function(x) x + 1, or \\(x) x + 1\nhigher-order functions take or return functions (week 2)"
   },
   {
     "objectID": "week09_slides_handout.html#pure-functions",
     "href": "week09_slides_handout.html#pure-functions",
     "title": "Research Software Engineering and Functional Programming",
     "section": "Pure functions",
-    "text": "Pure functions\nA function is pure if\n\nits result depends only on its arguments, and\nit has no side effects — it changes nothing outside itself.\n\n\n\n\n\n\n\nImportantTask\n\n\n\nWhich of these are pure?\n\n\nadd &lt;- function(x, y) x + y\n\ncounter &lt;- 0\nincrement &lt;- function() {\n  counter &lt;&lt;- counter + 1\n  counter\n}\n\nz &lt;- 10\nadd_z &lt;- function(x) x + z\n\n\nadd: pure\nincrement: impure — &lt;&lt;- changes counter outside the function (breaks 2)\nadd_z: impure — its result depends on the global z (breaks 1). Fix: pass z as an argument.\n\n\n\nAlso impure by design: rnorm (different every call, unless the seed is set), and anything that reads files, plots or prints. That’s fine — the aim is to keep the impure parts few and at the edges: read data once at the start, save once at the end, pure functions in between. Shiny is organised the same way: reactive() computes values; observers exist for side effects."
+    "text": "Pure functions\nA function is pure if\n\nits result depends only on its arguments, and\nit has no side effects — it changes nothing outside itself.\n\n\nEverything a pure function does is visible in its arguments and its return value, so it is easy to test, debug and reason about."
+  },
+  {
+    "objectID": "week09_slides_handout.html#which-are-pure",
+    "href": "week09_slides_handout.html#which-are-pure",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Which are pure?",
+    "text": "Which are pure?\n\n\n\n\n\n\nImportantTask\n\n\n\nWhich of these functions are pure?\n\n\nadd &lt;- function(x, y) x + y\n\ncounter &lt;- 0\nincrement &lt;- function() {\n  counter &lt;&lt;- counter + 1\n  counter\n}\n\nz &lt;- 10\nadd_z &lt;- function(x) x + z\n\n\nadd: pure\nincrement: impure — &lt;&lt;- changes counter outside the function (breaks 2)\nadd_z: impure — its result depends on the global z (breaks 1). Fix: pass z as an argument.\n\n\n\nAlso impure by design: rnorm (different every call, unless the seed is set), and anything that reads files, plots or prints. That’s fine — the aim is to keep the impure parts few and at the edges: read data once at the start, save once at the end, pure functions in between. Shiny is organised the same way: reactive() computes values; observers exist for side effects."
   },
   {
     "objectID": "week09_slides_handout.html#immutability",
@@ -3469,7 +3539,14 @@
     "href": "week09_slides_handout.html#map-is-type-stable",
     "title": "Research Software Engineering and Functional Programming",
     "section": "map is type stable",
-    "text": "map is type stable\nThe name tells you the type of the result:\n\n\n\n\n\n\n\nFunction\nReturns\n\n\n\n\nmap()\na list — results can be anything\n\n\nmap_lgl(), map_int(), map_dbl(), map_chr()\na vector of that type\n\n\n\n\n\nmap_dbl(integer(0), function(v) v^2)\n\nnumeric(0)\n\nmap_dbl(1:3, function(v) c(v, v^2))\n\nError in `map_dbl()`:\ni In index: 1.\nCaused by error:\n! Result must be length 1, not 2.\n\n\n\n\nAn empty input gives an empty double; a result that doesn’t fit is an error, straight away — fail fast again."
+    "text": "map is type stable\nThe name tells you the type of the result:\n\n\n\n\n\n\n\nFunction\nReturns\n\n\n\n\nmap()\na list — results can be anything\n\n\nmap_lgl(), map_int(), map_dbl(), map_chr()\na vector of that type"
+  },
+  {
+    "objectID": "week09_slides_handout.html#map-fails-fast",
+    "href": "week09_slides_handout.html#map-fails-fast",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "map fails fast",
+    "text": "map fails fast\n\nmap_dbl(integer(0), function(v) v^2)\n\nnumeric(0)\n\nmap_dbl(1:3, function(v) c(v, v^2))\n\nError in `map_dbl()`:\ni In index: 1.\nCaused by error:\n! Result must be length 1, not 2.\n\n\n\nAn empty input gives an empty double; a result that doesn’t fit is an error, straight away — fail fast again."
   },
   {
     "objectID": "week09_slides_handout.html#writing-functions-inline",
@@ -3497,21 +3574,14 @@
     "href": "week09_slides_handout.html#an-accumulator-with-.init",
     "title": "Research Software Engineering and Functional Programming",
     "section": "An accumulator with .init",
-    "text": "An accumulator with .init\nWhen the accumulator isn’t the same type as the elements, give a starting value:\n\nreduce(\n  x,\n  \\(cur, new) list(sum = cur$sum + new, prod = cur$prod * new),\n  .init = list(sum = 0, prod = 1)\n)\n\n$sum\n[1] 55\n\n$prod\n[1] 3628800\n\n\n\nPointless for a vector in memory — sum() and prod() are faster. It pays off when each pass through the data is expensive, e.g. data spread over many files on disk. We’ll use exactly this idea for big data in week 10."
+    "text": "An accumulator with .init\nWhen the accumulator isn’t the same type as the elements, give a starting value:\n\nreduce(\n  x,\n  \\(cur, new) list(sum = cur$sum + new, prod = cur$prod * new),\n  .init = list(sum = 0, prod = 1)\n) |&gt;\n  unlist()\n\n    sum    prod \n     55 3628800 \n\n\n\nPointless here — sum() and prod() are faster — but it pays off when each pass through the data is expensive, e.g. many files on disk. We’ll use exactly this idea for big data in week 10."
   },
   {
     "objectID": "week09_slides_handout.html#predicates",
     "href": "week09_slides_handout.html#predicates",
     "title": "Research Software Engineering and Functional Programming",
     "section": "Predicates",
-    "text": "Predicates\nA predicate is a function that returns TRUE or FALSE.\n\nx |&gt; keep(\\(v) v &gt; 5)\n\n[1]  6  7  8  9 10\n\nx |&gt; every(\\(v) v &gt; 5)\n\n[1] FALSE\n\nx |&gt; none(\\(v) v &gt; 10)\n\n[1] TRUE\n\n\n\nThey work on lists too:\n\nsummaries |&gt; keep(\\(s) s$mean_mass &gt; 4000) |&gt; names()\n\n[1] \"Gentoo\""
-  },
-  {
-    "objectID": "week09_slides_handout.html#partial-application",
-    "href": "week09_slides_handout.html#partial-application",
-    "title": "Research Software Engineering and Functional Programming",
-    "section": "Partial application",
-    "text": "Partial application\nFix some arguments of a function, to get a new function of the rest:\n\nadd_10 &lt;- partial(`+`, 10)\n1:5 |&gt; map_dbl(add_10)\n\n[1] 11 12 13 14 15\n\ngreet &lt;- partial(paste, \"Hello\")\nc(\"Ada Lovelace\", \"Alan Turing\") |&gt; map_chr(greet)\n\n[1] \"Hello Ada Lovelace\" \"Hello Alan Turing\" \n\n\n\nRelated to currying (f(a, b) becomes f(a)(b)): make_multiplier from week 2 is curried multiplication. The notes also cover compose(), which packages a chain of functions as a new function."
+    "text": "Predicates\nA predicate is a function that returns TRUE or FALSE. keep() keeps the elements for which it is TRUE:\n\nx |&gt; keep(\\(v) v &gt; 5)\n\n[1]  6  7  8  9 10\n\n\n\nevery() and none() check whether all, or no, elements pass; all of them work on lists as well as vectors. They’re in the notes."
   },
   {
     "objectID": "week09_slides_handout.html#silent-recycling",
@@ -3539,6 +3609,6 @@
     "href": "week09_slides_handout.html#read-the-notes",
     "title": "Research Software Engineering and Functional Programming",
     "section": "Read the notes",
-    "text": "Read the notes\nWe didn’t cover in detail:\n\nhandling errors: try(), tryCatch(), and purrr::possibly() for reading many files when some may fail\nunit tests with stopifnot() and testthat\ndocumenting functions with roxygen comments (#')\ncompose(), and dependency management with renv"
+    "text": "Read the notes\nWe didn’t cover in detail:\n\nhandling errors: try(), tryCatch(), and purrr::possibly() for reading many files when some may fail\nunit tests with stopifnot() and testthat\ndocumenting functions with roxygen comments (#')\nmore higher-order functions: every(), none(), compose() and partial()\ndependency management with renv"
   }
 ]

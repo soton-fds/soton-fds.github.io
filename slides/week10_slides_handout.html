@@ -230,38 +230,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="three-resources" class="level2">
 <h2 class="anchored" data-anchor-id="three-resources">Three resources</h2>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Resource</th>
 <th>Speed</th>
 <th>Size</th>
-<th>Limits…</th>
+<th>Limits</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>Memory</strong> (RAM)</td>
+<td><strong>Memory</strong></td>
 <td>very fast</td>
 <td>8–32 GB</td>
-<td>what the <code>tidyverse</code> can load at once</td>
+<td>what can be loaded</td>
 </tr>
 <tr class="even">
-<td><strong>Storage</strong> (disk)</td>
+<td><strong>Storage</strong></td>
 <td>much slower</td>
-<td>100s of GB – TBs</td>
-<td>how fast data can be read in pieces</td>
+<td>GBs – TBs</td>
+<td>how fast data are read</td>
 </tr>
 <tr class="odd">
-<td><strong>Compute</strong> (CPU/GPU)</td>
+<td><strong>Compute</strong></td>
 <td>—</td>
 <td>cores</td>
-<td>how fast calculations run</td>
+<td>how fast we calculate</td>
 </tr>
 </tbody>
 </table>
@@ -269,7 +263,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The workflow runs as fast as its <strong>bottleneck</strong>. Big data work is trading them off: reading in chunks uses less memory, but takes longer.</p>
 </div>
 <div class="notes">
-<p>Storage speeds: a solid-state drive is far slower than memory, a spinning hard drive slower still. Compute: many cores, and GPUs, help when work can be split into independent pieces — at the cost of complexity.</p>
+<p>Memory is RAM: what the <code>tidyverse</code> works in. Storage is the disk. Compute is the CPU (or GPU). Storage speeds: a solid-state drive is far slower than memory, a spinning hard drive slower still. Compute: many cores, and GPUs, help when work can be split into independent pieces — at the cost of complexity.</p>
 </div>
 </section>
 <section id="find-the-bottleneck" class="level2">
@@ -346,15 +340,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Hadoop</strong>: distributed storage (HDFS) and processing (MapReduce) across a cluster</li>
 <li><strong>Apache Spark</strong>: fast cluster computing, with APIs for <code>R</code>, Python, Scala, Java</li>
 </ul>
-<div class="fragment">
-<p><code>R</code> is often a <strong>layer on top</strong> of these, rather than the engine:</p>
+</section>
+<section id="r-on-top" class="level2">
+<h2 class="anchored" data-anchor-id="r-on-top"><code>R</code> on top</h2>
+<p><code>R</code> is often a <strong>layer on top</strong> of these tools, rather than the engine:</p>
 <ul>
 <li><code>dbplyr</code> — <code>dplyr</code> code run in a database (week 7)</li>
 <li><code>sparklyr</code> — <code>dplyr</code> code run on a Spark cluster</li>
 <li><code>duckdb</code> / <code>duckplyr</code> — a fast analytical database, in-process</li>
 <li><code>readr::read_csv_chunked()</code> — simple map-reduce in plain <code>R</code></li>
 </ul>
-</div>
 </section>
 </section>
 <section id="sec-duckdb" class="level1">
@@ -421,27 +416,19 @@ i See `vignette("prudence")` for other options.</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_base_fare =</span> <span class="fu">mean</span>(baseFare, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> startingAirport) <span class="sc">|&gt;</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_base_fare))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_base_fare)) <span class="sc">|&gt;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A duckplyr data frame: 2 variables
-   startingAirport mean_base_fare
-   &lt;chr&gt;                    &lt;dbl&gt;
- 1 OAK                       466.
- 2 SFO                       383.
- 3 JFK                       329.
- 4 LAX                       328.
- 5 IAD                       322.
- 6 PHL                       295.
- 7 DEN                       289.
- 8 DTW                       281.
- 9 CLT                       278.
-10 EWR                       256.
-11 ATL                       256.
-12 LGA                       256.
-13 MIA                       254.
-14 DFW                       248.
-15 BOS                       244.
-16 ORD                       238.</code></pre>
+  startingAirport mean_base_fare
+  &lt;chr&gt;                    &lt;dbl&gt;
+1 OAK                       466.
+2 SFO                       383.
+3 JFK                       329.
+4 LAX                       328.
+5 IAD                       322.
+6 PHL                       295.
+# i more rows</code></pre>
 </div>
 </div>
 <div class="fragment">
@@ -476,7 +463,7 @@ GROUP BY startingAirport</code></pre>
 <h1>Map-reduce</h1>
 <section id="split-summarise-combine" class="level2">
 <h2 class="anchored" data-anchor-id="split-summarise-combine">Split, summarise, combine</h2>
-<div class="cell" data-layout-align="default">
+<div class="cell" data-fig-height="2.5" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
@@ -500,7 +487,10 @@ GROUP BY startingAirport</code></pre>
 </ul>
 </div>
 <div class="fragment">
-<p>Only one chunk in memory at a time — and in Hadoop, chunks are processed on many machines at once.</p>
+<p>Only one chunk is in memory at a time.</p>
+</div>
+<div class="notes">
+<p>In Hadoop, the chunks are processed on many machines at once: that’s where the speed comes from.</p>
 </div>
 </section>
 <section id="what-should-each-chunk-return" class="level2">
@@ -558,11 +548,30 @@ GROUP BY startingAirport</code></pre>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">chunk_size =</span> <span class="dv">100</span>,</span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_types =</span> <span class="fu">cols_only</span>(<span class="at">species =</span> <span class="fu">col_character</span>(),</span>
 <span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">body_mass_g =</span> <span class="fu">col_double</span>())</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>results <span class="sc">|&gt;</span>                                          <span class="co"># reduce: combine</span></span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_mass =</span> <span class="fu">sum</span>(sum_mass) <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="fragment">
+<p><code>read_csv_chunked()</code> reads 100 rows at a time and passes each chunk to <code>summarise_chunk()</code>, keeping only its small result.</p>
+</div>
+</section>
+<section id="combining-the-chunks" class="level2">
+<h2 class="anchored" data-anchor-id="combining-the-chunks">Combining the chunks</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>results              <span class="co"># one row per species per chunk</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 x 3
+  species   sum_mass     n
+  &lt;chr&gt;        &lt;dbl&gt; &lt;int&gt;
+1 Adelie      368225    99
+2 Adelie      190575    52
+3 Gentoo      241600    48
+4 Chinstrap    88600    24
+5 Gentoo      382750    75
+6 Chinstrap   165250    44</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">|&gt;</span>           <span class="co"># reduce: combine</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_mass =</span> <span class="fu">sum</span>(sum_mass) <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 x 2
   species   mean_mass
@@ -592,17 +601,17 @@ GROUP BY startingAirport</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>csv_text <span class="ot">&lt;-</span> <span class="fu">I</span>(<span class="fu">paste</span>(</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"id,code"</span>, <span class="fu">paste0</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="st">","</span>, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="fu">paste0</span>(<span class="st">"A"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)))),</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>))</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>read_chunk <span class="ot">&lt;-</span> DataFrameCallback<span class="sc">$</span><span class="fu">new</span>(<span class="cf">function</span>(chunk, pos) chunk)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>csv_text <span class="ot">&lt;-</span> <span class="fu">I</span>(<span class="fu">paste</span>(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"id,code"</span>, <span class="fu">paste0</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="st">","</span>, <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="fu">paste0</span>(<span class="st">"A"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)))),</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>read_chunk <span class="ot">&lt;-</span> DataFrameCallback<span class="sc">$</span><span class="fu">new</span>(<span class="cf">function</span>(chunk, pos) chunk)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv_chunked</span>(csv_text, read_chunk, <span class="at">chunk_size =</span> <span class="dv">10</span>,</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv_chunked</span>(csv_text, read_chunk, <span class="at">chunk_size =</span> <span class="dv">10</span>,</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 x 2
      id  code

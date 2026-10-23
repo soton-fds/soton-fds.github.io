@@ -329,23 +329,42 @@
 </div>
 </div>
 </div>
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-label="1"></a>penguins <span class="sc">|&gt;</span></span>
 <span id="cb4-2"><a aria-label="2"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">"Adelie"</span>, island <span class="sc">==</span> <span class="st">"Biscoe"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb4-3"><a aria-label="3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm, <span class="at">colour =</span> sex)) <span class="sc">+</span></span>
 <span id="cb4-4"><a aria-label="4"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb4-5"><a aria-label="5"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Adelie penguins on Biscoe"</span>)</span>
-<span id="cb4-6"><a aria-label="6"></a>penguins <span class="sc">|&gt;</span></span>
-<span id="cb4-7"><a aria-label="7"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">"Adelia"</span>, island <span class="sc">==</span> <span class="st">"Dream"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb4-8"><a aria-label="8"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm, <span class="at">colour =</span> sex)) <span class="sc">+</span></span>
-<span id="cb4-9"><a aria-label="9"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb4-10"><a aria-label="10"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Adelie penguins on Dream"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-6"><a aria-label="6"></a></span>
+<span id="cb4-7"><a aria-label="7"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb4-8"><a aria-label="8"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">"Adelia"</span>, island <span class="sc">==</span> <span class="st">"Dream"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-9"><a aria-label="9"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm, <span class="at">colour =</span> sex)) <span class="sc">+</span></span>
+<span id="cb4-10"><a aria-label="10"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb4-11"><a aria-label="11"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Adelie penguins on Dream"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<aside class="notes">
+<p>Let them look for 30 seconds before moving on: the next slide shows the plots.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-result" class="slide level2">
+<h2>The result</h2>
 <div class="cell quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="week09_slides_files/figure-revealjs/unnamed-chunk-2-1.png" width="960"></p>
+<p><img data-src="week09_slides_files/figure-revealjs/unnamed-chunk-3-1.png" width="576"></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="week09_slides_files/figure-revealjs/unnamed-chunk-2-2.png" width="960"></p>
+<p><img data-src="week09_slides_files/figure-revealjs/unnamed-chunk-3-2.png" width="576"></p>
 </div>
 </div>
 </div>
@@ -353,7 +372,7 @@
 <p>A typo, <code>"Adelia"</code>, crept in while editing the copy. <code>R</code> gives <strong>no error</strong>: filtering for a species that doesn’t exist is valid, and returns no rows — so the second plot is silently empty.</p>
 </div>
 <aside class="notes">
-<p>Let them look for 30 seconds before revealing. The general lesson: two copies of the same logic must be kept in step, and nothing warns us when they drift apart.</p>
+<p>The general lesson: two copies of the same logic must be kept in step, and nothing warns us when they drift apart.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -402,10 +421,10 @@
 <div class="cell quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="week09_slides_files/figure-revealjs/unnamed-chunk-3-1.png" width="960"></p>
+<p><img data-src="week09_slides_files/figure-revealjs/unnamed-chunk-4-1.png" width="960"></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="week09_slides_files/figure-revealjs/unnamed-chunk-3-2.png" width="960"></p>
+<p><img data-src="week09_slides_files/figure-revealjs/unnamed-chunk-4-2.png" width="960"></p>
 </div>
 </div>
 </div>
@@ -492,14 +511,15 @@
 <li><strong>Object-oriented</strong>: objects bundling data and behaviour</li>
 <li><strong>Functional</strong>: <strong>pure</strong> functions and <strong>immutable</strong> data</li>
 </ul>
-<div class="fragment">
+</section>
+<section id="r-is-functional" class="slide level2">
+<h2><code>R</code> is functional</h2>
 <p><code>R</code> supports all three, but is a natural fit for functional programming:</p>
 <ul>
 <li>functions are <strong>values</strong>: assign them, pass them, return them</li>
 <li><strong>anonymous</strong> functions: <code>function(x) x + 1</code>, or <code>\(x) x + 1</code></li>
 <li><strong>higher-order</strong> functions take or return functions (week 2)</li>
 </ul>
-</div>
 </section>
 <section id="pure-functions" class="slide level2 scrollable">
 <h2>Pure functions</h2>
@@ -508,6 +528,12 @@
 <li>its result depends <strong>only on its arguments</strong>, and</li>
 <li>it has <strong>no side effects</strong> — it changes nothing outside itself.</li>
 </ol>
+<div class="fragment">
+<p>Everything a pure function does is visible in its arguments and its return value, so it is easy to test, debug and reason about.</p>
+</div>
+</section>
+<section id="which-are-pure" class="slide level2">
+<h2>Which are pure?</h2>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -517,7 +543,7 @@
 <p><strong>Task</strong></p>
 </div>
 <div class="callout-content">
-<p>Which of these are pure?</p>
+<p>Which of these functions are pure?</p>
 </div>
 </div>
 </div>
@@ -716,7 +742,9 @@
 </tr>
 </tbody>
 </table>
-<div class="fragment">
+</section>
+<section id="map-fails-fast" class="slide level2">
+<h2><code>map</code> fails fast</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a aria-label="1"></a><span class="fu">map_dbl</span>(<span class="fu">integer</span>(<span class="dv">0</span>), <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -728,7 +756,6 @@
 i In index: 1.
 Caused by error:
 ! Result must be length 1, not 2.</code></pre>
-</div>
 </div>
 </div>
 <div class="fragment">
@@ -874,63 +901,28 @@ Caused by error:
 <span id="cb47-2"><a aria-label="2"></a>  x,</span>
 <span id="cb47-3"><a aria-label="3"></a>  \(cur, new) <span class="fu">list</span>(<span class="at">sum =</span> cur<span class="sc">$</span>sum <span class="sc">+</span> new, <span class="at">prod =</span> cur<span class="sc">$</span>prod <span class="sc">*</span> new),</span>
 <span id="cb47-4"><a aria-label="4"></a>  <span class="at">.init =</span> <span class="fu">list</span>(<span class="at">sum =</span> <span class="dv">0</span>, <span class="at">prod =</span> <span class="dv">1</span>)</span>
-<span id="cb47-5"><a aria-label="5"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb47-5"><a aria-label="5"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb47-6"><a aria-label="6"></a>  <span class="fu">unlist</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>$sum
-[1] 55
-
-$prod
-[1] 3628800</code></pre>
+<pre><code>    sum    prod 
+     55 3628800 </code></pre>
 </div>
 </div>
 <div class="fragment">
-<p>Pointless for a vector in memory — <code>sum()</code> and <code>prod()</code> are faster. It pays off when each pass through the data is <strong>expensive</strong>, e.g.&nbsp;data spread over many files on disk. We’ll use exactly this idea for <strong>big data</strong> in week 10.</p>
+<p>Pointless here — <code>sum()</code> and <code>prod()</code> are faster — but it pays off when each pass through the data is <strong>expensive</strong>, e.g.&nbsp;many files on disk. We’ll use exactly this idea for <strong>big data</strong> in week 10.</p>
 </div>
 </section>
 <section id="predicates" class="slide level2">
 <h2>Predicates</h2>
-<p>A <em>predicate</em> is a function that returns <code>TRUE</code> or <code>FALSE</code>.</p>
+<p>A <em>predicate</em> is a function that returns <code>TRUE</code> or <code>FALSE</code>. <code>keep()</code> keeps the elements for which it is <code>TRUE</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a aria-label="1"></a>x <span class="sc">|&gt;</span> <span class="fu">keep</span>(\(v) v <span class="sc">&gt;</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  6  7  8  9 10</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a aria-label="1"></a>x <span class="sc">|&gt;</span> <span class="fu">every</span>(\(v) v <span class="sc">&gt;</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] FALSE</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a aria-label="1"></a>x <span class="sc">|&gt;</span> <span class="fu">none</span>(\(v) v <span class="sc">&gt;</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
-</div>
-</div>
-<div class="fragment">
-<p>They work on lists too:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a aria-label="1"></a>summaries <span class="sc">|&gt;</span> <span class="fu">keep</span>(\(s) s<span class="sc">$</span>mean_mass <span class="sc">&gt;</span> <span class="dv">4000</span>) <span class="sc">|&gt;</span> <span class="fu">names</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Gentoo"</code></pre>
-</div>
-</div>
-</div>
-</section>
-<section id="partial-application" class="slide level2">
-<h2>Partial application</h2>
-<p>Fix some arguments of a function, to get a new function of the rest:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a aria-label="1"></a>add_10 <span class="ot">&lt;-</span> <span class="fu">partial</span>(<span class="st">`</span><span class="at">+</span><span class="st">`</span>, <span class="dv">10</span>)</span>
-<span id="cb57-2"><a aria-label="2"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">5</span> <span class="sc">|&gt;</span> <span class="fu">map_dbl</span>(add_10)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 11 12 13 14 15</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a aria-label="1"></a>greet <span class="ot">&lt;-</span> <span class="fu">partial</span>(paste, <span class="st">"Hello"</span>)</span>
-<span id="cb59-2"><a aria-label="2"></a><span class="fu">c</span>(<span class="st">"Ada Lovelace"</span>, <span class="st">"Alan Turing"</span>) <span class="sc">|&gt;</span> <span class="fu">map_chr</span>(greet)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Hello Ada Lovelace" "Hello Alan Turing" </code></pre>
-</div>
 </div>
 <aside class="notes">
-<p>Related to <em>currying</em> (<code>f(a, b)</code> becomes <code>f(a)(b)</code>): <code>make_multiplier</code> from week 2 is curried multiplication. The notes also cover <code>compose()</code>, which packages a chain of functions as a new function.</p>
+<p><code>every()</code> and <code>none()</code> check whether all, or no, elements pass; all of them work on lists as well as vectors. They’re in the notes.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -964,8 +956,8 @@ $prod
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a aria-label="1"></a>distance <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> y)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb61-2"><a aria-label="2"></a><span class="fu">distance</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a aria-label="1"></a>distance <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> y)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb51-2"><a aria-label="2"></a><span class="fu">distance</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.828427</code></pre>
 </div>
@@ -977,16 +969,16 @@ $prod
 <section id="check-your-inputs" class="slide level2">
 <h2>Check your inputs</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a aria-label="1"></a>distance <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
-<span id="cb63-2"><a aria-label="2"></a>  <span class="fu">stopifnot</span>(</span>
-<span id="cb63-3"><a aria-label="3"></a>    <span class="st">"Both x and y must be numeric vectors."</span> <span class="ot">=</span></span>
-<span id="cb63-4"><a aria-label="4"></a>      <span class="fu">is.numeric</span>(x) <span class="sc">&amp;&amp;</span> <span class="fu">is.numeric</span>(y),</span>
-<span id="cb63-5"><a aria-label="5"></a>    <span class="st">"x and y must have the same length."</span> <span class="ot">=</span> <span class="fu">length</span>(x) <span class="sc">==</span> <span class="fu">length</span>(y)</span>
-<span id="cb63-6"><a aria-label="6"></a>  )</span>
-<span id="cb63-7"><a aria-label="7"></a>  <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> y)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb63-8"><a aria-label="8"></a>}</span>
-<span id="cb63-9"><a aria-label="9"></a></span>
-<span id="cb63-10"><a aria-label="10"></a><span class="fu">distance</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a aria-label="1"></a>distance <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb53-2"><a aria-label="2"></a>  <span class="fu">stopifnot</span>(</span>
+<span id="cb53-3"><a aria-label="3"></a>    <span class="st">"Both x and y must be numeric vectors."</span> <span class="ot">=</span></span>
+<span id="cb53-4"><a aria-label="4"></a>      <span class="fu">is.numeric</span>(x) <span class="sc">&amp;&amp;</span> <span class="fu">is.numeric</span>(y),</span>
+<span id="cb53-5"><a aria-label="5"></a>    <span class="st">"x and y must have the same length."</span> <span class="ot">=</span> <span class="fu">length</span>(x) <span class="sc">==</span> <span class="fu">length</span>(y)</span>
+<span id="cb53-6"><a aria-label="6"></a>  )</span>
+<span id="cb53-7"><a aria-label="7"></a>  <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> y)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb53-8"><a aria-label="8"></a>}</span>
+<span id="cb53-9"><a aria-label="9"></a></span>
+<span id="cb53-10"><a aria-label="10"></a><span class="fu">distance</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in distance(1:4, 1:2): x and y must have the same length.</code></pre>
 </div>
@@ -1038,7 +1030,8 @@ $prod
 <li>handling errors: <code>try()</code>, <code>tryCatch()</code>, and <code>purrr::possibly()</code> for reading many files when some may fail</li>
 <li>unit tests with <code>stopifnot()</code> and <code>testthat</code></li>
 <li>documenting functions with roxygen comments (<code>#'</code>)</li>
-<li><code>compose()</code>, and dependency management with <code>renv</code></li>
+<li>more higher-order functions: <code>every()</code>, <code>none()</code>, <code>compose()</code> and <code>partial()</code></li>
+<li>dependency management with <code>renv</code></li>
 </ul>
 
 
