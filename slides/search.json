@@ -1,5 +1,649 @@
 [
   {
+    "objectID": "week10_slides_handout.html",
+    "href": "week10_slides_handout.html",
+    "title": "Working with Big Data",
+    "section": "",
+    "text": "By the end of this lecture you will be able to:\n\n\nexplain what makes data “big”, and why in-memory tools like the tidyverse fail on it\n\n\n\n\nidentify whether memory, storage or compute is the bottleneck, and the tradeoffs between them\n\n\n\n\ndescribe the main strategies — doing the work in a database, and processing data in chunks (map-reduce) — and the tools that implement them in and outside R"
+  },
+  {
+    "objectID": "week10_slides_handout.html#agenda",
+    "href": "week10_slides_handout.html#agenda",
+    "title": "Working with Big Data",
+    "section": "",
+    "text": "By the end of this lecture you will be able to:\n\n\nexplain what makes data “big”, and why in-memory tools like the tidyverse fail on it\n\n\n\n\nidentify whether memory, storage or compute is the bottleneck, and the tradeoffs between them\n\n\n\n\ndescribe the main strategies — doing the work in a database, and processing data in chunks (map-reduce) — and the tools that implement them in and outside R"
+  },
+  {
+    "objectID": "week10_slides_handout.html#what-you-need-to-know",
+    "href": "week10_slides_handout.html#what-you-need-to-know",
+    "title": "Working with Big Data",
+    "section": "What you need to know",
+    "text": "What you need to know\n\n\n\n\n\n\nImportantFor the assessment\n\n\n\nYou won’t work with genuinely big data, or need DuckDB. You should be able to explain why large data cause problems, and how to change an approach as the data grow: chunking with map-reduce, or doing the work in a database (week 9).\n\n\n\nThe DuckDB demos today run on a 29GB file of US flight prices from Kaggle (notes/data/load_itineraries.sh downloads it). Each query takes about 20 seconds on a laptop — fill the time by asking the room to predict the result, or by talking about what DuckDB is doing (streaming through the file on disk, using every core)."
+  },
+  {
+    "objectID": "week10_slides_handout.html#the-three-vs",
+    "href": "week10_slides_handout.html#the-three-vs",
+    "title": "Working with Big Data",
+    "section": "The three Vs",
+    "text": "The three Vs\n\n\nVolume: too much to store or load — terabytes, petabytes\n\n\n\n\nVelocity: arrives faster than it can be processed — e.g. a live stream of every post on a social media site\n\n\n\n\nVariety: many types and sources — tables, text, images, sensor data\n\n\n\n“Big” is relative: it depends on your hardware and tools. What’s big for a laptop is routine for a cluster."
+  },
+  {
+    "objectID": "week10_slides_handout.html#why-is-it-a-problem",
+    "href": "week10_slides_handout.html#why-is-it-a-problem",
+    "title": "Working with Big Data",
+    "section": "Why is it a problem?",
+    "text": "Why is it a problem?\n\n\n\n\n\n\nImportantTask\n\n\n\nOur flight prices file is 29 GB. A typical laptop has 16 GB of memory. What happens if we run read_csv(\"data/itineraries.csv\")?\n\n\n\nread_csv loads the whole file into memory as a tibble — and it doesn’t fit. R fails, or the computer slows to a crawl as it swaps memory to disk.\nBut we don’t need it all in memory to compute, say, a mean: we could read each value once, keep a running total and a count, and throw the value away."
+  },
+  {
+    "objectID": "week10_slides_handout.html#three-resources",
+    "href": "week10_slides_handout.html#three-resources",
+    "title": "Working with Big Data",
+    "section": "Three resources",
+    "text": "Three resources\n\n\n\n\n\n\n\n\n\nResource\nSpeed\nSize\nLimits…\n\n\n\n\nMemory (RAM)\nvery fast\n8–32 GB\nwhat the tidyverse can load at once\n\n\nStorage (disk)\nmuch slower\n100s of GB – TBs\nhow fast data can be read in pieces\n\n\nCompute (CPU/GPU)\n—\ncores\nhow fast calculations run\n\n\n\n\nThe workflow runs as fast as its bottleneck. Big data work is trading them off: reading in chunks uses less memory, but takes longer.\n\n\nStorage speeds: a solid-state drive is far slower than memory, a spinning hard drive slower still. Compute: many cores, and GPUs, help when work can be split into independent pieces — at the cost of complexity."
+  },
+  {
+    "objectID": "week10_slides_handout.html#find-the-bottleneck",
+    "href": "week10_slides_handout.html#find-the-bottleneck",
+    "title": "Working with Big Data",
+    "section": "Find the bottleneck",
+    "text": "Find the bottleneck\n\n\n\n\n\n\nImportantTask\n\n\n\nWhat limits each of these? How would you cope?\n\nSummarising a 1 TB CSV file on a laptop\nAnalysing a live stream of every post on a social media site\n\n\n\n\n\nStorage: it can’t be loaded, so it must be read from disk in pieces (or loaded into a database). At ~500 MB/s, one pass through 1 TB takes over half an hour — so compute everything you need in as few passes as possible.\nCompute (or the network): data may arrive faster than one machine can process it. Process each record as it arrives keeping running summaries, discard what you don’t need early, and share the work across many machines."
+  },
+  {
+    "objectID": "week10_slides_handout.html#is-my-data-actually-big",
+    "href": "week10_slides_handout.html#is-my-data-actually-big",
+    "title": "Working with Big Data",
+    "section": "Is my data actually big?",
+    "text": "Is my data actually big?\nBefore reaching for special tools:\n\nlibrary(tidyverse)\npenguins &lt;- read_csv(\"data/penguins.csv\")\nformat(object.size(penguins), units = \"KB\")\n\n[1] \"32.3 Kb\"\n\n\n\n\nfares &lt;- read_csv(\n  \"data/itineraries.csv\",\n  col_select = c(startingAirport, baseFare),   # only the columns you need\n  n_max = 100000                               # develop on a subset\n)\nformat(object.size(fares), units = \"MB\")\n\n[1] \"1.5 Mb\"\n\n\n\n\nCheck the file size on disk first: it’s a rough guide to the memory needed. n_max reads the first rows, which may not be representative of the rest — fine for writing and testing code, not for final results."
+  },
+  {
+    "objectID": "week10_slides_handout.html#better-storage",
+    "href": "week10_slides_handout.html#better-storage",
+    "title": "Working with Big Data",
+    "section": "Better storage",
+    "text": "Better storage\nA CSV must be read in full, even to get one column.\n\n\nRelational databases (week 9): data on disk, indexes, powerful servers\nColumnar formats — Parquet, Feather: each column stored together, so you read only the columns you need\nHDF5: large arrays and scientific data, with fast access to subsets"
+  },
+  {
+    "objectID": "week10_slides_handout.html#beyond-one-computer",
+    "href": "week10_slides_handout.html#beyond-one-computer",
+    "title": "Working with Big Data",
+    "section": "Beyond one computer",
+    "text": "Beyond one computer\n\nHadoop: distributed storage (HDFS) and processing (MapReduce) across a cluster\nApache Spark: fast cluster computing, with APIs for R, Python, Scala, Java\n\n\nR is often a layer on top of these, rather than the engine:\n\ndbplyr — dplyr code run in a database (week 9)\nsparklyr — dplyr code run on a Spark cluster\nduckdb / duckplyr — a fast analytical database, in-process\nreadr::read_csv_chunked() — simple map-reduce in plain R"
+  },
+  {
+    "objectID": "week10_slides_handout.html#a-database-without-a-server",
+    "href": "week10_slides_handout.html#a-database-without-a-server",
+    "title": "Working with Big Data",
+    "section": "A database without a server",
+    "text": "A database without a server\nDuckDB runs inside your R session, and can query a CSV file on disk without loading it.\n\nlibrary(duckplyr)\nflights &lt;- read_csv_duckdb(\"data/itineraries.csv\")\n\n\nflights |&gt; summarise(n = n())\n\n# A duckplyr data frame: 1 variable\n         n\n     &lt;int&gt;\n1 82138753\n\n\n\nDEMO (optional): run these live — the count takes ~20 s on 82 million rows. Open Activity Monitor while it runs: memory barely moves, all CPU cores are busy. That’s the point."
+  },
+  {
+    "objectID": "week10_slides_handout.html#mean-fare-by-airport",
+    "href": "week10_slides_handout.html#mean-fare-by-airport",
+    "title": "Working with Big Data",
+    "section": "Mean fare by airport",
+    "text": "Mean fare by airport\n\n\n\n\n\n\nImportantTask\n\n\n\nCompute the mean baseFare for each startingAirport, the usual way.\n\n\n\n\nflights |&gt;\n  group_by(startingAirport) |&gt;\n  summarise(mean_base_fare = mean(baseFare, na.rm = TRUE))\n\nError in `group_by()`:\n! This operation cannot be carried out by DuckDB, and the input is a\n  stingy duckplyr frame.\n* Try `summarise(.by = ...)` or `mutate(.by = ...)` instead of `group_by()` and\n  `ungroup()`.\ni Use `compute(prudence = \"lavish\")` to materialize to temporary storage and\n  continue with duckplyr.\ni See `vignette(\"prudence\")` for other options.\n\n\n\n\nRead the error out: duckplyr can’t run group_by() inside DuckDB, and rather than silently pulling 29 GB into R, it stops. The message tells you the fix. General lesson: these tools support most of dplyr; when something fails, the error message usually says how to rewrite it."
+  },
+  {
+    "objectID": "week10_slides_handout.html#use-.by",
+    "href": "week10_slides_handout.html#use-.by",
+    "title": "Working with Big Data",
+    "section": "Use .by",
+    "text": "Use .by\n\nflights |&gt;\n  summarise(mean_base_fare = mean(baseFare, na.rm = TRUE),\n            .by = startingAirport) |&gt;\n  arrange(desc(mean_base_fare))\n\n# A duckplyr data frame: 2 variables\n   startingAirport mean_base_fare\n   &lt;chr&gt;                    &lt;dbl&gt;\n 1 OAK                       466.\n 2 SFO                       383.\n 3 JFK                       329.\n 4 LAX                       328.\n 5 IAD                       322.\n 6 PHL                       295.\n 7 DEN                       289.\n 8 DTW                       281.\n 9 CLT                       278.\n10 EWR                       256.\n11 ATL                       256.\n12 LGA                       256.\n13 MIA                       254.\n14 DFW                       248.\n15 BOS                       244.\n16 ORD                       238.\n\n\n\nThe whole query runs in DuckDB, streaming through the file; only the 16 rows of the result come back to R."
+  },
+  {
+    "objectID": "week10_slides_handout.html#same-thing-with-dbplyr",
+    "href": "week10_slides_handout.html#same-thing-with-dbplyr",
+    "title": "Working with Big Data",
+    "section": "Same thing, with dbplyr",
+    "text": "Same thing, with dbplyr\n\nlibrary(DBI)\nlibrary(dbplyr)\ncon &lt;- dbConnect(duckdb::duckdb())\nflights_db &lt;- duckdb::tbl_file(con, \"data/itineraries.csv\")\n\nflights_db |&gt;\n  group_by(startingAirport) |&gt;\n  summarise(mean_base_fare = mean(baseFare, na.rm = TRUE)) |&gt;\n  show_query()\n\n&lt;SQL&gt;\nSELECT startingAirport, AVG(baseFare) AS mean_base_fare\nFROM (FROM 'data/itineraries.csv') q01\nGROUP BY startingAirport\n\n\n\nExactly week 9 — a lazy table, translated to SQL — except the FROM names a CSV file. collect() would give the same 16 rows."
+  },
+  {
+    "objectID": "week10_slides_handout.html#split-summarise-combine",
+    "href": "week10_slides_handout.html#split-summarise-combine",
+    "title": "Working with Big Data",
+    "section": "Split, summarise, combine",
+    "text": "Split, summarise, combine\n\n\n\n\n\nflowchart LR\n  file[(\"itineraries.csv\")] --&gt; c1[\"chunk 1\"] & c2[\"chunk 2\"] & c3[\"...\"]\n  c1 --&gt; s1[\"summary\"]\n  c2 --&gt; s2[\"summary\"]\n  c3 --&gt; s3[\"...\"]\n  s1 & s2 & s3 --&gt; result[\"combine\"]\n\n\n\n\n\n\n\n\nmap: process each chunk independently, keeping only a small summary\nreduce: combine the summaries into the answer\n\n\n\nOnly one chunk in memory at a time — and in Hadoop, chunks are processed on many machines at once."
+  },
+  {
+    "objectID": "week10_slides_handout.html#what-should-each-chunk-return",
+    "href": "week10_slides_handout.html#what-should-each-chunk-return",
+    "title": "Working with Big Data",
+    "section": "What should each chunk return?",
+    "text": "What should each chunk return?\n\n\n\n\n\n\nImportantTask\n\n\n\nTo find the mean body mass of the penguins, we split the data into chunks of 100 rows. Why not just average the four chunk means?\n\n\n\n\nmass &lt;- penguins$body_mass_g\nchunks &lt;- split(mass, ceiling(seq_along(mass) / 100))\nlengths(chunks)\n\n  1   2   3   4 \n100 100 100  44 \n\nmean(map_dbl(chunks, \\(x) mean(x, na.rm = TRUE)))   # mean of chunk means\n\n[1] 4139.497\n\nmean(mass, na.rm = TRUE)                            # the true mean\n\n[1] 4201.754\n\n\nThe chunks have different sizes, so their means can’t simply be averaged. Return a sum and a count from each chunk: those can be added up.\n\n\nGeneral principle: the map step must return enough to combine the partial results exactly. Sums and counts add; means, medians don’t."
+  },
+  {
+    "objectID": "week10_slides_handout.html#chunks-in-r",
+    "href": "week10_slides_handout.html#chunks-in-r",
+    "title": "Working with Big Data",
+    "section": "Chunks in R",
+    "text": "Chunks in R\n\nsummarise_chunk &lt;- function(chunk, pos) {          # map: one chunk\n  chunk |&gt;\n    group_by(species) |&gt;\n    summarise(sum_mass = sum(body_mass_g, na.rm = TRUE),\n              n = sum(!is.na(body_mass_g)), .groups = \"drop\")\n}\n\nresults &lt;- read_csv_chunked(\n  \"data/penguins.csv\",\n  callback = DataFrameCallback$new(summarise_chunk),\n  chunk_size = 100,\n  col_types = cols_only(species = col_character(),\n                        body_mass_g = col_double())\n)\n\nresults |&gt;                                          # reduce: combine\n  group_by(species) |&gt;\n  summarise(mean_mass = sum(sum_mass) / sum(n))\n\n# A tibble: 3 x 2\n  species   mean_mass\n  &lt;chr&gt;         &lt;dbl&gt;\n1 Adelie        3701.\n2 Chinstrap     3733.\n3 Gentoo        5076.\n\n\n\nresults has one row per species per chunk; the reduce adds up the sums and counts. This is reduce() with an .init accumulator from week 8, in disguise. Exactly the same code, with chunk_size = 50000, computes the mean fare per airport from the 29 GB file — the notes show the output; it takes a long time, so don’t run it live."
+  },
+  {
+    "objectID": "week10_slides_handout.html#a-chunking-trap",
+    "href": "week10_slides_handout.html#a-chunking-trap",
+    "title": "Working with Big Data",
+    "section": "A chunking trap",
+    "text": "A chunking trap\n\n\n\n\n\n\nImportantTask\n\n\n\nA file’s code column holds numbers for 15 rows, then codes like A1. We read it in chunks of 10 rows. What happens to the last five codes?\n\n\n\ncsv_text &lt;- I(paste(\n  c(\"id,code\", paste0(1:20, \",\", c(1:15, paste0(\"A\", 1:5)))),\n  collapse = \"\\n\"\n))\nread_chunk &lt;- DataFrameCallback$new(function(chunk, pos) chunk)\n\n\n\nread_csv_chunked(csv_text, read_chunk, chunk_size = 10,\n                 show_col_types = FALSE) |&gt;\n  tail(6)\n\n# A tibble: 6 x 2\n     id  code\n  &lt;dbl&gt; &lt;dbl&gt;\n1    15    15\n2    16    NA\n3    17    NA\n4    18    NA\n5    19    NA\n6    20    NA\n\n\nColumn types are guessed from the first chunk only: code looks numeric, so later text becomes NA — silently. Always give col_types."
+  },
+  {
+    "objectID": "week10_slides_handout.html#today-you-can-now",
+    "href": "week10_slides_handout.html#today-you-can-now",
+    "title": "Working with Big Data",
+    "section": "Today you can now:",
+    "text": "Today you can now:\n\n\nexplain why data that doesn’t fit in memory breaks the usual workflow, and find the bottleneck\n\n\n\n\nshrink the problem first: fewer columns, a subset, a better format\n\n\n\n\nmove the work: into a database (DuckDB, dbplyr), or into chunks (map-reduce), returning summaries that combine exactly"
+  },
+  {
+    "objectID": "week10_slides_handout.html#read-the-notes",
+    "href": "week10_slides_handout.html#read-the-notes",
+    "title": "Working with Big Data",
+    "section": "Read the notes",
+    "text": "Read the notes\nWe didn’t cover in detail:\n\nthe map-reduce run over the full 29 GB flights file, and its output\nDuckDB with dbplyr and collect()\nlinks to Hadoop, Spark, Parquet and Feather"
+  },
+  {
+    "objectID": "week10_slides.html#agenda",
+    "href": "week10_slides.html#agenda",
+    "title": "Working with Big Data",
+    "section": "Objectives",
+    "text": "Objectives\nBy the end of this lecture you will be able to:\n\n\nexplain what makes data “big”, and why in-memory tools like the tidyverse fail on it\n\n\n\n\nidentify whether memory, storage or compute is the bottleneck, and the tradeoffs between them\n\n\n\n\ndescribe the main strategies — doing the work in a database, and processing data in chunks (map-reduce) — and the tools that implement them in and outside R"
+  },
+  {
+    "objectID": "week10_slides.html#what-you-need-to-know",
+    "href": "week10_slides.html#what-you-need-to-know",
+    "title": "Working with Big Data",
+    "section": "What you need to know",
+    "text": "What you need to know\n\n\n\n\n\n\nFor the assessment\n\n\nYou won’t work with genuinely big data, or need DuckDB. You should be able to explain why large data cause problems, and how to change an approach as the data grow: chunking with map-reduce, or doing the work in a database (week 9).\n\n\n\n\nThe DuckDB demos today run on a 29GB file of US flight prices from Kaggle (notes/data/load_itineraries.sh downloads it). Each query takes about 20 seconds on a laptop — fill the time by asking the room to predict the result, or by talking about what DuckDB is doing (streaming through the file on disk, using every core)."
+  },
+  {
+    "objectID": "week10_slides.html#the-three-vs",
+    "href": "week10_slides.html#the-three-vs",
+    "title": "Working with Big Data",
+    "section": "The three Vs",
+    "text": "The three Vs\n\n\nVolume: too much to store or load — terabytes, petabytes\n\n\n\n\nVelocity: arrives faster than it can be processed — e.g. a live stream of every post on a social media site\n\n\n\n\nVariety: many types and sources — tables, text, images, sensor data\n\n\n\n“Big” is relative: it depends on your hardware and tools. What’s big for a laptop is routine for a cluster."
+  },
+  {
+    "objectID": "week10_slides.html#why-is-it-a-problem",
+    "href": "week10_slides.html#why-is-it-a-problem",
+    "title": "Working with Big Data",
+    "section": "Why is it a problem?",
+    "text": "Why is it a problem?\n\n\n\n\n\n\nTask\n\n\nOur flight prices file is 29 GB. A typical laptop has 16 GB of memory. What happens if we run read_csv(\"data/itineraries.csv\")?\n\n\n\n\nread_csv loads the whole file into memory as a tibble — and it doesn’t fit. R fails, or the computer slows to a crawl as it swaps memory to disk.\nBut we don’t need it all in memory to compute, say, a mean: we could read each value once, keep a running total and a count, and throw the value away."
+  },
+  {
+    "objectID": "week10_slides.html#three-resources",
+    "href": "week10_slides.html#three-resources",
+    "title": "Working with Big Data",
+    "section": "Three resources",
+    "text": "Three resources\n\n\n\n\n\n\n\n\n\nResource\nSpeed\nSize\nLimits…\n\n\n\n\nMemory (RAM)\nvery fast\n8–32 GB\nwhat the tidyverse can load at once\n\n\nStorage (disk)\nmuch slower\n100s of GB – TBs\nhow fast data can be read in pieces\n\n\nCompute (CPU/GPU)\n—\ncores\nhow fast calculations run\n\n\n\n\nThe workflow runs as fast as its bottleneck. Big data work is trading them off: reading in chunks uses less memory, but takes longer.\n\n\nStorage speeds: a solid-state drive is far slower than memory, a spinning hard drive slower still. Compute: many cores, and GPUs, help when work can be split into independent pieces — at the cost of complexity."
+  },
+  {
+    "objectID": "week10_slides.html#find-the-bottleneck",
+    "href": "week10_slides.html#find-the-bottleneck",
+    "title": "Working with Big Data",
+    "section": "Find the bottleneck",
+    "text": "Find the bottleneck\n\n\n\n\n\n\nTask\n\n\nWhat limits each of these? How would you cope?\n\nSummarising a 1 TB CSV file on a laptop\nAnalysing a live stream of every post on a social media site\n\n\n\n\n\n\nStorage: it can’t be loaded, so it must be read from disk in pieces (or loaded into a database). At ~500 MB/s, one pass through 1 TB takes over half an hour — so compute everything you need in as few passes as possible.\nCompute (or the network): data may arrive faster than one machine can process it. Process each record as it arrives keeping running summaries, discard what you don’t need early, and share the work across many machines."
+  },
+  {
+    "objectID": "week10_slides.html#is-my-data-actually-big",
+    "href": "week10_slides.html#is-my-data-actually-big",
+    "title": "Working with Big Data",
+    "section": "Is my data actually big?",
+    "text": "Is my data actually big?\nBefore reaching for special tools:\n\nlibrary(tidyverse)\npenguins &lt;- read_csv(\"data/penguins.csv\")\nformat(object.size(penguins), units = \"KB\")\n\n[1] \"32.3 Kb\"\n\n\n\n\nfares &lt;- read_csv(\n  \"data/itineraries.csv\",\n  col_select = c(startingAirport, baseFare),   # only the columns you need\n  n_max = 100000                               # develop on a subset\n)\nformat(object.size(fares), units = \"MB\")\n\n[1] \"1.5 Mb\"\n\n\n\n\nCheck the file size on disk first: it’s a rough guide to the memory needed. n_max reads the first rows, which may not be representative of the rest — fine for writing and testing code, not for final results."
+  },
+  {
+    "objectID": "week10_slides.html#better-storage",
+    "href": "week10_slides.html#better-storage",
+    "title": "Working with Big Data",
+    "section": "Better storage",
+    "text": "Better storage\nA CSV must be read in full, even to get one column.\n\n\nRelational databases (week 9): data on disk, indexes, powerful servers\nColumnar formats — Parquet, Feather: each column stored together, so you read only the columns you need\nHDF5: large arrays and scientific data, with fast access to subsets"
+  },
+  {
+    "objectID": "week10_slides.html#beyond-one-computer",
+    "href": "week10_slides.html#beyond-one-computer",
+    "title": "Working with Big Data",
+    "section": "Beyond one computer",
+    "text": "Beyond one computer\n\nHadoop: distributed storage (HDFS) and processing (MapReduce) across a cluster\nApache Spark: fast cluster computing, with APIs for R, Python, Scala, Java\n\n\nR is often a layer on top of these, rather than the engine:\n\ndbplyr — dplyr code run in a database (week 9)\nsparklyr — dplyr code run on a Spark cluster\nduckdb / duckplyr — a fast analytical database, in-process\nreadr::read_csv_chunked() — simple map-reduce in plain R"
+  },
+  {
+    "objectID": "week10_slides.html#a-database-without-a-server",
+    "href": "week10_slides.html#a-database-without-a-server",
+    "title": "Working with Big Data",
+    "section": "A database without a server",
+    "text": "A database without a server\nDuckDB runs inside your R session, and can query a CSV file on disk without loading it.\n\nlibrary(duckplyr)\nflights &lt;- read_csv_duckdb(\"data/itineraries.csv\")\n\n\nflights |&gt; summarise(n = n())\n\n# A duckplyr data frame: 1 variable\n         n\n     &lt;int&gt;\n1 82138753\n\n\n\nDEMO (optional): run these live — the count takes ~20 s on 82 million rows. Open Activity Monitor while it runs: memory barely moves, all CPU cores are busy. That’s the point."
+  },
+  {
+    "objectID": "week10_slides.html#mean-fare-by-airport",
+    "href": "week10_slides.html#mean-fare-by-airport",
+    "title": "Working with Big Data",
+    "section": "Mean fare by airport",
+    "text": "Mean fare by airport\n\n\n\n\n\n\nTask\n\n\nCompute the mean baseFare for each startingAirport, the usual way.\n\n\n\n\n\nflights |&gt;\n  group_by(startingAirport) |&gt;\n  summarise(mean_base_fare = mean(baseFare, na.rm = TRUE))\n\nError in `group_by()`:\n! This operation cannot be carried out by DuckDB, and the input is a\n  stingy duckplyr frame.\n* Try `summarise(.by = ...)` or `mutate(.by = ...)` instead of `group_by()` and\n  `ungroup()`.\ni Use `compute(prudence = \"lavish\")` to materialize to temporary storage and\n  continue with duckplyr.\ni See `vignette(\"prudence\")` for other options.\n\n\n\n\nRead the error out: duckplyr can’t run group_by() inside DuckDB, and rather than silently pulling 29 GB into R, it stops. The message tells you the fix. General lesson: these tools support most of dplyr; when something fails, the error message usually says how to rewrite it."
+  },
+  {
+    "objectID": "week10_slides.html#use-.by",
+    "href": "week10_slides.html#use-.by",
+    "title": "Working with Big Data",
+    "section": "Use .by",
+    "text": "Use .by\n\nflights |&gt;\n  summarise(mean_base_fare = mean(baseFare, na.rm = TRUE),\n            .by = startingAirport) |&gt;\n  arrange(desc(mean_base_fare))\n\n# A duckplyr data frame: 2 variables\n   startingAirport mean_base_fare\n   &lt;chr&gt;                    &lt;dbl&gt;\n 1 OAK                       466.\n 2 SFO                       383.\n 3 JFK                       329.\n 4 LAX                       328.\n 5 IAD                       322.\n 6 PHL                       295.\n 7 DEN                       289.\n 8 DTW                       281.\n 9 CLT                       278.\n10 EWR                       256.\n11 ATL                       256.\n12 LGA                       256.\n13 MIA                       254.\n14 DFW                       248.\n15 BOS                       244.\n16 ORD                       238.\n\n\n\nThe whole query runs in DuckDB, streaming through the file; only the 16 rows of the result come back to R."
+  },
+  {
+    "objectID": "week10_slides.html#same-thing-with-dbplyr",
+    "href": "week10_slides.html#same-thing-with-dbplyr",
+    "title": "Working with Big Data",
+    "section": "Same thing, with dbplyr",
+    "text": "Same thing, with dbplyr\n\nlibrary(DBI)\nlibrary(dbplyr)\ncon &lt;- dbConnect(duckdb::duckdb())\nflights_db &lt;- duckdb::tbl_file(con, \"data/itineraries.csv\")\n\nflights_db |&gt;\n  group_by(startingAirport) |&gt;\n  summarise(mean_base_fare = mean(baseFare, na.rm = TRUE)) |&gt;\n  show_query()\n\n&lt;SQL&gt;\nSELECT startingAirport, AVG(baseFare) AS mean_base_fare\nFROM (FROM 'data/itineraries.csv') q01\nGROUP BY startingAirport\n\n\n\nExactly week 9 — a lazy table, translated to SQL — except the FROM names a CSV file. collect() would give the same 16 rows."
+  },
+  {
+    "objectID": "week10_slides.html#split-summarise-combine",
+    "href": "week10_slides.html#split-summarise-combine",
+    "title": "Working with Big Data",
+    "section": "Split, summarise, combine",
+    "text": "Split, summarise, combine\n\n\n\n\n\n\n\n\n\n\n\n\n\nmap: process each chunk independently, keeping only a small summary\nreduce: combine the summaries into the answer\n\n\n\nOnly one chunk in memory at a time — and in Hadoop, chunks are processed on many machines at once."
+  },
+  {
+    "objectID": "week10_slides.html#what-should-each-chunk-return",
+    "href": "week10_slides.html#what-should-each-chunk-return",
+    "title": "Working with Big Data",
+    "section": "What should each chunk return?",
+    "text": "What should each chunk return?\n\n\n\n\n\n\nTask\n\n\nTo find the mean body mass of the penguins, we split the data into chunks of 100 rows. Why not just average the four chunk means?\n\n\n\n\n\nmass &lt;- penguins$body_mass_g\nchunks &lt;- split(mass, ceiling(seq_along(mass) / 100))\nlengths(chunks)\n\n  1   2   3   4 \n100 100 100  44 \n\nmean(map_dbl(chunks, \\(x) mean(x, na.rm = TRUE)))   # mean of chunk means\n\n[1] 4139.497\n\nmean(mass, na.rm = TRUE)                            # the true mean\n\n[1] 4201.754\n\n\nThe chunks have different sizes, so their means can’t simply be averaged. Return a sum and a count from each chunk: those can be added up.\n\n\nGeneral principle: the map step must return enough to combine the partial results exactly. Sums and counts add; means, medians don’t."
+  },
+  {
+    "objectID": "week10_slides.html#chunks-in-r",
+    "href": "week10_slides.html#chunks-in-r",
+    "title": "Working with Big Data",
+    "section": "Chunks in R",
+    "text": "Chunks in R\n\nsummarise_chunk &lt;- function(chunk, pos) {          # map: one chunk\n  chunk |&gt;\n    group_by(species) |&gt;\n    summarise(sum_mass = sum(body_mass_g, na.rm = TRUE),\n              n = sum(!is.na(body_mass_g)), .groups = \"drop\")\n}\n\nresults &lt;- read_csv_chunked(\n  \"data/penguins.csv\",\n  callback = DataFrameCallback$new(summarise_chunk),\n  chunk_size = 100,\n  col_types = cols_only(species = col_character(),\n                        body_mass_g = col_double())\n)\n\nresults |&gt;                                          # reduce: combine\n  group_by(species) |&gt;\n  summarise(mean_mass = sum(sum_mass) / sum(n))\n\n# A tibble: 3 x 2\n  species   mean_mass\n  &lt;chr&gt;         &lt;dbl&gt;\n1 Adelie        3701.\n2 Chinstrap     3733.\n3 Gentoo        5076.\n\n\n\nresults has one row per species per chunk; the reduce adds up the sums and counts. This is reduce() with an .init accumulator from week 8, in disguise. Exactly the same code, with chunk_size = 50000, computes the mean fare per airport from the 29 GB file — the notes show the output; it takes a long time, so don’t run it live."
+  },
+  {
+    "objectID": "week10_slides.html#a-chunking-trap",
+    "href": "week10_slides.html#a-chunking-trap",
+    "title": "Working with Big Data",
+    "section": "A chunking trap",
+    "text": "A chunking trap\n\n\n\n\n\n\nTask\n\n\nA file’s code column holds numbers for 15 rows, then codes like A1. We read it in chunks of 10 rows. What happens to the last five codes?\n\n\n\n\ncsv_text &lt;- I(paste(\n  c(\"id,code\", paste0(1:20, \",\", c(1:15, paste0(\"A\", 1:5)))),\n  collapse = \"\\n\"\n))\nread_chunk &lt;- DataFrameCallback$new(function(chunk, pos) chunk)\n\n\n\nread_csv_chunked(csv_text, read_chunk, chunk_size = 10,\n                 show_col_types = FALSE) |&gt;\n  tail(6)\n\n# A tibble: 6 x 2\n     id  code\n  &lt;dbl&gt; &lt;dbl&gt;\n1    15    15\n2    16    NA\n3    17    NA\n4    18    NA\n5    19    NA\n6    20    NA\n\n\nColumn types are guessed from the first chunk only: code looks numeric, so later text becomes NA — silently. Always give col_types."
+  },
+  {
+    "objectID": "week10_slides.html#today-you-can-now",
+    "href": "week10_slides.html#today-you-can-now",
+    "title": "Working with Big Data",
+    "section": "Today you can now:",
+    "text": "Today you can now:\n\n\nexplain why data that doesn’t fit in memory breaks the usual workflow, and find the bottleneck\n\n\n\n\nshrink the problem first: fewer columns, a subset, a better format\n\n\n\n\nmove the work: into a database (DuckDB, dbplyr), or into chunks (map-reduce), returning summaries that combine exactly"
+  },
+  {
+    "objectID": "week10_slides.html#read-the-notes",
+    "href": "week10_slides.html#read-the-notes",
+    "title": "Working with Big Data",
+    "section": "Read the notes",
+    "text": "Read the notes\nWe didn’t cover in detail:\n\nthe map-reduce run over the full 29 GB flights file, and its output\nDuckDB with dbplyr and collect()\nlinks to Hadoop, Spark, Parquet and Feather"
+  },
+  {
+    "objectID": "week08_slides_handout.html",
+    "href": "week08_slides_handout.html",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "",
+    "text": "By the end of this lecture you will be able to:\n\n\nexplain what distinguishes research software from a research script\n\n\n\n\napply the principles of separation of concerns, modularity, DRY and “fail fast” to structure an analysis\n\n\n\n\nwrite pure functions, and use purrr’s map, reduce and predicate functions in place of loops"
+  },
+  {
+    "objectID": "week08_slides_handout.html#agenda",
+    "href": "week08_slides_handout.html#agenda",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "",
+    "text": "By the end of this lecture you will be able to:\n\n\nexplain what distinguishes research software from a research script\n\n\n\n\napply the principles of separation of concerns, modularity, DRY and “fail fast” to structure an analysis\n\n\n\n\nwrite pure functions, and use purrr’s map, reduce and predicate functions in place of loops"
+  },
+  {
+    "objectID": "week08_slides_handout.html#packages-and-data",
+    "href": "week08_slides_handout.html#packages-and-data",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Packages and data",
+    "text": "Packages and data\n\nlibrary(tidyverse)   # includes purrr\npenguins &lt;- read_csv(\"data/penguins.csv\")\n\n\npurrr is part of the tidyverse: it’s the package for functional programming and iteration."
+  },
+  {
+    "objectID": "week08_slides_handout.html#scripts-dont-stay-scripts",
+    "href": "week08_slides_handout.html#scripts-dont-stay-scripts",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Scripts don’t stay scripts",
+    "text": "Scripts don’t stay scripts\nA script: written quickly, to answer one question, run once by its author.\n\nResearch software: code that others — or you, in six months — rely on. It’s re-run on new data, extended, shared, and its results get published.\n\n\n“Can you re-run it on next year’s data?” → “…with one variable changed?” → “…and update the plots for the paper?”\n\n\nResearch software engineering (RSE): applying software engineering principles so that code is robust, reusable and maintainable.\n\n\nAsk the room: who has had to re-run an analysis they wrote weeks ago? If the code is one long file with hard-coded paths and copy-pasted blocks, every request means editing several places and hoping nothing breaks — and nobody is sure the published numbers came from the code as it stands now. Week 3 (Quarto, git) was the first half of RSE; today is about structure."
+  },
+  {
+    "objectID": "week08_slides_handout.html#four-principles",
+    "href": "week08_slides_handout.html#four-principles",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Four principles",
+    "text": "Four principles\n\n\nSeparation of concerns — each part has one job: load, clean, model, plot, report\n\n\n\n\nModularity — build the parts as independent, reusable functions\n\n\n\n\nDon’t repeat yourself (DRY) — every piece of knowledge written in exactly one place\n\n\n\n\nFail fast — check for problems early and stop with a clear error"
+  },
+  {
+    "objectID": "week08_slides_handout.html#separation-of-concerns",
+    "href": "week08_slides_handout.html#separation-of-concerns",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Separation of concerns",
+    "text": "Separation of concerns\n\n\nEverything mixed together\nread_csv(\"data.csv\") |&gt;\n  filter(!is.na(x)) |&gt;\n  mutate(y = log(x)) |&gt;\n  ggplot(aes(x, y)) +\n  geom_point()\n\nClear separation\nraw_data &lt;- read_csv(\"data.csv\")\nclean_data &lt;- clean_dataset(raw_data)\nmodel &lt;- fit_model(clean_data)\nplot_results(model)\n\n\n\nLonger to write — each function must be defined somewhere — but it reads as a summary of the analysis, each step can be checked on its own, and a change to cleaning means editing one function."
+  },
+  {
+    "objectID": "week08_slides_handout.html#copy-paste-edit",
+    "href": "week08_slides_handout.html#copy-paste-edit",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Copy, paste, edit",
+    "text": "Copy, paste, edit\n\n\n\n\n\n\nImportantTask\n\n\n\nWe want the same plot for Adelie penguins on two islands. What’s wrong here?\n\n\npenguins |&gt;\n  filter(species == \"Adelie\", island == \"Biscoe\") |&gt;\n  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, colour = sex)) +\n  geom_point() +\n  labs(title = \"Adelie penguins on Biscoe\")\npenguins |&gt;\n  filter(species == \"Adelia\", island == \"Dream\") |&gt;\n  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, colour = sex)) +\n  geom_point() +\n  labs(title = \"Adelie penguins on Dream\")\n\n\n\n\n\n\n\n\n\n\n\nA typo, \"Adelia\", crept in while editing the copy. R gives no error: filtering for a species that doesn’t exist is valid, and returns no rows — so the second plot is silently empty.\n\n\nLet them look for 30 seconds before revealing. The general lesson: two copies of the same logic must be kept in step, and nothing warns us when they drift apart."
+  },
+  {
+    "objectID": "week08_slides_handout.html#dry-fail-fast",
+    "href": "week08_slides_handout.html#dry-fail-fast",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "DRY + fail fast",
+    "text": "DRY + fail fast\n\n\n\n\n\n\nImportantTask\n\n\n\nWrite a function plot_bills(data, species_name, island_name) that draws this plot, and stops with a clear error if the species or island isn’t in the data.\n\n\n\nplot_bills &lt;- function(data, species_name, island_name) {\n  if (!(species_name %in% data$species)) {\n    stop(\"Unknown species: \", species_name)\n  }\n  if (!(island_name %in% data$island)) {\n    stop(\"Unknown island: \", island_name)\n  }\n  data |&gt;\n    filter(species == species_name, island == island_name) |&gt;\n    ggplot(aes(x = bill_length_mm, y = bill_depth_mm, colour = sex)) +\n    geom_point() +\n    labs(title = paste(species_name, \"penguins on\", island_name),\n         x = \"Bill length (mm)\", y = \"Bill depth (mm)\", colour = \"Sex\")\n}\n\nplot_bills(penguins, \"Adelie\", \"Biscoe\")\nplot_bills(penguins, \"Adelie\", \"Dream\")"
+  },
+  {
+    "objectID": "week08_slides_handout.html#does-it-fail-fast",
+    "href": "week08_slides_handout.html#does-it-fail-fast",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Does it fail fast?",
+    "text": "Does it fail fast?\n\nplot_bills(penguins, \"Adelia\", \"Dream\")\n\nError in plot_bills(penguins, \"Adelia\", \"Dream\"): Unknown species: Adelia\n\n\n\n\nthe typo now stops the analysis with a clear message\nimprovements (like the axis labels) are made once and apply to every plot"
+  },
+  {
+    "objectID": "week08_slides_handout.html#organising-a-project",
+    "href": "week08_slides_handout.html#organising-a-project",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Organising a project",
+    "text": "Organising a project\nmy-project/\n├── README.md        # what the project is, and how to run it\n├── data/            # raw data, never edited by hand\n├── R/               # functions, e.g. cleaning.R and plots.R\n├── analysis.qmd     # the report, which uses the functions\n└── results/         # generated outputs, can always be recreated\n\nsource(\"R/cleaning.R\")   # runs the script as if typed in\nsource(\"R/plots.R\")\nThe functions (the how) live apart from the narrative (the what), and can be shared between reports — or a Shiny app.\n\n\nAll paths are relative to the project folder (week 3), so the project still works on another computer."
+  },
+  {
+    "objectID": "week08_slides_handout.html#speed-vs-structure",
+    "href": "week08_slides_handout.html#speed-vs-structure",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Speed vs structure",
+    "text": "Speed vs structure\nResearch code is often exploratory and thrown away — but the parts that survive live far longer than expected.\n\n\nexploring: rapid iteration is fine\nonce it works: refactor into functions, without changing what it does\nbefore sharing: clean it up\n\n\n\nHabits that cost nothing even while exploring: use functions (even small ones), no hard-coded absolute paths, write down your assumptions.\n\n\n“Perfect is the enemy of finished.” You don’t need an elaborate design: add structure when you notice patterns, like the same code appearing twice."
+  },
+  {
+    "objectID": "week08_slides_handout.html#paradigms",
+    "href": "week08_slides_handout.html#paradigms",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Paradigms",
+    "text": "Paradigms\n\nProcedural: a sequence of steps\nObject-oriented: objects bundling data and behaviour\nFunctional: pure functions and immutable data\n\n\nR supports all three, but is a natural fit for functional programming:\n\nfunctions are values: assign them, pass them, return them\nanonymous functions: function(x) x + 1, or \\(x) x + 1\nhigher-order functions take or return functions (week 2)"
+  },
+  {
+    "objectID": "week08_slides_handout.html#pure-functions",
+    "href": "week08_slides_handout.html#pure-functions",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Pure functions",
+    "text": "Pure functions\nA function is pure if\n\nits result depends only on its arguments, and\nit has no side effects — it changes nothing outside itself.\n\n\n\n\n\n\n\nImportantTask\n\n\n\nWhich of these are pure?\n\n\nadd &lt;- function(x, y) x + y\n\ncounter &lt;- 0\nincrement &lt;- function() {\n  counter &lt;&lt;- counter + 1\n  counter\n}\n\nz &lt;- 10\nadd_z &lt;- function(x) x + z\n\n\nadd: pure\nincrement: impure — &lt;&lt;- changes counter outside the function (breaks 2)\nadd_z: impure — its result depends on the global z (breaks 1). Fix: pass z as an argument.\n\n\n\nAlso impure by design: rnorm (different every call, unless the seed is set), and anything that reads files, plots or prints. That’s fine — the aim is to keep the impure parts few and at the edges: read data once at the start, save once at the end, pure functions in between. Shiny is organised the same way: reactive() computes values; observers exist for side effects."
+  },
+  {
+    "objectID": "week08_slides_handout.html#immutability",
+    "href": "week08_slides_handout.html#immutability",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Immutability",
+    "text": "Immutability\nYou’ve been doing this since week 4:\n\npenguins_kg &lt;- penguins |&gt; mutate(body_mass_kg = body_mass_g / 1000)\n\n\"body_mass_kg\" %in% names(penguins_kg)\n\n[1] TRUE\n\n\"body_mass_kg\" %in% names(penguins)   # the original is unchanged\n\n[1] FALSE\n\n\n\ndplyr verbs return a new, modified copy. penguins only changes if you assign the result back to it."
+  },
+  {
+    "objectID": "week08_slides_handout.html#apply-a-function-to-every-element",
+    "href": "week08_slides_handout.html#apply-a-function-to-every-element",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Apply a function to every element",
+    "text": "Apply a function to every element\n\n\n\n\n\n\nImportantTask\n\n\n\nSquare every element of x &lt;- 1:10 using a for loop, then using sapply(), then using purrr::map_dbl().\n\n\n\n\nx &lt;- 1:10\nsquare &lt;- function(v) v^2\n\nsquared_loop &lt;- numeric(length(x))\nfor (i in seq_along(x)) {\n  squared_loop[i] &lt;- square(x[i])\n}\n\nsquared_sapply &lt;- sapply(x, square)\n\nsquared_map &lt;- map_dbl(x, square)\nsquared_map\n\n [1]   1   4   9  16  25  36  49  64  81 100\n\n\n\n\nThe map states the intent in one line: no index to get wrong, no result to set up in advance, no variables leaking out.\n\n\nLoops aren’t wrong — they’re the clearest choice when each step depends on the previous one (the random walk from Lab 2). And for squaring, vectorised x^2 is simplest of all: mapping is for functions that work on one element at a time, such as reading one file."
+  },
+  {
+    "objectID": "week08_slides_handout.html#why-not-sapply",
+    "href": "week08_slides_handout.html#why-not-sapply",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Why not sapply?",
+    "text": "Why not sapply?\n\n\n\n\n\n\nImportantTask\n\n\n\nPredict what type of object each call returns.\n\n\n\nsapply(1:3, function(v) v^2)\nsapply(1:3, function(v) c(v, v^2))\nsapply(1:3, function(v) seq_len(v))\nsapply(integer(0), function(v) v^2)\n\n\n\nsapply(1:3, function(v) v^2)          # a numeric vector\n\n[1] 1 4 9\n\nsapply(1:3, function(v) c(v, v^2))    # a matrix!\n\n     [,1] [,2] [,3]\n[1,]    1    2    3\n[2,]    1    4    9\n\nsapply(1:3, function(v) seq_len(v))   # a list!\n\n[[1]]\n[1] 1\n\n[[2]]\n[1] 1 2\n\n[[3]]\n[1] 1 2 3\n\nsapply(integer(0), function(v) v^2)   # an empty list, not a vector!\n\nlist()\n\n\n\n\nThe last one is the dangerous one: code that always got a numeric vector suddenly gets a list when its input happens to be empty (e.g. no files matched a pattern), and fails somewhere far from the real cause."
+  },
+  {
+    "objectID": "week08_slides_handout.html#map-is-type-stable",
+    "href": "week08_slides_handout.html#map-is-type-stable",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "map is type stable",
+    "text": "map is type stable\nThe name tells you the type of the result:\n\n\n\n\n\n\n\nFunction\nReturns\n\n\n\n\nmap()\na list — results can be anything\n\n\nmap_lgl(), map_int(), map_dbl(), map_chr()\na vector of that type\n\n\n\n\n\nmap_dbl(integer(0), function(v) v^2)\n\nnumeric(0)\n\nmap_dbl(1:3, function(v) c(v, v^2))\n\nError in `map_dbl()`:\ni In index: 1.\nCaused by error:\n! Result must be length 1, not 2.\n\n\n\n\nAn empty input gives an empty double; a result that doesn’t fit is an error, straight away — fail fast again."
+  },
+  {
+    "objectID": "week08_slides_handout.html#writing-functions-inline",
+    "href": "week08_slides_handout.html#writing-functions-inline",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Writing functions inline",
+    "text": "Writing functions inline\nThree equivalent ways:\n\nmap_dbl(1:5, function(v) v^2)\n\n[1]  1  4  9 16 25\n\nmap_dbl(1:5, \\(v) v^2)       # base R shorthand\n\n[1]  1  4  9 16 25\n\nmap_dbl(1:5, ~ .x^2)          # purrr formula: .x is the argument\n\n[1]  1  4  9 16 25\n\n\n\nAnd in parallel over two vectors (.x, .y), or many (pmap):\n\nmap2_dbl(1:5, 6:10, \\(a, b) (a + b)^2)\n\n[1]  49  81 121 169 225\n\n\n\n\nAll three styles are idiomatic and appear in documentation and online, so students must be able to read each. Use whichever you find clearest."
+  },
+  {
+    "objectID": "week08_slides_handout.html#lists-of-results",
+    "href": "week08_slides_handout.html#lists-of-results",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Lists of results",
+    "text": "Lists of results\n\n\n\n\n\n\nImportantTask\n\n\n\nSplit penguins into one tibble per species, compute the number of penguins and mean body mass of each, then combine the results into a single table.\n\n\n\n\nby_species &lt;- split(penguins, penguins$species)   # list of tibbles\n\nsummaries &lt;- by_species |&gt;\n  map(\\(df) summarise(df, n = n(),\n                      mean_mass = mean(body_mass_g, na.rm = TRUE)))\n\nsummaries |&gt; list_rbind(names_to = \"species\")\n\n# A tibble: 3 x 3\n  species       n mean_mass\n  &lt;chr&gt;     &lt;int&gt;     &lt;dbl&gt;\n1 Adelie      152     3701.\n2 Chinstrap    68     3733.\n3 Gentoo      124     5076.\n\n\n\n\ngroup_by() + summarise() does this more simply for one data frame. Lists of results come into their own when data arrive in pieces — the classic case:\nfiles &lt;- list.files(\"data/monthly\", pattern = \"\\\\.csv$\", full.names = TRUE)\nall_data &lt;- files |&gt; map(read_csv) |&gt; list_rbind()\nor when each piece produces something that isn’t a table (a model, a plot)."
+  },
+  {
+    "objectID": "week08_slides_handout.html#reduce-combine-two-at-a-time",
+    "href": "week08_slides_handout.html#reduce-combine-two-at-a-time",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "reduce: combine two at a time",
+    "text": "reduce: combine two at a time\n\n\n\n\n\n\nImportantTask\n\n\n\nreduce(x, f) combines the elements of x pairwise: f(f(f(x1, x2), x3), x4)… Use it to add up 1:10.\n\n\n\n\nx &lt;- 1:10\nreduce(x, \\(cur, new) cur + new)\n\n[1] 55\n\nreduce(x, `+`)\n\n[1] 55\n\n\nThe same as this loop, with an accumulator cur:\n\ncur &lt;- x[1]\nfor (new in x[-1]) {\n  cur &lt;- cur + new\n}\ncur\n\n[1] 55"
+  },
+  {
+    "objectID": "week08_slides_handout.html#an-accumulator-with-.init",
+    "href": "week08_slides_handout.html#an-accumulator-with-.init",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "An accumulator with .init",
+    "text": "An accumulator with .init\nWhen the accumulator isn’t the same type as the elements, give a starting value:\n\nreduce(\n  x,\n  \\(cur, new) list(sum = cur$sum + new, prod = cur$prod * new),\n  .init = list(sum = 0, prod = 1)\n)\n\n$sum\n[1] 55\n\n$prod\n[1] 3628800\n\n\n\nPointless for a vector in memory — sum() and prod() are faster. It pays off when each pass through the data is expensive, e.g. data spread over many files on disk. We’ll use exactly this idea for big data in week 10."
+  },
+  {
+    "objectID": "week08_slides_handout.html#predicates",
+    "href": "week08_slides_handout.html#predicates",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Predicates",
+    "text": "Predicates\nA predicate is a function that returns TRUE or FALSE.\n\nx |&gt; keep(\\(v) v &gt; 5)\n\n[1]  6  7  8  9 10\n\nx |&gt; every(\\(v) v &gt; 5)\n\n[1] FALSE\n\nx |&gt; none(\\(v) v &gt; 10)\n\n[1] TRUE\n\n\n\nThey work on lists too:\n\nsummaries |&gt; keep(\\(s) s$mean_mass &gt; 4000) |&gt; names()\n\n[1] \"Gentoo\""
+  },
+  {
+    "objectID": "week08_slides_handout.html#partial-application",
+    "href": "week08_slides_handout.html#partial-application",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Partial application",
+    "text": "Partial application\nFix some arguments of a function, to get a new function of the rest:\n\nadd_10 &lt;- partial(`+`, 10)\n1:5 |&gt; map_dbl(add_10)\n\n[1] 11 12 13 14 15\n\ngreet &lt;- partial(paste, \"Hello\")\nc(\"Ada Lovelace\", \"Alan Turing\") |&gt; map_chr(greet)\n\n[1] \"Hello Ada Lovelace\" \"Hello Alan Turing\" \n\n\n\nRelated to currying (f(a, b) becomes f(a)(b)): make_multiplier from week 2 is curried multiplication. The notes also cover compose(), which packages a chain of functions as a new function."
+  },
+  {
+    "objectID": "week08_slides_handout.html#silent-recycling",
+    "href": "week08_slides_handout.html#silent-recycling",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Silent recycling",
+    "text": "Silent recycling\n\n\n\n\n\n\nImportantTask\n\n\n\nFrom Lab 2: what does this return, and why is it a problem?\n\n\n\ndistance &lt;- function(x, y) sqrt(sum((x - y)^2))\ndistance(1:4, 1:2)\n\n[1] 2.828427\n\n\n\nA number — but it’s meaningless. - silently recycles the shorter vector to the length of the longer one, so 1:2 is treated as c(1, 2, 1, 2)."
+  },
+  {
+    "objectID": "week08_slides_handout.html#check-your-inputs",
+    "href": "week08_slides_handout.html#check-your-inputs",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Check your inputs",
+    "text": "Check your inputs\n\ndistance &lt;- function(x, y) {\n  stopifnot(\n    \"Both x and y must be numeric vectors.\" =\n      is.numeric(x) && is.numeric(y),\n    \"x and y must have the same length.\" = length(x) == length(y)\n  )\n  sqrt(sum((x - y)^2))\n}\n\ndistance(1:4, 1:2)\n\nError in distance(1:4, 1:2): x and y must have the same length.\n\n\n\nValidate inputs and fail fast with a clear message, rather than letting a wrong answer travel silently through the analysis.\n\n\nstopifnot() does nothing if every condition is TRUE; otherwise it stops at the first failure. The names become the error messages — much more helpful to someone else than length(x) == length(y) is not TRUE. The if (...) stop(...) form from plot_bills is equivalent."
+  },
+  {
+    "objectID": "week08_slides_handout.html#today-you-can-now",
+    "href": "week08_slides_handout.html#today-you-can-now",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Today you can now:",
+    "text": "Today you can now:\n\n\nstructure an analysis: separate concerns, write functions, don’t repeat yourself, fail fast\n\n\n\n\nrecognise pure functions, and keep side effects at the edges\n\n\n\n\niterate with map_*(), combine with reduce(), filter with keep() and friends"
+  },
+  {
+    "objectID": "week08_slides_handout.html#read-the-notes",
+    "href": "week08_slides_handout.html#read-the-notes",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Read the notes",
+    "text": "Read the notes\nWe didn’t cover in detail:\n\nhandling errors: try(), tryCatch(), and purrr::possibly() for reading many files when some may fail\nunit tests with stopifnot() and testthat\ndocumenting functions with roxygen comments (#')\ncompose(), and dependency management with renv"
+  },
+  {
+    "objectID": "week08_slides.html#agenda",
+    "href": "week08_slides.html#agenda",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Objectives",
+    "text": "Objectives\nBy the end of this lecture you will be able to:\n\n\nexplain what distinguishes research software from a research script\n\n\n\n\napply the principles of separation of concerns, modularity, DRY and “fail fast” to structure an analysis\n\n\n\n\nwrite pure functions, and use purrr’s map, reduce and predicate functions in place of loops"
+  },
+  {
+    "objectID": "week08_slides.html#packages-and-data",
+    "href": "week08_slides.html#packages-and-data",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Packages and data",
+    "text": "Packages and data\n\nlibrary(tidyverse)   # includes purrr\npenguins &lt;- read_csv(\"data/penguins.csv\")\n\n\npurrr is part of the tidyverse: it’s the package for functional programming and iteration."
+  },
+  {
+    "objectID": "week08_slides.html#scripts-dont-stay-scripts",
+    "href": "week08_slides.html#scripts-dont-stay-scripts",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Scripts don’t stay scripts",
+    "text": "Scripts don’t stay scripts\nA script: written quickly, to answer one question, run once by its author.\n\nResearch software: code that others — or you, in six months — rely on. It’s re-run on new data, extended, shared, and its results get published.\n\n\n“Can you re-run it on next year’s data?” → “…with one variable changed?” → “…and update the plots for the paper?”\n\n\nResearch software engineering (RSE): applying software engineering principles so that code is robust, reusable and maintainable.\n\n\nAsk the room: who has had to re-run an analysis they wrote weeks ago? If the code is one long file with hard-coded paths and copy-pasted blocks, every request means editing several places and hoping nothing breaks — and nobody is sure the published numbers came from the code as it stands now. Week 3 (Quarto, git) was the first half of RSE; today is about structure."
+  },
+  {
+    "objectID": "week08_slides.html#four-principles",
+    "href": "week08_slides.html#four-principles",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Four principles",
+    "text": "Four principles\n\n\nSeparation of concerns — each part has one job: load, clean, model, plot, report\n\n\n\n\nModularity — build the parts as independent, reusable functions\n\n\n\n\nDon’t repeat yourself (DRY) — every piece of knowledge written in exactly one place\n\n\n\n\nFail fast — check for problems early and stop with a clear error"
+  },
+  {
+    "objectID": "week08_slides.html#separation-of-concerns",
+    "href": "week08_slides.html#separation-of-concerns",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Separation of concerns",
+    "text": "Separation of concerns\n\n\nEverything mixed together\nread_csv(\"data.csv\") |&gt;\n  filter(!is.na(x)) |&gt;\n  mutate(y = log(x)) |&gt;\n  ggplot(aes(x, y)) +\n  geom_point()\n\nClear separation\nraw_data &lt;- read_csv(\"data.csv\")\nclean_data &lt;- clean_dataset(raw_data)\nmodel &lt;- fit_model(clean_data)\nplot_results(model)\n\n\nLonger to write — each function must be defined somewhere — but it reads as a summary of the analysis, each step can be checked on its own, and a change to cleaning means editing one function."
+  },
+  {
+    "objectID": "week08_slides.html#copy-paste-edit",
+    "href": "week08_slides.html#copy-paste-edit",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Copy, paste, edit",
+    "text": "Copy, paste, edit\n\n\n\n\n\n\nTask\n\n\nWe want the same plot for Adelie penguins on two islands. What’s wrong here?\n\n\n\npenguins |&gt;\n  filter(species == \"Adelie\", island == \"Biscoe\") |&gt;\n  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, colour = sex)) +\n  geom_point() +\n  labs(title = \"Adelie penguins on Biscoe\")\npenguins |&gt;\n  filter(species == \"Adelia\", island == \"Dream\") |&gt;\n  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, colour = sex)) +\n  geom_point() +\n  labs(title = \"Adelie penguins on Dream\")\n\n\n\n\n\n\n\n\n\n\n\nA typo, \"Adelia\", crept in while editing the copy. R gives no error: filtering for a species that doesn’t exist is valid, and returns no rows — so the second plot is silently empty.\n\n\nLet them look for 30 seconds before revealing. The general lesson: two copies of the same logic must be kept in step, and nothing warns us when they drift apart."
+  },
+  {
+    "objectID": "week08_slides.html#dry-fail-fast",
+    "href": "week08_slides.html#dry-fail-fast",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "DRY + fail fast",
+    "text": "DRY + fail fast\n\n\n\n\n\n\nTask\n\n\nWrite a function plot_bills(data, species_name, island_name) that draws this plot, and stops with a clear error if the species or island isn’t in the data.\n\n\n\n\nplot_bills &lt;- function(data, species_name, island_name) {\n  if (!(species_name %in% data$species)) {\n    stop(\"Unknown species: \", species_name)\n  }\n  if (!(island_name %in% data$island)) {\n    stop(\"Unknown island: \", island_name)\n  }\n  data |&gt;\n    filter(species == species_name, island == island_name) |&gt;\n    ggplot(aes(x = bill_length_mm, y = bill_depth_mm, colour = sex)) +\n    geom_point() +\n    labs(title = paste(species_name, \"penguins on\", island_name),\n         x = \"Bill length (mm)\", y = \"Bill depth (mm)\", colour = \"Sex\")\n}\n\nplot_bills(penguins, \"Adelie\", \"Biscoe\")\nplot_bills(penguins, \"Adelie\", \"Dream\")"
+  },
+  {
+    "objectID": "week08_slides.html#does-it-fail-fast",
+    "href": "week08_slides.html#does-it-fail-fast",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Does it fail fast?",
+    "text": "Does it fail fast?\n\nplot_bills(penguins, \"Adelia\", \"Dream\")\n\nError in plot_bills(penguins, \"Adelia\", \"Dream\"): Unknown species: Adelia\n\n\n\n\nthe typo now stops the analysis with a clear message\nimprovements (like the axis labels) are made once and apply to every plot"
+  },
+  {
+    "objectID": "week08_slides.html#organising-a-project",
+    "href": "week08_slides.html#organising-a-project",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Organising a project",
+    "text": "Organising a project\nmy-project/\n├── README.md        # what the project is, and how to run it\n├── data/            # raw data, never edited by hand\n├── R/               # functions, e.g. cleaning.R and plots.R\n├── analysis.qmd     # the report, which uses the functions\n└── results/         # generated outputs, can always be recreated\n\nsource(\"R/cleaning.R\")   # runs the script as if typed in\nsource(\"R/plots.R\")\nThe functions (the how) live apart from the narrative (the what), and can be shared between reports — or a Shiny app.\n\n\nAll paths are relative to the project folder (week 3), so the project still works on another computer."
+  },
+  {
+    "objectID": "week08_slides.html#speed-vs-structure",
+    "href": "week08_slides.html#speed-vs-structure",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Speed vs structure",
+    "text": "Speed vs structure\nResearch code is often exploratory and thrown away — but the parts that survive live far longer than expected.\n\n\nexploring: rapid iteration is fine\nonce it works: refactor into functions, without changing what it does\nbefore sharing: clean it up\n\n\n\nHabits that cost nothing even while exploring: use functions (even small ones), no hard-coded absolute paths, write down your assumptions.\n\n\n“Perfect is the enemy of finished.” You don’t need an elaborate design: add structure when you notice patterns, like the same code appearing twice."
+  },
+  {
+    "objectID": "week08_slides.html#paradigms",
+    "href": "week08_slides.html#paradigms",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Paradigms",
+    "text": "Paradigms\n\nProcedural: a sequence of steps\nObject-oriented: objects bundling data and behaviour\nFunctional: pure functions and immutable data\n\n\nR supports all three, but is a natural fit for functional programming:\n\nfunctions are values: assign them, pass them, return them\nanonymous functions: function(x) x + 1, or \\(x) x + 1\nhigher-order functions take or return functions (week 2)"
+  },
+  {
+    "objectID": "week08_slides.html#pure-functions",
+    "href": "week08_slides.html#pure-functions",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Pure functions",
+    "text": "Pure functions\nA function is pure if\n\nits result depends only on its arguments, and\nit has no side effects — it changes nothing outside itself.\n\n\n\n\n\n\n\nTask\n\n\nWhich of these are pure?\n\n\n\nadd &lt;- function(x, y) x + y\n\ncounter &lt;- 0\nincrement &lt;- function() {\n  counter &lt;&lt;- counter + 1\n  counter\n}\n\nz &lt;- 10\nadd_z &lt;- function(x) x + z\n\n\nadd: pure\nincrement: impure — &lt;&lt;- changes counter outside the function (breaks 2)\nadd_z: impure — its result depends on the global z (breaks 1). Fix: pass z as an argument.\n\n\n\nAlso impure by design: rnorm (different every call, unless the seed is set), and anything that reads files, plots or prints. That’s fine — the aim is to keep the impure parts few and at the edges: read data once at the start, save once at the end, pure functions in between. Shiny is organised the same way: reactive() computes values; observers exist for side effects."
+  },
+  {
+    "objectID": "week08_slides.html#immutability",
+    "href": "week08_slides.html#immutability",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Immutability",
+    "text": "Immutability\nYou’ve been doing this since week 4:\n\npenguins_kg &lt;- penguins |&gt; mutate(body_mass_kg = body_mass_g / 1000)\n\n\"body_mass_kg\" %in% names(penguins_kg)\n\n[1] TRUE\n\n\"body_mass_kg\" %in% names(penguins)   # the original is unchanged\n\n[1] FALSE\n\n\n\ndplyr verbs return a new, modified copy. penguins only changes if you assign the result back to it."
+  },
+  {
+    "objectID": "week08_slides.html#apply-a-function-to-every-element",
+    "href": "week08_slides.html#apply-a-function-to-every-element",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Apply a function to every element",
+    "text": "Apply a function to every element\n\n\n\n\n\n\nTask\n\n\nSquare every element of x &lt;- 1:10 using a for loop, then using sapply(), then using purrr::map_dbl().\n\n\n\n\n\nx &lt;- 1:10\nsquare &lt;- function(v) v^2\n\nsquared_loop &lt;- numeric(length(x))\nfor (i in seq_along(x)) {\n  squared_loop[i] &lt;- square(x[i])\n}\n\nsquared_sapply &lt;- sapply(x, square)\n\nsquared_map &lt;- map_dbl(x, square)\nsquared_map\n\n [1]   1   4   9  16  25  36  49  64  81 100\n\n\n\n\nThe map states the intent in one line: no index to get wrong, no result to set up in advance, no variables leaking out.\n\n\nLoops aren’t wrong — they’re the clearest choice when each step depends on the previous one (the random walk from Lab 2). And for squaring, vectorised x^2 is simplest of all: mapping is for functions that work on one element at a time, such as reading one file."
+  },
+  {
+    "objectID": "week08_slides.html#why-not-sapply",
+    "href": "week08_slides.html#why-not-sapply",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Why not sapply?",
+    "text": "Why not sapply?\n\n\n\n\n\n\nTask\n\n\nPredict what type of object each call returns.\n\n\n\n\nsapply(1:3, function(v) v^2)\nsapply(1:3, function(v) c(v, v^2))\nsapply(1:3, function(v) seq_len(v))\nsapply(integer(0), function(v) v^2)\n\n\n\nsapply(1:3, function(v) v^2)          # a numeric vector\n\n[1] 1 4 9\n\nsapply(1:3, function(v) c(v, v^2))    # a matrix!\n\n     [,1] [,2] [,3]\n[1,]    1    2    3\n[2,]    1    4    9\n\nsapply(1:3, function(v) seq_len(v))   # a list!\n\n[[1]]\n[1] 1\n\n[[2]]\n[1] 1 2\n\n[[3]]\n[1] 1 2 3\n\nsapply(integer(0), function(v) v^2)   # an empty list, not a vector!\n\nlist()\n\n\n\n\nThe last one is the dangerous one: code that always got a numeric vector suddenly gets a list when its input happens to be empty (e.g. no files matched a pattern), and fails somewhere far from the real cause."
+  },
+  {
+    "objectID": "week08_slides.html#map-is-type-stable",
+    "href": "week08_slides.html#map-is-type-stable",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "map is type stable",
+    "text": "map is type stable\nThe name tells you the type of the result:\n\n\n\n\n\n\n\nFunction\nReturns\n\n\n\n\nmap()\na list — results can be anything\n\n\nmap_lgl(), map_int(), map_dbl(), map_chr()\na vector of that type\n\n\n\n\n\nmap_dbl(integer(0), function(v) v^2)\n\nnumeric(0)\n\nmap_dbl(1:3, function(v) c(v, v^2))\n\nError in `map_dbl()`:\ni In index: 1.\nCaused by error:\n! Result must be length 1, not 2.\n\n\n\n\nAn empty input gives an empty double; a result that doesn’t fit is an error, straight away — fail fast again."
+  },
+  {
+    "objectID": "week08_slides.html#writing-functions-inline",
+    "href": "week08_slides.html#writing-functions-inline",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Writing functions inline",
+    "text": "Writing functions inline\nThree equivalent ways:\n\nmap_dbl(1:5, function(v) v^2)\n\n[1]  1  4  9 16 25\n\nmap_dbl(1:5, \\(v) v^2)       # base R shorthand\n\n[1]  1  4  9 16 25\n\nmap_dbl(1:5, ~ .x^2)          # purrr formula: .x is the argument\n\n[1]  1  4  9 16 25\n\n\n\nAnd in parallel over two vectors (.x, .y), or many (pmap):\n\nmap2_dbl(1:5, 6:10, \\(a, b) (a + b)^2)\n\n[1]  49  81 121 169 225\n\n\n\n\nAll three styles are idiomatic and appear in documentation and online, so students must be able to read each. Use whichever you find clearest."
+  },
+  {
+    "objectID": "week08_slides.html#lists-of-results",
+    "href": "week08_slides.html#lists-of-results",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Lists of results",
+    "text": "Lists of results\n\n\n\n\n\n\nTask\n\n\nSplit penguins into one tibble per species, compute the number of penguins and mean body mass of each, then combine the results into a single table.\n\n\n\n\n\nby_species &lt;- split(penguins, penguins$species)   # list of tibbles\n\nsummaries &lt;- by_species |&gt;\n  map(\\(df) summarise(df, n = n(),\n                      mean_mass = mean(body_mass_g, na.rm = TRUE)))\n\nsummaries |&gt; list_rbind(names_to = \"species\")\n\n# A tibble: 3 x 3\n  species       n mean_mass\n  &lt;chr&gt;     &lt;int&gt;     &lt;dbl&gt;\n1 Adelie      152     3701.\n2 Chinstrap    68     3733.\n3 Gentoo      124     5076.\n\n\n\n\ngroup_by() + summarise() does this more simply for one data frame. Lists of results come into their own when data arrive in pieces — the classic case:\nfiles &lt;- list.files(\"data/monthly\", pattern = \"\\\\.csv$\", full.names = TRUE)\nall_data &lt;- files |&gt; map(read_csv) |&gt; list_rbind()\nor when each piece produces something that isn’t a table (a model, a plot)."
+  },
+  {
+    "objectID": "week08_slides.html#reduce-combine-two-at-a-time",
+    "href": "week08_slides.html#reduce-combine-two-at-a-time",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "reduce: combine two at a time",
+    "text": "reduce: combine two at a time\n\n\n\n\n\n\nTask\n\n\nreduce(x, f) combines the elements of x pairwise: f(f(f(x1, x2), x3), x4)… Use it to add up 1:10.\n\n\n\n\n\nx &lt;- 1:10\nreduce(x, \\(cur, new) cur + new)\n\n[1] 55\n\nreduce(x, `+`)\n\n[1] 55\n\n\nThe same as this loop, with an accumulator cur:\n\ncur &lt;- x[1]\nfor (new in x[-1]) {\n  cur &lt;- cur + new\n}\ncur\n\n[1] 55"
+  },
+  {
+    "objectID": "week08_slides.html#an-accumulator-with-.init",
+    "href": "week08_slides.html#an-accumulator-with-.init",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "An accumulator with .init",
+    "text": "An accumulator with .init\nWhen the accumulator isn’t the same type as the elements, give a starting value:\n\nreduce(\n  x,\n  \\(cur, new) list(sum = cur$sum + new, prod = cur$prod * new),\n  .init = list(sum = 0, prod = 1)\n)\n\n$sum\n[1] 55\n\n$prod\n[1] 3628800\n\n\n\nPointless for a vector in memory — sum() and prod() are faster. It pays off when each pass through the data is expensive, e.g. data spread over many files on disk. We’ll use exactly this idea for big data in week 10."
+  },
+  {
+    "objectID": "week08_slides.html#predicates",
+    "href": "week08_slides.html#predicates",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Predicates",
+    "text": "Predicates\nA predicate is a function that returns TRUE or FALSE.\n\nx |&gt; keep(\\(v) v &gt; 5)\n\n[1]  6  7  8  9 10\n\nx |&gt; every(\\(v) v &gt; 5)\n\n[1] FALSE\n\nx |&gt; none(\\(v) v &gt; 10)\n\n[1] TRUE\n\n\n\nThey work on lists too:\n\nsummaries |&gt; keep(\\(s) s$mean_mass &gt; 4000) |&gt; names()\n\n[1] \"Gentoo\""
+  },
+  {
+    "objectID": "week08_slides.html#partial-application",
+    "href": "week08_slides.html#partial-application",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Partial application",
+    "text": "Partial application\nFix some arguments of a function, to get a new function of the rest:\n\nadd_10 &lt;- partial(`+`, 10)\n1:5 |&gt; map_dbl(add_10)\n\n[1] 11 12 13 14 15\n\ngreet &lt;- partial(paste, \"Hello\")\nc(\"Ada Lovelace\", \"Alan Turing\") |&gt; map_chr(greet)\n\n[1] \"Hello Ada Lovelace\" \"Hello Alan Turing\" \n\n\n\nRelated to currying (f(a, b) becomes f(a)(b)): make_multiplier from week 2 is curried multiplication. The notes also cover compose(), which packages a chain of functions as a new function."
+  },
+  {
+    "objectID": "week08_slides.html#silent-recycling",
+    "href": "week08_slides.html#silent-recycling",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Silent recycling",
+    "text": "Silent recycling\n\n\n\n\n\n\nTask\n\n\nFrom Lab 2: what does this return, and why is it a problem?\n\n\n\n\ndistance &lt;- function(x, y) sqrt(sum((x - y)^2))\ndistance(1:4, 1:2)\n\n[1] 2.828427\n\n\n\nA number — but it’s meaningless. - silently recycles the shorter vector to the length of the longer one, so 1:2 is treated as c(1, 2, 1, 2)."
+  },
+  {
+    "objectID": "week08_slides.html#check-your-inputs",
+    "href": "week08_slides.html#check-your-inputs",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Check your inputs",
+    "text": "Check your inputs\n\ndistance &lt;- function(x, y) {\n  stopifnot(\n    \"Both x and y must be numeric vectors.\" =\n      is.numeric(x) && is.numeric(y),\n    \"x and y must have the same length.\" = length(x) == length(y)\n  )\n  sqrt(sum((x - y)^2))\n}\n\ndistance(1:4, 1:2)\n\nError in distance(1:4, 1:2): x and y must have the same length.\n\n\n\nValidate inputs and fail fast with a clear message, rather than letting a wrong answer travel silently through the analysis.\n\n\nstopifnot() does nothing if every condition is TRUE; otherwise it stops at the first failure. The names become the error messages — much more helpful to someone else than length(x) == length(y) is not TRUE. The if (...) stop(...) form from plot_bills is equivalent."
+  },
+  {
+    "objectID": "week08_slides.html#today-you-can-now",
+    "href": "week08_slides.html#today-you-can-now",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Today you can now:",
+    "text": "Today you can now:\n\n\nstructure an analysis: separate concerns, write functions, don’t repeat yourself, fail fast\n\n\n\n\nrecognise pure functions, and keep side effects at the edges\n\n\n\n\niterate with map_*(), combine with reduce(), filter with keep() and friends"
+  },
+  {
+    "objectID": "week08_slides.html#read-the-notes",
+    "href": "week08_slides.html#read-the-notes",
+    "title": "Research Software Engineering and Functional Programming",
+    "section": "Read the notes",
+    "text": "Read the notes\nWe didn’t cover in detail:\n\nhandling errors: try(), tryCatch(), and purrr::possibly() for reading many files when some may fail\nunit tests with stopifnot() and testthat\ndocumenting functions with roxygen comments (#')\ncompose(), and dependency management with renv"
+  },
+  {
     "objectID": "week06_slides_handout.html",
     "href": "week06_slides_handout.html",
     "title": "Data Visualisation with ggplot2",
@@ -987,6 +1631,251 @@
     "text": "Block 2\n\nPart 3 — Control Flow: focus on the non-Advanced tasks.\nPart 4 — Pipes and Part 5 — Debugging: pick these up if you have time."
   },
   {
+    "objectID": "ethics_slides_handout.html",
+    "href": "ethics_slides_handout.html",
+    "title": "Data Ethics and Biases",
+    "section": "",
+    "text": "By the end of this lecture you will be able to:\n\n\nidentify ethical and regulatory considerations in a data science project\n\n\n\n\nrecognise different types of bias, and their impact\n\n\n\n\nevaluate real-world cases, and document data and models with data cards and model cards\n\n\n\nNo code today: this is a discussion lecture. Every “Task” works well as a 1–2 minute talk-to-your-neighbour, then take two or three answers before revealing."
+  },
+  {
+    "objectID": "ethics_slides_handout.html#agenda",
+    "href": "ethics_slides_handout.html#agenda",
+    "title": "Data Ethics and Biases",
+    "section": "",
+    "text": "By the end of this lecture you will be able to:\n\n\nidentify ethical and regulatory considerations in a data science project\n\n\n\n\nrecognise different types of bias, and their impact\n\n\n\n\nevaluate real-world cases, and document data and models with data cards and model cards\n\n\n\nNo code today: this is a discussion lecture. Every “Task” works well as a 1–2 minute talk-to-your-neighbour, then take two or three answers before revealing."
+  },
+  {
+    "objectID": "ethics_slides_handout.html#amazons-recruiting-tool",
+    "href": "ethics_slides_handout.html#amazons-recruiting-tool",
+    "title": "Data Ethics and Biases",
+    "section": "Amazon’s recruiting tool",
+    "text": "Amazon’s recruiting tool\n\n\nAmazon built a tool to score job applicants’ CVs automatically\n\n\n\n\nTraining data: every CV submitted to the company over the previous ten years, and who was hired\n\n\n\n\nBy 2015 they found it was not gender neutral: given equally skilled applicants, it preferred men\n\n\n\n\n\n\n\n\nImportantTask\n\n\n\nWhy? The tool was never told the applicants’ gender.\n\n\n\nIt didn’t learn what makes a good candidate — it learned what Amazon’s past hires looked like, and past hiring in tech had favoured men (and most applicants were men).\n\n\nSource: the Reuters report, linked from the notes. Let them discuss before revealing — someone usually gets there."
+  },
+  {
+    "objectID": "ethics_slides_handout.html#removing-gender-isnt-enough",
+    "href": "ethics_slides_handout.html#removing-gender-isnt-enough",
+    "title": "Data Ethics and Biases",
+    "section": "Removing gender isn’t enough",
+    "text": "Removing gender isn’t enough\nAmazon edited the tool to ignore the terms found to penalise women. It still couldn’t be trusted:\n\n\n“captain of the women’s chess club”\nall-women colleges\nmen and women describing their experience in different words\n\n\n\nThese are proxies: variables that stand in for an attribute that was removed. A postcode can be a proxy for ethnicity or income.\n\n\nAmazon scrapped the tool."
+  },
+  {
+    "objectID": "ethics_slides_handout.html#its-not-just-amazon",
+    "href": "ethics_slides_handout.html#its-not-just-amazon",
+    "title": "Data Ethics and Biases",
+    "section": "It’s not just Amazon",
+    "text": "It’s not just Amazon\n\nCOMPAS, used in some US courts to predict reoffending: a 2016 ProPublica investigation found Black defendants who did not reoffend were labelled high risk nearly twice as often as white defendants\nCredit scoring: lower scores for freelancers and gig workers, whose income is documented differently — regardless of whether they are financially stable\n\n\nWe can’t prevent every bias. Our job: recognise it, mitigate it, and alert the people who rely on our work."
+  },
+  {
+    "objectID": "ethics_slides_handout.html#six-kinds-of-bias",
+    "href": "ethics_slides_handout.html#six-kinds-of-bias",
+    "title": "Data Ethics and Biases",
+    "section": "Six kinds of bias",
+    "text": "Six kinds of bias\n\nSampling: the sample doesn’t represent the population\nSelection: whether a record appears depends on the outcome being studied\nHistorical: the data are accurate, but the past was unfair\nMeasurement: data are collected or measured inaccurately\nConfirmation: we see what we expected to see\nAlgorithmic: a model’s results are systematically prejudiced, because of its data or design\n\n\nNot an exhaustive list. Historical bias is the subtle one: perfect sampling doesn’t fix it, because the data faithfully record an unfair past."
+  },
+  {
+    "objectID": "ethics_slides_handout.html#name-that-bias",
+    "href": "ethics_slides_handout.html#name-that-bias",
+    "title": "Data Ethics and Biases",
+    "section": "Name that bias",
+    "text": "Name that bias\n\n\n\n\n\n\nImportantTask\n\n\n\nWhich kind of bias is each?\n\nA survey on smartphone use is run only among university students.\nA study of successful business strategies looks only at companies still trading today.\nA fitness tracker undercounts steps for people who walk slowly or with an irregular gait.\nAn analyst who believes remote work boosts productivity focuses on the survey answers that agree.\nA face recognition system trained mostly on lighter-skinned faces misidentifies darker-skinned people more often.\nThe Amazon tool.\n\n\n\n\n\nSampling — young people over-represented\nSelection — the failed companies are missing (survivorship)\nMeasurement\nConfirmation\nAlgorithmic — caused by sampling bias in its training data\nHistorical mainly (it imitated past decisions), plus sampling (mostly male applicants) → algorithmic"
+  },
+  {
+    "objectID": "ethics_slides_handout.html#patterns-are-the-point",
+    "href": "ethics_slides_handout.html#patterns-are-the-point",
+    "title": "Data Ethics and Biases",
+    "section": "Patterns are the point",
+    "text": "Patterns are the point\nEvery model relies on finding patterns — that’s what it’s for.\n\n\nlegitimate: “applicants with higher marks in data science tend to do better in the job”\nnot: patterns that disadvantage people because of who they are — e.g. their sex or race\n\n\n\nRemoving protected characteristics doesn’t stop it (proxies). The way to know is to check: compare results across groups."
+  },
+  {
+    "objectID": "ethics_slides_handout.html#ethics-by-design",
+    "href": "ethics_slides_handout.html#ethics-by-design",
+    "title": "Data Ethics and Biases",
+    "section": "Ethics by design",
+    "text": "Ethics by design\nAsk the questions at every stage, not at the end:\n\n\nCollection: do we need all this data? (data minimisation)\nAnalysis: who is represented, who is missing? Could the results be biased against a group?\nSharing: could results identify individuals, or be used unfairly? Are they presented honestly? (week 6’s honest plots)\nDocumentation: are these decisions written down? (data cards, model cards)\n\n\n\nReproducibility (week 3) is part of this: it lets others check exactly how a result was produced."
+  },
+  {
+    "objectID": "ethics_slides_handout.html#a-disclaimer",
+    "href": "ethics_slides_handout.html#a-disclaimer",
+    "title": "Data Ethics and Biases",
+    "section": "A disclaimer",
+    "text": "A disclaimer\n\n\n\n\n\n\nCaution\n\n\n\nWe focus on the UK. This is a complex area and the law changes: in real work, check the current rules and ask an expert — especially when handling personal data, protected characteristics, or data that could affect people’s rights."
+  },
+  {
+    "objectID": "ethics_slides_handout.html#personal-data",
+    "href": "ethics_slides_handout.html#personal-data",
+    "title": "Data Ethics and Biases",
+    "section": "Personal data",
+    "text": "Personal data\nAny information relating to an identified or identifiable living person.\n\n\nAnonymised: individuals can no longer be identified → no longer personal data\nPseudonymised: names replaced by IDs, with the link kept separately → still personal data\n\n\n\n\n\n\n\n\nImportantTask\n\n\n\nA dataset has had names removed, but keeps postcode, date of birth and sex. Is it anonymous?\n\n\n\nAlmost certainly not. A well-known study found that 87% of the US population can be uniquely identified by ZIP code, date of birth and sex alone (Sweeney, 2000). Joining to another dataset (week 5) can re-identify people."
+  },
+  {
+    "objectID": "ethics_slides_handout.html#uk-gdpr",
+    "href": "ethics_slides_handout.html#uk-gdpr",
+    "title": "Data Ethics and Biases",
+    "section": "UK GDPR",
+    "text": "UK GDPR\nPersonal data must be:\n\nused fairly, lawfully and transparently\nused for specified, explicit purposes\nadequate, relevant and limited to what is necessary\naccurate, and kept up to date\nkept no longer than necessary\nhandled securely\n\n\nData minimisation in practice: read only the columns you need (col_select, week 10), drop identifying columns early, share summaries rather than records (week 9’s databases).\n\n\nFines: up to £17.5 million or 4% of annual global turnover, whichever is higher — plus reputational damage, compensation claims and disruption from investigations."
+  },
+  {
+    "objectID": "ethics_slides_handout.html#two-lists",
+    "href": "ethics_slides_handout.html#two-lists",
+    "title": "Data Ethics and Biases",
+    "section": "Two lists",
+    "text": "Two lists\n\n\nSpecial category data (UK GDPR)\nHow sensitive data must be handled:\n\nrace, ethnic background\npolitical opinions\nreligious beliefs\ntrade union membership\ngenetics, biometrics\nhealth\nsex life, sexual orientation\n\n\nProtected characteristics (Equality Act 2010)\nHow people must not be treated:\n\nage\ndisability\ngender reassignment\nmarriage, civil partnership\npregnancy, maternity\nrace\nreligion or belief\nsex\nsexual orientation\n\n\n\n\nThe Amazon tool used no special category data — but discriminating by sex may still be unlawful."
+  },
+  {
+    "objectID": "ethics_slides_handout.html#data-cards",
+    "href": "ethics_slides_handout.html#data-cards",
+    "title": "Data Ethics and Biases",
+    "section": "Data cards",
+    "text": "Data cards\nA data card does for a dataset what documentation does for a function: what it is, and how it may — and may not — be used.\n\nOur minimal version:\n\nname, version/date, short description, source\nintended use (and forbidden uses)\ncomposition: rows, columns, key variables\nprotected attributes present?\nmissingness\ncollection method\nknown limitations / biases\nprivacy / sensitivity\nlicence, contact\n\n\n\nThe full framework (Pushkarna et al., 2022; the Data Cards Playbook) is the “gold standard” and very long. Kaggle has users fill in partial data cards. In the assessment students may be asked to complete parts of a data card."
+  },
+  {
+    "objectID": "ethics_slides_handout.html#write-part-of-a-data-card",
+    "href": "ethics_slides_handout.html#write-part-of-a-data-card",
+    "title": "Data Ethics and Biases",
+    "section": "Write part of a data card",
+    "text": "Write part of a data card\n\n\n\n\n\n\nImportantTask\n\n\n\nThe Kaggle Titanic dataset: 891 passengers, with Survived, Pclass, Name, Sex, Age, Fare, Cabin, … Age is missing for 177 rows, Cabin for 687. Fill in:\n\nprotected attributes present?\nknown limitations / biases\nprivacy / sensitivity\n\n\n\n\n\nProtected attributes: yes — sex and age\nLimitations / biases: not representative of modern populations; survival depends on class and sex because of historical boarding policies (“women and children first”) — not causal for modern uses; ~20% of ages and ~77% of cabins missing\nPrivacy: contains names, but the passengers have all died, so UK GDPR (living people only) doesn’t apply; public historical data, low risk"
+  },
+  {
+    "objectID": "ethics_slides_handout.html#model-cards",
+    "href": "ethics_slides_handout.html#model-cards",
+    "title": "Data Ethics and Biases",
+    "section": "Model cards",
+    "text": "Model cards\nThe equivalent for a model: intended use, performance, fairness assessment, limitations, risks.\n\n\n\n\n\n\nImportantTask\n\n\n\nYou’re asked to feed applicant data into this model. What concerns you, and what would you do?\n\nModel: Loan Approval Classifier v1.0\nIntended use: assisting bank staff; NOT fully automated decisions\nPerformance: accuracy 85%, precision 80%, recall 78%\nProtected attributes: gender, ethnicity, age — used for fairness analysis, not as predictors\nFairness: no significant gender bias; slight bias for age 60+\nLimitations: may not generalise outside the training region; sensitive to missing income data\n\n\n\n\n\nthe age 60+ bias: age is a protected characteristic — test it on our own applicants, and flag it\nhuman review is required: attach that warning to our outputs; don’t let it become an automatic decision\nextrapolation: check our applicants come from the training region, and how much income data is missing\nproxies: “not used as predictors” doesn’t rule out indirect bias\n\n\n\nReal examples: model cards on Hugging Face (e.g. BERT’s). Mitchell et al. (2019) introduced them. Students won’t build ML models in this course, but they need to read model cards as consumers."
+  },
+  {
+    "objectID": "ethics_slides_handout.html#our-job-as-data-scientists",
+    "href": "ethics_slides_handout.html#our-job-as-data-scientists",
+    "title": "Data Ethics and Biases",
+    "section": "Our job as data scientists",
+    "text": "Our job as data scientists\n\n\nlook for bias at every stage — and don’t assume your data are representative or your model is fair\n\n\n\n\nmitigate what you can, and tell stakeholders about the rest\n\n\n\n\nknow when personal data, special category data or protected characteristics are involved — and get expert advice\n\n\n\n\ndocument data and models with data cards and model cards"
+  },
+  {
+    "objectID": "ethics_slides_handout.html#read-the-notes",
+    "href": "ethics_slides_handout.html#read-the-notes",
+    "title": "Data Ethics and Biases",
+    "section": "Read the notes",
+    "text": "Read the notes\n\nthe full data card and model card examples\nlinks to the Data Cards Playbook and its extended template\nthe GDPR summary, and the Reuters and ProPublica reports"
+  },
+  {
+    "objectID": "ethics_slides.html#agenda",
+    "href": "ethics_slides.html#agenda",
+    "title": "Data Ethics and Biases",
+    "section": "Objectives",
+    "text": "Objectives\nBy the end of this lecture you will be able to:\n\n\nidentify ethical and regulatory considerations in a data science project\n\n\n\n\nrecognise different types of bias, and their impact\n\n\n\n\nevaluate real-world cases, and document data and models with data cards and model cards\n\n\n\nNo code today: this is a discussion lecture. Every “Task” works well as a 1–2 minute talk-to-your-neighbour, then take two or three answers before revealing."
+  },
+  {
+    "objectID": "ethics_slides.html#amazons-recruiting-tool",
+    "href": "ethics_slides.html#amazons-recruiting-tool",
+    "title": "Data Ethics and Biases",
+    "section": "Amazon’s recruiting tool",
+    "text": "Amazon’s recruiting tool\n\n\nAmazon built a tool to score job applicants’ CVs automatically\n\n\n\n\nTraining data: every CV submitted to the company over the previous ten years, and who was hired\n\n\n\n\nBy 2015 they found it was not gender neutral: given equally skilled applicants, it preferred men\n\n\n\n\n\n\n\n\nTask\n\n\nWhy? The tool was never told the applicants’ gender.\n\n\n\n\nIt didn’t learn what makes a good candidate — it learned what Amazon’s past hires looked like, and past hiring in tech had favoured men (and most applicants were men).\n\n\nSource: the Reuters report, linked from the notes. Let them discuss before revealing — someone usually gets there."
+  },
+  {
+    "objectID": "ethics_slides.html#removing-gender-isnt-enough",
+    "href": "ethics_slides.html#removing-gender-isnt-enough",
+    "title": "Data Ethics and Biases",
+    "section": "Removing gender isn’t enough",
+    "text": "Removing gender isn’t enough\nAmazon edited the tool to ignore the terms found to penalise women. It still couldn’t be trusted:\n\n\n“captain of the women’s chess club”\nall-women colleges\nmen and women describing their experience in different words\n\n\n\nThese are proxies: variables that stand in for an attribute that was removed. A postcode can be a proxy for ethnicity or income.\n\n\nAmazon scrapped the tool."
+  },
+  {
+    "objectID": "ethics_slides.html#its-not-just-amazon",
+    "href": "ethics_slides.html#its-not-just-amazon",
+    "title": "Data Ethics and Biases",
+    "section": "It’s not just Amazon",
+    "text": "It’s not just Amazon\n\nCOMPAS, used in some US courts to predict reoffending: a 2016 ProPublica investigation found Black defendants who did not reoffend were labelled high risk nearly twice as often as white defendants\nCredit scoring: lower scores for freelancers and gig workers, whose income is documented differently — regardless of whether they are financially stable\n\n\nWe can’t prevent every bias. Our job: recognise it, mitigate it, and alert the people who rely on our work."
+  },
+  {
+    "objectID": "ethics_slides.html#six-kinds-of-bias",
+    "href": "ethics_slides.html#six-kinds-of-bias",
+    "title": "Data Ethics and Biases",
+    "section": "Six kinds of bias",
+    "text": "Six kinds of bias\n\nSampling: the sample doesn’t represent the population\nSelection: whether a record appears depends on the outcome being studied\nHistorical: the data are accurate, but the past was unfair\nMeasurement: data are collected or measured inaccurately\nConfirmation: we see what we expected to see\nAlgorithmic: a model’s results are systematically prejudiced, because of its data or design\n\n\nNot an exhaustive list. Historical bias is the subtle one: perfect sampling doesn’t fix it, because the data faithfully record an unfair past."
+  },
+  {
+    "objectID": "ethics_slides.html#name-that-bias",
+    "href": "ethics_slides.html#name-that-bias",
+    "title": "Data Ethics and Biases",
+    "section": "Name that bias",
+    "text": "Name that bias\n\n\n\n\n\n\nTask\n\n\nWhich kind of bias is each?\n\nA survey on smartphone use is run only among university students.\nA study of successful business strategies looks only at companies still trading today.\nA fitness tracker undercounts steps for people who walk slowly or with an irregular gait.\nAn analyst who believes remote work boosts productivity focuses on the survey answers that agree.\nA face recognition system trained mostly on lighter-skinned faces misidentifies darker-skinned people more often.\nThe Amazon tool.\n\n\n\n\n\n\nSampling — young people over-represented\nSelection — the failed companies are missing (survivorship)\nMeasurement\nConfirmation\nAlgorithmic — caused by sampling bias in its training data\nHistorical mainly (it imitated past decisions), plus sampling (mostly male applicants) → algorithmic"
+  },
+  {
+    "objectID": "ethics_slides.html#patterns-are-the-point",
+    "href": "ethics_slides.html#patterns-are-the-point",
+    "title": "Data Ethics and Biases",
+    "section": "Patterns are the point",
+    "text": "Patterns are the point\nEvery model relies on finding patterns — that’s what it’s for.\n\n\nlegitimate: “applicants with higher marks in data science tend to do better in the job”\nnot: patterns that disadvantage people because of who they are — e.g. their sex or race\n\n\n\nRemoving protected characteristics doesn’t stop it (proxies). The way to know is to check: compare results across groups."
+  },
+  {
+    "objectID": "ethics_slides.html#ethics-by-design",
+    "href": "ethics_slides.html#ethics-by-design",
+    "title": "Data Ethics and Biases",
+    "section": "Ethics by design",
+    "text": "Ethics by design\nAsk the questions at every stage, not at the end:\n\n\nCollection: do we need all this data? (data minimisation)\nAnalysis: who is represented, who is missing? Could the results be biased against a group?\nSharing: could results identify individuals, or be used unfairly? Are they presented honestly? (week 6’s honest plots)\nDocumentation: are these decisions written down? (data cards, model cards)\n\n\n\nReproducibility (week 3) is part of this: it lets others check exactly how a result was produced."
+  },
+  {
+    "objectID": "ethics_slides.html#a-disclaimer",
+    "href": "ethics_slides.html#a-disclaimer",
+    "title": "Data Ethics and Biases",
+    "section": "A disclaimer",
+    "text": "A disclaimer\n\n\n\n\n\n\nCaution\n\n\nWe focus on the UK. This is a complex area and the law changes: in real work, check the current rules and ask an expert — especially when handling personal data, protected characteristics, or data that could affect people’s rights."
+  },
+  {
+    "objectID": "ethics_slides.html#personal-data",
+    "href": "ethics_slides.html#personal-data",
+    "title": "Data Ethics and Biases",
+    "section": "Personal data",
+    "text": "Personal data\nAny information relating to an identified or identifiable living person.\n\n\nAnonymised: individuals can no longer be identified → no longer personal data\nPseudonymised: names replaced by IDs, with the link kept separately → still personal data\n\n\n\n\n\n\n\n\nTask\n\n\nA dataset has had names removed, but keeps postcode, date of birth and sex. Is it anonymous?\n\n\n\n\nAlmost certainly not. A well-known study found that 87% of the US population can be uniquely identified by ZIP code, date of birth and sex alone (Sweeney, 2000). Joining to another dataset (week 5) can re-identify people."
+  },
+  {
+    "objectID": "ethics_slides.html#uk-gdpr",
+    "href": "ethics_slides.html#uk-gdpr",
+    "title": "Data Ethics and Biases",
+    "section": "UK GDPR",
+    "text": "UK GDPR\nPersonal data must be:\n\nused fairly, lawfully and transparently\nused for specified, explicit purposes\nadequate, relevant and limited to what is necessary\naccurate, and kept up to date\nkept no longer than necessary\nhandled securely\n\n\nData minimisation in practice: read only the columns you need (col_select, week 10), drop identifying columns early, share summaries rather than records (week 9’s databases).\n\n\nFines: up to £17.5 million or 4% of annual global turnover, whichever is higher — plus reputational damage, compensation claims and disruption from investigations."
+  },
+  {
+    "objectID": "ethics_slides.html#two-lists",
+    "href": "ethics_slides.html#two-lists",
+    "title": "Data Ethics and Biases",
+    "section": "Two lists",
+    "text": "Two lists\n\n\nSpecial category data (UK GDPR)\nHow sensitive data must be handled:\n\nrace, ethnic background\npolitical opinions\nreligious beliefs\ntrade union membership\ngenetics, biometrics\nhealth\nsex life, sexual orientation\n\n\nProtected characteristics (Equality Act 2010)\nHow people must not be treated:\n\nage\ndisability\ngender reassignment\nmarriage, civil partnership\npregnancy, maternity\nrace\nreligion or belief\nsex\nsexual orientation\n\n\n\nThe Amazon tool used no special category data — but discriminating by sex may still be unlawful."
+  },
+  {
+    "objectID": "ethics_slides.html#data-cards",
+    "href": "ethics_slides.html#data-cards",
+    "title": "Data Ethics and Biases",
+    "section": "Data cards",
+    "text": "Data cards\nA data card does for a dataset what documentation does for a function: what it is, and how it may — and may not — be used.\n\nOur minimal version:\n\nname, version/date, short description, source\nintended use (and forbidden uses)\ncomposition: rows, columns, key variables\nprotected attributes present?\nmissingness\ncollection method\nknown limitations / biases\nprivacy / sensitivity\nlicence, contact\n\n\n\nThe full framework (Pushkarna et al., 2022; the Data Cards Playbook) is the “gold standard” and very long. Kaggle has users fill in partial data cards. In the assessment students may be asked to complete parts of a data card."
+  },
+  {
+    "objectID": "ethics_slides.html#write-part-of-a-data-card",
+    "href": "ethics_slides.html#write-part-of-a-data-card",
+    "title": "Data Ethics and Biases",
+    "section": "Write part of a data card",
+    "text": "Write part of a data card\n\n\n\n\n\n\nTask\n\n\nThe Kaggle Titanic dataset: 891 passengers, with Survived, Pclass, Name, Sex, Age, Fare, Cabin, … Age is missing for 177 rows, Cabin for 687. Fill in:\n\nprotected attributes present?\nknown limitations / biases\nprivacy / sensitivity\n\n\n\n\n\n\nProtected attributes: yes — sex and age\nLimitations / biases: not representative of modern populations; survival depends on class and sex because of historical boarding policies (“women and children first”) — not causal for modern uses; ~20% of ages and ~77% of cabins missing\nPrivacy: contains names, but the passengers have all died, so UK GDPR (living people only) doesn’t apply; public historical data, low risk"
+  },
+  {
+    "objectID": "ethics_slides.html#model-cards",
+    "href": "ethics_slides.html#model-cards",
+    "title": "Data Ethics and Biases",
+    "section": "Model cards",
+    "text": "Model cards\nThe equivalent for a model: intended use, performance, fairness assessment, limitations, risks.\n\n\n\n\n\n\nTask\n\n\nYou’re asked to feed applicant data into this model. What concerns you, and what would you do?\n\nModel: Loan Approval Classifier v1.0\nIntended use: assisting bank staff; NOT fully automated decisions\nPerformance: accuracy 85%, precision 80%, recall 78%\nProtected attributes: gender, ethnicity, age — used for fairness analysis, not as predictors\nFairness: no significant gender bias; slight bias for age 60+\nLimitations: may not generalise outside the training region; sensitive to missing income data\n\n\n\n\n\n\nthe age 60+ bias: age is a protected characteristic — test it on our own applicants, and flag it\nhuman review is required: attach that warning to our outputs; don’t let it become an automatic decision\nextrapolation: check our applicants come from the training region, and how much income data is missing\nproxies: “not used as predictors” doesn’t rule out indirect bias\n\n\n\nReal examples: model cards on Hugging Face (e.g. BERT’s). Mitchell et al. (2019) introduced them. Students won’t build ML models in this course, but they need to read model cards as consumers."
+  },
+  {
+    "objectID": "ethics_slides.html#our-job-as-data-scientists",
+    "href": "ethics_slides.html#our-job-as-data-scientists",
+    "title": "Data Ethics and Biases",
+    "section": "Our job as data scientists",
+    "text": "Our job as data scientists\n\n\nlook for bias at every stage — and don’t assume your data are representative or your model is fair\n\n\n\n\nmitigate what you can, and tell stakeholders about the rest\n\n\n\n\nknow when personal data, special category data or protected characteristics are involved — and get expert advice\n\n\n\n\ndocument data and models with data cards and model cards"
+  },
+  {
+    "objectID": "ethics_slides.html#read-the-notes",
+    "href": "ethics_slides.html#read-the-notes",
+    "title": "Data Ethics and Biases",
+    "section": "Read the notes",
+    "text": "Read the notes\n\nthe full data card and model card examples\nlinks to the Data Cards Playbook and its extended template\nthe GDPR summary, and the Reuters and ProPublica reports"
+  },
+  {
     "objectID": "course_intro.html#about-the-course",
     "href": "course_intro.html#about-the-course",
     "title": "Week 1 Slides",
@@ -1867,5 +2756,705 @@
     "title": "Joins, Strings and Dates",
     "section": "Read the notes",
     "text": "Read the notes\nWe didn’t cover in detail:\n\nsemi_join, anti_join, cross_join and join_by()\nstr_sub, str_split, str_c, and regular expressions\nas.period() for calendar differences\nformatting dates as text with format() (e.g. \"%d %b %y\")"
+  },
+  {
+    "objectID": "week07_slides.html#agenda",
+    "href": "week07_slides.html#agenda",
+    "title": "Introduction to Shiny",
+    "section": "Objectives",
+    "text": "Objectives\nBy the end of this lecture you will be able to:\n\n\nexplain what Shiny is, and what problem it solves\n\n\n\n\ndescribe how a Shiny app is structured — a ui and a server — and run one\n\n\n\n\ndescribe reactive programming at a high level: sources, conductors and endpoints\n\n\n\n\nrecognise the common input, output and layout components, and Shiny’s main uses and limitations\n\n\n\nAll of today’s apps are in slides/apps/week07/ (also linked from the handout). Open RStudio with that folder before the lecture, so each demo is one click on “Run App”. Run each app from its own file so that the working directory is the app’s folder (app4_explorer.R reads data/penguins.csv)."
+  },
+  {
+    "objectID": "week07_slides.html#sharing-an-analysis",
+    "href": "week07_slides.html#sharing-an-analysis",
+    "title": "Introduction to Shiny",
+    "section": "Sharing an analysis",
+    "text": "Sharing an analysis\nSo far, our results reach other people as static reports: they see the plots and tables we chose.\n\nShiny is an R package for building interactive web apps entirely in R:\n\nusers change the inputs (e.g. choose a subset, move a slider) and the results update in their browser\nyou write only R; Shiny generates the website (HTML, CSS and JavaScript)\n\n\n\nThe audience: people who don’t program in R.\n\n\nOpen the gallery examples now, briefly (1–2 min total):\n\nMovie Explorer — filters and selectors over a films dataset.\nRadiant — an entire statistics package built as a Shiny app.\n\nThe point: everything they have done so far in the course could sit behind an app like this."
+  },
+  {
+    "objectID": "week07_slides.html#setting-up",
+    "href": "week07_slides.html#setting-up",
+    "title": "Introduction to Shiny",
+    "section": "Setting up",
+    "text": "Setting up\ninstall.packages(\"shiny\")   # once, in the console\nlibrary(shiny)              # at the top of every app script\n\n\nshiny is not part of the tidyverse\napps are written in .R scripts, not .qmd files — a rendered Quarto document is a static web page, with no R running behind it\nconvention: one script, app.R, ending in shinyApp(ui, server)"
+  },
+  {
+    "objectID": "week07_slides.html#hello-shiny",
+    "href": "week07_slides.html#hello-shiny",
+    "title": "Introduction to Shiny",
+    "section": "Hello Shiny",
+    "text": "Hello Shiny\nlibrary(shiny)\n\nui &lt;- fluidPage(\n  titlePanel(\"Hello Shiny!\"),\n  sidebarLayout(\n    sidebarPanel(\n      sliderInput(\"num\", \"Choose a number:\", 1, 100, 50)\n    ),\n    mainPanel(\n      textOutput(\"result\")\n    )\n  )\n)\n\nserver &lt;- function(input, output, session) {\n  output$result &lt;- renderText({\n    paste(\"You selected:\", input$num)\n  })\n}\n\nshinyApp(ui, server)\n\nWalk through the code top to bottom:\n\nui: what the page looks like. fluidPage is the root; it becomes an HTML page styled with Bootstrap. Resize the window to show it adapting.\nserver: a function that connects inputs to outputs. session is advanced — we won’t use it.\nshinyApp(ui, server) ties them together and starts a web server."
+  },
+  {
+    "objectID": "week07_slides.html#hello-shiny-running",
+    "href": "week07_slides.html#hello-shiny-running",
+    "title": "Introduction to Shiny",
+    "section": "Hello Shiny: running",
+    "text": "Hello Shiny: running\n\n\nDEMO: open app1_hello.R and click “Run App”. Move the slider and watch the text update. Resize the window to show the layout adapting.\nStop the app (red stop icon) before moving on — the console is busy while an app runs."
+  },
+  {
+    "objectID": "week07_slides.html#the-naming-contract",
+    "href": "week07_slides.html#the-naming-contract",
+    "title": "Introduction to Shiny",
+    "section": "The naming contract",
+    "text": "The naming contract\n\n\n\n\n\n\nTask\n\n\nHow does the server know which slider to read, and where to put the text?\n\n\n\n\nBy name:\n\n\n\n\n\n\n\nIn the UI\nIn the server\n\n\n\n\nsliderInput(\"num\", ...)\nread it as input$num\n\n\ntextOutput(\"result\")\nfill it with output$result &lt;- renderText(...)\n\n\n\nEvery input’s first argument is its name; every output’s name must match an output$... assignment.\n\n\nThis is the backbone of every app. A mismatched output name gives no error — the output just stays blank. That’s the most common silent bug; we’ll come back to it."
+  },
+  {
+    "objectID": "week07_slides.html#add-an-output",
+    "href": "week07_slides.html#add-an-output",
+    "title": "Introduction to Shiny",
+    "section": "Add an output",
+    "text": "Add an output\n\n\n\n\n\n\nTask\n\n\nExtend the app so that it also shows the square of the chosen number.\n\n\n\n\n# in the UI, inside mainPanel(), after a comma:\ntextOutput(\"result\"),\ntextOutput(\"squared\")\n\n# in the server:\noutput$squared &lt;- renderText({\n  paste(\"Its square is:\", input$num^2)\n})\n\n\nTwo changes, joined by a name: a slot in the UI, and a render* function in the server.\n\n\nDo this live in app1_hello.R. Deliberately forget the comma after textOutput(\"result\") first and run it: the error is unexpected symbol, pointing at the component after the gap. The UI is one big nested function call, so every component needs a comma. (A trailing comma after the last one is harmless.)"
+  },
+  {
+    "objectID": "week07_slides.html#running-an-app",
+    "href": "week07_slides.html#running-an-app",
+    "title": "Introduction to Shiny",
+    "section": "Running an app",
+    "text": "Running an app\nThree ways to start it:\n\ndefine ui and server, then run shinyApp(ui, server)\nsave as app.R and call runApp() (or runApp(\"path/to/app\"))\nclick Run App in RStudio\n\n\nListening on http://127.0.0.1:3689\nShiny starts a web server on your computer. The browser and the R process stay connected: each change to an input is sent to R, which sends back updated outputs.\n\n\nWhile the app runs your console is busy — stop it (stop icon, or Esc) to get your prompt back."
+  },
+  {
+    "objectID": "week07_slides.html#does-the-server-re-run",
+    "href": "week07_slides.html#does-the-server-re-run",
+    "title": "Introduction to Shiny",
+    "section": "Does the server re-run?",
+    "text": "Does the server re-run?\n\n\n\n\n\n\nTask\n\n\nWhen the user moves the slider, which code runs again?\n\n\n\n\nNot the whole server function — only the renderText({...}) block, because it reads input$num, which has changed.\n\n\nShiny keeps a reactive graph: a record of which code reads which values. When a value changes, it re-runs only what depends on it."
+  },
+  {
+    "objectID": "week07_slides.html#three-roles-in-the-graph",
+    "href": "week07_slides.html#three-roles-in-the-graph",
+    "title": "Introduction to Shiny",
+    "section": "Three roles in the graph",
+    "text": "Three roles in the graph\n\n\n\n\n\n\n\n\nRole\nCreated with\nRead with\n\n\n\n\nSource\n*Input(\"x\", ...) in the UI\ninput$x\n\n\nSource\nx &lt;- reactiveVal(initial)\nx(); set with x(new_value)\n\n\nConductor\nx &lt;- reactive({...})\nx()\n\n\nEndpoint (output)\noutput$x &lt;- render*({...})\ndisplayed by *Output(\"x\")\n\n\nEndpoint (observer)\nobserve({...}), observeEvent(e, {...})\nnot read: run for side effects\n\n\n\n\nSources hold values that change; conductors compute from them; endpoints have an effect — update the page, or do something.\n\n\nThe Hello app is the smallest possible graph: one source (input$num) straight into one endpoint (output$result). reactiveValues() is a third kind of source, a list-like version of reactiveVal; it’s in the notes."
+  },
+  {
+    "objectID": "week07_slides.html#a-conductor",
+    "href": "week07_slides.html#a-conductor",
+    "title": "Introduction to Shiny",
+    "section": "A conductor",
+    "text": "A conductor\nserver &lt;- function(input, output, session) {\n  samples &lt;- reactive(tibble(\n    x1 = rnorm(500, input$mu1, 1),\n    x2 = rnorm(500, input$mu2, 1)\n  ))\n\n  output$plot &lt;- renderPlot({\n    ggplot(samples(), aes(x = x1, y = x2)) +\n      geom_point() +\n      coord_cartesian(xlim = c(-5, 5), ylim = c(-5, 5))\n  })\n\n  output$means &lt;- renderText({\n    paste(\"Sample means:\", round(mean(samples()$x1), 2), \"and\",\n          round(mean(samples()$x2), 2))\n  })\n\n  output$greeting &lt;- renderText(paste(\"Hello\", input$name))\n}\n\nThe UI (in app2_samples.R) has two numericInputs (mu1, mu2) and a textInput (name), laid out with fluidRow/column.\ncoord_cartesian fixes the axes, so the cloud visibly moves rather than the axes rescaling around it."
+  },
+  {
+    "objectID": "week07_slides.html#a-conductor-running",
+    "href": "week07_slides.html#a-conductor-running",
+    "title": "Introduction to Shiny",
+    "section": "A conductor: running",
+    "text": "A conductor: running\n\n\nDEMO: run app2_samples.R. Change mu1: the cloud moves and the means update. Then type in the name box: only the greeting changes, the points stay exactly where they are. Leave the question of why to the next slide."
+  },
+  {
+    "objectID": "week07_slides.html#draw-the-graph",
+    "href": "week07_slides.html#draw-the-graph",
+    "title": "Introduction to Shiny",
+    "section": "Draw the graph",
+    "text": "Draw the graph\n\n\n\n\n\n\nTask\n\n\nDraw the reactive graph of this app. What re-runs when you change \\(\\mu_1\\)? When you type a new name?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nChanging \\(\\mu_1\\) re-runs samples(), the plot and the means. Typing a name re-runs only the greeting.\n\n\nPoint out that samples() is computed once per change even though two endpoints call it: the first caller recomputes it, the second gets the cached result."
+  },
+  {
+    "objectID": "week07_slides.html#why-not-skip-the-conductor",
+    "href": "week07_slides.html#why-not-skip-the-conductor",
+    "title": "Introduction to Shiny",
+    "section": "Why not skip the conductor?",
+    "text": "Why not skip the conductor?\n\n\n\n\n\n\nTask\n\n\nWhy not just call rnorm() inside each render* block?\n\n\n\n\nEach output would draw its own sample: the means printed under the plot would describe different points from the ones plotted.\nA reactive() computes the sample once and caches it, so every output sees the same data — and it is only recomputed when input$mu1 or input$mu2 changes.\n\n\nIf asked: putting set.seed() at the top of the reactive makes each redraw use the same random numbers, so changing mu1 just slides the cloud (links back to week 3’s reproducibility)."
+  },
+  {
+    "objectID": "week07_slides.html#spot-the-bugs",
+    "href": "week07_slides.html#spot-the-bugs",
+    "title": "Introduction to Shiny",
+    "section": "Spot the bugs",
+    "text": "Spot the bugs\n\n\n\n\n\n\nTask\n\n\nEach line below is inside server. Each fails. Why?\n\n\n\nmean_x1 &lt;- mean(samples()$x1)                      # (a)\noutput$means &lt;- renderText(mean(samples$x1))       # (b)\ninput$mu1 &lt;- 0                                     # (c)\n\n\nreactive values can only be read inside reactive code (reactive, render*, observe*): “Operation not allowed without an active reactive context”.\nmissing parentheses: samples is a function, so samples$x1 gives “object of type ‘closure’ is not subsettable”. Use samples()$x1.\ninputs are read-only — the user sets them. If the server needs a value it can change, use reactiveVal()."
+  },
+  {
+    "objectID": "week07_slides.html#observers-making-things-happen",
+    "href": "week07_slides.html#observers-making-things-happen",
+    "title": "Introduction to Shiny",
+    "section": "Observers: making things happen",
+    "text": "Observers: making things happen\nRule of thumb:\n\ncompute a value for other code to use → reactive()\nmake something happen → an observer\n\n\n\nobserve({...}) re-runs when anything it reads changes\nobserveEvent(event, {...}) re-runs only when event changes\n\n\n\nobserve({\n  message(\"mu1 is now \", input$mu1)   # prints to the R console\n})\nA cheap way to watch the graph at work — and a useful debugging trick."
+  },
+  {
+    "objectID": "week07_slides.html#a-counter",
+    "href": "week07_slides.html#a-counter",
+    "title": "Introduction to Shiny",
+    "section": "A counter",
+    "text": "A counter\n\n\n\n\n\n\nTask\n\n\nAn app has two buttons and a line of text:\nui &lt;- fluidPage(\n  actionButton(\"inc\", \"Increase counter\"),\n  actionButton(\"reset\", \"Reset counter\"),\n  textOutput(\"value\")\n)\nWrite the server so that the text shows a count that the buttons increase and reset. There’s no input holding the count — where does it live?\n\n\n\n\nserver &lt;- function(input, output, session) {\n  counter &lt;- reactiveVal(0)           # a source the server can change\n\n  observeEvent(input$inc, {\n    counter(counter() + 1)            # set by calling with a value\n  })\n\n  observeEvent(input$reset, {\n    counter(0)\n  })\n\n  output$value &lt;- renderText({\n    paste(\"Counter is:\", counter())   # read by calling it\n  })\n}\n\n\nDEMO: run app3_counter.R and click both buttons.\n\nAn actionButton’s value is just the number of presses — rarely worth showing. What matters is that a press happened: an event, so pair it with observeEvent. By default observeEvent ignores the starting value 0, so nothing runs on start-up.\nThe observers change the reactiveVal; the renderText reads it, so it re-runs automatically.\nDon’t use an observer to compute a value and stash it in a reactiveVal for others to read — that’s what reactive() is for."
+  },
+  {
+    "objectID": "week07_slides.html#components",
+    "href": "week07_slides.html#components",
+    "title": "Introduction to Shiny",
+    "section": "Components",
+    "text": "Components\n\n\n\n\n\n\n\n\nLayout\nInputs\nOutputs (UI ↔︎ server)\n\n\n\n\nfluidPage()\nsliderInput()\ntextOutput() ↔︎ renderText()\n\n\ntitlePanel()\nselectInput()\nplotOutput() ↔︎ renderPlot()\n\n\nsidebarLayout()\nnumericInput(), textInput()\ntableOutput() ↔︎ renderTable()\n\n\nfluidRow(), column()\ncheckboxInput()\nverbatimTextOutput() ↔︎ renderPrint()\n\n\ntabsetPanel()\ndateInput(), actionButton()\nuiOutput() ↔︎ renderUI()\n\n\n\n\nDon’t memorise these: look them up in the widget gallery, the Shiny cheat sheet and the notes.\n\n\nOpen the widget gallery briefly to show it’s runnable. Mention tabsets and sortable tables with the DT package. Newer Shiny docs use bslib layouts (page_sidebar(), card()): same idea, more modern look; we stick with fluidPage."
+  },
+  {
+    "objectID": "week07_slides.html#a-penguin-explorer",
+    "href": "week07_slides.html#a-penguin-explorer",
+    "title": "Introduction to Shiny",
+    "section": "A penguin explorer",
+    "text": "A penguin explorer\n\n\n\n\n\n\nTask\n\n\nPlan an app for the penguins data: the user picks a species and a range of body mass, and sees a scatter plot of body mass against flipper length, with an optional trend line, plus a table giving the number of penguins and their mean mass. Nothing should be shown until a species is chosen.\nWhich inputs? Which outputs? What should be a reactive()?\n\n\n\n\n\ninputs: selectInput (species, with an empty first choice), sliderInput with a length-two value (a range), checkboxInput (trend line)\noutputs: plotOutput + tableOutput\none reactive() for the filtered data, read by both outputs\nreq(input$species) in each render*: produce nothing until a species is chosen"
+  },
+  {
+    "objectID": "week07_slides.html#the-explorer-code",
+    "href": "week07_slides.html#the-explorer-code",
+    "title": "Introduction to Shiny",
+    "section": "The explorer: code",
+    "text": "The explorer: code\n\npenguins &lt;- read_csv(\"data/penguins.csv\")   # once, outside the server\n\nui &lt;- fluidPage(\n  titlePanel(\"Penguin explorer\"),\n  sidebarLayout(\n    sidebarPanel(\n      selectInput(\"species\", \"Choose a species:\",\n        choices = c(\"(Choose a species)\" = \"\",\n                    \"Adelie\", \"Gentoo\", \"Chinstrap\")),\n      sliderInput(\"mass\", \"Body mass (g):\", min = 2700, max = 6300,\n        value = c(2700, 6300), sep = \"\"),\n      checkboxInput(\"trend\", \"Show a trend line\", value = TRUE)\n    ),\n    mainPanel(plotOutput(\"plot\"), tableOutput(\"table\"))\n  )\n)\n\nserver &lt;- function(input, output, session) {\n  selected &lt;- reactive({\n    penguins |&gt;\n      filter(species == input$species,\n             body_mass_g &gt;= input$mass[1], body_mass_g &lt;= input$mass[2])\n  })\n\n  output$plot &lt;- renderPlot({\n    req(input$species)   # do nothing until a species is chosen\n    plot &lt;- ggplot(selected(),\n                   aes(x = flipper_length_mm, y = body_mass_g)) +\n      geom_point() +\n      coord_cartesian(xlim = c(170, 235), ylim = c(2700, 6300)) +\n      labs(title = paste(input$species, \"penguins\"),\n           x = \"Flipper length (mm)\", y = \"Body mass (g)\")\n    if (input$trend) plot &lt;- plot + geom_smooth(se = FALSE)\n    plot\n  })\n\n  output$table &lt;- renderTable({\n    req(input$species)\n    selected() |&gt;\n      summarise(n = n(), mean_mass = mean(body_mass_g, na.rm = TRUE))\n  })\n}\n\n\nPoints to make:\n\nread_csv happens once, when the app starts — not inside the server, where it would re-read the file on every change.\nA range slider gives two numbers: input$mass[1] and input$mass[2].\nThe named empty choice \"(Choose a species)\" = \"\" displays a prompt while input$species is \"\", which req() treats as “not chosen yet”.\ncoord_cartesian fixes the axes so plots for different species can be compared directly — week 6’s honest-plots principle."
+  },
+  {
+    "objectID": "week07_slides.html#the-explorer-running",
+    "href": "week07_slides.html#the-explorer-running",
+    "title": "Introduction to Shiny",
+    "section": "The explorer: running",
+    "text": "The explorer: running\n\n\nDEMO: run app4_explorer.R. Show the blank page before a species is picked (that’s req), then pick Gentoo, drag the range slider, untick the trend."
+  },
+  {
+    "objectID": "week07_slides.html#when-it-goes-wrong",
+    "href": "week07_slides.html#when-it-goes-wrong",
+    "title": "Introduction to Shiny",
+    "section": "When it goes wrong",
+    "text": "When it goes wrong\n\n\nMissing comma in the UI → unexpected symbol\nMismatched output name → no error, the output is just blank: compare the names character by character\nError inside a render* → the app keeps running, the output shows the error; the console shows Warning: Error in ...\n\n\n\nTo look inside a running app:\n\nmessage() / print() in the server write to the console\nbrowser() inside a reactive block pauses the app there: inspect input$species or selected(), then c to continue, Q to quit\n\n\n\nIf there’s time, demo browser() in app4_explorer.R: put it as the first line of selected(), re-run, choose a species, and inspect input$mass at the prompt."
+  },
+  {
+    "objectID": "week07_slides.html#deploying",
+    "href": "week07_slides.html#deploying",
+    "title": "Introduction to Shiny",
+    "section": "Deploying",
+    "text": "Deploying\nLocally, the app runs in your R session — anyone else needs R and every package.\n\nDeploying puts the app on a server (e.g. shinyapps.io, or your own Shiny Server) and gives users a web link. They need only a browser.\n\n\nCommon uses: dashboards, data exploration tools, statistical “what-if” calculators, teaching demos, prototypes for stakeholders."
+  },
+  {
+    "objectID": "week07_slides.html#limitations",
+    "href": "week07_slides.html#limitations",
+    "title": "Introduction to Shiny",
+    "section": "Limitations",
+    "text": "Limitations\n\n\n\n\n\n\nTask\n\n\nYou deploy the penguin explorer and 200 people use it at once. Then you add a text box that lets users type a filter condition, run with eval(parse(text = input$filter)). What could go wrong?\n\n\n\n\n\nPerformance / scalability: one R process serves everyone, and R does one thing at a time — a slow computation for one user makes everyone wait\nSecurity: never run user input as code (or paste it into a SQL query — SQL injection, week 9). Anyone with the link can see the data: think twice before showing personal data (ethics week)\nCost and hosting: free tiers are limited; beyond them, hosting costs money or expertise\nCustomisation: polished interfaces may need HTML/CSS/JavaScript"
+  },
+  {
+    "objectID": "week07_slides.html#today-you-can-now",
+    "href": "week07_slides.html#today-you-can-now",
+    "title": "Introduction to Shiny",
+    "section": "Today you can now:",
+    "text": "Today you can now:\n\n\nbuild an app from a ui (layout, inputs, outputs) and a server (render functions), joined by names\n\n\n\n\nexplain reactivity: sources → conductors (reactive) → endpoints (render*, observers)\n\n\n\n\nchoose between reactive() (a value) and observeEvent() (an action), and use req() to wait for the user"
+  },
+  {
+    "objectID": "week07_slides.html#read-the-notes",
+    "href": "week07_slides.html#read-the-notes",
+    "title": "Introduction to Shiny",
+    "section": "Read the notes",
+    "text": "Read the notes\nWe didn’t cover in detail:\n\nreactiveValues(), conditionalPanel(), renderUI() and the full tables of components\nvalidate() / need() for friendlier messages than req()\nShinylive, and bslib layouts\n\nThe demo apps are on the handout page: app1, app2, app3, app4 (with its data)."
+  },
+  {
+    "objectID": "week07_slides_handout.html",
+    "href": "week07_slides_handout.html",
+    "title": "Introduction to Shiny",
+    "section": "",
+    "text": "By the end of this lecture you will be able to:\n\n\nexplain what Shiny is, and what problem it solves\n\n\n\n\ndescribe how a Shiny app is structured — a ui and a server — and run one\n\n\n\n\ndescribe reactive programming at a high level: sources, conductors and endpoints\n\n\n\n\nrecognise the common input, output and layout components, and Shiny’s main uses and limitations\n\n\n\nAll of today’s apps are in slides/apps/week07/ (also linked from the handout). Open RStudio with that folder before the lecture, so each demo is one click on “Run App”. Run each app from its own file so that the working directory is the app’s folder (app4_explorer.R reads data/penguins.csv)."
+  },
+  {
+    "objectID": "week07_slides_handout.html#agenda",
+    "href": "week07_slides_handout.html#agenda",
+    "title": "Introduction to Shiny",
+    "section": "",
+    "text": "By the end of this lecture you will be able to:\n\n\nexplain what Shiny is, and what problem it solves\n\n\n\n\ndescribe how a Shiny app is structured — a ui and a server — and run one\n\n\n\n\ndescribe reactive programming at a high level: sources, conductors and endpoints\n\n\n\n\nrecognise the common input, output and layout components, and Shiny’s main uses and limitations\n\n\n\nAll of today’s apps are in slides/apps/week07/ (also linked from the handout). Open RStudio with that folder before the lecture, so each demo is one click on “Run App”. Run each app from its own file so that the working directory is the app’s folder (app4_explorer.R reads data/penguins.csv)."
+  },
+  {
+    "objectID": "week07_slides_handout.html#sharing-an-analysis",
+    "href": "week07_slides_handout.html#sharing-an-analysis",
+    "title": "Introduction to Shiny",
+    "section": "Sharing an analysis",
+    "text": "Sharing an analysis\nSo far, our results reach other people as static reports: they see the plots and tables we chose.\n\nShiny is an R package for building interactive web apps entirely in R:\n\nusers change the inputs (e.g. choose a subset, move a slider) and the results update in their browser\nyou write only R; Shiny generates the website (HTML, CSS and JavaScript)\n\n\n\nThe audience: people who don’t program in R.\n\n\nOpen the gallery examples now, briefly (1–2 min total):\n\nMovie Explorer — filters and selectors over a films dataset.\nRadiant — an entire statistics package built as a Shiny app.\n\nThe point: everything they have done so far in the course could sit behind an app like this."
+  },
+  {
+    "objectID": "week07_slides_handout.html#setting-up",
+    "href": "week07_slides_handout.html#setting-up",
+    "title": "Introduction to Shiny",
+    "section": "Setting up",
+    "text": "Setting up\ninstall.packages(\"shiny\")   # once, in the console\nlibrary(shiny)              # at the top of every app script\n\n\nshiny is not part of the tidyverse\napps are written in .R scripts, not .qmd files — a rendered Quarto document is a static web page, with no R running behind it\nconvention: one script, app.R, ending in shinyApp(ui, server)"
+  },
+  {
+    "objectID": "week07_slides_handout.html#hello-shiny",
+    "href": "week07_slides_handout.html#hello-shiny",
+    "title": "Introduction to Shiny",
+    "section": "Hello Shiny",
+    "text": "Hello Shiny\nlibrary(shiny)\n\nui &lt;- fluidPage(\n  titlePanel(\"Hello Shiny!\"),\n  sidebarLayout(\n    sidebarPanel(\n      sliderInput(\"num\", \"Choose a number:\", 1, 100, 50)\n    ),\n    mainPanel(\n      textOutput(\"result\")\n    )\n  )\n)\n\nserver &lt;- function(input, output, session) {\n  output$result &lt;- renderText({\n    paste(\"You selected:\", input$num)\n  })\n}\n\nshinyApp(ui, server)\n\nWalk through the code top to bottom:\n\nui: what the page looks like. fluidPage is the root; it becomes an HTML page styled with Bootstrap. Resize the window to show it adapting.\nserver: a function that connects inputs to outputs. session is advanced — we won’t use it.\nshinyApp(ui, server) ties them together and starts a web server."
+  },
+  {
+    "objectID": "week07_slides_handout.html#hello-shiny-running",
+    "href": "week07_slides_handout.html#hello-shiny-running",
+    "title": "Introduction to Shiny",
+    "section": "Hello Shiny: running",
+    "text": "Hello Shiny: running\n\n\nDEMO: open app1_hello.R and click “Run App”. Move the slider and watch the text update. Resize the window to show the layout adapting.\nStop the app (red stop icon) before moving on — the console is busy while an app runs."
+  },
+  {
+    "objectID": "week07_slides_handout.html#the-naming-contract",
+    "href": "week07_slides_handout.html#the-naming-contract",
+    "title": "Introduction to Shiny",
+    "section": "The naming contract",
+    "text": "The naming contract\n\n\n\n\n\n\nImportantTask\n\n\n\nHow does the server know which slider to read, and where to put the text?\n\n\n\nBy name:\n\n\n\n\n\n\n\nIn the UI\nIn the server\n\n\n\n\nsliderInput(\"num\", ...)\nread it as input$num\n\n\ntextOutput(\"result\")\nfill it with output$result &lt;- renderText(...)\n\n\n\nEvery input’s first argument is its name; every output’s name must match an output$... assignment.\n\n\nThis is the backbone of every app. A mismatched output name gives no error — the output just stays blank. That’s the most common silent bug; we’ll come back to it."
+  },
+  {
+    "objectID": "week07_slides_handout.html#add-an-output",
+    "href": "week07_slides_handout.html#add-an-output",
+    "title": "Introduction to Shiny",
+    "section": "Add an output",
+    "text": "Add an output\n\n\n\n\n\n\nImportantTask\n\n\n\nExtend the app so that it also shows the square of the chosen number.\n\n\n\n# in the UI, inside mainPanel(), after a comma:\ntextOutput(\"result\"),\ntextOutput(\"squared\")\n\n# in the server:\noutput$squared &lt;- renderText({\n  paste(\"Its square is:\", input$num^2)\n})\n\n\nTwo changes, joined by a name: a slot in the UI, and a render* function in the server.\n\n\nDo this live in app1_hello.R. Deliberately forget the comma after textOutput(\"result\") first and run it: the error is unexpected symbol, pointing at the component after the gap. The UI is one big nested function call, so every component needs a comma. (A trailing comma after the last one is harmless.)"
+  },
+  {
+    "objectID": "week07_slides_handout.html#running-an-app",
+    "href": "week07_slides_handout.html#running-an-app",
+    "title": "Introduction to Shiny",
+    "section": "Running an app",
+    "text": "Running an app\nThree ways to start it:\n\ndefine ui and server, then run shinyApp(ui, server)\nsave as app.R and call runApp() (or runApp(\"path/to/app\"))\nclick Run App in RStudio\n\n\nListening on http://127.0.0.1:3689\nShiny starts a web server on your computer. The browser and the R process stay connected: each change to an input is sent to R, which sends back updated outputs.\n\n\nWhile the app runs your console is busy — stop it (stop icon, or Esc) to get your prompt back."
+  },
+  {
+    "objectID": "week07_slides_handout.html#does-the-server-re-run",
+    "href": "week07_slides_handout.html#does-the-server-re-run",
+    "title": "Introduction to Shiny",
+    "section": "Does the server re-run?",
+    "text": "Does the server re-run?\n\n\n\n\n\n\nImportantTask\n\n\n\nWhen the user moves the slider, which code runs again?\n\n\n\nNot the whole server function — only the renderText({...}) block, because it reads input$num, which has changed.\n\n\nShiny keeps a reactive graph: a record of which code reads which values. When a value changes, it re-runs only what depends on it."
+  },
+  {
+    "objectID": "week07_slides_handout.html#three-roles-in-the-graph",
+    "href": "week07_slides_handout.html#three-roles-in-the-graph",
+    "title": "Introduction to Shiny",
+    "section": "Three roles in the graph",
+    "text": "Three roles in the graph\n\n\n\n\n\n\n\n\nRole\nCreated with\nRead with\n\n\n\n\nSource\n*Input(\"x\", ...) in the UI\ninput$x\n\n\nSource\nx &lt;- reactiveVal(initial)\nx(); set with x(new_value)\n\n\nConductor\nx &lt;- reactive({...})\nx()\n\n\nEndpoint (output)\noutput$x &lt;- render*({...})\ndisplayed by *Output(\"x\")\n\n\nEndpoint (observer)\nobserve({...}), observeEvent(e, {...})\nnot read: run for side effects\n\n\n\n\nSources hold values that change; conductors compute from them; endpoints have an effect — update the page, or do something.\n\n\nThe Hello app is the smallest possible graph: one source (input$num) straight into one endpoint (output$result). reactiveValues() is a third kind of source, a list-like version of reactiveVal; it’s in the notes."
+  },
+  {
+    "objectID": "week07_slides_handout.html#a-conductor",
+    "href": "week07_slides_handout.html#a-conductor",
+    "title": "Introduction to Shiny",
+    "section": "A conductor",
+    "text": "A conductor\nserver &lt;- function(input, output, session) {\n  samples &lt;- reactive(tibble(\n    x1 = rnorm(500, input$mu1, 1),\n    x2 = rnorm(500, input$mu2, 1)\n  ))\n\n  output$plot &lt;- renderPlot({\n    ggplot(samples(), aes(x = x1, y = x2)) +\n      geom_point() +\n      coord_cartesian(xlim = c(-5, 5), ylim = c(-5, 5))\n  })\n\n  output$means &lt;- renderText({\n    paste(\"Sample means:\", round(mean(samples()$x1), 2), \"and\",\n          round(mean(samples()$x2), 2))\n  })\n\n  output$greeting &lt;- renderText(paste(\"Hello\", input$name))\n}\n\nThe UI (in app2_samples.R) has two numericInputs (mu1, mu2) and a textInput (name), laid out with fluidRow/column.\ncoord_cartesian fixes the axes, so the cloud visibly moves rather than the axes rescaling around it."
+  },
+  {
+    "objectID": "week07_slides_handout.html#a-conductor-running",
+    "href": "week07_slides_handout.html#a-conductor-running",
+    "title": "Introduction to Shiny",
+    "section": "A conductor: running",
+    "text": "A conductor: running\n\n\nDEMO: run app2_samples.R. Change mu1: the cloud moves and the means update. Then type in the name box: only the greeting changes, the points stay exactly where they are. Leave the question of why to the next slide."
+  },
+  {
+    "objectID": "week07_slides_handout.html#draw-the-graph",
+    "href": "week07_slides_handout.html#draw-the-graph",
+    "title": "Introduction to Shiny",
+    "section": "Draw the graph",
+    "text": "Draw the graph\n\n\n\n\n\n\nImportantTask\n\n\n\nDraw the reactive graph of this app. What re-runs when you change \\(\\mu_1\\)? When you type a new name?\n\n\n\n\n\n\n\n\nflowchart LR\n  mu1[\"input$mu1\"] --&gt; samples[\"samples()\"]\n  mu2[\"input$mu2\"] --&gt; samples\n  samples --&gt; plot[\"output$plot\"]\n  samples --&gt; means[\"output$means\"]\n  name[\"input$name\"] --&gt; greeting[\"output$greeting\"]\n\n\n\n\n\n\nChanging \\(\\mu_1\\) re-runs samples(), the plot and the means. Typing a name re-runs only the greeting.\n\n\nPoint out that samples() is computed once per change even though two endpoints call it: the first caller recomputes it, the second gets the cached result."
+  },
+  {
+    "objectID": "week07_slides_handout.html#why-not-skip-the-conductor",
+    "href": "week07_slides_handout.html#why-not-skip-the-conductor",
+    "title": "Introduction to Shiny",
+    "section": "Why not skip the conductor?",
+    "text": "Why not skip the conductor?\n\n\n\n\n\n\nImportantTask\n\n\n\nWhy not just call rnorm() inside each render* block?\n\n\n\nEach output would draw its own sample: the means printed under the plot would describe different points from the ones plotted.\nA reactive() computes the sample once and caches it, so every output sees the same data — and it is only recomputed when input$mu1 or input$mu2 changes.\n\n\nIf asked: putting set.seed() at the top of the reactive makes each redraw use the same random numbers, so changing mu1 just slides the cloud (links back to week 3’s reproducibility)."
+  },
+  {
+    "objectID": "week07_slides_handout.html#spot-the-bugs",
+    "href": "week07_slides_handout.html#spot-the-bugs",
+    "title": "Introduction to Shiny",
+    "section": "Spot the bugs",
+    "text": "Spot the bugs\n\n\n\n\n\n\nImportantTask\n\n\n\nEach line below is inside server. Each fails. Why?\n\n\nmean_x1 &lt;- mean(samples()$x1)                      # (a)\noutput$means &lt;- renderText(mean(samples$x1))       # (b)\ninput$mu1 &lt;- 0                                     # (c)\n\n\nreactive values can only be read inside reactive code (reactive, render*, observe*): “Operation not allowed without an active reactive context”.\nmissing parentheses: samples is a function, so samples$x1 gives “object of type ‘closure’ is not subsettable”. Use samples()$x1.\ninputs are read-only — the user sets them. If the server needs a value it can change, use reactiveVal()."
+  },
+  {
+    "objectID": "week07_slides_handout.html#observers-making-things-happen",
+    "href": "week07_slides_handout.html#observers-making-things-happen",
+    "title": "Introduction to Shiny",
+    "section": "Observers: making things happen",
+    "text": "Observers: making things happen\nRule of thumb:\n\ncompute a value for other code to use → reactive()\nmake something happen → an observer\n\n\n\nobserve({...}) re-runs when anything it reads changes\nobserveEvent(event, {...}) re-runs only when event changes\n\n\n\nobserve({\n  message(\"mu1 is now \", input$mu1)   # prints to the R console\n})\nA cheap way to watch the graph at work — and a useful debugging trick."
+  },
+  {
+    "objectID": "week07_slides_handout.html#a-counter",
+    "href": "week07_slides_handout.html#a-counter",
+    "title": "Introduction to Shiny",
+    "section": "A counter",
+    "text": "A counter\n\n\n\n\n\n\nImportantTask\n\n\n\nAn app has two buttons and a line of text:\nui &lt;- fluidPage(\n  actionButton(\"inc\", \"Increase counter\"),\n  actionButton(\"reset\", \"Reset counter\"),\n  textOutput(\"value\")\n)\nWrite the server so that the text shows a count that the buttons increase and reset. There’s no input holding the count — where does it live?\n\n\n\nserver &lt;- function(input, output, session) {\n  counter &lt;- reactiveVal(0)           # a source the server can change\n\n  observeEvent(input$inc, {\n    counter(counter() + 1)            # set by calling with a value\n  })\n\n  observeEvent(input$reset, {\n    counter(0)\n  })\n\n  output$value &lt;- renderText({\n    paste(\"Counter is:\", counter())   # read by calling it\n  })\n}\n\n\nDEMO: run app3_counter.R and click both buttons.\n\nAn actionButton’s value is just the number of presses — rarely worth showing. What matters is that a press happened: an event, so pair it with observeEvent. By default observeEvent ignores the starting value 0, so nothing runs on start-up.\nThe observers change the reactiveVal; the renderText reads it, so it re-runs automatically.\nDon’t use an observer to compute a value and stash it in a reactiveVal for others to read — that’s what reactive() is for."
+  },
+  {
+    "objectID": "week07_slides_handout.html#components",
+    "href": "week07_slides_handout.html#components",
+    "title": "Introduction to Shiny",
+    "section": "Components",
+    "text": "Components\n\n\n\n\n\n\n\n\nLayout\nInputs\nOutputs (UI ↔︎ server)\n\n\n\n\nfluidPage()\nsliderInput()\ntextOutput() ↔︎ renderText()\n\n\ntitlePanel()\nselectInput()\nplotOutput() ↔︎ renderPlot()\n\n\nsidebarLayout()\nnumericInput(), textInput()\ntableOutput() ↔︎ renderTable()\n\n\nfluidRow(), column()\ncheckboxInput()\nverbatimTextOutput() ↔︎ renderPrint()\n\n\ntabsetPanel()\ndateInput(), actionButton()\nuiOutput() ↔︎ renderUI()\n\n\n\n\nDon’t memorise these: look them up in the widget gallery, the Shiny cheat sheet and the notes.\n\n\nOpen the widget gallery briefly to show it’s runnable. Mention tabsets and sortable tables with the DT package. Newer Shiny docs use bslib layouts (page_sidebar(), card()): same idea, more modern look; we stick with fluidPage."
+  },
+  {
+    "objectID": "week07_slides_handout.html#a-penguin-explorer",
+    "href": "week07_slides_handout.html#a-penguin-explorer",
+    "title": "Introduction to Shiny",
+    "section": "A penguin explorer",
+    "text": "A penguin explorer\n\n\n\n\n\n\nImportantTask\n\n\n\nPlan an app for the penguins data: the user picks a species and a range of body mass, and sees a scatter plot of body mass against flipper length, with an optional trend line, plus a table giving the number of penguins and their mean mass. Nothing should be shown until a species is chosen.\nWhich inputs? Which outputs? What should be a reactive()?\n\n\n\n\ninputs: selectInput (species, with an empty first choice), sliderInput with a length-two value (a range), checkboxInput (trend line)\noutputs: plotOutput + tableOutput\none reactive() for the filtered data, read by both outputs\nreq(input$species) in each render*: produce nothing until a species is chosen"
+  },
+  {
+    "objectID": "week07_slides_handout.html#the-explorer-code",
+    "href": "week07_slides_handout.html#the-explorer-code",
+    "title": "Introduction to Shiny",
+    "section": "The explorer: code",
+    "text": "The explorer: code\n\npenguins &lt;- read_csv(\"data/penguins.csv\")   # once, outside the server\n\nui &lt;- fluidPage(\n  titlePanel(\"Penguin explorer\"),\n  sidebarLayout(\n    sidebarPanel(\n      selectInput(\"species\", \"Choose a species:\",\n        choices = c(\"(Choose a species)\" = \"\",\n                    \"Adelie\", \"Gentoo\", \"Chinstrap\")),\n      sliderInput(\"mass\", \"Body mass (g):\", min = 2700, max = 6300,\n        value = c(2700, 6300), sep = \"\"),\n      checkboxInput(\"trend\", \"Show a trend line\", value = TRUE)\n    ),\n    mainPanel(plotOutput(\"plot\"), tableOutput(\"table\"))\n  )\n)\n\nserver &lt;- function(input, output, session) {\n  selected &lt;- reactive({\n    penguins |&gt;\n      filter(species == input$species,\n             body_mass_g &gt;= input$mass[1], body_mass_g &lt;= input$mass[2])\n  })\n\n  output$plot &lt;- renderPlot({\n    req(input$species)   # do nothing until a species is chosen\n    plot &lt;- ggplot(selected(),\n                   aes(x = flipper_length_mm, y = body_mass_g)) +\n      geom_point() +\n      coord_cartesian(xlim = c(170, 235), ylim = c(2700, 6300)) +\n      labs(title = paste(input$species, \"penguins\"),\n           x = \"Flipper length (mm)\", y = \"Body mass (g)\")\n    if (input$trend) plot &lt;- plot + geom_smooth(se = FALSE)\n    plot\n  })\n\n  output$table &lt;- renderTable({\n    req(input$species)\n    selected() |&gt;\n      summarise(n = n(), mean_mass = mean(body_mass_g, na.rm = TRUE))\n  })\n}\n\n\nPoints to make:\n\nread_csv happens once, when the app starts — not inside the server, where it would re-read the file on every change.\nA range slider gives two numbers: input$mass[1] and input$mass[2].\nThe named empty choice \"(Choose a species)\" = \"\" displays a prompt while input$species is \"\", which req() treats as “not chosen yet”.\ncoord_cartesian fixes the axes so plots for different species can be compared directly — week 6’s honest-plots principle."
+  },
+  {
+    "objectID": "week07_slides_handout.html#the-explorer-running",
+    "href": "week07_slides_handout.html#the-explorer-running",
+    "title": "Introduction to Shiny",
+    "section": "The explorer: running",
+    "text": "The explorer: running\n\n\nDEMO: run app4_explorer.R. Show the blank page before a species is picked (that’s req), then pick Gentoo, drag the range slider, untick the trend."
+  },
+  {
+    "objectID": "week07_slides_handout.html#when-it-goes-wrong",
+    "href": "week07_slides_handout.html#when-it-goes-wrong",
+    "title": "Introduction to Shiny",
+    "section": "When it goes wrong",
+    "text": "When it goes wrong\n\n\nMissing comma in the UI → unexpected symbol\nMismatched output name → no error, the output is just blank: compare the names character by character\nError inside a render* → the app keeps running, the output shows the error; the console shows Warning: Error in ...\n\n\n\nTo look inside a running app:\n\nmessage() / print() in the server write to the console\nbrowser() inside a reactive block pauses the app there: inspect input$species or selected(), then c to continue, Q to quit\n\n\n\nIf there’s time, demo browser() in app4_explorer.R: put it as the first line of selected(), re-run, choose a species, and inspect input$mass at the prompt."
+  },
+  {
+    "objectID": "week07_slides_handout.html#deploying",
+    "href": "week07_slides_handout.html#deploying",
+    "title": "Introduction to Shiny",
+    "section": "Deploying",
+    "text": "Deploying\nLocally, the app runs in your R session — anyone else needs R and every package.\n\nDeploying puts the app on a server (e.g. shinyapps.io, or your own Shiny Server) and gives users a web link. They need only a browser.\n\n\nCommon uses: dashboards, data exploration tools, statistical “what-if” calculators, teaching demos, prototypes for stakeholders."
+  },
+  {
+    "objectID": "week07_slides_handout.html#limitations",
+    "href": "week07_slides_handout.html#limitations",
+    "title": "Introduction to Shiny",
+    "section": "Limitations",
+    "text": "Limitations\n\n\n\n\n\n\nImportantTask\n\n\n\nYou deploy the penguin explorer and 200 people use it at once. Then you add a text box that lets users type a filter condition, run with eval(parse(text = input$filter)). What could go wrong?\n\n\n\n\nPerformance / scalability: one R process serves everyone, and R does one thing at a time — a slow computation for one user makes everyone wait\nSecurity: never run user input as code (or paste it into a SQL query — SQL injection, week 9). Anyone with the link can see the data: think twice before showing personal data (ethics week)\nCost and hosting: free tiers are limited; beyond them, hosting costs money or expertise\nCustomisation: polished interfaces may need HTML/CSS/JavaScript"
+  },
+  {
+    "objectID": "week07_slides_handout.html#today-you-can-now",
+    "href": "week07_slides_handout.html#today-you-can-now",
+    "title": "Introduction to Shiny",
+    "section": "Today you can now:",
+    "text": "Today you can now:\n\n\nbuild an app from a ui (layout, inputs, outputs) and a server (render functions), joined by names\n\n\n\n\nexplain reactivity: sources → conductors (reactive) → endpoints (render*, observers)\n\n\n\n\nchoose between reactive() (a value) and observeEvent() (an action), and use req() to wait for the user"
+  },
+  {
+    "objectID": "week07_slides_handout.html#read-the-notes",
+    "href": "week07_slides_handout.html#read-the-notes",
+    "title": "Introduction to Shiny",
+    "section": "Read the notes",
+    "text": "Read the notes\nWe didn’t cover in detail:\n\nreactiveValues(), conditionalPanel(), renderUI() and the full tables of components\nvalidate() / need() for friendlier messages than req()\nShinylive, and bslib layouts\n\nThe demo apps are on the handout page: app1, app2, app3, app4 (with its data)."
+  },
+  {
+    "objectID": "week09_slides.html#agenda",
+    "href": "week09_slides.html#agenda",
+    "title": "SQL for Data Science",
+    "section": "Objectives",
+    "text": "Objectives\nBy the end of this lecture you will be able to:\n\n\nexplain what a relational database adds to a folder of CSV files\n\n\n\n\nread SQL queries — including joins, GROUP BY and subqueries — and say what they return\n\n\n\n\ndecide whether work should be done in the database or in R, and use dbplyr to query a database with dplyr code\n\n\n\nSet expectations early: students will not be asked to write SQL. They must be able to read it, and to work with databases from R via dbplyr. Today’s SQL is all run against a small database built from the student tables of week 5."
+  },
+  {
+    "objectID": "week09_slides.html#csv-files",
+    "href": "week09_slides.html#csv-files",
+    "title": "SQL for Data Science",
+    "section": "CSV files",
+    "text": "CSV files\nUntil now, all our data has come from CSV files:\n\n\na flat table of text\nno types — R has to guess them\nno validation of what goes in\nno way to say how one file relates to another"
+  },
+  {
+    "objectID": "week09_slides.html#remember-week-5",
+    "href": "week09_slides.html#remember-week-5",
+    "title": "SQL for Data Science",
+    "section": "Remember week 5?",
+    "text": "Remember week 5?\n\n\n\n\n\n\nTask\n\n\nstudent_grades.csv contains grades for students 21 and 22, who don’t appear in student_data.csv. Should that be possible? Could a CSV file stop it?\n\n\n\n\nIt shouldn’t be possible: a grade must belong to a student. But a CSV file is just text — nothing checks it. We only found the problem by joining.\nA relational database can refuse to store it in the first place."
+  },
+  {
+    "objectID": "week09_slides.html#relational-databases",
+    "href": "week09_slides.html#relational-databases",
+    "title": "SQL for Data Science",
+    "section": "Relational databases",
+    "text": "Relational databases\nA database holds tables (like data frames), plus rules about them:\n\n\nevery column has a type, checked on the way in\na primary key uniquely identifies each row (e.g. a student’s id)\na foreign key must match a primary key in another table (each grade’s student_id must be a real student)\n\n\n\nWe talk to it in SQL (Structured Query Language). SQL is declarative: you say what you want, and the database works out how."
+  },
+  {
+    "objectID": "week09_slides.html#why-use-one",
+    "href": "week09_slides.html#why-use-one",
+    "title": "SQL for Data Science",
+    "section": "Why use one?",
+    "text": "Why use one?\n\n\nIntegrity: types and keys keep data consistent\nScale: data lives on disk, not in memory; the server may be far more powerful than your laptop\nSecurity: access controls and permissions\nConcurrent access: many users reading and writing safely\nLess duplication: related tables instead of one big one (week 5)\n\n\n\nPostgreSQL, MySQL, SQL Server, Oracle… we use SQLite: a single file, no server. Each system has its own dialect of SQL.\n\n\nOptional demo (2–3 min): open notes/data/customers.db in DB Browser for SQLite. Show the tables, their column types and the foreign keys under “Database Structure”. Point out it is not a plain-text file. Non-relational (“NoSQL”) databases such as MongoDB exist too, but are out of scope."
+  },
+  {
+    "objectID": "week09_slides.html#creating-tables",
+    "href": "week09_slides.html#creating-tables",
+    "title": "SQL for Data Science",
+    "section": "Creating tables",
+    "text": "Creating tables\n\nCREATE TABLE students (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    given_name TEXT,\n    family_name TEXT,\n    date_of_birth INTEGER\n);\n\n\nCREATE TABLE grades (\n    student_id INTEGER,\n    course TEXT,\n    grade REAL,\n    FOREIGN KEY (student_id) REFERENCES students(id)\n);\n\n\nTypes are declared up front. AUTOINCREMENT generates new IDs; the FOREIGN KEY ties each grade to a student. Keywords are in CAPITALS by convention; comments start with --.\n\n\nBehind the scenes, the 20 students and their grades from week 5 have been inserted — except the grades for the non-existent students 21 and 22. SQLite only checks foreign keys if you switch it on (PRAGMA foreign_keys = ON), which we have done; database servers check them by default."
+  },
+  {
+    "objectID": "week09_slides.html#inserting-a-bad-row",
+    "href": "week09_slides.html#inserting-a-bad-row",
+    "title": "SQL for Data Science",
+    "section": "Inserting a bad row",
+    "text": "Inserting a bad row\n\n\n\n\n\n\nTask\n\n\nWhat happens if we try to store a grade for student 21?\n\n\n\n\nINSERT INTO grades(student_id, course, grade) VALUES (21, 'MATH6195', 70);\n\n\n\n\nError: FOREIGN KEY constraint failed\n\n\nThe database refuses it. The problem from week 5 can’t happen."
+  },
+  {
+    "objectID": "week09_slides.html#select",
+    "href": "week09_slides.html#select",
+    "title": "SQL for Data Science",
+    "section": "SELECT",
+    "text": "SELECT\n\n\n\n\n\n\nTask\n\n\nWhat does each query return?\n\n\n\n\nSELECT given_name, family_name FROM students;\n\nSELECT * FROM grades\nWHERE grade &gt; 85;\n\nSELECT * FROM grades\nORDER BY grade DESC\nLIMIT 3;\n\n\n\n\n\nDisplaying records 1 - 5\n\n\ngiven_name\nfamily_name\n\n\n\n\nAdaora\nNkomo\n\n\nHiroshi\nTanaka\n\n\nAaliyah\nWilliams\n\n\nDimitri\nVolkov\n\n\nAmara\nBaptiste\n\n\n\n\n\n\n\n\n3 records\n\n\nstudent_id\ncourse\ngrade\n\n\n\n\n11\nMATH6195\n90\n\n\n9\nMATH2011\n88\n\n\n14\nMATH2011\n90\n\n\n\n\n\n\n\n\n3 records\n\n\nstudent_id\ncourse\ngrade\n\n\n\n\n11\nMATH6195\n90\n\n\n14\nMATH2011\n90\n\n\n9\nMATH2011\n88\n\n\n\n\n\nTwo columns of every student; the grades above 85; the three highest grades. * means “every column”.\n\n\nWithout ORDER BY, the database makes no promise about row order. SELECT DISTINCT course FROM grades would list each course once."
+  },
+  {
+    "objectID": "week09_slides.html#join",
+    "href": "week09_slides.html#join",
+    "title": "SQL for Data Science",
+    "section": "JOIN",
+    "text": "JOIN\n\n\n\n\n\n\nTask\n\n\nWhat does this return? Which students are missing from it?\n\n\n\n\nSELECT students.given_name, students.family_name,\n       grades.course, grades.grade\nFROM grades\n    JOIN students ON grades.student_id = students.id;\n\n\n\n\n\nDisplaying records 1 - 4\n\n\ngiven_name\nfamily_name\ncourse\ngrade\n\n\n\n\nAdaora\nNkomo\nMATH6195\n68\n\n\nHiroshi\nTanaka\nMATH6195\n67\n\n\nAaliyah\nWilliams\nMATH6195\n68\n\n\nDimitri\nVolkov\nMATH6195\n74\n\n\n\n\n\nOne row per grade, with the student’s name attached. JOIN is an inner join, so student 7 (no grades) is missing — exactly inner_join() from week 5. LEFT JOIN and FULL OUTER JOIN also exist.\ntable.column says which table each column comes from."
+  },
+  {
+    "objectID": "week09_slides.html#changing-data",
+    "href": "week09_slides.html#changing-data",
+    "title": "SQL for Data Science",
+    "section": "Changing data",
+    "text": "Changing data\n\nUPDATE grades\nSET grade = 100\nWHERE student_id = 15 AND course = 'MATH6195';\n\n\nDELETE FROM grades\nWHERE course = 'MATH2011';\n\n\nCreate (INSERT), Read (SELECT), Update, Delete: CRUD. Note the WHERE — without it, every row is updated or deleted.\n\n\nDROP TABLE deletes a whole table and its data. These statements change the database permanently — there’s no undo."
+  },
+  {
+    "objectID": "week09_slides.html#group-by",
+    "href": "week09_slides.html#group-by",
+    "title": "SQL for Data Science",
+    "section": "GROUP BY",
+    "text": "GROUP BY\n\n\n\n\n\n\nTask\n\n\nWhat does this return?\n\n\n\n\nSELECT course, COUNT(*) AS n, AVG(grade) AS mean_grade\nFROM grades\nGROUP BY course;\n\n\n\n\n\n2 records\n\n\ncourse\nn\nmean_grade\n\n\n\n\nMATH2010\n17\n64.47059\n\n\nMATH6195\n18\n69.22222\n\n\n\n\n\nOne row per course, with its number of grades and mean grade — group_by() then summarise(). AS names a calculated column. (MATH2011 is gone: we just deleted it.)\n\n\nEvery column in the SELECT must either be in the GROUP BY or be an aggregate like COUNT, SUM, AVG. COUNT(*) counts rows; COUNT(column) counts non-missing values. Missing values in SQL are NULL; aggregates skip them, as if na.rm = TRUE."
+  },
+  {
+    "objectID": "week09_slides.html#subqueries",
+    "href": "week09_slides.html#subqueries",
+    "title": "SQL for Data Science",
+    "section": "Subqueries",
+    "text": "Subqueries\n\n\n\n\n\n\nTask\n\n\nWhat does this return? Read the inner query first.\n\n\n\n\nSELECT given_name, family_name\nFROM students\nWHERE id IN (\n    SELECT student_id\n    FROM grades\n    GROUP BY student_id\n    HAVING AVG(grade) &gt; 75\n);\n\n\n\n\n\n4 records\n\n\ngiven_name\nfamily_name\n\n\n\n\nTariq\nIbn Rashid\n\n\nIndira\nSharma\n\n\nAmina\nOkonkwo\n\n\nLars\nAndersen\n\n\n\n\n\nThe inner query finds the IDs of students whose average grade is over 75; the outer query looks up their names. HAVING filters groups; IN compares against a list.\n\n\nNOT IN works too: WHERE id NOT IN (SELECT student_id FROM grades) finds student 7 — the anti_join() of week 5. The notes describe a trap: if the subquery returns a NULL, NOT IN returns no rows at all, silently."
+  },
+  {
+    "objectID": "week09_slides.html#how-to-read-a-query",
+    "href": "week09_slides.html#how-to-read-a-query",
+    "title": "SQL for Data Science",
+    "section": "How to read a query",
+    "text": "How to read a query\nWritten in a fixed order, starting with SELECT — but run in this order:\n\n\n\nFROM, JOIN\nWHERE\nGROUP BY\nHAVING\nSELECT\nDISTINCT\nORDER BY\nLIMIT\n\n\n\nSo start reading at FROM.\nThis explains the rules: WHERE runs before grouping, so it can’t use COUNT(*) — that’s what HAVING is for."
+  },
+  {
+    "objectID": "week09_slides.html#sql-to-dplyr",
+    "href": "week09_slides.html#sql-to-dplyr",
+    "title": "SQL for Data Science",
+    "section": "SQL to dplyr",
+    "text": "SQL to dplyr\n\n\n\n\n\n\nTask\n\n\nRewrite this query as a dplyr pipeline on a tibble grades.\n\n\n\nSELECT student_id, COUNT(*) AS n_courses\nFROM grades\nWHERE grade &gt;= 60\nGROUP BY student_id\nHAVING COUNT(*) &gt; 1\nORDER BY n_courses DESC\nLIMIT 5;\n\ngrades |&gt;\n  filter(grade &gt;= 60) |&gt;               # WHERE\n  group_by(student_id) |&gt;              # GROUP BY\n  summarise(n_courses = n()) |&gt;        # SELECT ... COUNT(*) AS\n  filter(n_courses &gt; 1) |&gt;             # HAVING\n  arrange(desc(n_courses)) |&gt;          # ORDER BY ... DESC\n  head(5)                              # LIMIT\nThe dplyr steps appear in the order SQL runs them."
+  },
+  {
+    "objectID": "week09_slides.html#where-should-the-work-happen",
+    "href": "week09_slides.html#where-should-the-work-happen",
+    "title": "SQL for Data Science",
+    "section": "Where should the work happen?",
+    "text": "Where should the work happen?\nIn the database, importing only the result:\n\nless data to transfer — a summary of millions of rows may be a few rows\ndata larger than memory\nspeed: databases are built for this\nprivacy: individual-level data never leaves the database\n\n\nIn R, after importing the tables:\n\nR can do far more: models, plots, packages\nsimpler when the data are small\n\n\n\nUsually both: the database filters, joins and summarises; R does the rest."
+  },
+  {
+    "objectID": "week09_slides.html#dbplyr",
+    "href": "week09_slides.html#dbplyr",
+    "title": "SQL for Data Science",
+    "section": "dbplyr",
+    "text": "dbplyr\n\nlibrary(dbplyr)\n\nstudents &lt;- tbl(con, \"students\")   # con: made with dbConnect()\ngrades &lt;- tbl(con, \"grades\")\ngrades\n\n# Source:   table&lt;`grades`&gt; [?? x 3]\n# Database: sqlite 3.51.1 [:memory:]\n   student_id course   grade\n        &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;\n 1          1 MATH6195    68\n 2          2 MATH6195    67\n 3          3 MATH6195    68\n 4          4 MATH6195    74\n 5          5 MATH6195    52\n 6          6 MATH6195    85\n 7          8 MATH6195    60\n 8          9 MATH6195    61\n 9         10 MATH6195    65\n10         11 MATH6195    90\n# i more rows\n\n\n\nA lazy table: ?? rows, because R hasn’t read the table — it’s still in the database.\n\n\nConnecting to a database file looks like this:\nlibrary(DBI)\ncon &lt;- dbConnect(RSQLite::SQLite(), \"data/customers.db\")\nDBI, RSQLite and dbplyr are separate installs, not part of the tidyverse. dbGetQuery(con, \"SELECT ...\") runs raw SQL and returns a data frame."
+  },
+  {
+    "objectID": "week09_slides.html#dplyr-in-sql-out",
+    "href": "week09_slides.html#dplyr-in-sql-out",
+    "title": "SQL for Data Science",
+    "section": "dplyr in, SQL out",
+    "text": "dplyr in, SQL out\n\n\n\n\n\n\nTask\n\n\nUse dplyr to find each course’s number of grades and mean grade. Then look at the SQL that dbplyr writes.\n\n\n\n\n\nquery &lt;- grades |&gt;\n  group_by(course) |&gt;\n  summarise(n = n(), mean_grade = mean(grade, na.rm = TRUE))\n\nshow_query(query)\n\n&lt;SQL&gt;\nSELECT `course`, COUNT(*) AS `n`, AVG(`grade`) AS `mean_grade`\nFROM `grades`\nGROUP BY `course`"
+  },
+  {
+    "objectID": "week09_slides.html#collect",
+    "href": "week09_slides.html#collect",
+    "title": "SQL for Data Science",
+    "section": "collect()",
+    "text": "collect()\n\nclass(query)\n\n[1] \"tbl_SQLiteConnection\" \"tbl_dbi\"              \"tbl_sql\"             \n[4] \"tbl_lazy\"             \"tbl\"                 \n\nquery |&gt; collect()\n\n# A tibble: 2 x 3\n  course       n mean_grade\n  &lt;chr&gt;    &lt;int&gt;      &lt;dbl&gt;\n1 MATH2010    17       64.5\n2 MATH6195    18       69.2\n\n\n\nNothing runs until collect() (or printing). collect() runs the SQL in the database and brings the result into R as a tibble.\n\n\nsql_render(query) returns the SQL as a string, so it can be passed to dbGetQuery() to check it — in the notes."
+  },
+  {
+    "objectID": "week09_slides.html#collect-as-late-as-possible",
+    "href": "week09_slides.html#collect-as-late-as-possible",
+    "title": "SQL for Data Science",
+    "section": "Collect as late as possible",
+    "text": "Collect as late as possible\n\n\n\n\n\n\nTask\n\n\nBoth give the same answer. Which is better, and why?\n\n\n\ngrades |&gt; filter(grade &gt; 80) |&gt; collect()\ngrades |&gt; collect() |&gt; filter(grade &gt; 80)\n\nThe first: the filter runs in the database, and only matching rows are sent to R. The second transfers the whole table, then throws most of it away. On millions of rows, that’s seconds versus not fitting in memory."
+  },
+  {
+    "objectID": "week09_slides.html#limits-of-the-translation",
+    "href": "week09_slides.html#limits-of-the-translation",
+    "title": "SQL for Data Science",
+    "section": "Limits of the translation",
+    "text": "Limits of the translation\n\nstudents |&gt;\n  mutate(padded = stringr::str_pad(given_name, 10)) |&gt;\n  collect()\n\nError in `stringr::str_pad()`:\n! `str_pad()` is not available in this SQL variant.\n\n\n\nOnly functions dbplyr can translate to SQL work before collect(). Do what you can in the database, collect(), then use the rest of R."
+  },
+  {
+    "objectID": "week09_slides.html#joining",
+    "href": "week09_slides.html#joining",
+    "title": "SQL for Data Science",
+    "section": "Joining",
+    "text": "Joining\n\nprizes &lt;- tibble(id = c(11, 6), prize = c(\"Gold\", \"Silver\"))\nstudents |&gt; inner_join(prizes, by = \"id\")\n\nError in `auto_copy()`:\n! `x` and `y` must share the same src.\ni `x` is a &lt;tbl_SQLiteConnection/tbl_dbi/tbl_sql/tbl_lazy/tbl&gt; object.\ni `y` is a &lt;tbl_df/tbl/data.frame&gt; object.\ni Set `copy = TRUE` if `y` can be copied to the same source as `x` (may be\n  slow).\n\n\n\nA lazy table can only join to tables in the same database. Either copy = TRUE (copy the tibble into the database), or collect() first:\n\nstudents |&gt;\n  inner_join(prizes, by = \"id\", copy = TRUE) |&gt;\n  select(given_name, family_name, prize) |&gt;\n  collect()\n\n# A tibble: 2 x 3\n  given_name family_name   prize \n  &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt; \n1 Tariq      Ibn Rashid    Gold  \n2 Rajesh     Krishnamurthy Silver\n\n\n\n\nJoining two lazy tables in the same database works just like dplyr: grades |&gt; inner_join(students, by = c(\"student_id\" = \"id\")). Finish with dbDisconnect(con) to close the connection."
+  },
+  {
+    "objectID": "week09_slides.html#today-you-can-now",
+    "href": "week09_slides.html#today-you-can-now",
+    "title": "SQL for Data Science",
+    "section": "Today you can now:",
+    "text": "Today you can now:\n\n\nexplain what keys and types add over CSV files\n\n\n\n\nread SELECT … FROM … JOIN … WHERE … GROUP BY … HAVING … ORDER BY … LIMIT, starting from FROM, and translate it into dplyr\n\n\n\n\nquery a database from R with dbplyr: lazy tables, show_query(), and collect() as late as possible"
+  },
+  {
+    "objectID": "week09_slides.html#read-the-notes",
+    "href": "week09_slides.html#read-the-notes",
+    "title": "SQL for Data Science",
+    "section": "Read the notes",
+    "text": "Read the notes\nWe didn’t cover in detail:\n\nthe full CRUD syntax and column types\nNULL, IS NULL, and the NOT IN trap\nsql_render() and dbGetQuery()\nthe customers.db examples used in the lab"
+  },
+  {
+    "objectID": "week09_slides_handout.html",
+    "href": "week09_slides_handout.html",
+    "title": "SQL for Data Science",
+    "section": "",
+    "text": "By the end of this lecture you will be able to:\n\n\nexplain what a relational database adds to a folder of CSV files\n\n\n\n\nread SQL queries — including joins, GROUP BY and subqueries — and say what they return\n\n\n\n\ndecide whether work should be done in the database or in R, and use dbplyr to query a database with dplyr code\n\n\n\nSet expectations early: students will not be asked to write SQL. They must be able to read it, and to work with databases from R via dbplyr. Today’s SQL is all run against a small database built from the student tables of week 5."
+  },
+  {
+    "objectID": "week09_slides_handout.html#agenda",
+    "href": "week09_slides_handout.html#agenda",
+    "title": "SQL for Data Science",
+    "section": "",
+    "text": "By the end of this lecture you will be able to:\n\n\nexplain what a relational database adds to a folder of CSV files\n\n\n\n\nread SQL queries — including joins, GROUP BY and subqueries — and say what they return\n\n\n\n\ndecide whether work should be done in the database or in R, and use dbplyr to query a database with dplyr code\n\n\n\nSet expectations early: students will not be asked to write SQL. They must be able to read it, and to work with databases from R via dbplyr. Today’s SQL is all run against a small database built from the student tables of week 5."
+  },
+  {
+    "objectID": "week09_slides_handout.html#csv-files",
+    "href": "week09_slides_handout.html#csv-files",
+    "title": "SQL for Data Science",
+    "section": "CSV files",
+    "text": "CSV files\nUntil now, all our data has come from CSV files:\n\n\na flat table of text\nno types — R has to guess them\nno validation of what goes in\nno way to say how one file relates to another"
+  },
+  {
+    "objectID": "week09_slides_handout.html#remember-week-5",
+    "href": "week09_slides_handout.html#remember-week-5",
+    "title": "SQL for Data Science",
+    "section": "Remember week 5?",
+    "text": "Remember week 5?\n\n\n\n\n\n\nImportantTask\n\n\n\nstudent_grades.csv contains grades for students 21 and 22, who don’t appear in student_data.csv. Should that be possible? Could a CSV file stop it?\n\n\n\nIt shouldn’t be possible: a grade must belong to a student. But a CSV file is just text — nothing checks it. We only found the problem by joining.\nA relational database can refuse to store it in the first place."
+  },
+  {
+    "objectID": "week09_slides_handout.html#relational-databases",
+    "href": "week09_slides_handout.html#relational-databases",
+    "title": "SQL for Data Science",
+    "section": "Relational databases",
+    "text": "Relational databases\nA database holds tables (like data frames), plus rules about them:\n\n\nevery column has a type, checked on the way in\na primary key uniquely identifies each row (e.g. a student’s id)\na foreign key must match a primary key in another table (each grade’s student_id must be a real student)\n\n\n\nWe talk to it in SQL (Structured Query Language). SQL is declarative: you say what you want, and the database works out how."
+  },
+  {
+    "objectID": "week09_slides_handout.html#why-use-one",
+    "href": "week09_slides_handout.html#why-use-one",
+    "title": "SQL for Data Science",
+    "section": "Why use one?",
+    "text": "Why use one?\n\n\nIntegrity: types and keys keep data consistent\nScale: data lives on disk, not in memory; the server may be far more powerful than your laptop\nSecurity: access controls and permissions\nConcurrent access: many users reading and writing safely\nLess duplication: related tables instead of one big one (week 5)\n\n\n\nPostgreSQL, MySQL, SQL Server, Oracle… we use SQLite: a single file, no server. Each system has its own dialect of SQL.\n\n\nOptional demo (2–3 min): open notes/data/customers.db in DB Browser for SQLite. Show the tables, their column types and the foreign keys under “Database Structure”. Point out it is not a plain-text file. Non-relational (“NoSQL”) databases such as MongoDB exist too, but are out of scope."
+  },
+  {
+    "objectID": "week09_slides_handout.html#creating-tables",
+    "href": "week09_slides_handout.html#creating-tables",
+    "title": "SQL for Data Science",
+    "section": "Creating tables",
+    "text": "Creating tables\n\nCREATE TABLE students (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    given_name TEXT,\n    family_name TEXT,\n    date_of_birth INTEGER\n);\n\n\nCREATE TABLE grades (\n    student_id INTEGER,\n    course TEXT,\n    grade REAL,\n    FOREIGN KEY (student_id) REFERENCES students(id)\n);\n\n\nTypes are declared up front. AUTOINCREMENT generates new IDs; the FOREIGN KEY ties each grade to a student. Keywords are in CAPITALS by convention; comments start with --.\n\n\nBehind the scenes, the 20 students and their grades from week 5 have been inserted — except the grades for the non-existent students 21 and 22. SQLite only checks foreign keys if you switch it on (PRAGMA foreign_keys = ON), which we have done; database servers check them by default."
+  },
+  {
+    "objectID": "week09_slides_handout.html#inserting-a-bad-row",
+    "href": "week09_slides_handout.html#inserting-a-bad-row",
+    "title": "SQL for Data Science",
+    "section": "Inserting a bad row",
+    "text": "Inserting a bad row\n\n\n\n\n\n\nImportantTask\n\n\n\nWhat happens if we try to store a grade for student 21?\n\n\n\nINSERT INTO grades(student_id, course, grade) VALUES (21, 'MATH6195', 70);\n\n\n\n\nError: FOREIGN KEY constraint failed\n\n\nThe database refuses it. The problem from week 5 can’t happen."
+  },
+  {
+    "objectID": "week09_slides_handout.html#select",
+    "href": "week09_slides_handout.html#select",
+    "title": "SQL for Data Science",
+    "section": "SELECT",
+    "text": "SELECT\n\n\n\n\n\n\nImportantTask\n\n\n\nWhat does each query return?\n\n\n\nSELECT given_name, family_name FROM students;\n\nSELECT * FROM grades\nWHERE grade &gt; 85;\n\nSELECT * FROM grades\nORDER BY grade DESC\nLIMIT 3;\n\n\n\n\n\nDisplaying records 1 - 5\n\n\ngiven_name\nfamily_name\n\n\n\n\nAdaora\nNkomo\n\n\nHiroshi\nTanaka\n\n\nAaliyah\nWilliams\n\n\nDimitri\nVolkov\n\n\nAmara\nBaptiste\n\n\n\n\n\n\n\n\n3 records\n\n\nstudent_id\ncourse\ngrade\n\n\n\n\n11\nMATH6195\n90\n\n\n9\nMATH2011\n88\n\n\n14\nMATH2011\n90\n\n\n\n\n\n\n\n\n3 records\n\n\nstudent_id\ncourse\ngrade\n\n\n\n\n11\nMATH6195\n90\n\n\n14\nMATH2011\n90\n\n\n9\nMATH2011\n88\n\n\n\n\n\nTwo columns of every student; the grades above 85; the three highest grades. * means “every column”.\n\n\nWithout ORDER BY, the database makes no promise about row order. SELECT DISTINCT course FROM grades would list each course once."
+  },
+  {
+    "objectID": "week09_slides_handout.html#join",
+    "href": "week09_slides_handout.html#join",
+    "title": "SQL for Data Science",
+    "section": "JOIN",
+    "text": "JOIN\n\n\n\n\n\n\nImportantTask\n\n\n\nWhat does this return? Which students are missing from it?\n\n\n\nSELECT students.given_name, students.family_name,\n       grades.course, grades.grade\nFROM grades\n    JOIN students ON grades.student_id = students.id;\n\n\n\n\n\nDisplaying records 1 - 4\n\n\ngiven_name\nfamily_name\ncourse\ngrade\n\n\n\n\nAdaora\nNkomo\nMATH6195\n68\n\n\nHiroshi\nTanaka\nMATH6195\n67\n\n\nAaliyah\nWilliams\nMATH6195\n68\n\n\nDimitri\nVolkov\nMATH6195\n74\n\n\n\n\n\nOne row per grade, with the student’s name attached. JOIN is an inner join, so student 7 (no grades) is missing — exactly inner_join() from week 5. LEFT JOIN and FULL OUTER JOIN also exist.\ntable.column says which table each column comes from."
+  },
+  {
+    "objectID": "week09_slides_handout.html#changing-data",
+    "href": "week09_slides_handout.html#changing-data",
+    "title": "SQL for Data Science",
+    "section": "Changing data",
+    "text": "Changing data\n\nUPDATE grades\nSET grade = 100\nWHERE student_id = 15 AND course = 'MATH6195';\n\n\nDELETE FROM grades\nWHERE course = 'MATH2011';\n\n\nCreate (INSERT), Read (SELECT), Update, Delete: CRUD. Note the WHERE — without it, every row is updated or deleted.\n\n\nDROP TABLE deletes a whole table and its data. These statements change the database permanently — there’s no undo."
+  },
+  {
+    "objectID": "week09_slides_handout.html#group-by",
+    "href": "week09_slides_handout.html#group-by",
+    "title": "SQL for Data Science",
+    "section": "GROUP BY",
+    "text": "GROUP BY\n\n\n\n\n\n\nImportantTask\n\n\n\nWhat does this return?\n\n\n\nSELECT course, COUNT(*) AS n, AVG(grade) AS mean_grade\nFROM grades\nGROUP BY course;\n\n\n\n\n\n2 records\n\n\ncourse\nn\nmean_grade\n\n\n\n\nMATH2010\n17\n64.47059\n\n\nMATH6195\n18\n69.22222\n\n\n\n\n\nOne row per course, with its number of grades and mean grade — group_by() then summarise(). AS names a calculated column. (MATH2011 is gone: we just deleted it.)\n\n\nEvery column in the SELECT must either be in the GROUP BY or be an aggregate like COUNT, SUM, AVG. COUNT(*) counts rows; COUNT(column) counts non-missing values. Missing values in SQL are NULL; aggregates skip them, as if na.rm = TRUE."
+  },
+  {
+    "objectID": "week09_slides_handout.html#subqueries",
+    "href": "week09_slides_handout.html#subqueries",
+    "title": "SQL for Data Science",
+    "section": "Subqueries",
+    "text": "Subqueries\n\n\n\n\n\n\nImportantTask\n\n\n\nWhat does this return? Read the inner query first.\n\n\n\nSELECT given_name, family_name\nFROM students\nWHERE id IN (\n    SELECT student_id\n    FROM grades\n    GROUP BY student_id\n    HAVING AVG(grade) &gt; 75\n);\n\n\n\n\n\n4 records\n\n\ngiven_name\nfamily_name\n\n\n\n\nTariq\nIbn Rashid\n\n\nIndira\nSharma\n\n\nAmina\nOkonkwo\n\n\nLars\nAndersen\n\n\n\n\n\nThe inner query finds the IDs of students whose average grade is over 75; the outer query looks up their names. HAVING filters groups; IN compares against a list.\n\n\nNOT IN works too: WHERE id NOT IN (SELECT student_id FROM grades) finds student 7 — the anti_join() of week 5. The notes describe a trap: if the subquery returns a NULL, NOT IN returns no rows at all, silently."
+  },
+  {
+    "objectID": "week09_slides_handout.html#how-to-read-a-query",
+    "href": "week09_slides_handout.html#how-to-read-a-query",
+    "title": "SQL for Data Science",
+    "section": "How to read a query",
+    "text": "How to read a query\nWritten in a fixed order, starting with SELECT — but run in this order:\n\n\n\nFROM, JOIN\nWHERE\nGROUP BY\nHAVING\nSELECT\nDISTINCT\nORDER BY\nLIMIT\n\n\n\nSo start reading at FROM.\nThis explains the rules: WHERE runs before grouping, so it can’t use COUNT(*) — that’s what HAVING is for."
+  },
+  {
+    "objectID": "week09_slides_handout.html#sql-to-dplyr",
+    "href": "week09_slides_handout.html#sql-to-dplyr",
+    "title": "SQL for Data Science",
+    "section": "SQL to dplyr",
+    "text": "SQL to dplyr\n\n\n\n\n\n\nImportantTask\n\n\n\nRewrite this query as a dplyr pipeline on a tibble grades.\n\n\nSELECT student_id, COUNT(*) AS n_courses\nFROM grades\nWHERE grade &gt;= 60\nGROUP BY student_id\nHAVING COUNT(*) &gt; 1\nORDER BY n_courses DESC\nLIMIT 5;\n\ngrades |&gt;\n  filter(grade &gt;= 60) |&gt;               # WHERE\n  group_by(student_id) |&gt;              # GROUP BY\n  summarise(n_courses = n()) |&gt;        # SELECT ... COUNT(*) AS\n  filter(n_courses &gt; 1) |&gt;             # HAVING\n  arrange(desc(n_courses)) |&gt;          # ORDER BY ... DESC\n  head(5)                              # LIMIT\nThe dplyr steps appear in the order SQL runs them."
+  },
+  {
+    "objectID": "week09_slides_handout.html#where-should-the-work-happen",
+    "href": "week09_slides_handout.html#where-should-the-work-happen",
+    "title": "SQL for Data Science",
+    "section": "Where should the work happen?",
+    "text": "Where should the work happen?\nIn the database, importing only the result:\n\nless data to transfer — a summary of millions of rows may be a few rows\ndata larger than memory\nspeed: databases are built for this\nprivacy: individual-level data never leaves the database\n\n\nIn R, after importing the tables:\n\nR can do far more: models, plots, packages\nsimpler when the data are small\n\n\n\nUsually both: the database filters, joins and summarises; R does the rest."
+  },
+  {
+    "objectID": "week09_slides_handout.html#dbplyr",
+    "href": "week09_slides_handout.html#dbplyr",
+    "title": "SQL for Data Science",
+    "section": "dbplyr",
+    "text": "dbplyr\n\nlibrary(dbplyr)\n\nstudents &lt;- tbl(con, \"students\")   # con: made with dbConnect()\ngrades &lt;- tbl(con, \"grades\")\ngrades\n\n# Source:   table&lt;`grades`&gt; [?? x 3]\n# Database: sqlite 3.51.1 [:memory:]\n   student_id course   grade\n        &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;\n 1          1 MATH6195    68\n 2          2 MATH6195    67\n 3          3 MATH6195    68\n 4          4 MATH6195    74\n 5          5 MATH6195    52\n 6          6 MATH6195    85\n 7          8 MATH6195    60\n 8          9 MATH6195    61\n 9         10 MATH6195    65\n10         11 MATH6195    90\n# i more rows\n\n\n\nA lazy table: ?? rows, because R hasn’t read the table — it’s still in the database.\n\n\nConnecting to a database file looks like this:\nlibrary(DBI)\ncon &lt;- dbConnect(RSQLite::SQLite(), \"data/customers.db\")\nDBI, RSQLite and dbplyr are separate installs, not part of the tidyverse. dbGetQuery(con, \"SELECT ...\") runs raw SQL and returns a data frame."
+  },
+  {
+    "objectID": "week09_slides_handout.html#dplyr-in-sql-out",
+    "href": "week09_slides_handout.html#dplyr-in-sql-out",
+    "title": "SQL for Data Science",
+    "section": "dplyr in, SQL out",
+    "text": "dplyr in, SQL out\n\n\n\n\n\n\nImportantTask\n\n\n\nUse dplyr to find each course’s number of grades and mean grade. Then look at the SQL that dbplyr writes.\n\n\n\n\nquery &lt;- grades |&gt;\n  group_by(course) |&gt;\n  summarise(n = n(), mean_grade = mean(grade, na.rm = TRUE))\n\nshow_query(query)\n\n&lt;SQL&gt;\nSELECT `course`, COUNT(*) AS `n`, AVG(`grade`) AS `mean_grade`\nFROM `grades`\nGROUP BY `course`"
+  },
+  {
+    "objectID": "week09_slides_handout.html#collect",
+    "href": "week09_slides_handout.html#collect",
+    "title": "SQL for Data Science",
+    "section": "collect()",
+    "text": "collect()\n\nclass(query)\n\n[1] \"tbl_SQLiteConnection\" \"tbl_dbi\"              \"tbl_sql\"             \n[4] \"tbl_lazy\"             \"tbl\"                 \n\nquery |&gt; collect()\n\n# A tibble: 2 x 3\n  course       n mean_grade\n  &lt;chr&gt;    &lt;int&gt;      &lt;dbl&gt;\n1 MATH2010    17       64.5\n2 MATH6195    18       69.2\n\n\n\nNothing runs until collect() (or printing). collect() runs the SQL in the database and brings the result into R as a tibble.\n\n\nsql_render(query) returns the SQL as a string, so it can be passed to dbGetQuery() to check it — in the notes."
+  },
+  {
+    "objectID": "week09_slides_handout.html#collect-as-late-as-possible",
+    "href": "week09_slides_handout.html#collect-as-late-as-possible",
+    "title": "SQL for Data Science",
+    "section": "Collect as late as possible",
+    "text": "Collect as late as possible\n\n\n\n\n\n\nImportantTask\n\n\n\nBoth give the same answer. Which is better, and why?\n\n\ngrades |&gt; filter(grade &gt; 80) |&gt; collect()\ngrades |&gt; collect() |&gt; filter(grade &gt; 80)\n\nThe first: the filter runs in the database, and only matching rows are sent to R. The second transfers the whole table, then throws most of it away. On millions of rows, that’s seconds versus not fitting in memory."
+  },
+  {
+    "objectID": "week09_slides_handout.html#limits-of-the-translation",
+    "href": "week09_slides_handout.html#limits-of-the-translation",
+    "title": "SQL for Data Science",
+    "section": "Limits of the translation",
+    "text": "Limits of the translation\n\nstudents |&gt;\n  mutate(padded = stringr::str_pad(given_name, 10)) |&gt;\n  collect()\n\nError in `stringr::str_pad()`:\n! `str_pad()` is not available in this SQL variant.\n\n\n\nOnly functions dbplyr can translate to SQL work before collect(). Do what you can in the database, collect(), then use the rest of R."
+  },
+  {
+    "objectID": "week09_slides_handout.html#joining",
+    "href": "week09_slides_handout.html#joining",
+    "title": "SQL for Data Science",
+    "section": "Joining",
+    "text": "Joining\n\nprizes &lt;- tibble(id = c(11, 6), prize = c(\"Gold\", \"Silver\"))\nstudents |&gt; inner_join(prizes, by = \"id\")\n\nError in `auto_copy()`:\n! `x` and `y` must share the same src.\ni `x` is a &lt;tbl_SQLiteConnection/tbl_dbi/tbl_sql/tbl_lazy/tbl&gt; object.\ni `y` is a &lt;tbl_df/tbl/data.frame&gt; object.\ni Set `copy = TRUE` if `y` can be copied to the same source as `x` (may be\n  slow).\n\n\n\nA lazy table can only join to tables in the same database. Either copy = TRUE (copy the tibble into the database), or collect() first:\n\nstudents |&gt;\n  inner_join(prizes, by = \"id\", copy = TRUE) |&gt;\n  select(given_name, family_name, prize) |&gt;\n  collect()\n\n# A tibble: 2 x 3\n  given_name family_name   prize \n  &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt; \n1 Tariq      Ibn Rashid    Gold  \n2 Rajesh     Krishnamurthy Silver\n\n\n\n\nJoining two lazy tables in the same database works just like dplyr: grades |&gt; inner_join(students, by = c(\"student_id\" = \"id\")). Finish with dbDisconnect(con) to close the connection."
+  },
+  {
+    "objectID": "week09_slides_handout.html#today-you-can-now",
+    "href": "week09_slides_handout.html#today-you-can-now",
+    "title": "SQL for Data Science",
+    "section": "Today you can now:",
+    "text": "Today you can now:\n\n\nexplain what keys and types add over CSV files\n\n\n\n\nread SELECT … FROM … JOIN … WHERE … GROUP BY … HAVING … ORDER BY … LIMIT, starting from FROM, and translate it into dplyr\n\n\n\n\nquery a database from R with dbplyr: lazy tables, show_query(), and collect() as late as possible"
+  },
+  {
+    "objectID": "week09_slides_handout.html#read-the-notes",
+    "href": "week09_slides_handout.html#read-the-notes",
+    "title": "SQL for Data Science",
+    "section": "Read the notes",
+    "text": "Read the notes\nWe didn’t cover in detail:\n\nthe full CRUD syntax and column types\nNULL, IS NULL, and the NOT IN trap\nsql_render() and dbGetQuery()\nthe customers.db examples used in the lab"
   }
 ]

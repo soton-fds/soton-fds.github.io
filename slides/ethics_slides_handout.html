@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Data Ethics and Biases</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-ba8f7c244c1f50cbf6c6a3aa3874339a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="ethics_slides.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Data Ethics and Biases</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="agenda" class="level2">
+<h2 class="anchored" data-anchor-id="agenda">Objectives</h2>
+<p>By the end of this lecture you will be able to:</p>
+<div class="fragment">
+<ul>
+<li>identify ethical and regulatory considerations in a data science project</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>recognise different types of bias, and their impact</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>evaluate real-world cases, and document data and models with <strong>data cards</strong> and <strong>model cards</strong></li>
+</ul>
+</div>
+<div class="notes">
+<p>No code today: this is a discussion lecture. Every “Task” works well as a 1–2 minute talk-to-your-neighbour, then take two or three answers before revealing.</p>
+</div>
+</section>
+<section id="sec-case" class="level1">
+<h1>A case study</h1>
+<section id="amazons-recruiting-tool" class="level2">
+<h2 class="anchored" data-anchor-id="amazons-recruiting-tool">Amazon’s recruiting tool</h2>
+<div class="fragment">
+<ul>
+<li>Amazon built a tool to <strong>score job applicants’ CVs</strong> automatically</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>Training data: every CV submitted to the company over the previous <strong>ten years</strong>, and who was hired</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>By 2015 they found it was <strong>not gender neutral</strong>: given equally skilled applicants, it preferred men</li>
+</ul>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Task
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Why? The tool was never told the applicants’ gender.</p>
+</div>
+</div>
+<div class="answer">
+<p>It didn’t learn what makes a <em>good</em> candidate — it learned what Amazon’s <em>past hires</em> looked like, and past hiring in tech had favoured men (and most applicants were men).</p>
+</div>
+<div class="notes">
+<p>Source: the Reuters report, linked from the notes. Let them discuss before revealing — someone usually gets there.</p>
+</div>
+</section>
+<section id="removing-gender-isnt-enough" class="level2">
+<h2 class="anchored" data-anchor-id="removing-gender-isnt-enough">Removing gender isn’t enough</h2>
+<p>Amazon edited the tool to ignore the terms found to penalise women. It <strong>still</strong> couldn’t be trusted:</p>
+<div class="fragment">
+<ul>
+<li>“captain of the <strong>women’s</strong> chess club”</li>
+<li>all-women colleges</li>
+<li>men and women describing their experience in different words</li>
+</ul>
+</div>
+<div class="fragment">
+<p>These are <strong>proxies</strong>: variables that stand in for an attribute that was removed. A postcode can be a proxy for ethnicity or income.</p>
+</div>
+<div class="fragment">
+<p>Amazon scrapped the tool.</p>
+</div>
+</section>
+<section id="its-not-just-amazon" class="level2">
+<h2 class="anchored" data-anchor-id="its-not-just-amazon">It’s not just Amazon</h2>
+<ul>
+<li><strong>COMPAS</strong>, used in some US courts to predict reoffending: a 2016 ProPublica investigation found Black defendants who did <em>not</em> reoffend were labelled high risk nearly <strong>twice as often</strong> as white defendants</li>
+<li><strong>Credit scoring</strong>: lower scores for freelancers and gig workers, whose income is documented differently — regardless of whether they are financially stable</li>
+</ul>
+<div class="fragment">
+<p>We can’t <em>prevent</em> every bias. Our job: <strong>recognise</strong> it, <strong>mitigate</strong> it, and <strong>alert</strong> the people who rely on our work.</p>
+</div>
+</section>
+</section>
+<section id="sec-bias" class="level1">
+<h1>Types of bias</h1>
+<section id="six-kinds-of-bias" class="level2">
+<h2 class="anchored" data-anchor-id="six-kinds-of-bias">Six kinds of bias</h2>
+<ul>
+<li><strong>Sampling</strong>: the sample doesn’t represent the population</li>
+<li><strong>Selection</strong>: whether a record appears depends on the outcome being studied</li>
+<li><strong>Historical</strong>: the data are accurate, but the past was unfair</li>
+<li><strong>Measurement</strong>: data are collected or measured inaccurately</li>
+<li><strong>Confirmation</strong>: we see what we expected to see</li>
+<li><strong>Algorithmic</strong>: a model’s results are systematically prejudiced, because of its data or design</li>
+</ul>
+<div class="notes">
+<p>Not an exhaustive list. Historical bias is the subtle one: perfect sampling doesn’t fix it, because the data faithfully record an unfair past.</p>
+</div>
+</section>
+<section id="name-that-bias" class="level2">
+<h2 class="anchored" data-anchor-id="name-that-bias">Name that bias</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Task
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Which kind of bias is each?</p>
+<ol type="1">
+<li>A survey on smartphone use is run only among university students.</li>
+<li>A study of successful business strategies looks only at companies still trading today.</li>
+<li>A fitness tracker undercounts steps for people who walk slowly or with an irregular gait.</li>
+<li>An analyst who believes remote work boosts productivity focuses on the survey answers that agree.</li>
+<li>A face recognition system trained mostly on lighter-skinned faces misidentifies darker-skinned people more often.</li>
+<li>The Amazon tool.</li>
+</ol>
+</div>
+</div>
+<div class="answer">
+<ol type="1">
+<li><strong>Sampling</strong> — young people over-represented</li>
+<li><strong>Selection</strong> — the failed companies are missing (<em>survivorship</em>)</li>
+<li><strong>Measurement</strong></li>
+<li><strong>Confirmation</strong></li>
+<li><strong>Algorithmic</strong> — caused by sampling bias in its training data</li>
+<li><strong>Historical</strong> mainly (it imitated past decisions), plus sampling (mostly male applicants) → algorithmic</li>
+</ol>
+</div>
+</section>
+<section id="patterns-are-the-point" class="level2">
+<h2 class="anchored" data-anchor-id="patterns-are-the-point">Patterns are the point</h2>
+<p>Every model relies on finding patterns — that’s what it’s <em>for</em>.</p>
+<div class="fragment">
+<ul>
+<li>legitimate: “applicants with higher marks in data science tend to do better in the job”</li>
+<li>not: patterns that disadvantage people because of <strong>who they are</strong> — e.g. their sex or race</li>
+</ul>
+</div>
+<div class="fragment">
+<p>Removing protected characteristics doesn’t stop it (proxies). The way to know is to <strong>check</strong>: compare results across groups.</p>
+</div>
+</section>
+<section id="ethics-by-design" class="level2">
+<h2 class="anchored" data-anchor-id="ethics-by-design">Ethics by design</h2>
+<p>Ask the questions at <strong>every stage</strong>, not at the end:</p>
+<div class="fragment">
+<ul>
+<li><strong>Collection</strong>: do we need all this data? (<em>data minimisation</em>)</li>
+<li><strong>Analysis</strong>: who is represented, who is missing? Could the results be biased against a group?</li>
+<li><strong>Sharing</strong>: could results identify individuals, or be used unfairly? Are they presented honestly? (week 6’s honest plots)</li>
+<li><strong>Documentation</strong>: are these decisions written down? (data cards, model cards)</li>
+</ul>
+</div>
+<div class="notes">
+<p>Reproducibility (week 3) is part of this: it lets others check exactly how a result was produced.</p>
+</div>
+</section>
+</section>
+<section id="sec-law" class="level1">
+<h1>The law</h1>
+<section id="a-disclaimer" class="level2">
+<h2 class="anchored" data-anchor-id="a-disclaimer">A disclaimer</h2>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We focus on the UK. This is a complex area and the law changes: in real work, check the current rules and <strong>ask an expert</strong> — especially when handling personal data, protected characteristics, or data that could affect people’s rights.</p>
+</div>
+</div>
+</section>
+<section id="personal-data" class="level2">
+<h2 class="anchored" data-anchor-id="personal-data">Personal data</h2>
+<p><em>Any information relating to an identified or identifiable <strong>living</strong> person.</em></p>
+<div class="fragment">
+<ul>
+<li><strong>Anonymised</strong>: individuals can no longer be identified → no longer personal data</li>
+<li><strong>Pseudonymised</strong>: names replaced by IDs, with the link kept separately → <strong>still</strong> personal data</li>
+</ul>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Task
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A dataset has had names removed, but keeps postcode, date of birth and sex. Is it anonymous?</p>
+</div>
+</div>
+<div class="answer">
+<p>Almost certainly <strong>not</strong>. A well-known study found that <strong>87%</strong> of the US population can be uniquely identified by ZIP code, date of birth and sex alone (Sweeney, 2000). Joining to another dataset (week 5) can re-identify people.</p>
+</div>
+</section>
+<section id="uk-gdpr" class="level2">
+<h2 class="anchored" data-anchor-id="uk-gdpr">UK GDPR</h2>
+<p>Personal data must be:</p>
+<ul>
+<li>used fairly, lawfully and transparently</li>
+<li>used for specified, explicit purposes</li>
+<li>adequate, relevant and <strong>limited to what is necessary</strong></li>
+<li>accurate, and kept up to date</li>
+<li>kept no longer than necessary</li>
+<li>handled securely</li>
+</ul>
+<div class="fragment">
+<p>Data minimisation in practice: read only the columns you need (<code>col_select</code>, week 10), drop identifying columns early, share summaries rather than records (week 9’s databases).</p>
+</div>
+<div class="notes">
+<p>Fines: up to £17.5 million or 4% of annual global turnover, whichever is higher — plus reputational damage, compensation claims and disruption from investigations.</p>
+</div>
+</section>
+<section id="two-lists" class="level2">
+<h2 class="anchored" data-anchor-id="two-lists">Two lists</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Special category data</strong> (UK GDPR)</p>
+<p>How sensitive data must be <strong>handled</strong>:</p>
+<ul>
+<li>race, ethnic background</li>
+<li>political opinions</li>
+<li>religious beliefs</li>
+<li>trade union membership</li>
+<li>genetics, biometrics</li>
+<li>health</li>
+<li>sex life, sexual orientation</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><strong>Protected characteristics</strong> (Equality Act 2010)</p>
+<p>How people must not be <strong>treated</strong>:</p>
+<ul>
+<li>age</li>
+<li>disability</li>
+<li>gender reassignment</li>
+<li>marriage, civil partnership</li>
+<li>pregnancy, maternity</li>
+<li>race</li>
+<li>religion or belief</li>
+<li>sex</li>
+<li>sexual orientation</li>
+</ul>
+</div>
+</div>
+<div class="fragment">
+<p>The Amazon tool used no special category data — but discriminating by <strong>sex</strong> may still be unlawful.</p>
+</div>
+</section>
+</section>
+<section id="sec-cards" class="level1">
+<h1>Documenting data and models</h1>
+<section id="data-cards" class="level2">
+<h2 class="anchored" data-anchor-id="data-cards">Data cards</h2>
+<p>A <strong>data card</strong> does for a dataset what documentation does for a function: what it is, and how it may — and may not — be used.</p>
+<div class="fragment">
+<p>Our minimal version:</p>
+<ul>
+<li>name, version/date, short description, source</li>
+<li>intended use (and forbidden uses)</li>
+<li>composition: rows, columns, key variables</li>
+<li>protected attributes present?</li>
+<li>missingness</li>
+<li>collection method</li>
+<li>known limitations / biases</li>
+<li>privacy / sensitivity</li>
+<li>licence, contact</li>
+</ul>
+</div>
+<div class="notes">
+<p>The full framework (Pushkarna et al., 2022; the Data Cards Playbook) is the “gold standard” and very long. Kaggle has users fill in partial data cards. In the assessment students may be asked to complete <em>parts</em> of a data card.</p>
+</div>
+</section>
+<section id="write-part-of-a-data-card" class="level2">
+<h2 class="anchored" data-anchor-id="write-part-of-a-data-card">Write part of a data card</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Task
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Kaggle <strong>Titanic</strong> dataset: 891 passengers, with <code>Survived</code>, <code>Pclass</code>, <code>Name</code>, <code>Sex</code>, <code>Age</code>, <code>Fare</code>, <code>Cabin</code>, … <code>Age</code> is missing for 177 rows, <code>Cabin</code> for 687. Fill in:</p>
+<ul>
+<li>protected attributes present?</li>
+<li>known limitations / biases</li>
+<li>privacy / sensitivity</li>
+</ul>
+</div>
+</div>
+<div class="answer">
+<ul>
+<li><strong>Protected attributes</strong>: yes — sex and age</li>
+<li><strong>Limitations / biases</strong>: not representative of modern populations; survival depends on class and sex because of historical boarding policies (“women and children first”) — not causal for modern uses; ~20% of ages and ~77% of cabins missing</li>
+<li><strong>Privacy</strong>: contains names, but the passengers have all died, so UK GDPR (living people only) doesn’t apply; public historical data, low risk</li>
+</ul>
+</div>
+</section>
+<section id="model-cards" class="level2">
+<h2 class="anchored" data-anchor-id="model-cards">Model cards</h2>
+<p>The equivalent for a <strong>model</strong>: intended use, performance, fairness assessment, limitations, risks.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Task
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You’re asked to feed applicant data into this model. What concerns you, and what would you do?</p>
+<ul>
+<li><strong>Model:</strong> Loan Approval Classifier v1.0</li>
+<li><strong>Intended use:</strong> assisting bank staff; NOT fully automated decisions</li>
+<li><strong>Performance:</strong> accuracy 85%, precision 80%, recall 78%</li>
+<li><strong>Protected attributes:</strong> gender, ethnicity, age — used for fairness analysis, not as predictors</li>
+<li><strong>Fairness:</strong> no significant gender bias; slight bias for age 60+</li>
+<li><strong>Limitations:</strong> may not generalise outside the training region; sensitive to missing income data</li>
+</ul>
+</div>
+</div>
+<div class="answer">
+<ul>
+<li>the <strong>age 60+ bias</strong>: age is a protected characteristic — test it on our own applicants, and flag it</li>
+<li><strong>human review</strong> is required: attach that warning to our outputs; don’t let it become an automatic decision</li>
+<li><strong>extrapolation</strong>: check our applicants come from the training region, and how much income data is missing</li>
+<li><strong>proxies</strong>: “not used as predictors” doesn’t rule out indirect bias</li>
+</ul>
+</div>
+<div class="notes">
+<p>Real examples: model cards on Hugging Face (e.g.&nbsp;BERT’s). Mitchell et al. (2019) introduced them. Students won’t build ML models in this course, but they need to read model cards as <em>consumers</em>.</p>
+</div>
+</section>
+</section>
+<section id="sec-wrapup" class="level1">
+<h1>Wrap-up</h1>
+<section id="our-job-as-data-scientists" class="level2">
+<h2 class="anchored" data-anchor-id="our-job-as-data-scientists">Our job as data scientists</h2>
+<div class="fragment">
+<ul>
+<li><strong>look</strong> for bias at every stage — and don’t assume your data are representative or your model is fair</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li><strong>mitigate</strong> what you can, and <strong>tell</strong> stakeholders about the rest</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li>know when personal data, special category data or protected characteristics are involved — and get <strong>expert</strong> advice</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li><strong>document</strong> data and models with data cards and model cards</li>
+</ul>
+</div>
+</section>
+<section id="read-the-notes" class="level2">
+<h2 class="anchored" data-anchor-id="read-the-notes">Read the notes</h2>
+<ul>
+<li>the full data card and model card examples</li>
+<li>links to the Data Cards Playbook and its extended template</li>
+<li>the GDPR summary, and the Reuters and ProPublica reports</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<!--
+  Run-time show/hide switch for answer code chunks.
+
+  Answer chunks are wrapped in `::: {.answer}` in the .qmd and are rendered
+  with both source (`echo: true`) and output (`output: true`) baked into the
+  HTML. This switch then shows/hides them purely client-side, so it works in
+  the HTML handout and the revealjs deck alike.
+
+  Placement:
+    - Handout (HTML)  -> injected into the right-hand margin sidebar.
+    - Presentation    -> a floating switch, fixed at the top-right.
+
+  Default: answers SHOWN (switch on). Set INITIAL_HIDDEN = true below to
+  start with answers hidden.
+-->
+<style>
+  /* When the body carries this class, every answer chunk is hidden. */
+  body.answers-hidden .answer { display: none !important; }
+
+  /* Hide speaker notes in the HTML handout. The handout renders `::: {.notes}`
+     as `div.notes`; the revealjs deck uses `aside.notes` for its speaker
+     view, so it is left untouched. */
+  div.notes { display: none !important; }
+
+  .answer-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font: 500 14px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: inherit;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .answer-switch input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .answer-switch .answer-switch-track {
+    position: relative;
+    flex: none;
+    width: 38px;
+    height: 22px;
+    background: #bbb;
+    border-radius: 999px;
+    transition: background 0.15s ease;
+  }
+  .answer-switch .answer-switch-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    transition: transform 0.15s ease;
+  }
+  .answer-switch input:checked + .answer-switch-track { background: #2ca560; }
+  .answer-switch input:checked + .answer-switch-track .answer-switch-thumb {
+    transform: translateX(16px);
+  }
+  .answer-switch input:focus-visible + .answer-switch-track {
+    outline: 2px solid #2ca560;
+    outline-offset: 2px;
+  }
+
+  /* Floating variant, used in the revealjs deck. */
+  .answer-switch--floating {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 10000;
+    padding: 6px 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Sidebar variant, used in the HTML handout. */
+  .answer-switch--sidebar { margin: 0 0 1rem 0; }
+
+  @media print {
+    .answer-switch { display: none !important; }
+  }
+</style>
+
+<script>
+  (function () {
+    // Set to true to start with answers hidden by default.
+    var INITIAL_HIDDEN = false;
+
+    var body = document.body;
+    if (INITIAL_HIDDEN) body.classList.add("answers-hidden");
+
+    // Build the switch: [input][track[thumb]] label.
+    var label = document.createElement("label");
+    label.className = "answer-switch";
+
+    var input = document.createElement("input");
+    input.type = "checkbox";
+    input.id = "answer-toggle";
+    input.checked = !body.classList.contains("answers-hidden");
+
+    var track = document.createElement("span");
+    track.className = "answer-switch-track";
+    var thumb = document.createElement("span");
+    thumb.className = "answer-switch-thumb";
+    track.appendChild(thumb);
+
+    var text = document.createElement("span");
+    text.className = "answer-switch-text";
+    text.textContent = "Answers";
+
+    label.appendChild(input);
+    label.appendChild(track);
+    label.appendChild(text);
+
+    function sync() {
+      body.classList.toggle("answers-hidden", !input.checked);
+    }
+    input.addEventListener("change", sync);
+
+    // Press "a" to toggle (handy while presenting). Ignore when typing in a
+    // field or when a modifier is held.
+    document.addEventListener("keydown", function (e) {
+      if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey) return;
+      var t = e.target;
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
+      if (e.key === "a" || e.key === "A") {
+        input.checked = !input.checked;
+        sync();
+      }
+    });
+
+    // Place it: into the handout's right-hand margin sidebar if present,
+    // otherwise float it (revealjs and any other layout).
+    var sidebar = document.querySelector("#quarto-margin-sidebar");
+    var isReveal = !!document.querySelector(".reveal");
+    if (sidebar && !isReveal) {
+      label.classList.add("answer-switch--sidebar");
+      sidebar.insertBefore(label, sidebar.firstChild);
+    } else {
+      label.classList.add("answer-switch--floating");
+      body.appendChild(label);
+    }
+  })();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
