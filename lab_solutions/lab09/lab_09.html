@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lab 9</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-445b8638c3d06994fee0907d791121c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Instructor view: content marked `.instructor` (e.g. `::: {.solution .instructor}`
+  or `[text]{.instructor}`) is hidden unless the instructor view is on. A table
+  row containing `[text]{.instructor-row}` in any cell is hidden as a whole.
+
+  Turn it on by visiting any page with ?instructor, e.g.
+    https://soton-fds.github.io/?instructor
+  and off again with ?instructor=off, or with the button on the "Instructor
+  view" badge shown in the corner of every page. The setting is remembered in
+  localStorage, so it lasts across the whole site.
+
+  This only makes the content harder to find: it is still in the page's HTML.
+  Included in <head> (include-in-header) so it runs before the page is drawn.
+-->
+<style>
+  html:not(.instructor-view) .instructor,
+  html:not(.instructor-view) tr:has(.instructor-row) { display: none !important; }
+
+  /* In the instructor view, mark what students can't see. */
+  tr:has(.instructor-row) > * { background: #fdecea; }
+  div.instructor {
+    border-left: 4px solid #c0392b;
+    padding-left: 0.75em;
+  }
+  div.instructor::after {
+    content: "Instructor only";
+    display: block;
+    color: #c0392b;
+    font-size: 0.8em;
+    font-weight: bold;
+  }
+  span.instructor { background: #fdecea; }
+
+  /* Badge in the corner; hover (or tap, which focuses it) for the panel. */
+  .instructor-badge {
+    position: fixed;
+    right: 12px;
+    bottom: 12px;
+    z-index: 10000;
+    max-width: 18rem;
+    font-size: 0.85rem;
+    text-align: right;
+  }
+  .instructor-badge-label {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #c0392b;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 999px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+    cursor: default;
+  }
+  .instructor-badge-panel {
+    display: none;
+    margin-bottom: 6px;
+    padding: 0.75em;
+    background: #fff;
+    border: 1px solid #c0392b;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+    text-align: left;
+  }
+  .instructor-badge:hover .instructor-badge-panel,
+  .instructor-badge:focus-within .instructor-badge-panel { display: block; }
+  .instructor-badge-panel p { margin: 0 0 0.6em 0; }
+  .instructor-badge-panel button {
+    padding: 2px 10px;
+    background: #fff;
+    color: #c0392b;
+    border: 1px solid #c0392b;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  @media print {
+    .instructor-badge { display: none !important; }
+  }
+</style>
+
+<script>
+  (function () {
+    var STORAGE = "fds-instructor-view";
+    try {
+      var param = new URLSearchParams(location.search).get("instructor");
+      if (param === "off") localStorage.removeItem(STORAGE);
+      else if (param !== null) localStorage.setItem(STORAGE, "1");
+      if (localStorage.getItem(STORAGE) === "1") {
+        document.documentElement.classList.add("instructor-view");
+      }
+    } catch (e) {
+      // Storage blocked: show the student view.
+    }
+    if (!document.documentElement.classList.contains("instructor-view")) return;
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var badge = document.createElement("div");
+      badge.className = "instructor-badge";
+      badge.tabIndex = 0;
+      badge.innerHTML =
+        '<div class="instructor-badge-panel">' +
+        "<p>You are seeing content that is hidden from students, highlighted in red. " +
+        "This browser stays in instructor view on every page until you leave.</p>" +
+        '<button type="button">Leave instructor view</button>' +
+        "</div>" +
+        '<span class="instructor-badge-label">Instructor view</span>';
+      badge.querySelector("button").addEventListener("click", function () {
+        try {
+          localStorage.removeItem(STORAGE);
+        } catch (e) {}
+        // Reload without ?instructor, which would turn the view straight back on.
+        var url = new URL(location.href);
+        url.searchParams.delete("instructor");
+        location.replace(url);
+      });
+      document.body.appendChild(badge);
+    });
+  })();
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#objectives" id="toc-objectives" class="nav-link active" data-scroll-target="#objectives">Objectives</a>
+  <ul class="collapse">
+  <li><a href="#task-1-from-loops-to-maps" id="toc-task-1-from-loops-to-maps" class="nav-link" data-scroll-target="#task-1-from-loops-to-maps">Task 1: From Loops to Maps</a></li>
+  <li><a href="#task-2-many-files-and-failing-well" id="toc-task-2-many-files-and-failing-well" class="nav-link" data-scroll-target="#task-2-many-files-and-failing-well">Task 2: Many Files, and Failing Well</a></li>
+  </ul></li>
+  <li><a href="#finished" id="toc-finished" class="nav-link" data-scroll-target="#finished">Finished?</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab 9</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objectives" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="objectives">Objectives</h2>
+<p>This lab accompanies the Week 9 notes, <a href="https://soton-fds.github.io/week09.html"><em>Research Software Engineering and Architecture in R</em></a>.</p>
+<ul>
+<li>Apply a function to every element of a vector or list with <code>map</code> and its typed variants, and to several vectors in parallel with <code>pmap</code>.</li>
+<li>Use <code>walk</code> for functions that are called for their side effects.</li>
+<li>Replace a loop with <code>split()</code>, <code>map()</code> and <code>list_rbind()</code>, and check that a refactor does not change the results.</li>
+<li>Read many files at once, and use <code>possibly()</code> so that one failure does not stop the others.</li>
+<li>Write functions that check their inputs, and stop with a clear error message.</li>
+</ul>
+<p>When you have finished the lab, there are more questions in <code>lab_09_practice.qmd</code>, including <code>map2</code>, <code>reduce</code>, pure functions, unit tests and Simpson’s paradox.</p>
+<section id="task-1-from-loops-to-maps" class="level3">
+<h3 class="anchored" data-anchor-id="task-1-from-loops-to-maps">Task 1: From Loops to Maps</h3>
+<p>The file <code>data/penguins.csv</code> contains the penguins data from the Week 9 notes: body measurements of 344 penguins of three species, recorded on three islands in Antarctica between 2007 and 2009.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/penguins.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We start with two short warm-ups.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>list_of_vectors <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(<span class="dv">20</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="at">mean =</span> <span class="dv">1</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="at">mean =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>numbers <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="ot">&lt;-</span> <span class="fu">list</span>(mean, median, sd, var)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox">Calculate the mean of each vector in <code>list_of_vectors</code>.</label></li>
+<li><label><input type="checkbox">For each statistic in <code>summary_stats</code>, apply the statistic to <code>numbers</code>.</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span>Calculate the mean of each vector in <code>list_of_vectors</code>. Each mean is a single number, so <code>map_dbl</code> returns them as a numeric vector; plain <code>map</code> would return a list of three numbers instead.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(list_of_vectors, mean)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>means</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  0.1416238  0.9487428 -0.7870295</code></pre>
+</div>
+</div>
+<p>For each statistic in <code>summary_stats</code>, apply the statistic to <code>numbers</code>. Functions can be stored in a list like any other value, so here each element <code>.x</code> of <code>summary_stats</code> is itself a function, and <code>.x(numbers)</code> calls it on <code>numbers</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>stats <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(summary_stats, <span class="sc">~</span> <span class="fu">.x</span>(numbers))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>stats</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.500000 5.500000 3.027650 9.166667</code></pre>
+</div>
+</div>
+</div>
+<p>Next we use <code>pmap</code> to draw several plots of the penguins at once.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"flipper_length_mm"</span>, <span class="st">"bill_length_mm"</span>, <span class="st">"bill_depth_mm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox">For each <code>&lt;variable&gt;</code> in <code>variables</code>, produce a plot of that variable against <code>body_mass_g</code> in <code>penguins</code>. (<em>Hint</em>: each <code>&lt;variable&gt;</code> is a string, not a column; recall <code>.data[[...]]</code> from Lab 8.)</label></li>
+<li><label><input type="checkbox">Create a vector of display names for the <span class="math inline">\(y\)</span>-axes and add them to your plot.</label></li>
+<li><label><input type="checkbox">Create a vector of titles and add them to your plot.</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span>Inside the function, <code>v</code> is a string such as <code>"flipper_length_mm"</code>, not a column, so <code>aes(y = v)</code> would plot that string as a single constant value. <code>.data[[v]]</code> looks up the column whose name is stored in <code>v</code>.</p>
+<p>Building a plot is not a side effect: <code>ggplot()</code> returns a plot object, so <code>pmap</code> collects the three plots into a list, which we store. Drawing them on the screen <em>is</em> a side effect, so we use <code>walk</code> to <code>print</code> each one (printing the list itself would label each plot with <code>[[1]]</code>, <code>[[2]]</code> and <code>[[3]]</code>):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>display_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Flipper Length (mm)"</span>, <span class="st">"Bill Length (mm)"</span>, <span class="st">"Bill Depth (mm)"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>titles <span class="ot">&lt;-</span> <span class="fu">map_chr</span>(display_names, <span class="sc">~</span> <span class="fu">paste0</span>(<span class="st">"Body Mass (g) vs. "</span>, .x))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> <span class="fu">pmap</span>(<span class="fu">list</span>(variables, display_names, titles), <span class="cf">function</span>(v, d, t) {</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> body_mass_g, <span class="at">y =</span> .data[[v]])) <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Body Mass (g)"</span>, <span class="at">y =</span> d, <span class="at">title =</span> t)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">walk</span>(plots, print)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab_09_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab_09_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab_09_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>(Each plot warns that it removed 2 rows: two of the penguins have no measurements at all, so there is nothing to plot for them. The <code>#| warning: false</code> option hides these warnings.)</p>
+</div>
+<p>Finally, we replace a loop with <code>map</code>. The code below uses a <code>for</code> loop to fit a separate straight line of bill depth against bill length for each species of penguin, and collects the slopes and intercepts into a tibble. (<code>lm()</code> fits the line, and <code>coef()</code> extracts its intercept and slope.)</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Rewrite the code using <code>purrr</code> instead of a loop. (<em>Hint</em>: see <em>Working with Lists of Results</em> in the <a href="https://soton-fds.github.io/week09.html">Week 9 notes</a>, and look up <code>split()</code> and <code>list_rbind()</code>.)</label></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>species <span class="ot">&lt;-</span> <span class="fu">unique</span>(penguins<span class="sc">$</span>species)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (sp <span class="cf">in</span> species) {</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span> <span class="fu">filter</span>(species <span class="sc">==</span> sp)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># fit a linear regression model of bill depth vs. bill length</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    model <span class="ot">&lt;-</span> <span class="fu">lm</span>(bill_depth_mm <span class="sc">~</span> bill_length_mm, <span class="at">data =</span> data)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract the slope and intercept</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    slope <span class="ot">&lt;-</span> <span class="fu">coef</span>(model)[<span class="st">"bill_length_mm"</span>]</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    intercept <span class="ot">&lt;-</span> <span class="fu">coef</span>(model)[<span class="st">"(Intercept)"</span>]</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store the results</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    results[[sp]] <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">species =</span> sp,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">slope =</span> slope,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">intercept =</span> intercept</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="co"># put into a data frame</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>loop_results <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(results)</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>loop_results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  species   slope intercept
+  &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1 Adelie    0.179     11.4 
+2 Gentoo    0.205      5.25
+3 Chinstrap 0.222      7.57</code></pre>
+</div>
+</div>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span>The body of the loop becomes a function of one species’ data. It no longer needs to filter the data or store its result in <code>results</code>: it just fits the model and returns a one-row tibble.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fit_bill_model <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    model <span class="ot">&lt;-</span> <span class="fu">lm</span>(bill_depth_mm <span class="sc">~</span> bill_length_mm, <span class="at">data =</span> data)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tibble</span>(</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">slope =</span> <span class="fu">coef</span>(model)[<span class="st">"bill_length_mm"</span>],</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">intercept =</span> <span class="fu">coef</span>(model)[<span class="st">"(Intercept)"</span>]</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>split()</code> does the filtering, giving a named list of three tibbles, one per species. <code>map()</code> applies <code>fit_bill_model</code> to each, giving a list of one-row tibbles with the same names, and <code>list_rbind()</code> stacks them into a single tibble, turning the names into a <code>species</code> column:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>by_species <span class="ot">&lt;-</span> <span class="fu">split</span>(penguins, penguins<span class="sc">$</span>species)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>list_results <span class="ot">&lt;-</span> by_species <span class="sc">|&gt;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map</span>(fit_bill_model) <span class="sc">|&gt;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list_rbind</span>(<span class="at">names_to =</span> <span class="st">"species"</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>list_results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  species   slope intercept
+  &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1 Adelie    0.179     11.4 
+2 Chinstrap 0.222      7.57
+3 Gentoo    0.205      5.25</code></pre>
+</div>
+</div>
+<p>There is no <code>results</code> list to set up in advance. The loop also leaves <code>sp</code>, <code>data</code>, <code>model</code>, <code>slope</code> and <code>intercept</code> behind in the global environment, where they could clash with other variables in the analysis; here <code>model</code> is local to <code>fit_bill_model</code>, and the others are not needed at all. (You may see <code>map_dfr()</code> used for this in older code online; <code>map()</code> followed by <code>list_rbind()</code> replaces it.)</p>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox">A refactor should change how the code is organised, without changing what it does. Check that your version gives the same results as the loop. If it doesn’t, why not?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span><code>all.equal()</code> compares two objects, allowing for tiny rounding errors in any numbers. It reports mismatches:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(loop_results, list_results)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Component \"species\": 2 string mismatches"                  
+[2] "Component \"slope\": Mean relative difference: 0.08133538"   
+[3] "Component \"intercept\": Mean relative difference: 0.3616388"</code></pre>
+</div>
+</div>
+<p>The numbers themselves are the same, but the rows are in a different order. The loop runs through the species in the order in which they first appear in the data, while <code>split()</code> sorts the pieces into alphabetical order. Once both tables are sorted in the same order, they agree:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(<span class="fu">arrange</span>(loop_results, species), list_results)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="task-2-many-files-and-failing-well" class="level3">
+<h3 class="anchored" data-anchor-id="task-2-many-files-and-failing-well">Task 2: Many Files, and Failing Well</h3>
+<p>Research data often arrive as many files with the same format, such as one file per site or per field season. The folder <code>data/penguins</code> contains the penguins data as one CSV file per species per year.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Read all of the CSV files in <code>data/penguins</code> into a single tibble, with a column recording which file each row came from. Look at what is in the folder first. (<em>Hint</em>: see <em>Working with Lists of Results</em> in the <a href="https://soton-fds.github.io/week09.html">Week 9 notes</a>; <code>set_names()</code> will help you keep track of which file is which.)</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span><code>list.files()</code> with <code>full.names = TRUE</code> lists the paths of the files in the folder. The folder also contains <code>README.txt</code>, which is not a CSV file, so we use the regular expression <code>"\\.csv$"</code> to keep only the names ending in <code>.csv</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"data/penguins"</span>, <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.csv$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>files</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data/penguins/adelie_2007.csv"    "data/penguins/adelie_2008.csv"   
+[3] "data/penguins/adelie_2009.csv"    "data/penguins/chinstrap_2007.csv"
+[5] "data/penguins/chinstrap_2008.csv" "data/penguins/chinstrap_2009.csv"
+[7] "data/penguins/gentoo_2007.csv"    "data/penguins/gentoo_2008.csv"   
+[9] "data/penguins/gentoo_2009.csv"   </code></pre>
+</div>
+</div>
+<p><code>set_names()</code> names each path after itself, so <code>map()</code> returns a list of tibbles named by file, and <code>list_rbind()</code> turns those names into a <code>file</code> column:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>penguins_all <span class="ot">&lt;-</span> files <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_names</span>() <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map</span>(read_csv) <span class="sc">|&gt;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list_rbind</span>(<span class="at">names_to =</span> <span class="st">"file"</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>penguins_all <span class="sc">|&gt;</span> <span class="fu">count</span>(file)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 2
+  file                                 n
+  &lt;chr&gt;                            &lt;int&gt;
+1 data/penguins/adelie_2007.csv       50
+2 data/penguins/adelie_2008.csv       50
+3 data/penguins/adelie_2009.csv       52
+4 data/penguins/chinstrap_2007.csv    26
+5 data/penguins/chinstrap_2008.csv    18
+6 data/penguins/chinstrap_2009.csv    24
+7 data/penguins/gentoo_2007.csv       34
+8 data/penguins/gentoo_2008.csv       46
+9 data/penguins/gentoo_2009.csv       44</code></pre>
+</div>
+</div>
+<p>The files contain 344 penguins in total, the same as the full dataset.</p>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox">Use <code>fit_bill_model()</code> from Task 1 to fit a separate line of bill depth against bill length for each file. Your code should fail. Which file causes the problem, and why?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span>We split the combined tibble by file, rather than reading every file again:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>by_file <span class="ot">&lt;-</span> <span class="fu">split</span>(penguins_all, penguins_all<span class="sc">$</span>file)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>file_fits <span class="ot">&lt;-</span> by_file <span class="sc">|&gt;</span> <span class="fu">map</span>(fit_bill_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `map()`:
+ℹ In index: 5.
+ℹ With name: data/penguins/chinstrap_2008.csv.
+Caused by error in `lm.fit()`:
+! 0 (non-NA) cases</code></pre>
+</div>
+</div>
+<p>The error message says which element of the list caused the error: <code>chinstrap_2008.csv</code>. The error comes from <code>lm()</code>, which reports <code>0 (non-NA) cases</code>: there are no penguins in this file with both bill measurements, so there is no data to fit a line to. We can confirm this by counting the missing values:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>by_file[[<span class="st">"data/penguins/chinstrap_2008.csv"</span>]] <span class="sc">|&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">missing_length =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(bill_length_mm)),</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">missing_depth =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(bill_depth_mm))</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+      n missing_length missing_depth
+  &lt;int&gt;          &lt;int&gt;         &lt;int&gt;
+1    18             18            18</code></pre>
+</div>
+</div>
+<p>Every one of the 18 penguins in this file is missing both bill measurements: they were not recorded that season. Because <code>map()</code> stops at the first error, we lose the results for all the other files too.</p>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox">Change your code so that a file that cannot be fitted no longer stops the others. Check which files failed, and combine the results for the others into a single tibble.</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span><code>possibly()</code> turns <code>fit_bill_model</code> into a function that returns <code>NULL</code>, rather than an error, when the fit fails:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fit_or_null <span class="ot">&lt;-</span> <span class="fu">possibly</span>(fit_bill_model, <span class="at">otherwise =</span> <span class="cn">NULL</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>file_fits <span class="ot">&lt;-</span> by_file <span class="sc">|&gt;</span> <span class="fu">map</span>(fit_or_null)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>possibly()</code> fails silently, so we check which files fell back to <code>NULL</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>file_fits <span class="sc">|&gt;</span> <span class="fu">map_lgl</span>(is.null)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   data/penguins/adelie_2007.csv    data/penguins/adelie_2008.csv 
+                           FALSE                            FALSE 
+   data/penguins/adelie_2009.csv data/penguins/chinstrap_2007.csv 
+                           FALSE                            FALSE 
+data/penguins/chinstrap_2008.csv data/penguins/chinstrap_2009.csv 
+                            TRUE                            FALSE 
+   data/penguins/gentoo_2007.csv    data/penguins/gentoo_2008.csv 
+                           FALSE                            FALSE 
+   data/penguins/gentoo_2009.csv 
+                           FALSE </code></pre>
+</div>
+</div>
+<p><code>compact()</code> drops the <code>NULL</code> elements, and <code>list_rbind()</code> combines the rest:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>file_fits <span class="sc">|&gt;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">compact</span>() <span class="sc">|&gt;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list_rbind</span>(<span class="at">names_to =</span> <span class="st">"file"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 3
+  file                             slope intercept
+  &lt;chr&gt;                            &lt;dbl&gt;     &lt;dbl&gt;
+1 data/penguins/adelie_2007.csv    0.167     12.3 
+2 data/penguins/adelie_2008.csv    0.161     12.0 
+3 data/penguins/adelie_2009.csv    0.215      9.71
+4 data/penguins/chinstrap_2007.csv 0.152     11.1 
+5 data/penguins/chinstrap_2009.csv 0.204      8.34
+6 data/penguins/gentoo_2007.csv    0.201      5.23
+7 data/penguins/gentoo_2008.csv    0.205      5.31
+8 data/penguins/gentoo_2009.csv    0.195      5.84</code></pre>
+</div>
+</div>
+<p>A <code>tryCatch()</code> version, as in the notes, works too, and has the advantage that it can print a message naming each file that fails.</p>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox">Is it reasonable simply to leave out the file that failed? What would you report alongside these results?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span>It is reasonable here, because the file genuinely contains no bill measurements, so there is nothing to fit: no amount of code can recover data that were never recorded. But the table of results should not be presented as if it were complete. Anyone reading it should be told that Chinstrap penguins in 2008 are missing, and why, because the Chinstrap results now rest on only two seasons, and Chinstraps already had the fewest penguins of any species (68, against 152 Adelie and 124 Gentoo).</p>
+<p>This is the danger of <code>possibly()</code>: it makes the error disappear, so it is up to us to check what was dropped and report it. An error that stops the analysis is a nuisance, but at least it cannot be overlooked.</p>
+</div>
+<p>The error from <code>lm()</code> above, <code>0 (non-NA) cases</code>, comes from deep inside <code>lm()</code>, and doesn’t say much about what is actually wrong with the data.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Change <code>fit_bill_model()</code> so that it checks its input first, and stops with a clear error message if there are fewer than two penguins with both bill measurements. Why two?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fit_bill_model <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    n_complete <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(data<span class="sc">$</span>bill_length_mm) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(data<span class="sc">$</span>bill_depth_mm))</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (n_complete <span class="sc">&lt;</span> <span class="dv">2</span>) {</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">stop</span>(<span class="st">"Need at least 2 penguins with both bill measurements, but found "</span>, n_complete, <span class="st">"."</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    model <span class="ot">&lt;-</span> <span class="fu">lm</span>(bill_depth_mm <span class="sc">~</span> bill_length_mm, <span class="at">data =</span> data)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tibble</span>(</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">slope =</span> <span class="fu">coef</span>(model)[[<span class="st">"bill_length_mm"</span>]],</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">intercept =</span> <span class="fu">coef</span>(model)[[<span class="st">"(Intercept)"</span>]]</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The Chinstrap 2008 file now fails with an error that says what is wrong:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fit_bill_model</span>(by_file[[<span class="st">"data/penguins/chinstrap_2008.csv"</span>]])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in fit_bill_model(by_file[["data/penguins/chinstrap_2008.csv"]]): Need at least 2 penguins with both bill measurements, but found 0.</code></pre>
+</div>
+</div>
+<p>We need two penguins because a straight line needs at least two points. With just one, <code>lm()</code> does <em>not</em> stop with an error: it silently returns a missing slope, which could travel unnoticed through the rest of an analysis. We can see this by fitting the model directly:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>one_penguin <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">bill_length_mm =</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="cn">NA</span>), <span class="at">bill_depth_mm =</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">17</span>))</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm</span>(bill_depth_mm <span class="sc">~</span> bill_length_mm, <span class="at">data =</span> one_penguin))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   (Intercept) bill_length_mm 
+            18             NA </code></pre>
+</div>
+</div>
+<p>(The new version also extracts the coefficients with <code>[[</code>, rather than <code>[</code>, which drops their names; Task 5 of the practice sheet shows why this matters.)</p>
+</div>
+</section>
+</section>
+<section id="finished" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="finished">Finished?</h2>
+<p>Carry on with the questions in <code>lab_09_practice.qmd</code>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

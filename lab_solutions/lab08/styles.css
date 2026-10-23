@@ -1,0 +1,50 @@
+.mark-scheme {
+    position: relative;
+    background: #e6f2ff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 1.5em 1em 1em 1em;
+    margin: 1.5em 0;
+}
+
+.mark-scheme::before {
+    content: "Mark Scheme";
+    display: block;
+    position: absolute;
+    top: -1.1em;
+    left: 1em;
+    background: #fff;
+    color: #333;
+    font-weight: bold;
+    padding: 0 0.5em;
+    font-size: 1em;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.solution {
+    position: relative;
+    background: #fafbfc;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 1.5em 1em 1em 1em;
+    margin: 1.5em 0;
+}
+.proof-title {
+    display: none;
+}
+
+.solution::before {
+    content: "Solution";
+    display: block;
+    position: absolute;
+    top: -1.1em;
+    left: 1em;
+    background: #fff;
+    color: #333;
+    font-weight: bold;
+    padding: 0 0.5em;
+    font-size: 1em;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}

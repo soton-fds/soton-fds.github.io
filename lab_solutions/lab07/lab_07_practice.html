@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lab 7 Practice Questions</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-445b8638c3d06994fee0907d791121c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Instructor view: content marked `.instructor` (e.g. `::: {.solution .instructor}`
+  or `[text]{.instructor}`) is hidden unless the instructor view is on. A table
+  row containing `[text]{.instructor-row}` in any cell is hidden as a whole.
+
+  Turn it on by visiting any page with ?instructor, e.g.
+    https://soton-fds.github.io/?instructor
+  and off again with ?instructor=off, or with the button on the "Instructor
+  view" badge shown in the corner of every page. The setting is remembered in
+  localStorage, so it lasts across the whole site.
+
+  This only makes the content harder to find: it is still in the page's HTML.
+  Included in <head> (include-in-header) so it runs before the page is drawn.
+-->
+<style>
+  html:not(.instructor-view) .instructor,
+  html:not(.instructor-view) tr:has(.instructor-row) { display: none !important; }
+
+  /* In the instructor view, mark what students can't see. */
+  tr:has(.instructor-row) > * { background: #fdecea; }
+  div.instructor {
+    border-left: 4px solid #c0392b;
+    padding-left: 0.75em;
+  }
+  div.instructor::after {
+    content: "Instructor only";
+    display: block;
+    color: #c0392b;
+    font-size: 0.8em;
+    font-weight: bold;
+  }
+  span.instructor { background: #fdecea; }
+
+  /* Badge in the corner; hover (or tap, which focuses it) for the panel. */
+  .instructor-badge {
+    position: fixed;
+    right: 12px;
+    bottom: 12px;
+    z-index: 10000;
+    max-width: 18rem;
+    font-size: 0.85rem;
+    text-align: right;
+  }
+  .instructor-badge-label {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #c0392b;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 999px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+    cursor: default;
+  }
+  .instructor-badge-panel {
+    display: none;
+    margin-bottom: 6px;
+    padding: 0.75em;
+    background: #fff;
+    border: 1px solid #c0392b;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+    text-align: left;
+  }
+  .instructor-badge:hover .instructor-badge-panel,
+  .instructor-badge:focus-within .instructor-badge-panel { display: block; }
+  .instructor-badge-panel p { margin: 0 0 0.6em 0; }
+  .instructor-badge-panel button {
+    padding: 2px 10px;
+    background: #fff;
+    color: #c0392b;
+    border: 1px solid #c0392b;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  @media print {
+    .instructor-badge { display: none !important; }
+  }
+</style>
+
+<script>
+  (function () {
+    var STORAGE = "fds-instructor-view";
+    try {
+      var param = new URLSearchParams(location.search).get("instructor");
+      if (param === "off") localStorage.removeItem(STORAGE);
+      else if (param !== null) localStorage.setItem(STORAGE, "1");
+      if (localStorage.getItem(STORAGE) === "1") {
+        document.documentElement.classList.add("instructor-view");
+      }
+    } catch (e) {
+      // Storage blocked: show the student view.
+    }
+    if (!document.documentElement.classList.contains("instructor-view")) return;
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var badge = document.createElement("div");
+      badge.className = "instructor-badge";
+      badge.tabIndex = 0;
+      badge.innerHTML =
+        '<div class="instructor-badge-panel">' +
+        "<p>You are seeing content that is hidden from students, highlighted in red. " +
+        "This browser stays in instructor view on every page until you leave.</p>" +
+        '<button type="button">Leave instructor view</button>' +
+        "</div>" +
+        '<span class="instructor-badge-label">Instructor view</span>';
+      badge.querySelector("button").addEventListener("click", function () {
+        try {
+          localStorage.removeItem(STORAGE);
+        } catch (e) {}
+        // Reload without ?instructor, which would turn the view straight back on.
+        var url = new URL(location.href);
+        url.searchParams.delete("instructor");
+        location.replace(url);
+      });
+      document.body.appendChild(badge);
+    });
+  })();
+</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#about-these-questions" id="toc-about-these-questions" class="nav-link active" data-scroll-target="#about-these-questions">About these questions</a>
+  <ul class="collapse">
+  <li><a href="#task-1-more-sql-reading" id="toc-task-1-more-sql-reading" class="nav-link" data-scroll-target="#task-1-more-sql-reading">Task 1: More SQL Reading</a></li>
+  <li><a href="#task-2-more-of-the-lego-schema" id="toc-task-2-more-of-the-lego-schema" class="nav-link" data-scroll-target="#task-2-more-of-the-lego-schema">Task 2: More of the LEGO Schema</a></li>
+  <li><a href="#task-3-critiquing-a-schema" id="toc-task-3-critiquing-a-schema" class="nav-link" data-scroll-target="#task-3-critiquing-a-schema">Task 3: Critiquing a Schema</a></li>
+  <li><a href="#task-4-more-dbplyr" id="toc-task-4-more-dbplyr" class="nav-link" data-scroll-target="#task-4-more-dbplyr">Task 4: More <code>dbplyr</code></a></li>
+  <li><a href="#task-5-theme-families" id="toc-task-5-theme-families" class="nav-link" data-scroll-target="#task-5-theme-families">Task 5: Theme Families</a></li>
+  <li><a href="#task-6-checking-the-data" id="toc-task-6-checking-the-data" class="nav-link" data-scroll-target="#task-6-checking-the-data">Task 6: Checking the Data</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab 7 Practice Questions</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="about-these-questions" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="about-these-questions">About these questions</h2>
+<p>These questions are for extra practice after Lab 7, using the same LEGO database. Tasks 1–3 follow on from Task 1 of the lab (reading SQL and the database schema), and Tasks 4–6 from Task 2 of the lab (<code>dbplyr</code>). Questions marked <strong>Extension</strong> are more challenging.</p>
+<p>As in the lab, you are not expected to write SQL yourself: you will read SQL queries in Tasks 1–3, and write <code>dplyr</code> code in Tasks 4–6. The schema of the database is shown in <code>downloads_schema.png</code>, and in the lab.</p>
+<p>The cell below connects to the database and creates the lazy tables used in Tasks 4–6.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbplyr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">"data/lego.sqlite"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>sets <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"sets"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>themes <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"themes"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>inventories <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"inventories"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>inventory_parts <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"inventory_parts"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>inventory_sets <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"inventory_sets"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"colors"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="task-1-more-sql-reading" class="level3">
+<h3 class="anchored" data-anchor-id="task-1-more-sql-reading">Task 1: More SQL Reading</h3>
+<p>This task follows on from Task 1 of the lab. The next two queries look alike, but answer different questions.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Query C</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="dt">year</span>, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_sets</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> sets</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> num_parts <span class="op">&gt;=</span> <span class="dv">1000</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> <span class="dt">year</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dt">year</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">year</th>
+<th style="text-align: right;">n_sets</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1985</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1990</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1991</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1994</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1995</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1996</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1997</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1998</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1999</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2000</td>
+<td style="text-align: right;">4</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Query D</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="dt">year</span>, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_sets</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> sets</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> <span class="dt">year</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">HAVING</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="op">&gt;=</span> <span class="dv">500</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dt">year</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>6 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">year</th>
+<th style="text-align: right;">n_sets</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2011</td>
+<td style="text-align: right;">503</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2012</td>
+<td style="text-align: right;">615</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2013</td>
+<td style="text-align: right;">593</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2014</td>
+<td style="text-align: right;">713</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2015</td>
+<td style="text-align: right;">665</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2016</td>
+<td style="text-align: right;">596</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox">Write down the question that each query answers. Which query filters individual sets, and which filters whole years?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span>Query C answers <em>for each year, how many sets with at least 1,000 parts were released?</em> <code>WHERE</code> is evaluated before <code>GROUP BY</code>, so it removes the smaller sets first, and the remaining large sets are then counted by year. Years with no large sets do not appear at all, so the result starts in 1985.</p>
+<p>Query D answers <em>in which years were at least 500 sets released, and how many?</em> <code>HAVING</code> is evaluated after <code>GROUP BY</code>, so it keeps or removes whole years, based on the number of sets in each: only 2011–2016 pass.</p>
+</div>
+<p>A colleague wants to know how many sets there are in <em>every</em> theme, including any themes with no sets. They have tried three queries, each of which lists the five themes with the fewest sets.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Query E</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> themes.<span class="kw">id</span>, themes.name, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_sets</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> themes</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> sets <span class="kw">ON</span> sets.theme_id <span class="op">=</span> themes.<span class="kw">id</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> themes.<span class="kw">id</span>, themes.name</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> n_sets, themes.<span class="kw">id</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>5 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">id</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: right;">n_sets</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">25</td>
+<td style="text-align: left;">Castle</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">34</td>
+<td style="text-align: left;">Building</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">44</td>
+<td style="text-align: left;">Recreation</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45</td>
+<td style="text-align: left;">Cargo</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">46</td>
+<td style="text-align: left;">Harbor</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Query F</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> themes.<span class="kw">id</span>, themes.name, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_sets</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> themes</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">LEFT</span> <span class="kw">JOIN</span> sets <span class="kw">ON</span> sets.theme_id <span class="op">=</span> themes.<span class="kw">id</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> themes.<span class="kw">id</span>, themes.name</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> n_sets, themes.<span class="kw">id</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>5 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">id</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: right;">n_sets</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">25</td>
+<td style="text-align: left;">Castle</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">27</td>
+<td style="text-align: left;">Race</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">28</td>
+<td style="text-align: left;">Harbor</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">29</td>
+<td style="text-align: left;">Train</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">34</td>
+<td style="text-align: left;">Building</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Query G</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> themes.<span class="kw">id</span>, themes.name, <span class="fu">COUNT</span>(sets.set_num) <span class="kw">AS</span> n_sets</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> themes</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">LEFT</span> <span class="kw">JOIN</span> sets <span class="kw">ON</span> sets.theme_id <span class="op">=</span> themes.<span class="kw">id</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> themes.<span class="kw">id</span>, themes.name</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> n_sets, themes.<span class="kw">id</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>5 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">id</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: right;">n_sets</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">27</td>
+<td style="text-align: left;">Race</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">28</td>
+<td style="text-align: left;">Harbor</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">29</td>
+<td style="text-align: left;">Train</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">35</td>
+<td style="text-align: left;">Cargo</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">36</td>
+<td style="text-align: left;">Fire</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox">Compare the row for the theme <code>Race</code> (id 27) in the three results. Explain what each query does with a theme that has no sets. Which query does your colleague want?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span>Query E uses an inner <code>JOIN</code>, which keeps only the themes that match at least one set. A theme with no sets, such as <code>Race</code>, disappears from the result altogether, so the smallest count in Query E is 1.</p>
+<p>Query F uses a <code>LEFT JOIN</code>, which keeps every theme. A theme with no sets is kept as a single row, with <code>NULL</code> in all of the columns from <code>sets</code>. But <code>COUNT(*)</code> counts <em>rows</em>, including that one, so <code>Race</code> is reported as having 1 set, just like <code>Castle</code> (id 25), which really does have one.</p>
+<p>Query G also uses a <code>LEFT JOIN</code>, but <code>COUNT(sets.set_num)</code> counts only the rows in which <code>set_num</code> is not <code>NULL</code>, so <code>Race</code> correctly has 0 sets. Query G is the one your colleague wants.</p>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox">Write down the question that the query below answers. How is it related to Query G?</label></li>
+<li><label><input type="checkbox">Read the second query below. What does it count? What does its result suggest about why some themes have no sets?</label></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> name</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> themes</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="kw">NOT</span> <span class="kw">IN</span> (</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> theme_id</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> sets</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Race</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Harbor</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Train</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cargo</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Fire</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mecha</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Town Jr.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">World City</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dragon Knights</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Supplemental</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_themes</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> themes</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="kw">NOT</span> <span class="kw">IN</span> (<span class="kw">SELECT</span> theme_id <span class="kw">FROM</span> sets)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">AND</span> <span class="kw">id</span> <span class="kw">IN</span> (<span class="kw">SELECT</span> parent_id <span class="kw">FROM</span> themes <span class="kw">WHERE</span> parent_id <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">n_themes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span>The first query answers <em>which themes have no sets?</em> The subquery lists the <code>theme_id</code> of every set, and the outer query keeps the themes whose <code>id</code> is not in that list. These are exactly the themes with <code>n_sets</code> equal to 0 in Query G; there are 39 of them.</p>
+<p>The second query counts the themes that have no sets of their own (the first condition) <em>and</em> are the parent of at least one other theme (the second condition): 13 of the 39. For these themes, the sets are recorded under their sub-themes instead. The other 26 themes have no sets in this database at all.</p>
+</div>
+</section>
+<section id="task-2-more-of-the-lego-schema" class="level3">
+<h3 class="anchored" data-anchor-id="task-2-more-of-the-lego-schema">Task 2: More of the LEGO Schema</h3>
+<p>This task follows on from the <code>CREATE TABLE</code> question in Task 1 of the lab. Here are the statements that were used to create three more of the tables.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> themes (</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> <span class="dt">INTEGER</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    name TEXT,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    parent_id <span class="dt">INTEGER</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">PRIMARY</span> <span class="kw">KEY</span> (<span class="kw">id</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> sets (</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    set_num TEXT,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    name TEXT,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">year</span> <span class="dt">INTEGER</span>,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    theme_id <span class="dt">INTEGER</span>,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    num_parts <span class="dt">INTEGER</span>,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">PRIMARY</span> <span class="kw">KEY</span> (set_num),</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (theme_id) <span class="kw">REFERENCES</span> themes(<span class="kw">id</span>)</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> colors (</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> <span class="dt">INTEGER</span>,</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    name TEXT,</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    rgb TEXT,</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    is_trans TEXT,</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">PRIMARY</span> <span class="kw">KEY</span> (<span class="kw">id</span>)</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul class="task-list">
+<li><label><input type="checkbox">What does <code>themes.parent_id</code> refer to? What kind of relationship is this? What is missing from the <code>CREATE TABLE</code> statement for <code>themes</code>?</label></li>
+<li><label><input type="checkbox">Use the queries below to see what values <code>colors.is_trans</code> and <code>inventory_parts.is_spare</code> contain. Which column type would have been a better choice?</label></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> is_trans, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_colours</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> colors</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> is_trans;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>2 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">is_trans</th>
+<th style="text-align: right;">n_colours</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">f</td>
+<td style="text-align: right;">107</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">t</td>
+<td style="text-align: right;">28</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> is_spare, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_rows</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> inventory_parts</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> is_spare;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>2 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">is_spare</th>
+<th style="text-align: right;">n_rows</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">f</td>
+<td style="text-align: right;">550574</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">t</td>
+<td style="text-align: right;">29495</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span><code>parent_id</code> refers to the <code>id</code> of another row of the <em>same</em> table: for example, theme 220 (<code>City</code>) has parent 217 (<code>Advent Sub-Set</code>). This is a one-to-many relationship between <code>themes</code> and itself: one parent theme can have many sub-themes, but each theme has at most one parent. The schema figure in the lab does not show it.</p>
+<p>The statement for <code>themes</code> declares no <code>FOREIGN KEY (parent_id) REFERENCES themes(id)</code>, so nothing records that the two columns are linked, and a database that checks foreign keys could not stop a theme from having a parent that does not exist.</p>
+<p>Both <code>is_trans</code> and <code>is_spare</code> hold the text <code>'t'</code> or <code>'f'</code>. A <code>BOOLEAN</code> column would say what the columns mean and, in a database that checks types, stop other values (such as <code>'yes'</code> or <code>'T'</code>) from creeping in. (SQLite is less strict about both types and foreign keys than most databases: see <em>Using SQLite</em> in the Week 7 notes.)</p>
+</div>
+</section>
+<section id="task-3-critiquing-a-schema" class="level3">
+<h3 class="anchored" data-anchor-id="task-3-critiquing-a-schema">Task 3: Critiquing a Schema</h3>
+<p>This task follows on from Task 1 of the lab, but uses a different database. A small library has designed the database below, to record its members, its books and its loans.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> members (</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    member_id <span class="dt">INTEGER</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    name TEXT,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    email TEXT,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    date_of_birth TEXT,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">PRIMARY</span> <span class="kw">KEY</span> (member_id)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> books (</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    isbn TEXT,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    title TEXT,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    authors TEXT,  <span class="co">-- for example 'Wickham, H.; Grolemund, G.'</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    year_published TEXT,</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    price TEXT</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> loans (</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    loan_id <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> AUTOINCREMENT,</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    member_id <span class="dt">INTEGER</span>,</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    member_name TEXT,</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    isbn TEXT,</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    date_borrowed <span class="dt">DATE</span>,</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    date_returned <span class="dt">DATE</span>,</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (member_id) <span class="kw">REFERENCES</span> members(member_id)</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul class="task-list">
+<li><label><input type="checkbox">Find as many problems with this design as you can. For each one, say what could go wrong.</label></li>
+<li><label><input type="checkbox">How would you store the authors of each book instead? What kind of relationship is there between books and authors?</label></li>
+<li><label><input type="checkbox">Which columns hold personal data? Which of them does the library need, and who should be able to see them?</label></li>
+<li><label><input type="checkbox"><strong>Extension:</strong> Write corrected <code>CREATE TABLE</code> statements.</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span>There are several problems:</p>
+<ul>
+<li><strong><code>books</code> has no primary key.</strong> The same book could be entered twice, and there is no way to identify a single book. <code>isbn</code> is a natural choice of key.</li>
+<li><strong><code>loans.isbn</code> is not a foreign key.</strong> A loan could refer to a book that the library does not have. (It <em>cannot</em> be a foreign key at the moment, because a foreign key must refer to a primary key, and <code>books</code> does not have one.)</li>
+<li><strong>Wrong column types.</strong> <code>year_published</code> should be an <code>INTEGER</code>, <code>price</code> a <code>REAL</code> and <code>date_of_birth</code> a <code>DATE</code>. Stored as text, they cannot be sorted or compared correctly (as text, <code>'9.99'</code> sorts after <code>'10.50'</code>), and nothing stops values such as <code>'about 2010'</code> from being entered.</li>
+<li><strong><code>loans.member_name</code> repeats <code>members.name</code>.</strong> The name is stored again for every loan, and if a member changes their name, the two tables will disagree. It can always be found by joining <code>loans</code> to <code>members</code>, so it should be removed.</li>
+<li><strong><code>email</code> is not <code>UNIQUE</code>.</strong> Two members could be registered with the same email address, which is probably a mistake (or the same person registered twice).</li>
+<li><strong>Copies.</strong> A library often has several copies of the same book, but a loan only records the ISBN, so we cannot tell <em>which</em> copy is on loan, or how many copies are available.</li>
+</ul>
+<p><code>authors</code> holds a list of names in a single column, which is not tidy (see the Week 4 notes): to find all the books by one author, we would have to search inside the text of every row. Books and authors are in a many-to-many relationship: a book can have several authors, and an author can write several books. As we saw for sets and parts in the lab, this needs an <code>authors</code> table, with one row per author, and a linking table <code>book_authors</code>, with one row for each author of each book.</p>
+<p><code>name</code>, <code>email</code> and <code>date_of_birth</code> are personal data, and are subject to data protection law (see the Week 7 notes and <a href="https://soton-fds.github.io/ethics.html"><em>Data Ethics</em></a>). The library needs a way to contact its members, but it is not clear that it needs their date of birth (unless, for example, children’s membership works differently), and it should not collect data it does not need. Staff issuing books need to see names; an analyst studying which books are popular needs none of these columns, and could be given only summaries.</p>
+<p>For the extension, one possible design is:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> members (</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    member_id <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> AUTOINCREMENT,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    name TEXT,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    email TEXT <span class="kw">UNIQUE</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> books (</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    isbn TEXT <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    title TEXT,</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    year_published <span class="dt">INTEGER</span>,</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    price <span class="dt">REAL</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> authors (</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    author_id <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> AUTOINCREMENT,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    name TEXT</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> book_authors (</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    isbn TEXT,</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    author_id <span class="dt">INTEGER</span>,</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">PRIMARY</span> <span class="kw">KEY</span> (isbn, author_id),</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (isbn) <span class="kw">REFERENCES</span> books(isbn),</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (author_id) <span class="kw">REFERENCES</span> authors(author_id)</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> copies (</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>    copy_id <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> AUTOINCREMENT,</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    isbn TEXT,</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (isbn) <span class="kw">REFERENCES</span> books(isbn)</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> loans (</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>    loan_id <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> AUTOINCREMENT,</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>    member_id <span class="dt">INTEGER</span>,</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>    copy_id <span class="dt">INTEGER</span>,</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>    date_borrowed <span class="dt">DATE</span>,</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>    date_returned <span class="dt">DATE</span>,  <span class="co">-- NULL if the copy has not been returned yet</span></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (member_id) <span class="kw">REFERENCES</span> members(member_id),</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (copy_id) <span class="kw">REFERENCES</span> copies(copy_id)</span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The primary key of <code>book_authors</code> combines both of its columns, like the key of <code>inventory_parts</code> in the lab: each pair of book and author should appear once.</p>
+</div>
+</section>
+<section id="task-4-more-dbplyr" class="level3">
+<h3 class="anchored" data-anchor-id="task-4-more-dbplyr">Task 4: More <code>dbplyr</code></h3>
+<p>This task follows on from Task 2 of the lab.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Write <code>dplyr</code> code that answers the same question as Query B from Task 1 of the lab, which counts the sets for each theme <em>name</em>. Use <code>show_query()</code> to compare the SQL that <code>dbplyr</code> generates with Query B. (Hint: what happens to the two <code>name</code> columns when you join <code>sets</code> to <code>themes</code>?)</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span>Both <code>sets</code> and <code>themes</code> have a column called <code>name</code>, so a join gives two columns, <code>name.x</code> and <code>name.y</code> (see the Week 5 notes). Selecting and renaming the columns we need from <code>themes</code> first avoids this:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sets_by_theme_name <span class="ot">&lt;-</span> sets <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        themes <span class="sc">|&gt;</span> <span class="fu">select</span>(id, <span class="at">theme_name =</span> name),</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"theme_id"</span> <span class="ot">=</span> <span class="st">"id"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(theme_name) <span class="sc">|&gt;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">n_sets =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(n_sets)) <span class="sc">|&gt;</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="dv">5</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="fu">show_query</span>(sets_by_theme_name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;SQL&gt;
+SELECT `theme_name`, COUNT(*) AS `n_sets`
+FROM (
+  SELECT `sets`.*, `themes`.`name` AS `theme_name`
+  FROM `sets`
+  INNER JOIN `themes`
+    ON (`sets`.`theme_id` = `themes`.`id`)
+) AS `q01`
+GROUP BY `theme_name`
+ORDER BY `n_sets` DESC
+LIMIT 5</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">collect</span>(sets_by_theme_name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  theme_name   n_sets
+  &lt;chr&gt;         &lt;int&gt;
+1 Supplemental    496
+2 Technic         435
+3 City            287
+4 Friends         269
+5 Basic Set       257</code></pre>
+</div>
+</div>
+<p>The generated SQL does the join in a subquery, and then groups its result, but it gives the same answer as Query B.</p>
+</div>
+<p>In the lab, we counted the total number of parts of each colour, in the database:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>inventory_parts <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(color_id) <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(quantity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox">Extend this pipeline to find the names of the five most common colours. Do as much of the work as possible in the database.</label></li>
+<li><label><input type="checkbox">Does your answer include spare parts? Change your code so that it doesn’t. Does the answer change?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span>The join to <code>colors</code>, the sorting and the <code>head()</code> can all be done in the database, so only five rows are sent to <code>R</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>inventory_parts <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(color_id) <span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(quantity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(colors, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"color_id"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(total)) <span class="sc">|&gt;</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="dv">5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 5
+  color_id  total name              rgb    is_trans
+     &lt;int&gt;  &lt;int&gt; &lt;chr&gt;             &lt;chr&gt;  &lt;chr&gt;   
+1        0 396416 Black             05131D f       
+2       15 221553 White             FFFFFF f       
+3       71 201858 Light Bluish Gray A0A5A9 f       
+4        4 169983 Red               C91A09 f       
+5       72 148584 Dark Bluish Gray  6C6E68 f       </code></pre>
+</div>
+</div>
+<p>This includes spare parts. To leave them out, we filter on <code>is_spare</code>, which holds the <em>text</em> <code>'f'</code> for parts that are not spares:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>inventory_parts <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(is_spare <span class="sc">==</span> <span class="st">"f"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(color_id) <span class="sc">|&gt;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(quantity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(colors, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"color_id"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(total)) <span class="sc">|&gt;</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="dv">5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 5
+  color_id  total name              rgb    is_trans
+     &lt;int&gt;  &lt;int&gt; &lt;chr&gt;             &lt;chr&gt;  &lt;chr&gt;   
+1        0 390863 Black             05131D f       
+2       15 218931 White             FFFFFF f       
+3       71 197244 Light Bluish Gray A0A5A9 f       
+4        4 168029 Red               C91A09 f       
+5       72 146603 Dark Bluish Gray  6C6E68 f       </code></pre>
+</div>
+</div>
+<p>The totals fall, but the five most common colours, and their order, stay the same.</p>
+</div>
+<p>A friend is interested in three themes, which they have stored in a tibble:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>chosen <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Star Wars"</span>, <span class="st">"Harry Potter"</span>, <span class="st">"Ninjago"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox">Try joining <code>themes</code> to <code>chosen</code>. What happens, and how can you fix it?</label></li>
+<li><label><input type="checkbox">Count the number of sets in each of the three chosen themes. How many rows of <code>themes</code> matched each name? Does your count for Star Wars include every Star Wars set?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span><code>themes</code> is a table in the database, but <code>chosen</code> is a tibble in <code>R</code>, so the join fails:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>themes <span class="sc">|&gt;</span> <span class="fu">inner_join</span>(chosen, <span class="at">by =</span> <span class="st">"name"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `auto_copy()`:
+! `x` and `y` must share the same src.
+ℹ `x` is a &lt;tbl_SQLiteConnection/tbl_dbi/tbl_sql/tbl_lazy/tbl&gt; object.
+ℹ `y` is a &lt;tbl_df/tbl/data.frame&gt; object.
+ℹ Set `copy = TRUE` if `y` can be copied to the same source as `x` (may be
+  slow).</code></pre>
+</div>
+</div>
+<p>As in the Week 7 notes, <code>copy = TRUE</code> copies <code>chosen</code> into a temporary table in the database, so that the join can run there:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>themes <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(chosen, <span class="at">by =</span> <span class="st">"name"</span>, <span class="at">copy =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 3
+     id name         parent_id
+  &lt;int&gt; &lt;chr&gt;            &lt;int&gt;
+1    18 Star Wars            1
+2   158 Star Wars           NA
+3   209 Star Wars          207
+4   225 Star Wars          217
+5   261 Star Wars          258
+6   431 Star Wars          425
+7   246 Harry Potter        NA
+8   435 Ninjago             NA</code></pre>
+</div>
+</div>
+<p>Six different themes are called <code>Star Wars</code>, while <code>Harry Potter</code> and <code>Ninjago</code> match one theme each. To count the sets, we join the matching themes to <code>sets</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>themes <span class="sc">|&gt;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(chosen, <span class="at">by =</span> <span class="st">"name"</span>, <span class="at">copy =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="at">theme_id =</span> id, <span class="at">theme_name =</span> name) <span class="sc">|&gt;</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(sets, <span class="at">by =</span> <span class="st">"theme_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(theme_name) <span class="sc">|&gt;</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  theme_name       n
+  &lt;chr&gt;        &lt;int&gt;
+1 Harry Potter    26
+2 Ninjago        191
+3 Star Wars      211</code></pre>
+</div>
+</div>
+<p>This counts the sets in all six themes called <code>Star Wars</code>, but not the sets in sub-themes of Star Wars that have other names, so it misses many Star Wars sets. Task 5 groups the sub-themes together.</p>
+</div>
+</section>
+<section id="task-5-theme-families" class="level3">
+<h3 class="anchored" data-anchor-id="task-5-theme-families">Task 5: Theme Families</h3>
+<p>This task combines both tasks of the lab. In the lab, we found that counting sets by theme gives a misleading picture of which themes are the most popular, partly because large themes are split into many sub-themes.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Count the sets in each <em>theme family</em>: a theme together with all of its sub-themes. For now, assume that a family is a theme with no parent, together with the themes whose parent it is. (Hint: you can join <code>themes</code> to itself. <code>if_else()</code> from the Week 2 notes is also useful.)</label></li>
+<li><label><input type="checkbox">Which families have the most sets? What would you now conclude about the most popular theme, and how confident are you?</label></li>
+<li><label><input type="checkbox"><strong>Extension:</strong> Your answer probably includes <code>Advent Sub-Set</code>, but this theme itself has a parent. How deep does the nesting of themes go? Count the sets in each <em>top-level</em> theme, which has no parent.</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span>For each theme, we look up its parent by joining <code>themes</code> to a copy of itself. Its family is its parent, if it has one, and otherwise the theme itself:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>theme_family <span class="ot">&lt;-</span> themes <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="at">theme_id =</span> id, parent_id) <span class="sc">|&gt;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">family_id =</span> <span class="fu">if_else</span>(<span class="fu">is.na</span>(parent_id), theme_id, parent_id))</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>sets <span class="sc">|&gt;</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(theme_family, <span class="at">by =</span> <span class="st">"theme_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(family_id) <span class="sc">|&gt;</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(themes <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="at">family_id =</span> id, <span class="at">family =</span> name), <span class="at">by =</span> <span class="st">"family_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(n)) <span class="sc">|&gt;</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="dv">6</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  family_id     n family                 
+      &lt;int&gt; &lt;int&gt; &lt;chr&gt;                  
+1       217   625 Advent Sub-Set         
+2       158   538 Star Wars              
+3       443   455 Service Packs          
+4       465   441 Universal Building Set 
+5       535   441 Collectible Minifigures
+6       501   433 Gear                   </code></pre>
+</div>
+</div>
+<p>We count by <code>family_id</code> rather than by name, because names are not unique, and only then join <code>themes</code> to itself to look up each family’s name.</p>
+<p><code>Advent Sub-Set</code> is a family of advent calendars, in which each day counts as a set, and <code>Service Packs</code> are spare parts, so the count of sets is still a poor measure of popularity. Star Wars, with over 500 sets, is the largest family of building sets here. We should not be very confident in any ranking, though: the counts measure how many products were released, not how many were sold, they depend on how the themes in the database have been organised, and the database contains no sales data at all.</p>
+<p>For the extension, we join each theme to its parent and its grandparent, and check whether any grandparent has a parent of its own:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>theme_levels <span class="ot">&lt;-</span> themes <span class="sc">|&gt;</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="at">theme_id =</span> id, parent_id) <span class="sc">|&gt;</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>        themes <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="at">parent_id =</span> id, <span class="at">grandparent_id =</span> parent_id),</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">by =</span> <span class="st">"parent_id"</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>        themes <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="at">grandparent_id =</span> id, <span class="at">great_grandparent_id =</span> parent_id),</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">by =</span> <span class="st">"grandparent_id"</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>theme_levels <span class="sc">|&gt;</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_with_parent =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(parent_id), <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_with_grandparent =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(grandparent_id), <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_with_great_grandparent =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(great_grandparent_id), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  n_with_parent n_with_grandparent n_with_great_grandparent
+          &lt;int&gt;              &lt;int&gt;                    &lt;int&gt;
+1           503                156                        0</code></pre>
+</div>
+</div>
+<p>Some themes have a grandparent, but none has a great-grandparent, so themes are nested at most three levels deep. A theme’s top-level theme is therefore its grandparent if it has one, otherwise its parent if it has one, and otherwise the theme itself:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>sets <span class="sc">|&gt;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(theme_levels, <span class="at">by =</span> <span class="st">"theme_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">top_id =</span> <span class="fu">case_when</span>(</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>            <span class="sc">!</span><span class="fu">is.na</span>(grandparent_id) <span class="sc">~</span> grandparent_id,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>            <span class="sc">!</span><span class="fu">is.na</span>(parent_id) <span class="sc">~</span> parent_id,</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>            <span class="cn">TRUE</span> <span class="sc">~</span> theme_id</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(top_id) <span class="sc">|&gt;</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(themes <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="at">top_id =</span> id, <span class="at">top_theme =</span> name), <span class="at">by =</span> <span class="st">"top_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(n)) <span class="sc">|&gt;</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="dv">6</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  top_id     n top_theme             
+   &lt;int&gt; &lt;int&gt; &lt;chr&gt;                 
+1     50  1098 Town                  
+2    206   923 Seasonal              
+3    158   592 Star Wars             
+4      1   533 Technic               
+5    443   456 Service Packs         
+6    465   441 Universal Building Set</code></pre>
+</div>
+</div>
+<p>At the top level, <code>Town</code> (which includes <code>City</code>) has the most sets, and the advent calendars are now counted under <code>Seasonal</code>.</p>
+</div>
+</section>
+<section id="task-6-checking-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="task-6-checking-the-data">Task 6: Checking the Data</h3>
+<p>This task follows on from Task 2 of the lab.</p>
+<ul class="task-list">
+<li><label><input type="checkbox"><strong>Extension:</strong> Each set has a <code>num_parts</code> column, but its parts are also listed in <code>inventory_parts</code>. For how many sets do the two agree? (Hint: think about what we found in Task 1 of the lab about spare parts and inventory versions.) What can you say about the sets for which they disagree?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span>First, we add up the quantities in each set’s inventories, and compare the total with <code>num_parts</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>inventory_parts <span class="sc">|&gt;</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(inventories, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"inventory_id"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(set_num) <span class="sc">|&gt;</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(quantity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(sets, <span class="at">by =</span> <span class="st">"set_num"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_sets =</span> <span class="fu">n</span>(),</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_agree =</span> <span class="fu">sum</span>(total <span class="sc">==</span> num_parts, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  n_sets n_agree
+   &lt;int&gt;   &lt;int&gt;
+1  10713    5811</code></pre>
+</div>
+</div>
+<p>Only about half agree. This total includes spare parts, which are not counted in <code>num_parts</code>. Leaving them out makes a big difference:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>inventory_parts <span class="sc">|&gt;</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(is_spare <span class="sc">==</span> <span class="st">"f"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(inventories, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"inventory_id"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(set_num) <span class="sc">|&gt;</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(quantity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(sets, <span class="at">by =</span> <span class="st">"set_num"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_sets =</span> <span class="fu">n</span>(),</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_agree =</span> <span class="fu">sum</span>(total <span class="sc">==</span> num_parts, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  n_sets n_agree
+   &lt;int&gt;   &lt;int&gt;
+1  10710   10479</code></pre>
+</div>
+</div>
+<p>The total also adds up every inventory of a set, so a set with several inventory versions is counted several times. Keeping only the first version of each inventory removes this:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>part_totals <span class="ot">&lt;-</span> inventory_parts <span class="sc">|&gt;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(is_spare <span class="sc">==</span> <span class="st">"f"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>        inventories <span class="sc">|&gt;</span> <span class="fu">filter</span>(version <span class="sc">==</span> <span class="dv">1</span>),</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"inventory_id"</span> <span class="ot">=</span> <span class="st">"id"</span>)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(set_num, inventory_id) <span class="sc">|&gt;</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(quantity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(sets, <span class="at">by =</span> <span class="st">"set_num"</span>)</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>part_totals <span class="sc">|&gt;</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_sets =</span> <span class="fu">n</span>(),</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_agree =</span> <span class="fu">sum</span>(total <span class="sc">==</span> num_parts, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_fewer =</span> <span class="fu">sum</span>(total <span class="sc">&lt;</span> num_parts, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  n_sets n_agree n_fewer
+   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;
+1  10709   10486     223</code></pre>
+</div>
+</div>
+<p>Now almost all of the sets agree. For every set that disagrees, the inventory lists <em>fewer</em> parts than <code>num_parts</code>. Some of these are sets that contain other sets, such as advent calendars, whose parts are listed in the inventories of the sets they contain (through <code>inventory_sets</code>), rather than in their own:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>part_totals <span class="sc">|&gt;</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(total <span class="sc">&lt;</span> num_parts) <span class="sc">|&gt;</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">semi_join</span>(inventory_sets, <span class="at">by =</span> <span class="st">"inventory_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>() <span class="sc">|&gt;</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+      n
+  &lt;int&gt;
+1    47</code></pre>
+</div>
+</div>
+<p>For the rest, the data do not tell us why the totals differ; most differ by only a few parts.</p>
+</div>
+<p>We have finished with the database, so we close the connection:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

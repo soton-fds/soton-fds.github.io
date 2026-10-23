@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lab 8 Practice Questions</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-445b8638c3d06994fee0907d791121c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!--
+  Instructor view: content marked `.instructor` (e.g. `::: {.solution .instructor}`
+  or `[text]{.instructor}`) is hidden unless the instructor view is on. A table
+  row containing `[text]{.instructor-row}` in any cell is hidden as a whole.
+
+  Turn it on by visiting any page with ?instructor, e.g.
+    https://soton-fds.github.io/?instructor
+  and off again with ?instructor=off, or with the button on the "Instructor
+  view" badge shown in the corner of every page. The setting is remembered in
+  localStorage, so it lasts across the whole site.
+
+  This only makes the content harder to find: it is still in the page's HTML.
+  Included in <head> (include-in-header) so it runs before the page is drawn.
+-->
+<style>
+  html:not(.instructor-view) .instructor,
+  html:not(.instructor-view) tr:has(.instructor-row) { display: none !important; }
+
+  /* In the instructor view, mark what students can't see. */
+  tr:has(.instructor-row) > * { background: #fdecea; }
+  div.instructor {
+    border-left: 4px solid #c0392b;
+    padding-left: 0.75em;
+  }
+  div.instructor::after {
+    content: "Instructor only";
+    display: block;
+    color: #c0392b;
+    font-size: 0.8em;
+    font-weight: bold;
+  }
+  span.instructor { background: #fdecea; }
+
+  /* Badge in the corner; hover (or tap, which focuses it) for the panel. */
+  .instructor-badge {
+    position: fixed;
+    right: 12px;
+    bottom: 12px;
+    z-index: 10000;
+    max-width: 18rem;
+    font-size: 0.85rem;
+    text-align: right;
+  }
+  .instructor-badge-label {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #c0392b;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 999px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+    cursor: default;
+  }
+  .instructor-badge-panel {
+    display: none;
+    margin-bottom: 6px;
+    padding: 0.75em;
+    background: #fff;
+    border: 1px solid #c0392b;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+    text-align: left;
+  }
+  .instructor-badge:hover .instructor-badge-panel,
+  .instructor-badge:focus-within .instructor-badge-panel { display: block; }
+  .instructor-badge-panel p { margin: 0 0 0.6em 0; }
+  .instructor-badge-panel button {
+    padding: 2px 10px;
+    background: #fff;
+    color: #c0392b;
+    border: 1px solid #c0392b;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  @media print {
+    .instructor-badge { display: none !important; }
+  }
+</style>
+
+<script>
+  (function () {
+    var STORAGE = "fds-instructor-view";
+    try {
+      var param = new URLSearchParams(location.search).get("instructor");
+      if (param === "off") localStorage.removeItem(STORAGE);
+      else if (param !== null) localStorage.setItem(STORAGE, "1");
+      if (localStorage.getItem(STORAGE) === "1") {
+        document.documentElement.classList.add("instructor-view");
+      }
+    } catch (e) {
+      // Storage blocked: show the student view.
+    }
+    if (!document.documentElement.classList.contains("instructor-view")) return;
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var badge = document.createElement("div");
+      badge.className = "instructor-badge";
+      badge.tabIndex = 0;
+      badge.innerHTML =
+        '<div class="instructor-badge-panel">' +
+        "<p>You are seeing content that is hidden from students, highlighted in red. " +
+        "This browser stays in instructor view on every page until you leave.</p>" +
+        '<button type="button">Leave instructor view</button>' +
+        "</div>" +
+        '<span class="instructor-badge-label">Instructor view</span>';
+      badge.querySelector("button").addEventListener("click", function () {
+        try {
+          localStorage.removeItem(STORAGE);
+        } catch (e) {}
+        // Reload without ?instructor, which would turn the view straight back on.
+        var url = new URL(location.href);
+        url.searchParams.delete("instructor");
+        location.replace(url);
+      });
+      document.body.appendChild(badge);
+    });
+  })();
+</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#about-these-questions" id="toc-about-these-questions" class="nav-link active" data-scroll-target="#about-these-questions">About these questions</a>
+  <ul class="collapse">
+  <li><a href="#task-1-why-use-a-reactive-expression" id="toc-task-1-why-use-a-reactive-expression" class="nav-link" data-scroll-target="#task-1-why-use-a-reactive-expression">Task 1: Why Use a Reactive Expression?</a></li>
+  <li><a href="#task-2-a-resample-button" id="toc-task-2-a-resample-button" class="nav-link" data-scroll-target="#task-2-a-resample-button">Task 2: A Resample Button</a></li>
+  <li><a href="#task-3-choosing-the-filter-variable" id="toc-task-3-choosing-the-filter-variable" class="nav-link" data-scroll-target="#task-3-choosing-the-filter-variable">Task 3: Choosing the Filter Variable</a></li>
+  <li><a href="#task-4-exploring-with-your-visualiser" id="toc-task-4-exploring-with-your-visualiser" class="nav-link" data-scroll-target="#task-4-exploring-with-your-visualiser">Task 4: Exploring with Your Visualiser</a></li>
+  <li><a href="#task-5-the-visualisers-reactive-graph" id="toc-task-5-the-visualisers-reactive-graph" class="nav-link" data-scroll-target="#task-5-the-visualisers-reactive-graph">Task 5: The Visualiser’s Reactive Graph</a></li>
+  <li><a href="#task-6-deploying-an-app" id="toc-task-6-deploying-an-app" class="nav-link" data-scroll-target="#task-6-deploying-an-app">Task 6: Deploying an App</a></li>
+  <li><a href="#task-7-uploading-a-dataset" id="toc-task-7-uploading-a-dataset" class="nav-link" data-scroll-target="#task-7-uploading-a-dataset">Task 7: Uploading a Dataset</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab 8 Practice Questions</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="about-these-questions" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="about-these-questions">About these questions</h2>
+<p>These questions are for extra practice after Lab 8. Tasks 1 and 2 follow on from Task 1 of the lab, and use the app in <code>src/samples.R</code>. Tasks 3–7 follow on from Task 2 of the lab, and build on your visualiser of the penguins data (Task 5 also uses ideas from Task 1). As in the lab, write your Shiny apps in the <code>src/</code> subdirectory, and your answers to the questions in this document. Questions marked <strong>Extension</strong> are more challenging, and the question marked <strong>Challenge</strong> is much harder still.</p>
+<section id="task-1-why-use-a-reactive-expression" class="level3">
+<h3 class="anchored" data-anchor-id="task-1-why-use-a-reactive-expression">Task 1: Why Use a Reactive Expression?</h3>
+<p>This task follows on from Task 1 of the lab.</p>
+<p>The file <code>src/samples.R</code> contains the app from the Reactive Expressions section of the <a href="https://soton-fds.github.io/week08.html">Week 8 notes</a>, with two changes: it draws a sample of only 10 points, and it also displays them in a table.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Run the app and change <span class="math inline">\(\mu_1\)</span> a few times. Check that the plot, the sample means and the table all describe the same points.</label></li>
+<li><label><input type="checkbox">Copy <code>src/samples.R</code> to a new file, <code>src/samples_no_reactive.R</code>. In the copy, remove the reactive expression <code>samples()</code> from the server: instead, draw the sample inside each of the three <code>render*</code> functions. Run the new app. What has gone wrong?</label></li>
+<li><label><input type="checkbox">Explain what you have seen, using the reactive graph of each version of the app.</label></li>
+<li><label><input type="checkbox">Suppose you tried to fix the problem by calling <code>set.seed(1)</code> at the start of each <code>render*</code> function. Would the outputs agree? Why is a reactive expression still the better solution?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span>The app without the reactive expression is in <code>solutions/samples_no_reactive.R</code>. Each output now draws its own sample of 10 points, so the plot, the printed means and the table describe three <em>different</em> samples: the points in the table are not the points in the plot, and the printed means are not the means of either.</p>
+<p>In the original app, the reactive graph has the two inputs as sources, <code>samples()</code> as a conductor, and the three outputs as endpoints that all read <code>samples()</code>. When <span class="math inline">\(\mu_1\)</span> changes, <code>samples()</code> is recomputed once, and all three outputs read that same, cached sample. Without the conductor, each input is connected directly to each of the three endpoints, and each endpoint calls <code>rnorm</code> for itself. Nothing in the graph says that the three outputs should share their data, so they don’t.</p>
+<p>Calling <code>set.seed(1)</code> at the start of each <code>render*</code> function does make the outputs agree: each one resets the random number generator to the same state, then draws the same numbers in the same order, so all three generate the same sample. (As the notes point out, changing <span class="math inline">\(\mu_1\)</span> then slides the same cloud of points left or right, rather than drawing a new one.) But this is a fragile fix:</p>
+<ul>
+<li>The sampling code is copied three times, and the copies must stay <em>exactly</em> the same. Change the sample size, or swap the order of the two <code>rnorm</code> calls, in one copy but not the others, and the outputs silently disagree again.</li>
+<li>The sample is computed three times instead of once.</li>
+</ul>
+<p>A reactive expression guarantees that every output uses the same sample, and the code that draws it is written only once.</p>
+</div>
+</section>
+<section id="task-2-a-resample-button" class="level3">
+<h3 class="anchored" data-anchor-id="task-2-a-resample-button">Task 2: A Resample Button</h3>
+<p>This task follows on from Task 1 of the lab, and uses the app in <code>src/samples.R</code> from Task 1 above.</p>
+<p>At the moment, the app draws a new sample every time <span class="math inline">\(\mu_1\)</span> or <span class="math inline">\(\mu_2\)</span> changes, so the points jump around as well as moving.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Copy <code>src/samples.R</code> to a new file, <code>src/resample.R</code>. Change the copy so that changing <span class="math inline">\(\mu_1\)</span> or <span class="math inline">\(\mu_2\)</span> moves the <em>same</em> points, and a new sample is drawn only when the user presses a “Draw a new sample” button. Use an <code>actionButton</code>, <code>observeEvent</code> and a <code>reactiveVal</code>. (Hint: if <code>z</code> is drawn with <code>rnorm(10)</code>, then <code>mu + z</code> is a sample with mean <code>mu</code> and standard deviation 1.)</label></li>
+<li><label><input type="checkbox">Sketch the reactive graph of your new app. What re-runs when the user changes <span class="math inline">\(\mu_1\)</span>? What re-runs when they press the button?</label></li>
+<li><label><input type="checkbox">Your <code>reactiveVal</code> probably holds the standard normal sample (<code>z</code>), not the sample that is plotted. Why would it be a bad idea to store the plotted sample in the <code>reactiveVal</code> instead?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span>A solution is in <code>solutions/resample.R</code>. Its server stores a standard normal sample in a <code>reactiveVal</code>, replaces it in an <code>observeEvent</code> each time the button is pressed, and adds <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> to it in the reactive expression <code>samples()</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>noise <span class="ot">&lt;-</span> <span class="fu">reactiveVal</span>(<span class="fu">tibble</span>(<span class="at">z1 =</span> <span class="fu">rnorm</span>(<span class="dv">10</span>), <span class="at">z2 =</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">observeEvent</span>(input<span class="sc">$</span>resample, {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noise</span>(<span class="fu">tibble</span>(<span class="at">z1 =</span> <span class="fu">rnorm</span>(<span class="dv">10</span>), <span class="at">z2 =</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">reactive</span>(<span class="fu">tibble</span>(</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">x1 =</span> input<span class="sc">$</span>mu1 <span class="sc">+</span> <span class="fu">noise</span>()<span class="sc">$</span>z1,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">x2 =</span> input<span class="sc">$</span>mu2 <span class="sc">+</span> <span class="fu">noise</span>()<span class="sc">$</span>z2</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The rest of the server is unchanged: the three outputs still read <code>samples()</code>. This follows the rule of thumb in the notes. Pressing the button should make something <em>happen</em>, drawing new random numbers, so it is handled by an observer. The noise is a value that only the server changes, so it is stored in a <code>reactiveVal</code>. The plotted sample is a <em>value</em> computed from other reactive values, so it is a reactive expression.</p>
+<p>In the reactive graph, the sources are <code>input$mu1</code>, <code>input$mu2</code>, <code>input$resample</code> and <code>noise</code>; the conductor is <code>samples()</code>, which reads <code>input$mu1</code>, <code>input$mu2</code> and <code>noise()</code>; and the endpoints are the observer, which reads only <code>input$resample</code>, and the three outputs, which read <code>samples()</code>.</p>
+<ul>
+<li>Changing <span class="math inline">\(\mu_1\)</span> invalidates <code>samples()</code>, so it is recomputed (once) and all three outputs re-run. <code>noise</code> has not changed, so every point moves by the same amount in the <span class="math inline">\(x\)</span> direction.</li>
+<li>Pressing the button runs the observer, which sets <code>noise</code> to a new sample. That invalidates <code>samples()</code>, and so the three outputs re-run with new points. The observer is the only thing that reads <code>input$resample</code>.</li>
+</ul>
+<p>To store the plotted sample in the <code>reactiveVal</code> instead, observers would have to update it when <span class="math inline">\(\mu_1\)</span> or <span class="math inline">\(\mu_2\)</span> changes, as well as when the button is pressed. Redrawing the sample each time brings back the jumping points we were trying to remove, while shifting the existing points means remembering the old values of <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> to work out how far to move them. Either way, it is what the notes warn against: using an observer to compute a value and store it in a <code>reactiveVal</code>, when a reactive expression does the job more simply.</p>
+</div>
+</section>
+<section id="task-3-choosing-the-filter-variable" class="level3">
+<h3 class="anchored" data-anchor-id="task-3-choosing-the-filter-variable">Task 3: Choosing the Filter Variable</h3>
+<p>This task follows on from Task 2 of the lab.</p>
+<ul class="task-list">
+<li><label><input type="checkbox"><strong>Extension:</strong> Change your visualiser so that the user can choose <em>which</em> categorical variable to filter on, as well as the value to keep. <em>Hint: the values to choose from depend on the variable, so build that dropdown in the server with <code>renderUI</code>, as in Task 1 of the lab. <code>.data[[...]]</code> works inside <code>dplyr</code> functions such as <code>filter()</code> in the same way as in <code>aes()</code>:</em></label></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Run in the console, from the project folder</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"src/data/penguins.csv"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>col <span class="ot">&lt;-</span> <span class="st">"species"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> <span class="fu">filter</span>(.data[[col]] <span class="sc">==</span> <span class="st">"Adelie"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span>A solution is in <code>solutions/datavis_extension.R</code>. In place of the species dropdown, the <code>ui</code> has a <code>selectInput</code> called <code>filter_var</code> for the variable, and a <code>uiOutput</code> for the dropdown of values, which the server builds from the chosen column:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>filter_value_ui <span class="ot">&lt;-</span> <span class="fu">renderUI</span>({</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  values <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(<span class="fu">na.omit</span>(penguins[[input<span class="sc">$</span>filter_var]])))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">selectInput</span>(<span class="st">"filter_value"</span>, <span class="st">"Show only:"</span>, <span class="at">choices =</span> <span class="fu">c</span>(<span class="st">"(All)"</span> <span class="ot">=</span> <span class="st">""</span>, values))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>selected <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">isTRUE</span>(input<span class="sc">$</span>filter_value <span class="sc">%in%</span> penguins[[input<span class="sc">$</span>filter_var]])) {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    penguins <span class="sc">|&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(.data[[input<span class="sc">$</span>filter_var]] <span class="sc">==</span> input<span class="sc">$</span>filter_value)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    penguins</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The test in <code>selected()</code> is the subtle part. <code>input$filter_value</code> is <code>NULL</code> until the dropdown first appears, and just after the user chooses a new filter variable it still holds a value of the <em>old</em> one (say <code>"Dream"</code> while filtering by sex), until the new dropdown has been sent to the browser. Filtering on <code>"Dream"</code> in the <code>sex</code> column would briefly leave no rows at all, so the plot would flash up empty. Only filtering on a value that belongs to the current variable avoids this: in every other case (including <code>"(All)"</code>, whose value is <code>""</code>), the whole dataset is shown.</p>
+</div>
+</section>
+<section id="task-4-exploring-with-your-visualiser" class="level3">
+<h3 class="anchored" data-anchor-id="task-4-exploring-with-your-visualiser">Task 4: Exploring with Your Visualiser</h3>
+<p>This task follows on from Task 2 of the lab, and uses your visualiser.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Use your visualiser to find the pair of measurements that best separates the three species. How confident are you in your answer, and what could mislead you?</label></li>
+<li><label><input type="checkbox">Colour the points by sex. What are the grey points, and how many are there? Should your app show them? Change it to handle them in the way you think is best.</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span>Any plot with bill length on one axis separates the species into three clusters that hardly overlap; bill length against bill depth is the clearest. Bill length separates Adelie penguins (a mean of 38.8 mm) from the other two species (47.5 mm and 48.8 mm), and bill depth separates Gentoo penguins (15.0 mm) from Chinstraps (18.4 mm). Without bill length, Adelie and Chinstrap penguins overlap almost completely: their mean bill depths (18.3 and 18.4 mm), flipper lengths (190 and 196 mm) and body masses (3,701 and 3,733 g) are all very close.</p>
+<p>We should be fairly, but not completely, confident:</p>
+<ul>
+<li>A few penguins sit between the clusters, so “best” is a judgement made by eye.</li>
+<li>Species and island are confounded: Chinstraps were only measured on Dream, and Gentoos only on Biscoe, so some of the difference between species <em>could</em> be a difference between islands. Adelie penguins were measured on all three islands, and filtering to them shows that their measurements barely differ between islands, which suggests that island is not the explanation.</li>
+<li>Males are larger than females (for example, male Gentoos are about 800 g heavier than females), which spreads out each species’ cluster, and the groups are of different sizes (only 68 Chinstraps).</li>
+<li>If the axes are not fixed, as in Task 2 of the lab, plots of single species can mislead.</li>
+</ul>
+<p>The grey points are penguins whose sex is missing (<code>NA</code>), which <code>ggplot2</code> draws in grey and labels <code>NA</code> in the legend. The sex of 11 penguins is missing, but only 9 grey points appear (5 Adelie and 4 Gentoo): the other 2 penguins have no measurements at all, so are never plotted.</p>
+<p>There is no single right answer to whether to show them. They are genuine measurements, so removing those penguins from <em>every</em> plot would throw away data; but <code>NA</code> is not a sex, and a legend entry for it may confuse a user. One reasonable choice is to leave out the penguins whose value of the <em>colour</em> variable is missing, which only affects the plot when colouring by sex, by filtering inside <code>renderPlot</code> before plotting:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> <span class="fu">selected</span>() <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(.data[[input<span class="sc">$</span>colour_var]]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>and then plotting <code>plot_data</code> rather than <code>selected()</code>. Whatever you choose, it is good practice to tell the user, for example in a caption added with <code>labs(caption = ...)</code>, that some penguins are not shown.</p>
+</div>
+</section>
+<section id="task-5-the-visualisers-reactive-graph" class="level3">
+<h3 class="anchored" data-anchor-id="task-5-the-visualisers-reactive-graph">Task 5: The Visualiser’s Reactive Graph</h3>
+<p>This task combines ideas from both tasks of the lab.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Sketch the reactive graph of your visualiser from Task 2 of the lab, as you did for your first app in Task 1 of the lab.</label></li>
+<li><label><input type="checkbox">What re-runs when the user types a title? What re-runs when they choose a species? Is the data filtered again when the title changes?</label></li>
+</ul>
+<div class="proof solution">
+<p><span class="proof-title"><em>Solution</em>. </span>In the model solution (<code>solutions/datavis.R</code>), the sources are the seven inputs; the only conductor is <code>selected()</code>, which reads <code>input$species</code>; and the only endpoint is <code>output$plot</code>, which reads <code>selected()</code> and the other six inputs.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  species["input$species"] --&gt; selected["selected()"]
+  selected --&gt; plot["output$plot"]
+  x_var["input$x_var"] --&gt; plot
+  y_var["input$y_var"] --&gt; plot
+  colour_var["input$colour_var"] --&gt; plot
+  x_label["input$x_label"] --&gt; plot
+  y_label["input$y_label"] --&gt; plot
+  title["input$title"] --&gt; plot
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Typing a title re-runs only <code>output$plot</code>. <code>selected()</code> does not read the title, so it is not out of date, and the plot uses its cached result: the data is <em>not</em> filtered again. Choosing a species invalidates <code>selected()</code>, so it is recomputed, and then the plot is redrawn.</p>
+<p>If we had filtered the data inside <code>renderPlot</code> instead, it would be filtered again every time a label changed. With 344 penguins that makes no visible difference, but with a large dataset or a slow calculation it would make the app sluggish.</p>
+</div>
+</section>
+<section id="task-6-deploying-an-app" class="level3">
+<h3 class="anchored" data-anchor-id="task-6-deploying-an-app">Task 6: Deploying an App</h3>
+<p>This task follows on from Task 2 of the lab.</p>
+<p>Deploy your visualiser (or your app from Task 1 of the lab) to <code>shinyapps.io</code>:</p>
+<ul>
+<li>Create a “Free” tier account</li>
+<li>In RStudio go to <code>Tools &gt; Global Options &gt; Publishing</code>.</li>
+<li>Click <strong>Connect</strong> and choose <strong>ShinyApps.io</strong>. (RStudio may require some apps to be installed).</li>
+<li>Follow the prompts to authorize RStudio with your <code>shinyapps.io</code> account. (You’ll need to copy/paste a token from the website).</li>
+</ul>
+<p>Once this is completed:</p>
+<ul>
+<li>Open the app you want to deploy in RStudio.</li>
+<li>Look for the <strong>Publish</strong> button (blue icon) in the upper-right corner of the editor pane.</li>
+<li>Click it and select <strong>Publish Application</strong>.</li>
+<li>Choose which files to include. Make sure you include <code>data/penguins.csv</code>: the deployed app runs from the same folder layout, which is another reason to read the data with a path relative to the app’s own folder.</li>
+<li>Click <strong>Publish</strong> and wait for the deployment to complete.</li>
+<li>RStudio will automatically open your deployed app in a browser.</li>
+</ul>
+<p>Then share your published app with someone! As the Limitations section of the Week 8 notes points out, anyone with the link can use your app and see the data it displays. That is fine for penguins, but think carefully before deploying an app that shows personal data.</p>
+</section>
+<section id="task-7-uploading-a-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="task-7-uploading-a-dataset">Task 7: Uploading a Dataset</h3>
+<p>This task follows on from Task 2 of the lab.</p>
+<ul class="task-list">
+<li><label><input type="checkbox"><strong>Challenge:</strong> This goes well beyond the Week 8 notes. Modify your visualiser from Task 2 of the lab so that the user can <em>upload</em> a CSV file of their own, rather than the app always using <code>penguins.csv</code>. (Hint: look up <code>fileInput</code>.) There needs to be much more dynamic server-side logic in this case: for example, the choices in every dropdown depend on the columns of the uploaded file.</label></li>
+</ul>
+<p>No solution is provided for this task. It is really quite challenging, bringing together everything from both lab tasks along with several new ideas, and I would never expect you to do something so difficult in an assessment. It is here as a challenge if you want to see how far you can take an app.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

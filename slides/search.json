@@ -2027,7 +2027,7 @@
     "href": "ethics_slides.html#removing-gender-isnt-enough",
     "title": "Data Ethics and Biases",
     "section": "Removing gender isn’t enough",
-    "text": "Removing gender isn’t enough\nAmazon edited the tool to ignore the terms found to penalise women. It still couldn’t be trusted:\n\n\n“captain of the women’s chess club”\nall-women colleges\nmen and women describing their experience in different words\n\n\n\nThese are proxies: variables that stand in for an attribute that was removed. A postcode can be a proxy for ethnicity or income.\n\n\nAmazon scrapped the tool."
+    "text": "Removing gender isn’t enough\nAmazon made the tool ignore words that penalised women. It still wasn’t fair:\n\n\n“captain of the women’s chess club”\nall-women colleges\nmen and women describing their experience in different words\n\n\n\nThese are proxies: they stand in for the removed attribute, as a postcode can for ethnicity or income.\n\n\nAmazon scrapped the tool."
   },
   {
     "objectID": "ethics_slides.html#its-not-just-amazon",
@@ -2083,21 +2083,28 @@
     "href": "ethics_slides.html#uk-gdpr",
     "title": "Data Ethics and Biases",
     "section": "UK GDPR",
-    "text": "UK GDPR\nPersonal data must be:\n\nused fairly, lawfully and transparently\nused for specified, explicit purposes\nadequate, relevant and limited to what is necessary\naccurate, and kept up to date\nkept no longer than necessary\nhandled securely\n\n\nData minimisation in practice: read only the columns you need (col_select, week 10), drop identifying columns early, share summaries rather than records (week 7’s databases).\n\n\nFines: up to £17.5 million or 4% of annual global turnover, whichever is higher — plus reputational damage, compensation claims and disruption from investigations."
+    "text": "UK GDPR\nPersonal data must be:\n\n\n\nused fairly, lawfully, openly\nfor specified, explicit purposes\nlimited to what is necessary\n\n\n\naccurate and up to date\nkept no longer than needed\nhandled securely\n\n\n\nData minimisation in practice: read only the columns you need (col_select, week 10), drop identifying columns early, share summaries rather than records (week 7’s databases).\n\n\nThe government’s wording: “fairly, lawfully and transparently”, and “adequate, relevant and limited to only what is necessary”.\nFines: up to £17.5 million or 4% of annual global turnover, whichever is higher — plus reputational damage, compensation claims and disruption from investigations."
   },
   {
-    "objectID": "ethics_slides.html#two-lists",
-    "href": "ethics_slides.html#two-lists",
+    "objectID": "ethics_slides.html#special-category-data",
+    "href": "ethics_slides.html#special-category-data",
     "title": "Data Ethics and Biases",
-    "section": "Two lists",
-    "text": "Two lists\n\n\nSpecial category data (UK GDPR)\nHow sensitive data must be handled:\n\nrace, ethnic background\npolitical opinions\nreligious beliefs\ntrade union membership\ngenetics, biometrics\nhealth\nsex life, sexual orientation\n\n\nProtected characteristics (Equality Act 2010)\nHow people must not be treated:\n\nage\ndisability\ngender reassignment\nmarriage, civil partnership\npregnancy, maternity\nrace\nreligion or belief\nsex\nsexual orientation\n\n\n\nThe Amazon tool used no special category data — but discriminating by sex may still be unlawful."
+    "section": "Special category data",
+    "text": "Special category data\nUK GDPR: how sensitive data must be handled.\n\nrace, ethnic background\npolitical opinions\nreligious beliefs\ntrade union membership\ngenetics, biometrics\nhealth\nsex life, sexual orientation"
+  },
+  {
+    "objectID": "ethics_slides.html#protected-characteristics",
+    "href": "ethics_slides.html#protected-characteristics",
+    "title": "Data Ethics and Biases",
+    "section": "Protected characteristics",
+    "text": "Protected characteristics\nThe Equality Act 2010: how people must not be treated.\n\n\n\nage\ndisability\ngender reassignment\nmarriage, civil partnership\npregnancy, maternity\n\n\n\nrace\nreligion or belief\nsex\nsexual orientation\n\n\n\nThe Amazon tool used no special category data — but discriminating by sex may still be unlawful.\n\n\nIt is unlawful to discriminate because of a protected characteristic. The two lists overlap but differ: age and sex are protected characteristics, but not special category data."
   },
   {
     "objectID": "ethics_slides.html#data-cards",
     "href": "ethics_slides.html#data-cards",
     "title": "Data Ethics and Biases",
     "section": "Data cards",
-    "text": "Data cards\nA data card does for a dataset what documentation does for a function: what it is, and how it may — and may not — be used.\n\nOur minimal version:\n\nname, version/date, short description, source\nintended use (and forbidden uses)\ncomposition: rows, columns, key variables\nprotected attributes present?\nmissingness\ncollection method\nknown limitations / biases\nprivacy / sensitivity\nlicence, contact\n\n\n\nThe full framework (Pushkarna et al., 2022; the Data Cards Playbook) is the “gold standard” and very long. Kaggle has users fill in partial data cards. In the assessment students may be asked to complete parts of a data card."
+    "text": "Data cards\nA data card does for a dataset what documentation does for a function: what it is, and how it may — and may not — be used.\n\nOur minimal version:\n\n\n\nname, date, description\nsource, collection method\nintended / forbidden uses\nrows, columns, variables\nprotected attributes?\n\n\n\nmissingness\nlimitations / biases\nprivacy / sensitivity\nlicence, contact\n\n\n\n\nThe full framework (Pushkarna et al., 2022; the Data Cards Playbook) is the “gold standard” and very long. Kaggle has users fill in partial data cards. In the assessment students may be asked to complete parts of a data card."
   },
   {
     "objectID": "ethics_slides.html#write-part-of-a-data-card",
@@ -2111,7 +2118,14 @@
     "href": "ethics_slides.html#model-cards",
     "title": "Data Ethics and Biases",
     "section": "Model cards",
-    "text": "Model cards\nThe equivalent for a model: intended use, performance, fairness assessment, limitations, risks.\n\n\n\n\n\n\nTask\n\n\nYou’re asked to feed applicant data into this model. What concerns you, and what would you do?\n\nModel: Loan Approval Classifier v1.0\nIntended use: assisting bank staff; NOT fully automated decisions\nPerformance: accuracy 85%, precision 80%, recall 78%\nProtected attributes: gender, ethnicity, age — used for fairness analysis, not as predictors\nFairness: no significant gender bias; slight bias for age 60+\nLimitations: may not generalise outside the training region; sensitive to missing income data\n\n\n\n\n\n\nthe age 60+ bias: age is a protected characteristic — test it on our own applicants, and flag it\nhuman review is required: attach that warning to our outputs; don’t let it become an automatic decision\nextrapolation: check our applicants come from the training region, and how much income data is missing\nproxies: “not used as predictors” doesn’t rule out indirect bias\n\n\n\nReal examples: model cards on Hugging Face (e.g. BERT’s). Mitchell et al. (2019) introduced them. Students won’t build ML models in this course, but they need to read model cards as consumers."
+    "text": "Model cards\nThe equivalent for a model: intended use, performance, fairness assessment, limitations and risks.\n\nWe won’t build models in this course, but you may well have to use one: read its model card as a consumer, looking for fairness and safety concerns."
+  },
+  {
+    "objectID": "ethics_slides.html#read-a-model-card",
+    "href": "ethics_slides.html#read-a-model-card",
+    "title": "Data Ethics and Biases",
+    "section": "Read a model card",
+    "text": "Read a model card\n\n\n\n\n\n\nTask\n\n\nYou’re asked to feed applicant data into this model. What concerns you, and what would you do?\n\nModel: Loan Approval Classifier v1.0\nIntended use: assisting bank staff; NOT fully automated decisions\nPerformance: accuracy 85%, precision 80%, recall 78%\nProtected attributes: gender, ethnicity, age — used for fairness analysis, not as predictors\nFairness: no significant gender bias; slight bias for age 60+\nLimitations: may not generalise outside the training region; sensitive to missing income data\n\n\n\n\n\n\nthe age 60+ bias: age is a protected characteristic — test it on our own applicants, and flag it\nhuman review is required: attach that warning to our outputs; don’t let it become an automatic decision\nextrapolation: check our applicants come from the training region, and how much income data is missing\nproxies: “not used as predictors” doesn’t rule out indirect bias\n\n\n\nReal examples: model cards on Hugging Face (e.g. BERT’s). Mitchell et al. (2019) introduced them. Students won’t build ML models in this course, but they need to read model cards as consumers."
   },
   {
     "objectID": "ethics_slides.html#our-job-as-data-scientists",
@@ -2153,7 +2167,7 @@
     "href": "ethics_slides_handout.html#removing-gender-isnt-enough",
     "title": "Data Ethics and Biases",
     "section": "Removing gender isn’t enough",
-    "text": "Removing gender isn’t enough\nAmazon edited the tool to ignore the terms found to penalise women. It still couldn’t be trusted:\n\n\n“captain of the women’s chess club”\nall-women colleges\nmen and women describing their experience in different words\n\n\n\nThese are proxies: variables that stand in for an attribute that was removed. A postcode can be a proxy for ethnicity or income.\n\n\nAmazon scrapped the tool."
+    "text": "Removing gender isn’t enough\nAmazon made the tool ignore words that penalised women. It still wasn’t fair:\n\n\n“captain of the women’s chess club”\nall-women colleges\nmen and women describing their experience in different words\n\n\n\nThese are proxies: they stand in for the removed attribute, as a postcode can for ethnicity or income.\n\n\nAmazon scrapped the tool."
   },
   {
     "objectID": "ethics_slides_handout.html#its-not-just-amazon",
@@ -2209,21 +2223,28 @@
     "href": "ethics_slides_handout.html#uk-gdpr",
     "title": "Data Ethics and Biases",
     "section": "UK GDPR",
-    "text": "UK GDPR\nPersonal data must be:\n\nused fairly, lawfully and transparently\nused for specified, explicit purposes\nadequate, relevant and limited to what is necessary\naccurate, and kept up to date\nkept no longer than necessary\nhandled securely\n\n\nData minimisation in practice: read only the columns you need (col_select, week 10), drop identifying columns early, share summaries rather than records (week 7’s databases).\n\n\nFines: up to £17.5 million or 4% of annual global turnover, whichever is higher — plus reputational damage, compensation claims and disruption from investigations."
+    "text": "UK GDPR\nPersonal data must be:\n\n\n\nused fairly, lawfully, openly\nfor specified, explicit purposes\nlimited to what is necessary\n\n\n\naccurate and up to date\nkept no longer than needed\nhandled securely\n\n\n\n\nData minimisation in practice: read only the columns you need (col_select, week 10), drop identifying columns early, share summaries rather than records (week 7’s databases).\n\n\nThe government’s wording: “fairly, lawfully and transparently”, and “adequate, relevant and limited to only what is necessary”.\nFines: up to £17.5 million or 4% of annual global turnover, whichever is higher — plus reputational damage, compensation claims and disruption from investigations."
   },
   {
-    "objectID": "ethics_slides_handout.html#two-lists",
-    "href": "ethics_slides_handout.html#two-lists",
+    "objectID": "ethics_slides_handout.html#special-category-data",
+    "href": "ethics_slides_handout.html#special-category-data",
     "title": "Data Ethics and Biases",
-    "section": "Two lists",
-    "text": "Two lists\n\n\nSpecial category data (UK GDPR)\nHow sensitive data must be handled:\n\nrace, ethnic background\npolitical opinions\nreligious beliefs\ntrade union membership\ngenetics, biometrics\nhealth\nsex life, sexual orientation\n\n\nProtected characteristics (Equality Act 2010)\nHow people must not be treated:\n\nage\ndisability\ngender reassignment\nmarriage, civil partnership\npregnancy, maternity\nrace\nreligion or belief\nsex\nsexual orientation\n\n\n\n\nThe Amazon tool used no special category data — but discriminating by sex may still be unlawful."
+    "section": "Special category data",
+    "text": "Special category data\nUK GDPR: how sensitive data must be handled.\n\nrace, ethnic background\npolitical opinions\nreligious beliefs\ntrade union membership\ngenetics, biometrics\nhealth\nsex life, sexual orientation"
+  },
+  {
+    "objectID": "ethics_slides_handout.html#protected-characteristics",
+    "href": "ethics_slides_handout.html#protected-characteristics",
+    "title": "Data Ethics and Biases",
+    "section": "Protected characteristics",
+    "text": "Protected characteristics\nThe Equality Act 2010: how people must not be treated.\n\n\n\nage\ndisability\ngender reassignment\nmarriage, civil partnership\npregnancy, maternity\n\n\n\nrace\nreligion or belief\nsex\nsexual orientation\n\n\n\n\nThe Amazon tool used no special category data — but discriminating by sex may still be unlawful.\n\n\nIt is unlawful to discriminate because of a protected characteristic. The two lists overlap but differ: age and sex are protected characteristics, but not special category data."
   },
   {
     "objectID": "ethics_slides_handout.html#data-cards",
     "href": "ethics_slides_handout.html#data-cards",
     "title": "Data Ethics and Biases",
     "section": "Data cards",
-    "text": "Data cards\nA data card does for a dataset what documentation does for a function: what it is, and how it may — and may not — be used.\n\nOur minimal version:\n\nname, version/date, short description, source\nintended use (and forbidden uses)\ncomposition: rows, columns, key variables\nprotected attributes present?\nmissingness\ncollection method\nknown limitations / biases\nprivacy / sensitivity\nlicence, contact\n\n\n\nThe full framework (Pushkarna et al., 2022; the Data Cards Playbook) is the “gold standard” and very long. Kaggle has users fill in partial data cards. In the assessment students may be asked to complete parts of a data card."
+    "text": "Data cards\nA data card does for a dataset what documentation does for a function: what it is, and how it may — and may not — be used.\n\nOur minimal version:\n\n\n\nname, date, description\nsource, collection method\nintended / forbidden uses\nrows, columns, variables\nprotected attributes?\n\n\n\nmissingness\nlimitations / biases\nprivacy / sensitivity\nlicence, contact\n\n\n\n\n\nThe full framework (Pushkarna et al., 2022; the Data Cards Playbook) is the “gold standard” and very long. Kaggle has users fill in partial data cards. In the assessment students may be asked to complete parts of a data card."
   },
   {
     "objectID": "ethics_slides_handout.html#write-part-of-a-data-card",
@@ -2237,7 +2258,14 @@
     "href": "ethics_slides_handout.html#model-cards",
     "title": "Data Ethics and Biases",
     "section": "Model cards",
-    "text": "Model cards\nThe equivalent for a model: intended use, performance, fairness assessment, limitations, risks.\n\n\n\n\n\n\nImportantTask\n\n\n\nYou’re asked to feed applicant data into this model. What concerns you, and what would you do?\n\nModel: Loan Approval Classifier v1.0\nIntended use: assisting bank staff; NOT fully automated decisions\nPerformance: accuracy 85%, precision 80%, recall 78%\nProtected attributes: gender, ethnicity, age — used for fairness analysis, not as predictors\nFairness: no significant gender bias; slight bias for age 60+\nLimitations: may not generalise outside the training region; sensitive to missing income data\n\n\n\n\n\nthe age 60+ bias: age is a protected characteristic — test it on our own applicants, and flag it\nhuman review is required: attach that warning to our outputs; don’t let it become an automatic decision\nextrapolation: check our applicants come from the training region, and how much income data is missing\nproxies: “not used as predictors” doesn’t rule out indirect bias\n\n\n\nReal examples: model cards on Hugging Face (e.g. BERT’s). Mitchell et al. (2019) introduced them. Students won’t build ML models in this course, but they need to read model cards as consumers."
+    "text": "Model cards\nThe equivalent for a model: intended use, performance, fairness assessment, limitations and risks.\n\nWe won’t build models in this course, but you may well have to use one: read its model card as a consumer, looking for fairness and safety concerns."
+  },
+  {
+    "objectID": "ethics_slides_handout.html#read-a-model-card",
+    "href": "ethics_slides_handout.html#read-a-model-card",
+    "title": "Data Ethics and Biases",
+    "section": "Read a model card",
+    "text": "Read a model card\n\n\n\n\n\n\nImportantTask\n\n\n\nYou’re asked to feed applicant data into this model. What concerns you, and what would you do?\n\nModel: Loan Approval Classifier v1.0\nIntended use: assisting bank staff; NOT fully automated decisions\nPerformance: accuracy 85%, precision 80%, recall 78%\nProtected attributes: gender, ethnicity, age — used for fairness analysis, not as predictors\nFairness: no significant gender bias; slight bias for age 60+\nLimitations: may not generalise outside the training region; sensitive to missing income data\n\n\n\n\n\nthe age 60+ bias: age is a protected characteristic — test it on our own applicants, and flag it\nhuman review is required: attach that warning to our outputs; don’t let it become an automatic decision\nextrapolation: check our applicants come from the training region, and how much income data is missing\nproxies: “not used as predictors” doesn’t rule out indirect bias\n\n\n\nReal examples: model cards on Hugging Face (e.g. BERT’s). Mitchell et al. (2019) introduced them. Students won’t build ML models in this course, but they need to read model cards as consumers."
   },
   {
     "objectID": "ethics_slides_handout.html#our-job-as-data-scientists",

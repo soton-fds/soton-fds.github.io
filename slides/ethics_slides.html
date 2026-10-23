@@ -225,7 +225,7 @@
 </section>
 <section id="removing-gender-isnt-enough" class="slide level2">
 <h2>Removing gender isn’t enough</h2>
-<p>Amazon edited the tool to ignore the terms found to penalise women. It <strong>still</strong> couldn’t be trusted:</p>
+<p>Amazon made the tool ignore words that penalised women. It <strong>still</strong> wasn’t fair:</p>
 <div class="fragment">
 <ul>
 <li>“captain of the <strong>women’s</strong> chess club”</li>
@@ -234,7 +234,7 @@
 </ul>
 </div>
 <div class="fragment">
-<p>These are <strong>proxies</strong>: variables that stand in for an attribute that was removed. A postcode can be a proxy for ethnicity or income.</p>
+<p>These are <strong>proxies</strong>: they stand in for the removed attribute, as a postcode can for ethnicity or income.</p>
 </div>
 <div class="fragment">
 <p>Amazon scrapped the tool.</p>
@@ -401,18 +401,25 @@
 <section id="uk-gdpr" class="slide level2">
 <h2>UK GDPR</h2>
 <p>Personal data must be:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
 <ul>
-<li>used fairly, lawfully and transparently</li>
-<li>used for specified, explicit purposes</li>
-<li>adequate, relevant and <strong>limited to what is necessary</strong></li>
-<li>accurate, and kept up to date</li>
-<li>kept no longer than necessary</li>
+<li>used fairly, lawfully, openly</li>
+<li>for specified, explicit purposes</li>
+<li><strong>limited to what is necessary</strong></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li>accurate and up to date</li>
+<li>kept no longer than needed</li>
 <li>handled securely</li>
 </ul>
+</div></div>
 <div class="fragment">
 <p>Data minimisation in practice: read only the columns you need (<code>col_select</code>, week 10), drop identifying columns early, share summaries rather than records (week 7’s databases).</p>
 </div>
 <aside class="notes">
+<p>The government’s wording: “fairly, lawfully and transparently”, and “adequate, relevant and limited to only what is necessary”.</p>
 <p>Fines: up to £17.5 million or 4% of annual global turnover, whichever is higher — plus reputational damage, compensation claims and disruption from investigations.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -426,12 +433,9 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="two-lists" class="slide level2">
-<h2>Two lists</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><strong>Special category data</strong> (UK GDPR)</p>
-<p>How sensitive data must be <strong>handled</strong>:</p>
+<section id="special-category-data" class="slide level2">
+<h2>Special category data</h2>
+<p>UK GDPR: how sensitive data must be <strong>handled</strong>.</p>
 <ul>
 <li>race, ethnic background</li>
 <li>political opinions</li>
@@ -441,15 +445,21 @@
 <li>health</li>
 <li>sex life, sexual orientation</li>
 </ul>
-</div><div class="column" style="width:50%;">
-<p><strong>Protected characteristics</strong> (Equality Act 2010)</p>
-<p>How people must not be <strong>treated</strong>:</p>
+</section>
+<section id="protected-characteristics" class="slide level2">
+<h2>Protected characteristics</h2>
+<p>The Equality Act 2010: how people must not be <strong>treated</strong>.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
 <ul>
 <li>age</li>
 <li>disability</li>
 <li>gender reassignment</li>
 <li>marriage, civil partnership</li>
 <li>pregnancy, maternity</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
 <li>race</li>
 <li>religion or belief</li>
 <li>sex</li>
@@ -459,6 +469,19 @@
 <div class="fragment">
 <p>The Amazon tool used no special category data — but discriminating by <strong>sex</strong> may still be unlawful.</p>
 </div>
+<aside class="notes">
+<p>It is unlawful to discriminate because of a protected characteristic. The two lists overlap but differ: age and sex are protected characteristics, but not special category data.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section></section>
 <section>
 <section id="sec-cards" class="title-slide slide level1 center">
@@ -470,17 +493,23 @@
 <p>A <strong>data card</strong> does for a dataset what documentation does for a function: what it is, and how it may — and may not — be used.</p>
 <div class="fragment">
 <p>Our minimal version:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
 <ul>
-<li>name, version/date, short description, source</li>
-<li>intended use (and forbidden uses)</li>
-<li>composition: rows, columns, key variables</li>
-<li>protected attributes present?</li>
+<li>name, date, description</li>
+<li>source, collection method</li>
+<li>intended / forbidden uses</li>
+<li>rows, columns, variables</li>
+<li>protected attributes?</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
 <li>missingness</li>
-<li>collection method</li>
-<li>known limitations / biases</li>
+<li>limitations / biases</li>
 <li>privacy / sensitivity</li>
 <li>licence, contact</li>
 </ul>
+</div></div>
 </div>
 <aside class="notes">
 <p>The full framework (Pushkarna et al., 2022; the Data Cards Playbook) is the “gold standard” and very long. Kaggle has users fill in partial data cards. In the assessment students may be asked to complete <em>parts</em> of a data card.</p>
@@ -526,7 +555,13 @@
 </section>
 <section id="model-cards" class="slide level2">
 <h2>Model cards</h2>
-<p>The equivalent for a <strong>model</strong>: intended use, performance, fairness assessment, limitations, risks.</p>
+<p>The equivalent for a <strong>model</strong>: intended use, performance, fairness assessment, limitations and risks.</p>
+<div class="fragment">
+<p>We won’t build models in this course, but you may well have to <em>use</em> one: read its model card as a consumer, looking for fairness and safety concerns.</p>
+</div>
+</section>
+<section id="read-a-model-card" class="slide level2">
+<h2>Read a model card</h2>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
