@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>SQL for Data Science</title>
+<title>Research Software Engineering and Functional Programming</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -126,7 +126,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">SQL for Data Science</h1>
+<h1 class="title">Research Software Engineering and Functional Programming</h1>
 </div>
 
 
@@ -148,499 +148,98 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>By the end of this lecture you will be able to:</p>
 <div class="fragment">
 <ul>
-<li>explain what a relational database adds to a folder of CSV files</li>
+<li>explain what distinguishes research <em>software</em> from a research <em>script</em></li>
 </ul>
 </div>
 <div class="fragment">
 <ul>
-<li><strong>read</strong> SQL queries — including joins, <code>GROUP BY</code> and subqueries — and say what they return</li>
+<li>apply the principles of separation of concerns, modularity, DRY and “fail fast” to structure an analysis</li>
 </ul>
 </div>
 <div class="fragment">
 <ul>
-<li>decide whether work should be done in the database or in <code>R</code>, and use <code>dbplyr</code> to query a database with <code>dplyr</code> code</li>
-</ul>
-</div>
-<div class="notes">
-<p>Set expectations early: students will <strong>not</strong> be asked to write SQL. They must be able to <em>read</em> it, and to work with databases from <code>R</code> via <code>dbplyr</code>. Today’s SQL is all run against a small database built from the student tables of week 5.</p>
-</div>
-</section>
-<section id="sec-why" class="level1">
-<h1>Why databases?</h1>
-<section id="csv-files" class="level2">
-<h2 class="anchored" data-anchor-id="csv-files">CSV files</h2>
-<p>Until now, all our data has come from CSV files:</p>
-<div class="fragment">
-<ul>
-<li>a flat table of text</li>
-<li>no types — <code>R</code> has to guess them</li>
-<li>no validation of what goes in</li>
-<li>no way to say how one file relates to another</li>
+<li>write pure functions, and use <code>purrr</code>’s <code>map</code>, <code>reduce</code> and predicate functions in place of loops</li>
 </ul>
 </div>
 </section>
-<section id="remember-week-5" class="level2">
-<h2 class="anchored" data-anchor-id="remember-week-5">Remember week 5?</h2>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Task
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><code>student_grades.csv</code> contains grades for students 21 and 22, who don’t appear in <code>student_data.csv</code>. Should that be possible? Could a CSV file stop it?</p>
-</div>
-</div>
-<div class="answer">
-<p>It shouldn’t be possible: a grade must belong to a student. But a CSV file is just text — nothing checks it. We only found the problem by joining.</p>
-<p>A <strong>relational database</strong> can refuse to store it in the first place.</p>
-</div>
-</section>
-<section id="relational-databases" class="level2">
-<h2 class="anchored" data-anchor-id="relational-databases">Relational databases</h2>
-<p>A database holds <strong>tables</strong> (like data frames), plus rules about them:</p>
-<div class="fragment">
-<ul>
-<li>every column has a <strong>type</strong>, checked on the way in</li>
-<li>a <strong>primary key</strong> uniquely identifies each row (e.g.&nbsp;a student’s <code>id</code>)</li>
-<li>a <strong>foreign key</strong> must match a primary key in another table (each grade’s <code>student_id</code> must be a real student)</li>
-</ul>
+<section id="sec-setup" class="level1">
+<h1>Setup</h1>
+<section id="packages-and-data" class="level2">
+<h2 class="anchored" data-anchor-id="packages-and-data">Packages and data</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)   <span class="co"># includes purrr</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/penguins.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="fragment">
-<p>We talk to it in <strong>SQL</strong> (Structured Query Language). SQL is <strong>declarative</strong>: you say <em>what</em> you want, and the database works out <em>how</em>.</p>
+<p><code>purrr</code> is part of the <code>tidyverse</code>: it’s the package for <em>functional programming</em> and iteration.</p>
 </div>
 </section>
-<section id="why-use-one" class="level2">
-<h2 class="anchored" data-anchor-id="why-use-one">Why use one?</h2>
+</section>
+<section id="sec-rse" class="level1">
+<h1>Research software</h1>
+<section id="scripts-dont-stay-scripts" class="level2">
+<h2 class="anchored" data-anchor-id="scripts-dont-stay-scripts">Scripts don’t stay scripts</h2>
+<p>A <strong>script</strong>: written quickly, to answer one question, run once by its author.</p>
 <div class="fragment">
-<ul>
-<li><strong>Integrity</strong>: types and keys keep data consistent</li>
-<li><strong>Scale</strong>: data lives on disk, not in memory; the server may be far more powerful than your laptop</li>
-<li><strong>Security</strong>: access controls and permissions</li>
-<li><strong>Concurrent access</strong>: many users reading and writing safely</li>
-<li><strong>Less duplication</strong>: related tables instead of one big one (week 5)</li>
-</ul>
+<p><strong>Research software</strong>: code that others — or <em>you, in six months</em> — rely on. It’s re-run on new data, extended, shared, and its results get published.</p>
 </div>
 <div class="fragment">
-<p>PostgreSQL, MySQL, SQL Server, Oracle… we use <strong>SQLite</strong>: a single file, no server. Each system has its own <em>dialect</em> of SQL.</p>
-</div>
-<div class="notes">
-<p>Optional demo (2–3 min): open <code>notes/data/customers.db</code> in <a href="https://sqlitebrowser.org/dl/">DB Browser for SQLite</a>. Show the tables, their column types and the foreign keys under “Database Structure”. Point out it is not a plain-text file. Non-relational (“NoSQL”) databases such as MongoDB exist too, but are out of scope.</p>
-</div>
-</section>
-</section>
-<section id="sec-sql" class="level1">
-<h1>Reading SQL</h1>
-<section id="creating-tables" class="level2">
-<h2 class="anchored" data-anchor-id="creating-tables">Creating tables</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> students (</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> AUTOINCREMENT,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    given_name TEXT,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    family_name TEXT,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    date_of_birth <span class="dt">INTEGER</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> grades (</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    student_id <span class="dt">INTEGER</span>,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    course TEXT,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    grade <span class="dt">REAL</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (student_id) <span class="kw">REFERENCES</span> students(<span class="kw">id</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>“Can you re-run it on next year’s data?” → “…with one variable changed?” → “…and update the plots for the paper?”</p>
 </div>
 <div class="fragment">
-<p>Types are declared up front. <code>AUTOINCREMENT</code> generates new IDs; the <code>FOREIGN KEY</code> ties each grade to a student. Keywords are in CAPITALS by convention; comments start with <code>--</code>.</p>
+<p><em>Research software engineering</em> (RSE): applying software engineering principles so that code is <strong>robust</strong>, <strong>reusable</strong> and <strong>maintainable</strong>.</p>
 </div>
 <div class="notes">
-<p>Behind the scenes, the 20 students and their grades from week 5 have been inserted — except the grades for the non-existent students 21 and 22. SQLite only checks foreign keys if you switch it on (<code>PRAGMA foreign_keys = ON</code>), which we have done; database servers check them by default.</p>
+<p>Ask the room: who has had to re-run an analysis they wrote weeks ago? If the code is one long file with hard-coded paths and copy-pasted blocks, every request means editing several places and hoping nothing breaks — and nobody is sure the published numbers came from the code as it stands now. Week 3 (Quarto, git) was the first half of RSE; today is about structure.</p>
 </div>
 </section>
-<section id="inserting-a-bad-row" class="level2">
-<h2 class="anchored" data-anchor-id="inserting-a-bad-row">Inserting a bad row</h2>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Task
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>What happens if we try to store a grade for student 21?</p>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> grades(student_id, course, grade) <span class="kw">VALUES</span> (<span class="dv">21</span>, <span class="st">'MATH6195'</span>, <span class="dv">70</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="answer">
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>Error: FOREIGN KEY constraint failed</code></pre>
-</div>
-</div>
-<p>The database <strong>refuses</strong> it. The problem from week 5 can’t happen.</p>
-</div>
-</section>
-<section id="select" class="level2">
-<h2 class="anchored" data-anchor-id="select"><code>SELECT</code></h2>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Task
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>What does each query return?</p>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> given_name, family_name <span class="kw">FROM</span> students;</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> grades</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> grade <span class="op">&gt;</span> <span class="dv">85</span>;</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> grades</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> grade <span class="kw">DESC</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">3</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="answer">
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Displaying records 1 - 5</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">given_name</th>
-<th style="text-align: left;">family_name</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Adaora</td>
-<td style="text-align: left;">Nkomo</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Hiroshi</td>
-<td style="text-align: left;">Tanaka</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Aaliyah</td>
-<td style="text-align: left;">Williams</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Dimitri</td>
-<td style="text-align: left;">Volkov</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Amara</td>
-<td style="text-align: left;">Baptiste</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>3 records</caption>
-<thead>
-<tr class="header">
-<th style="text-align: right;">student_id</th>
-<th style="text-align: left;">course</th>
-<th style="text-align: right;">grade</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">11</td>
-<td style="text-align: left;">MATH6195</td>
-<td style="text-align: right;">90</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">9</td>
-<td style="text-align: left;">MATH2011</td>
-<td style="text-align: right;">88</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">14</td>
-<td style="text-align: left;">MATH2011</td>
-<td style="text-align: right;">90</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>3 records</caption>
-<thead>
-<tr class="header">
-<th style="text-align: right;">student_id</th>
-<th style="text-align: left;">course</th>
-<th style="text-align: right;">grade</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">11</td>
-<td style="text-align: left;">MATH6195</td>
-<td style="text-align: right;">90</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">14</td>
-<td style="text-align: left;">MATH2011</td>
-<td style="text-align: right;">90</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">9</td>
-<td style="text-align: left;">MATH2011</td>
-<td style="text-align: right;">88</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>Two columns of every student; the grades above 85; the three highest grades. <code>*</code> means “every column”.</p>
-</div>
-<div class="notes">
-<p>Without <code>ORDER BY</code>, the database makes no promise about row order. <code>SELECT DISTINCT course FROM grades</code> would list each course once.</p>
-</div>
-</section>
-<section id="join" class="level2">
-<h2 class="anchored" data-anchor-id="join"><code>JOIN</code></h2>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Task
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>What does this return? Which students are missing from it?</p>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> students.given_name, students.family_name,</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>       grades.course, grades.grade</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> grades</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> students <span class="kw">ON</span> grades.student_id <span class="op">=</span> students.<span class="kw">id</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="answer">
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Displaying records 1 - 4</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">given_name</th>
-<th style="text-align: left;">family_name</th>
-<th style="text-align: left;">course</th>
-<th style="text-align: right;">grade</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Adaora</td>
-<td style="text-align: left;">Nkomo</td>
-<td style="text-align: left;">MATH6195</td>
-<td style="text-align: right;">68</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Hiroshi</td>
-<td style="text-align: left;">Tanaka</td>
-<td style="text-align: left;">MATH6195</td>
-<td style="text-align: right;">67</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Aaliyah</td>
-<td style="text-align: left;">Williams</td>
-<td style="text-align: left;">MATH6195</td>
-<td style="text-align: right;">68</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Dimitri</td>
-<td style="text-align: left;">Volkov</td>
-<td style="text-align: left;">MATH6195</td>
-<td style="text-align: right;">74</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>One row per grade, with the student’s name attached. <code>JOIN</code> is an <strong>inner</strong> join, so student 7 (no grades) is missing — exactly <code>inner_join()</code> from week 5. <code>LEFT JOIN</code> and <code>FULL OUTER JOIN</code> also exist.</p>
-<p><code>table.column</code> says which table each column comes from.</p>
-</div>
-</section>
-<section id="changing-data" class="level2">
-<h2 class="anchored" data-anchor-id="changing-data">Changing data</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">UPDATE</span> grades</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> grade <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> student_id <span class="op">=</span> <span class="dv">15</span> <span class="kw">AND</span> course <span class="op">=</span> <span class="st">'MATH6195'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> grades</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> course <span class="op">=</span> <span class="st">'MATH2011'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="four-principles" class="level2">
+<h2 class="anchored" data-anchor-id="four-principles">Four principles</h2>
+<div class="fragment">
+<ol type="1">
+<li><strong>Separation of concerns</strong> — each part has one job: load, clean, model, plot, report</li>
+</ol>
 </div>
 <div class="fragment">
-<p>Create (<code>INSERT</code>), Read (<code>SELECT</code>), Update, Delete: <strong>CRUD</strong>. Note the <code>WHERE</code> — without it, <em>every</em> row is updated or deleted.</p>
+<ol start="2" type="1">
+<li><strong>Modularity</strong> — build the parts as independent, reusable functions</li>
+</ol>
 </div>
-<div class="notes">
-<p><code>DROP TABLE</code> deletes a whole table and its data. These statements change the database permanently — there’s no undo.</p>
+<div class="fragment">
+<ol start="3" type="1">
+<li><strong>Don’t repeat yourself (DRY)</strong> — every piece of knowledge written in exactly one place</li>
+</ol>
 </div>
-</section>
-<section id="group-by" class="level2">
-<h2 class="anchored" data-anchor-id="group-by"><code>GROUP BY</code></h2>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Task
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>What does this return?</p>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> course, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n, <span class="fu">AVG</span>(grade) <span class="kw">AS</span> mean_grade</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> grades</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> course;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="answer">
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>2 records</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">course</th>
-<th style="text-align: right;">n</th>
-<th style="text-align: right;">mean_grade</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">MATH2010</td>
-<td style="text-align: right;">17</td>
-<td style="text-align: right;">64.47059</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">MATH6195</td>
-<td style="text-align: right;">18</td>
-<td style="text-align: right;">69.22222</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>One row per course, with its number of grades and mean grade — <code>group_by()</code> then <code>summarise()</code>. <code>AS</code> names a calculated column. (<code>MATH2011</code> is gone: we just deleted it.)</p>
-</div>
-<div class="notes">
-<p>Every column in the <code>SELECT</code> must either be in the <code>GROUP BY</code> or be an aggregate like <code>COUNT</code>, <code>SUM</code>, <code>AVG</code>. <code>COUNT(*)</code> counts rows; <code>COUNT(column)</code> counts non-missing values. Missing values in SQL are <code>NULL</code>; aggregates skip them, as if <code>na.rm = TRUE</code>.</p>
+<div class="fragment">
+<ol start="4" type="1">
+<li><strong>Fail fast</strong> — check for problems early and stop with a clear error</li>
+</ol>
 </div>
 </section>
-<section id="subqueries" class="level2">
-<h2 class="anchored" data-anchor-id="subqueries">Subqueries</h2>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Task
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>What does this return? Read the inner query first.</p>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> given_name, family_name</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> students</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="kw">IN</span> (</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> student_id</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> grades</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">GROUP</span> <span class="kw">BY</span> student_id</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">HAVING</span> <span class="fu">AVG</span>(grade) <span class="op">&gt;</span> <span class="dv">75</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="answer">
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>4 records</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">given_name</th>
-<th style="text-align: left;">family_name</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Tariq</td>
-<td style="text-align: left;">Ibn Rashid</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Indira</td>
-<td style="text-align: left;">Sharma</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Amina</td>
-<td style="text-align: left;">Okonkwo</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Lars</td>
-<td style="text-align: left;">Andersen</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>The inner query finds the IDs of students whose <strong>average</strong> grade is over 75; the outer query looks up their names. <code>HAVING</code> filters <strong>groups</strong>; <code>IN</code> compares against a list.</p>
-</div>
-<div class="notes">
-<p><code>NOT IN</code> works too: <code>WHERE id NOT IN (SELECT student_id FROM grades)</code> finds student 7 — the <code>anti_join()</code> of week 5. The notes describe a trap: if the subquery returns a <code>NULL</code>, <code>NOT IN</code> returns no rows at all, silently.</p>
-</div>
-</section>
-<section id="how-to-read-a-query" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-read-a-query">How to read a query</h2>
-<p>Written in a fixed order, starting with <code>SELECT</code> — but <strong>run</strong> in this order:</p>
+<section id="separation-of-concerns" class="level2">
+<h2 class="anchored" data-anchor-id="separation-of-concerns">Separation of concerns</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<ol type="1">
-<li><code>FROM</code>, <code>JOIN</code></li>
-<li><code>WHERE</code></li>
-<li><code>GROUP BY</code></li>
-<li><code>HAVING</code></li>
-<li><code>SELECT</code></li>
-<li><code>DISTINCT</code></li>
-<li><code>ORDER BY</code></li>
-<li><code>LIMIT</code></li>
-</ol>
+<p><strong>Everything mixed together</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"data.csv"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fu">log</span>(x)) <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:50%;">
+<p><strong>Clear separation</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>raw_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data.csv"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>clean_data <span class="ot">&lt;-</span> <span class="fu">clean_dataset</span>(raw_data)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">fit_model</span>(clean_data)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_results</span>(model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
 <div class="fragment">
-<p>So start reading at <strong><code>FROM</code></strong>.</p>
-<p>This explains the rules: <code>WHERE</code> runs <em>before</em> grouping, so it can’t use <code>COUNT(*)</code> — that’s what <code>HAVING</code> is for.</p>
-</div>
-</div>
+<p>Longer to write — each function must be defined somewhere — but it reads as a <strong>summary</strong> of the analysis, each step can be checked on its own, and a change to cleaning means editing one function.</p>
 </div>
 </section>
-<section id="sql-to-dplyr" class="level2">
-<h2 class="anchored" data-anchor-id="sql-to-dplyr">SQL to <code>dplyr</code></h2>
+<section id="copy-paste-edit" class="level2">
+<h2 class="anchored" data-anchor-id="copy-paste-edit">Copy, paste, edit</h2>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -651,88 +250,156 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Rewrite this query as a <code>dplyr</code> pipeline on a tibble <code>grades</code>.</p>
+<p>We want the same plot for Adelie penguins on two islands. What’s wrong here?</p>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> student_id, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> n_courses</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> grades</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> grade <span class="op">&gt;=</span> <span class="dv">60</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> student_id</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">HAVING</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="op">&gt;</span> <span class="dv">1</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> n_courses <span class="kw">DESC</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">"Adelie"</span>, island <span class="sc">==</span> <span class="st">"Biscoe"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm, <span class="at">colour =</span> sex)) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Adelie penguins on Biscoe"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">"Adelia"</span>, island <span class="sc">==</span> <span class="st">"Dream"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm, <span class="at">colour =</span> sex)) <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Adelie penguins on Dream"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="week09_slides_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="week09_slides_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
 <div class="answer">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>grades <span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(grade <span class="sc">&gt;=</span> <span class="dv">60</span>) <span class="sc">|&gt;</span>               <span class="co"># WHERE</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(student_id) <span class="sc">|&gt;</span>              <span class="co"># GROUP BY</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n_courses =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span>        <span class="co"># SELECT ... COUNT(*) AS</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n_courses <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">|&gt;</span>             <span class="co"># HAVING</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n_courses)) <span class="sc">|&gt;</span>          <span class="co"># ORDER BY ... DESC</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)                              <span class="co"># LIMIT</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The <code>dplyr</code> steps appear in the order SQL <em>runs</em> them.</p>
+<p>A typo, <code>"Adelia"</code>, crept in while editing the copy. <code>R</code> gives <strong>no error</strong>: filtering for a species that doesn’t exist is valid, and returns no rows — so the second plot is silently empty.</p>
+</div>
+<div class="notes">
+<p>Let them look for 30 seconds before revealing. The general lesson: two copies of the same logic must be kept in step, and nothing warns us when they drift apart.</p>
+</div>
+</section>
+<section id="dry-fail-fast" class="level2">
+<h2 class="anchored" data-anchor-id="dry-fail-fast">DRY + fail fast</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Task
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Write a function <code>plot_bills(data, species_name, island_name)</code> that draws this plot, and <strong>stops with a clear error</strong> if the species or island isn’t in the data.</p>
+</div>
+</div>
+<div class="answer">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>plot_bills <span class="ot">&lt;-</span> <span class="cf">function</span>(data, species_name, island_name) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>(species_name <span class="sc">%in%</span> data<span class="sc">$</span>species)) {</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"Unknown species: "</span>, species_name)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>(island_name <span class="sc">%in%</span> data<span class="sc">$</span>island)) {</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"Unknown island: "</span>, island_name)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  data <span class="sc">|&gt;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(species <span class="sc">==</span> species_name, island <span class="sc">==</span> island_name) <span class="sc">|&gt;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm, <span class="at">colour =</span> sex)) <span class="sc">+</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">paste</span>(species_name, <span class="st">"penguins on"</span>, island_name),</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">"Bill length (mm)"</span>, <span class="at">y =</span> <span class="st">"Bill depth (mm)"</span>, <span class="at">colour =</span> <span class="st">"Sex"</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_bills</span>(penguins, <span class="st">"Adelie"</span>, <span class="st">"Biscoe"</span>)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_bills</span>(penguins, <span class="st">"Adelie"</span>, <span class="st">"Dream"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="week09_slides_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="week09_slides_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="does-it-fail-fast" class="level2">
+<h2 class="anchored" data-anchor-id="does-it-fail-fast">Does it fail fast?</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_bills</span>(penguins, <span class="st">"Adelia"</span>, <span class="st">"Dream"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in plot_bills(penguins, "Adelia", "Dream"): Unknown species: Adelia</code></pre>
+</div>
+</div>
+<div class="fragment">
+<ul>
+<li>the typo now <strong>stops</strong> the analysis with a clear message</li>
+<li>improvements (like the axis labels) are made <strong>once</strong> and apply to every plot</li>
+</ul>
+</div>
+</section>
+<section id="organising-a-project" class="level2">
+<h2 class="anchored" data-anchor-id="organising-a-project">Organising a project</h2>
+<pre><code>my-project/
+├── README.md        # what the project is, and how to run it
+├── data/            # raw data, never edited by hand
+├── R/               # functions, e.g. cleaning.R and plots.R
+├── analysis.qmd     # the report, which uses the functions
+└── results/         # generated outputs, can always be recreated</code></pre>
+<div class="fragment">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/cleaning.R"</span>)   <span class="co"># runs the script as if typed in</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/plots.R"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The functions (the <em>how</em>) live apart from the narrative (the <em>what</em>), and can be shared between reports — or a Shiny app.</p>
+</div>
+<div class="notes">
+<p>All paths are relative to the project folder (week 3), so the project still works on another computer.</p>
+</div>
+</section>
+<section id="speed-vs-structure" class="level2">
+<h2 class="anchored" data-anchor-id="speed-vs-structure">Speed vs structure</h2>
+<p>Research code is often exploratory and thrown away — but the parts that survive live far longer than expected.</p>
+<div class="fragment">
+<ul>
+<li><strong>exploring</strong>: rapid iteration is fine</li>
+<li><strong>once it works</strong>: <em>refactor</em> into functions, without changing what it does</li>
+<li><strong>before sharing</strong>: clean it up</li>
+</ul>
+</div>
+<div class="fragment">
+<p>Habits that cost nothing even while exploring: use functions (even small ones), no hard-coded absolute paths, write down your assumptions.</p>
+</div>
+<div class="notes">
+<p>“Perfect is the enemy of finished.” You don’t need an elaborate design: add structure when you notice patterns, like the same code appearing twice.</p>
 </div>
 </section>
 </section>
-<section id="sec-dbplyr" class="level1">
-<h1>SQL from <code>R</code></h1>
-<section id="where-should-the-work-happen" class="level2">
-<h2 class="anchored" data-anchor-id="where-should-the-work-happen">Where should the work happen?</h2>
-<p><strong>In the database</strong>, importing only the result:</p>
+<section id="sec-fp" class="level1">
+<h1>Functional programming</h1>
+<section id="paradigms" class="level2">
+<h2 class="anchored" data-anchor-id="paradigms">Paradigms</h2>
 <ul>
-<li>less data to transfer — a summary of millions of rows may be a few rows</li>
-<li>data larger than memory</li>
-<li>speed: databases are built for this</li>
-<li>privacy: individual-level data never leaves the database</li>
+<li><strong>Procedural</strong>: a sequence of steps</li>
+<li><strong>Object-oriented</strong>: objects bundling data and behaviour</li>
+<li><strong>Functional</strong>: <strong>pure</strong> functions and <strong>immutable</strong> data</li>
 </ul>
 <div class="fragment">
-<p><strong>In <code>R</code></strong>, after importing the tables:</p>
+<p><code>R</code> supports all three, but is a natural fit for functional programming:</p>
 <ul>
-<li><code>R</code> can do far more: models, plots, packages</li>
-<li>simpler when the data are small</li>
+<li>functions are <strong>values</strong>: assign them, pass them, return them</li>
+<li><strong>anonymous</strong> functions: <code>function(x) x + 1</code>, or <code>\(x) x + 1</code></li>
+<li><strong>higher-order</strong> functions take or return functions (week 2)</li>
 </ul>
 </div>
-<div class="fragment">
-<p>Usually both: the database filters, joins and summarises; <code>R</code> does the rest.</p>
-</div>
 </section>
-<section id="dbplyr" class="level2">
-<h2 class="anchored" data-anchor-id="dbplyr"><code>dbplyr</code></h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbplyr)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"students"</span>)   <span class="co"># con: made with dbConnect()</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>grades <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"grades"</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>grades</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># Source:   table&lt;`grades`&gt; [?? x 3]
-# Database: sqlite 3.51.1 [:memory:]
-   student_id course   grade
-        &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;
- 1          1 MATH6195    68
- 2          2 MATH6195    67
- 3          3 MATH6195    68
- 4          4 MATH6195    74
- 5          5 MATH6195    52
- 6          6 MATH6195    85
- 7          8 MATH6195    60
- 8          9 MATH6195    61
- 9         10 MATH6195    65
-10         11 MATH6195    90
-# i more rows</code></pre>
-</div>
-</div>
-<div class="fragment">
-<p>A <strong>lazy</strong> table: <code>??</code> rows, because <code>R</code> hasn’t read the table — it’s still in the database.</p>
-</div>
-<div class="notes">
-<p>Connecting to a database file looks like this:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">"data/customers.db"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>DBI</code>, <code>RSQLite</code> and <code>dbplyr</code> are separate installs, not part of the <code>tidyverse</code>. <code>dbGetQuery(con, "SELECT ...")</code> runs raw SQL and returns a data frame.</p>
-</div>
-</section>
-<section id="dplyr-in-sql-out" class="level2">
-<h2 class="anchored" data-anchor-id="dplyr-in-sql-out"><code>dplyr</code> in, SQL out</h2>
+<section id="pure-functions" class="level2">
+<h2 class="anchored" data-anchor-id="pure-functions">Pure functions</h2>
+<p>A function is <strong>pure</strong> if</p>
+<ol type="1">
+<li>its result depends <strong>only on its arguments</strong>, and</li>
+<li>it has <strong>no side effects</strong> — it changes nothing outside itself.</li>
+</ol>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -743,51 +410,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Use <code>dplyr</code> to find each course’s number of grades and mean grade. Then look at the SQL that <code>dbplyr</code> writes.</p>
+<p>Which of these are pure?</p>
 </div>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>add <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) x <span class="sc">+</span> y</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>increment <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;&lt;-</span> counter <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  counter</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>add_z <span class="ot">&lt;-</span> <span class="cf">function</span>(x) x <span class="sc">+</span> z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="answer">
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>query <span class="ot">&lt;-</span> grades <span class="sc">|&gt;</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(course) <span class="sc">|&gt;</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">mean_grade =</span> <span class="fu">mean</span>(grade, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">show_query</span>(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;SQL&gt;
-SELECT `course`, COUNT(*) AS `n`, AVG(`grade`) AS `mean_grade`
-FROM `grades`
-GROUP BY `course`</code></pre>
+<ul>
+<li><code>add</code>: <strong>pure</strong></li>
+<li><code>increment</code>: impure — <code>&lt;&lt;-</code> changes <code>counter</code> outside the function (breaks 2)</li>
+<li><code>add_z</code>: impure — its result depends on the global <code>z</code> (breaks 1). Fix: pass <code>z</code> as an argument.</li>
+</ul>
 </div>
-</div>
+<div class="notes">
+<p>Also impure by design: <code>rnorm</code> (different every call, unless the seed is set), and anything that reads files, plots or prints. That’s fine — the aim is to keep the impure parts <em>few</em> and <em>at the edges</em>: read data once at the start, save once at the end, pure functions in between. Shiny is organised the same way: <code>reactive()</code> computes values; observers exist for side effects.</p>
 </div>
 </section>
-<section id="collect" class="level2">
-<h2 class="anchored" data-anchor-id="collect"><code>collect()</code></h2>
+<section id="immutability" class="level2">
+<h2 class="anchored" data-anchor-id="immutability">Immutability</h2>
+<p>You’ve been doing this since week 4:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>penguins_kg <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">body_mass_kg =</span> body_mass_g <span class="sc">/</span> <span class="dv">1000</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="st">"body_mass_kg"</span> <span class="sc">%in%</span> <span class="fu">names</span>(penguins_kg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "tbl_SQLiteConnection" "tbl_dbi"              "tbl_sql"             
-[4] "tbl_lazy"             "tbl"                 </code></pre>
+<pre><code>[1] TRUE</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>query <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="st">"body_mass_kg"</span> <span class="sc">%in%</span> <span class="fu">names</span>(penguins)   <span class="co"># the original is unchanged</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 x 3
-  course       n mean_grade
-  &lt;chr&gt;    &lt;int&gt;      &lt;dbl&gt;
-1 MATH2010    17       64.5
-2 MATH6195    18       69.2</code></pre>
+<pre><code>[1] FALSE</code></pre>
 </div>
 </div>
 <div class="fragment">
-<p>Nothing runs until <code>collect()</code> (or printing). <code>collect()</code> runs the SQL in the database and brings the result into <code>R</code> as a tibble.</p>
-</div>
-<div class="notes">
-<p><code>sql_render(query)</code> <em>returns</em> the SQL as a string, so it can be passed to <code>dbGetQuery()</code> to check it — in the notes.</p>
+<p><code>dplyr</code> verbs return a <strong>new</strong>, modified copy. <code>penguins</code> only changes if you assign the result back to it.</p>
 </div>
 </section>
-<section id="collect-as-late-as-possible" class="level2">
-<h2 class="anchored" data-anchor-id="collect-as-late-as-possible">Collect as late as possible</h2>
+</section>
+<section id="sec-purrr" class="level1">
+<h1><code>purrr</code></h1>
+<section id="apply-a-function-to-every-element" class="level2">
+<h2 class="anchored" data-anchor-id="apply-a-function-to-every-element">Apply a function to every element</h2>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -798,62 +468,362 @@ GROUP BY `course`</code></pre>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Both give the same answer. Which is better, and why?</p>
+<p>Square every element of <code>x &lt;- 1:10</code> using a <code>for</code> loop, then using <code>sapply()</code>, then using <code>purrr::map_dbl()</code>.</p>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>grades <span class="sc">|&gt;</span> <span class="fu">filter</span>(grade <span class="sc">&gt;</span> <span class="dv">80</span>) <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>grades <span class="sc">|&gt;</span> <span class="fu">collect</span>() <span class="sc">|&gt;</span> <span class="fu">filter</span>(grade <span class="sc">&gt;</span> <span class="dv">80</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="answer">
-<p>The <strong>first</strong>: the filter runs in the database, and only matching rows are sent to <code>R</code>. The second transfers the <em>whole</em> table, then throws most of it away. On millions of rows, that’s seconds versus not fitting in memory.</p>
-</div>
-</section>
-<section id="limits-of-the-translation" class="level2">
-<h2 class="anchored" data-anchor-id="limits-of-the-translation">Limits of the translation</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>students <span class="sc">|&gt;</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">padded =</span> stringr<span class="sc">::</span><span class="fu">str_pad</span>(given_name, <span class="dv">10</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error in `stringr::str_pad()`:
-! `str_pad()` is not available in this SQL variant.</code></pre>
-</div>
-</div>
-<div class="fragment">
-<p>Only functions <code>dbplyr</code> can translate to SQL work before <code>collect()</code>. Do what you can in the database, <code>collect()</code>, <em>then</em> use the rest of <code>R</code>.</p>
-</div>
-</section>
-<section id="joining" class="level2">
-<h2 class="anchored" data-anchor-id="joining">Joining</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>prizes <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="dv">11</span>, <span class="dv">6</span>), <span class="at">prize =</span> <span class="fu">c</span>(<span class="st">"Gold"</span>, <span class="st">"Silver"</span>))</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>students <span class="sc">|&gt;</span> <span class="fu">inner_join</span>(prizes, <span class="at">by =</span> <span class="st">"id"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error in `auto_copy()`:
-! `x` and `y` must share the same src.
-i `x` is a &lt;tbl_SQLiteConnection/tbl_dbi/tbl_sql/tbl_lazy/tbl&gt; object.
-i `y` is a &lt;tbl_df/tbl/data.frame&gt; object.
-i Set `copy = TRUE` if `y` can be copied to the same source as `x` (may be
-  slow).</code></pre>
-</div>
-</div>
-<div class="fragment">
-<p>A lazy table can only join to tables <strong>in the same database</strong>. Either <code>copy = TRUE</code> (copy the tibble into the database), or <code>collect()</code> first:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>students <span class="sc">|&gt;</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(prizes, <span class="at">by =</span> <span class="st">"id"</span>, <span class="at">copy =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(given_name, family_name, prize) <span class="sc">|&gt;</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>square <span class="ot">&lt;-</span> <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>squared_loop <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(x))</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(x)) {</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  squared_loop[i] <span class="ot">&lt;-</span> <span class="fu">square</span>(x[i])</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>squared_sapply <span class="ot">&lt;-</span> <span class="fu">sapply</span>(x, square)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>squared_map <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(x, square)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>squared_map</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 x 3
-  given_name family_name   prize 
-  &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt; 
-1 Tariq      Ibn Rashid    Gold  
-2 Rajesh     Krishnamurthy Silver</code></pre>
+<pre><code> [1]   1   4   9  16  25  36  49  64  81 100</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>The map states the intent in one line: no index to get wrong, no result to set up in advance, no variables leaking out.</p>
+</div>
+<div class="notes">
+<p>Loops aren’t wrong — they’re the clearest choice when each step depends on the previous one (the random walk from Lab 2). And for squaring, vectorised <code>x^2</code> is simplest of all: mapping is for functions that work on one element at a time, such as reading one file.</p>
+</div>
+</section>
+<section id="why-not-sapply" class="level2">
+<h2 class="anchored" data-anchor-id="why-not-sapply">Why not <code>sapply</code>?</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Task
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Predict what type of object each call returns.</p>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) <span class="fu">c</span>(v, v<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) <span class="fu">seq_len</span>(v))</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">integer</span>(<span class="dv">0</span>), <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="answer">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)          <span class="co"># a numeric vector</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 4 9</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) <span class="fu">c</span>(v, v<span class="sc">^</span><span class="dv">2</span>))    <span class="co"># a matrix!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    2    3
+[2,]    1    4    9</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) <span class="fu">seq_len</span>(v))   <span class="co"># a list!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 1
+
+[[2]]
+[1] 1 2
+
+[[3]]
+[1] 1 2 3</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">integer</span>(<span class="dv">0</span>), <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)   <span class="co"># an empty list, not a vector!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>list()</code></pre>
 </div>
 </div>
 </div>
 <div class="notes">
-<p>Joining two lazy tables in the same database works just like <code>dplyr</code>: <code>grades |&gt; inner_join(students, by = c("student_id" = "id"))</code>. Finish with <code>dbDisconnect(con)</code> to close the connection.</p>
+<p>The last one is the dangerous one: code that always got a numeric vector suddenly gets a list when its input happens to be empty (e.g.&nbsp;no files matched a pattern), and fails somewhere far from the real cause.</p>
+</div>
+</section>
+<section id="map-is-type-stable" class="level2">
+<h2 class="anchored" data-anchor-id="map-is-type-stable"><code>map</code> is type stable</h2>
+<p>The <strong>name</strong> tells you the type of the result:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>map()</code></td>
+<td>a list — results can be anything</td>
+</tr>
+<tr class="even">
+<td><code>map_lgl()</code>, <code>map_int()</code>, <code>map_dbl()</code>, <code>map_chr()</code></td>
+<td>a vector of that type</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="fu">integer</span>(<span class="dv">0</span>), <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>numeric(0)</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) <span class="fu">c</span>(v, v<span class="sc">^</span><span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `map_dbl()`:
+i In index: 1.
+Caused by error:
+! Result must be length 1, not 2.</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>An empty input gives an empty <code>double</code>; a result that doesn’t fit is an <strong>error, straight away</strong> — <em>fail fast</em> again.</p>
+</div>
+</section>
+<section id="writing-functions-inline" class="level2">
+<h2 class="anchored" data-anchor-id="writing-functions-inline">Writing functions inline</h2>
+<p>Three equivalent ways:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  1  4  9 16 25</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, \(v) v<span class="sc">^</span><span class="dv">2</span>)       <span class="co"># base R shorthand</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  1  4  9 16 25</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="sc">~</span> .x<span class="sc">^</span><span class="dv">2</span>)          <span class="co"># purrr formula: .x is the argument</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  1  4  9 16 25</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>And in parallel over two vectors (<code>.x</code>, <code>.y</code>), or many (<code>pmap</code>):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map2_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">6</span><span class="sc">:</span><span class="dv">10</span>, \(a, b) (a <span class="sc">+</span> b)<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  49  81 121 169 225</code></pre>
+</div>
+</div>
+</div>
+<div class="notes">
+<p>All three styles are idiomatic and appear in documentation and online, so students must be able to <em>read</em> each. Use whichever you find clearest.</p>
+</div>
+</section>
+<section id="lists-of-results" class="level2">
+<h2 class="anchored" data-anchor-id="lists-of-results">Lists of results</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Task
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Split <code>penguins</code> into one tibble per species, compute the number of penguins and mean body mass of each, then combine the results into a single table.</p>
+</div>
+</div>
+<div class="answer">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>by_species <span class="ot">&lt;-</span> <span class="fu">split</span>(penguins, penguins<span class="sc">$</span>species)   <span class="co"># list of tibbles</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>summaries <span class="ot">&lt;-</span> by_species <span class="sc">|&gt;</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(\(df) <span class="fu">summarise</span>(df, <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">mean_mass =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>summaries <span class="sc">|&gt;</span> <span class="fu">list_rbind</span>(<span class="at">names_to =</span> <span class="st">"species"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 x 3
+  species       n mean_mass
+  &lt;chr&gt;     &lt;int&gt;     &lt;dbl&gt;
+1 Adelie      152     3701.
+2 Chinstrap    68     3733.
+3 Gentoo      124     5076.</code></pre>
+</div>
+</div>
+</div>
+<div class="notes">
+<p><code>group_by()</code> + <code>summarise()</code> does this more simply for one data frame. Lists of results come into their own when data arrive in pieces — the classic case:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"data/monthly"</span>, <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.csv$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>all_data <span class="ot">&lt;-</span> files <span class="sc">|&gt;</span> <span class="fu">map</span>(read_csv) <span class="sc">|&gt;</span> <span class="fu">list_rbind</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>or when each piece produces something that isn’t a table (a model, a plot).</p>
+</div>
+</section>
+<section id="reduce-combine-two-at-a-time" class="level2">
+<h2 class="anchored" data-anchor-id="reduce-combine-two-at-a-time"><code>reduce</code>: combine two at a time</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Task
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>reduce(x, f)</code> combines the elements of <code>x</code> pairwise: <code>f(f(f(x1, x2), x3), x4)</code>… Use it to add up <code>1:10</code>.</p>
+</div>
+</div>
+<div class="answer">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">reduce</span>(x, \(cur, new) cur <span class="sc">+</span> new)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 55</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">reduce</span>(x, <span class="st">`</span><span class="at">+</span><span class="st">`</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 55</code></pre>
+</div>
+</div>
+<p>The same as this loop, with an <strong>accumulator</strong> <code>cur</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>cur <span class="ot">&lt;-</span> x[<span class="dv">1</span>]</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (new <span class="cf">in</span> x[<span class="sc">-</span><span class="dv">1</span>]) {</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  cur <span class="ot">&lt;-</span> cur <span class="sc">+</span> new</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>cur</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 55</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="an-accumulator-with-.init" class="level2">
+<h2 class="anchored" data-anchor-id="an-accumulator-with-.init">An accumulator with <code>.init</code></h2>
+<p>When the accumulator isn’t the same type as the elements, give a starting value:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">reduce</span>(</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  \(cur, new) <span class="fu">list</span>(<span class="at">sum =</span> cur<span class="sc">$</span>sum <span class="sc">+</span> new, <span class="at">prod =</span> cur<span class="sc">$</span>prod <span class="sc">*</span> new),</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">.init =</span> <span class="fu">list</span>(<span class="at">sum =</span> <span class="dv">0</span>, <span class="at">prod =</span> <span class="dv">1</span>)</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$sum
+[1] 55
+
+$prod
+[1] 3628800</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>Pointless for a vector in memory — <code>sum()</code> and <code>prod()</code> are faster. It pays off when each pass through the data is <strong>expensive</strong>, e.g.&nbsp;data spread over many files on disk. We’ll use exactly this idea for <strong>big data</strong> in week 10.</p>
+</div>
+</section>
+<section id="predicates" class="level2">
+<h2 class="anchored" data-anchor-id="predicates">Predicates</h2>
+<p>A <em>predicate</em> is a function that returns <code>TRUE</code> or <code>FALSE</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">keep</span>(\(v) v <span class="sc">&gt;</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  6  7  8  9 10</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">every</span>(\(v) v <span class="sc">&gt;</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">none</span>(\(v) v <span class="sc">&gt;</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>They work on lists too:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>summaries <span class="sc">|&gt;</span> <span class="fu">keep</span>(\(s) s<span class="sc">$</span>mean_mass <span class="sc">&gt;</span> <span class="dv">4000</span>) <span class="sc">|&gt;</span> <span class="fu">names</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Gentoo"</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="partial-application" class="level2">
+<h2 class="anchored" data-anchor-id="partial-application">Partial application</h2>
+<p>Fix some arguments of a function, to get a new function of the rest:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>add_10 <span class="ot">&lt;-</span> <span class="fu">partial</span>(<span class="st">`</span><span class="at">+</span><span class="st">`</span>, <span class="dv">10</span>)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">5</span> <span class="sc">|&gt;</span> <span class="fu">map_dbl</span>(add_10)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11 12 13 14 15</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>greet <span class="ot">&lt;-</span> <span class="fu">partial</span>(paste, <span class="st">"Hello"</span>)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">"Ada Lovelace"</span>, <span class="st">"Alan Turing"</span>) <span class="sc">|&gt;</span> <span class="fu">map_chr</span>(greet)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Hello Ada Lovelace" "Hello Alan Turing" </code></pre>
+</div>
+</div>
+<div class="notes">
+<p>Related to <em>currying</em> (<code>f(a, b)</code> becomes <code>f(a)(b)</code>): <code>make_multiplier</code> from week 2 is curried multiplication. The notes also cover <code>compose()</code>, which packages a chain of functions as a new function.</p>
+</div>
+</section>
+</section>
+<section id="sec-defensive" class="level1">
+<h1>Defensive programming</h1>
+<section id="silent-recycling" class="level2">
+<h2 class="anchored" data-anchor-id="silent-recycling">Silent recycling</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Task
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>From Lab 2: what does this return, and why is it a problem?</p>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>distance <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> y)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">distance</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.828427</code></pre>
+</div>
+</div>
+<div class="answer">
+<p>A number — but it’s meaningless. <code>-</code> silently <strong>recycles</strong> the shorter vector to the length of the longer one, so <code>1:2</code> is treated as <code>c(1, 2, 1, 2)</code>.</p>
+</div>
+</section>
+<section id="check-your-inputs" class="level2">
+<h2 class="anchored" data-anchor-id="check-your-inputs">Check your inputs</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>distance <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Both x and y must be numeric vectors."</span> <span class="ot">=</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">is.numeric</span>(x) <span class="sc">&amp;&amp;</span> <span class="fu">is.numeric</span>(y),</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"x and y must have the same length."</span> <span class="ot">=</span> <span class="fu">length</span>(x) <span class="sc">==</span> <span class="fu">length</span>(y)</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> y)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a><span class="fu">distance</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in distance(1:4, 1:2): x and y must have the same length.</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>Validate inputs and <strong>fail fast</strong> with a clear message, rather than letting a wrong answer travel silently through the analysis.</p>
+</div>
+<div class="notes">
+<p><code>stopifnot()</code> does nothing if every condition is <code>TRUE</code>; otherwise it stops at the first failure. The names become the error messages — much more helpful to someone else than <code>length(x) == length(y) is not TRUE</code>. The <code>if (...) stop(...)</code> form from <code>plot_bills</code> is equivalent.</p>
 </div>
 </section>
 </section>
@@ -863,17 +833,17 @@ i Set `copy = TRUE` if `y` can be copied to the same source as `x` (may be
 <h2 class="anchored" data-anchor-id="today-you-can-now">Today you can now:</h2>
 <div class="fragment">
 <ul>
-<li>explain what keys and types add over CSV files</li>
+<li>structure an analysis: separate concerns, write functions, don’t repeat yourself, fail fast</li>
 </ul>
 </div>
 <div class="fragment">
 <ul>
-<li>read <code>SELECT … FROM … JOIN … WHERE … GROUP BY … HAVING … ORDER BY … LIMIT</code>, starting from <code>FROM</code>, and translate it into <code>dplyr</code></li>
+<li>recognise pure functions, and keep side effects at the edges</li>
 </ul>
 </div>
 <div class="fragment">
 <ul>
-<li>query a database from <code>R</code> with <code>dbplyr</code>: lazy tables, <code>show_query()</code>, and <code>collect()</code> as late as possible</li>
+<li>iterate with <code>map_*()</code>, combine with <code>reduce()</code>, filter with <code>keep()</code> and friends</li>
 </ul>
 </div>
 </section>
@@ -881,10 +851,10 @@ i Set `copy = TRUE` if `y` can be copied to the same source as `x` (may be
 <h2 class="anchored" data-anchor-id="read-the-notes">Read the notes</h2>
 <p>We didn’t cover in detail:</p>
 <ul>
-<li>the full CRUD syntax and column types</li>
-<li><code>NULL</code>, <code>IS NULL</code>, and the <code>NOT IN</code> trap</li>
-<li><code>sql_render()</code> and <code>dbGetQuery()</code></li>
-<li>the <code>customers.db</code> examples used in the lab</li>
+<li>handling errors: <code>try()</code>, <code>tryCatch()</code>, and <code>purrr::possibly()</code> for reading many files when some may fail</li>
+<li>unit tests with <code>stopifnot()</code> and <code>testthat</code></li>
+<li>documenting functions with roxygen comments (<code>#'</code>)</li>
+<li><code>compose()</code>, and dependency management with <code>renv</code></li>
 </ul>
 
 
@@ -1042,44 +1012,6 @@ i Set `copy = TRUE` if `y` can be copied to the same source as `x` (may be
     }
   })();
 </script>
-
-<script>
-  // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-  // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-  // slide changes (different for each slide format).
-  (function () {
-    // dispatch for htmlwidgets
-    function fireSlideEnter() {
-      const event = window.document.createEvent("Event");
-      event.initEvent("slideenter", true, true);
-      window.document.dispatchEvent(event);
-    }
-
-    function fireSlideChanged(previousSlide, currentSlide) {
-      fireSlideEnter();
-
-      // dispatch for shiny
-      if (window.jQuery) {
-        if (previousSlide) {
-          window.jQuery(previousSlide).trigger("hidden");
-        }
-        if (currentSlide) {
-          window.jQuery(currentSlide).trigger("shown");
-        }
-      }
-    }
-
-    // hookup for slidy
-    if (window.w3c_slidy) {
-      window.w3c_slidy.add_observer(function (slide_num) {
-        // slide_num starts at position 1
-        fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-      });
-    }
-
-  })();
-</script>
-
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

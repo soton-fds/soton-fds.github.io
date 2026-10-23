@@ -177,7 +177,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>You won’t work with genuinely big data, or need DuckDB. You <strong>should</strong> be able to explain <em>why</em> large data cause problems, and <em>how</em> to change an approach as the data grow: chunking with map-reduce, or doing the work in a database (week 9).</p>
+<p>You won’t work with genuinely big data, or need DuckDB. You <strong>should</strong> be able to explain <em>why</em> large data cause problems, and <em>how</em> to change an approach as the data grow: chunking with map-reduce, or doing the work in a database (week 7).</p>
 </div>
 </div>
 <div class="notes">
@@ -334,7 +334,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>A CSV must be read <strong>in full</strong>, even to get one column.</p>
 <div class="fragment">
 <ul>
-<li><strong>Relational databases</strong> (week 9): data on disk, indexes, powerful servers</li>
+<li><strong>Relational databases</strong> (week 7): data on disk, indexes, powerful servers</li>
 <li><strong>Columnar formats</strong> — Parquet, Feather: each column stored together, so you read only the columns you need</li>
 <li><strong>HDF5</strong>: large arrays and scientific data, with fast access to subsets</li>
 </ul>
@@ -349,7 +349,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="fragment">
 <p><code>R</code> is often a <strong>layer on top</strong> of these, rather than the engine:</p>
 <ul>
-<li><code>dbplyr</code> — <code>dplyr</code> code run in a database (week 9)</li>
+<li><code>dbplyr</code> — <code>dplyr</code> code run in a database (week 7)</li>
 <li><code>sparklyr</code> — <code>dplyr</code> code run on a Spark cluster</li>
 <li><code>duckdb</code> / <code>duckplyr</code> — a fast analytical database, in-process</li>
 <li><code>readr::read_csv_chunked()</code> — simple map-reduce in plain <code>R</code></li>
@@ -468,7 +468,7 @@ GROUP BY startingAirport</code></pre>
 </div>
 </div>
 <div class="fragment">
-<p>Exactly week 9 — a lazy table, translated to SQL — except the <code>FROM</code> names a CSV file. <code>collect()</code> would give the same 16 rows.</p>
+<p>Exactly week 7 — a lazy table, translated to SQL — except the <code>FROM</code> names a CSV file. <code>collect()</code> would give the same 16 rows.</p>
 </div>
 </section>
 </section>
@@ -573,7 +573,7 @@ GROUP BY startingAirport</code></pre>
 </div>
 </div>
 <div class="notes">
-<p><code>results</code> has one row per species <em>per chunk</em>; the reduce adds up the sums and counts. This is <code>reduce()</code> with an <code>.init</code> accumulator from week 8, in disguise. Exactly the same code, with <code>chunk_size = 50000</code>, computes the mean fare per airport from the 29 GB file — the notes show the output; it takes a long time, so don’t run it live.</p>
+<p><code>results</code> has one row per species <em>per chunk</em>; the reduce adds up the sums and counts. This is <code>reduce()</code> with an <code>.init</code> accumulator from week 9, in disguise. Exactly the same code, with <code>chunk_size = 50000</code>, computes the mean fare per airport from the 29 GB file — the notes show the output; it takes a long time, so don’t run it live.</p>
 </div>
 </section>
 <section id="a-chunking-trap" class="level2">
@@ -803,44 +803,6 @@ GROUP BY startingAirport</code></pre>
     }
   })();
 </script>
-
-<script>
-  // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-  // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-  // slide changes (different for each slide format).
-  (function () {
-    // dispatch for htmlwidgets
-    function fireSlideEnter() {
-      const event = window.document.createEvent("Event");
-      event.initEvent("slideenter", true, true);
-      window.document.dispatchEvent(event);
-    }
-
-    function fireSlideChanged(previousSlide, currentSlide) {
-      fireSlideEnter();
-
-      // dispatch for shiny
-      if (window.jQuery) {
-        if (previousSlide) {
-          window.jQuery(previousSlide).trigger("hidden");
-        }
-        if (currentSlide) {
-          window.jQuery(currentSlide).trigger("shown");
-        }
-      }
-    }
-
-    // hookup for slidy
-    if (window.w3c_slidy) {
-      window.w3c_slidy.add_observer(function (slide_num) {
-        // slide_num starts at position 1
-        fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-      });
-    }
-
-  })();
-</script>
-
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

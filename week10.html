@@ -197,19 +197,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./week07.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introduction to Shiny</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">SQL for Data Science</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./week08.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Research Software Engineering and Architecture in R</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction to Shiny</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./week09.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">SQL for Data Science</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Research Software Engineering and Architecture in R</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -324,7 +324,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In this course you will not be asked to work with genuinely big data, or to use the specialised tools in this chapter, such as DuckDB. What you should understand is <em>why</em> large datasets cause problems, and the strategies for dealing with them: in particular, processing data in chunks and combining the results (map-reduce), and doing the work in a database rather than in <code>R</code> (<a href="week09.html" class="quarto-xref">Week&nbsp;<span>9</span></a>). You should be able to recognise when an approach would need to change as the data grow, and explain how.</p>
+<p>In this course you will not be asked to work with genuinely big data, or to use the specialised tools in this chapter, such as DuckDB. What you should understand is <em>why</em> large datasets cause problems, and the strategies for dealing with them: in particular, processing data in chunks and combining the results (map-reduce), and doing the work in a database rather than in <code>R</code> (<a href="week07.html" class="quarto-xref">Week&nbsp;<span>7</span></a>). You should be able to recognise when an approach would need to change as the data grow, and explain how.</p>
 </div>
 </div>
 </section>
@@ -352,7 +352,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>The overall speed of a workflow is set by whichever of these is the bottleneck, and working with big data is largely a matter of trading them off against each other: for example, reading a file in chunks uses less memory, but takes longer than reading it all at once.</p>
 <p>Two examples show how these tradeoffs play out in practice.</p>
-<p><strong>A 1TB data file.</strong> A file of this size cannot be loaded into the memory of a typical computer, so the data must be read from disk a piece at a time: either by reading the file in chunks and keeping only a summary of each one (as in Example 2 below), or by loading it into a database and letting the database do the work. The bottleneck is then the speed at which the disk can be read. At around 500MB per second, typical of a solid-state drive, a single pass through the file takes over half an hour, so it pays to compute everything you need in as few passes through the data as possible (compare <a href="week08.html" class="quarto-xref">Week&nbsp;<span>8</span></a>).</p>
+<p><strong>A 1TB data file.</strong> A file of this size cannot be loaded into the memory of a typical computer, so the data must be read from disk a piece at a time: either by reading the file in chunks and keeping only a summary of each one (as in Example 2 below), or by loading it into a database and letting the database do the work. The bottleneck is then the speed at which the disk can be read. At around 500MB per second, typical of a solid-state drive, a single pass through the file takes over half an hour, so it pays to compute everything you need in as few passes through the data as possible (compare <a href="week09.html" class="quarto-xref">Week&nbsp;<span>9</span></a>).</p>
 <p><strong>A data stream.</strong> Some data are never stored as a file at all, but arrive continuously: for example, the stream of every post made on a social media site. The data may arrive faster than a single computer can process them, so the bottleneck is the processor (or the network connection). Typical strategies are to process each record as it arrives, keeping only running summaries; to discard records that are not needed as early as possible; and to share the work between many computers working in parallel.</p>
 </section>
 <section id="is-my-data-actually-big" class="level3" data-number="10.1.3">
@@ -380,7 +380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="10.2" class="anchored" data-anchor-id="working-with-big-data"><span class="header-section-number">10.2</span> Working with Big Data</h2>
 <p>There are multiple options for working with big data. We will suppose, for illustration, that the data is supplied as a large CSV file. Other formats are available and potentially more suitable, including:</p>
 <ul>
-<li><strong>Relational Databases</strong> (<a href="week09.html" class="quarto-xref">Week&nbsp;<span>9</span></a>): These can run on specialised machines with much larger RAM, and support fast, smart on-disk storage when the entire dataset is too large for RAM.</li>
+<li><strong>Relational Databases</strong> (<a href="week07.html" class="quarto-xref">Week&nbsp;<span>7</span></a>): These can run on specialised machines with much larger RAM, and support fast, smart on-disk storage when the entire dataset is too large for RAM.</li>
 <li><strong>Columnar Storage Formats</strong>: Formats like <a href="https://parquet.apache.org/">Parquet</a> and <a href="https://arrow.apache.org/feather/">Feather</a> are designed for efficient storage and retrieval of large, tabular datasets. They support fast reading of only the columns you need, whereas when working with CSV files the whole file must be read to extract a column.</li>
 <li><strong>HDF5</strong>: A hierarchical data format suitable for storing large arrays and complex data structures. It is commonly used in scientific computing and supports efficient random access to subsets of data.</li>
 </ul>
@@ -391,7 +391,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Within R there are still several solutions that we will briefly cover.</p>
 <ul>
-<li><strong>dbplyr</strong>, which runs <code>dplyr</code> code inside a database (as we saw in <a href="week09.html" class="quarto-xref">Week&nbsp;<span>9</span></a>).</li>
+<li><strong>dbplyr</strong>, which runs <code>dplyr</code> code inside a database (as we saw in <a href="week07.html" class="quarto-xref">Week&nbsp;<span>7</span></a>).</li>
 <li><strong>sparklyr</strong>: Provides an interface to Apache Spark, allowing distributed data processing and machine learning from within R. This requires access to a Spark cluster, which is beyond the scope of this course.</li>
 <li><strong>duckdb</strong>: An in-process SQL OLAP database that allows fast analytical queries on large datasets, including direct querying of CSV and Parquet files without loading them fully into memory.</li>
 <li><strong>readr</strong>: Provides the function <code>read_csv_chunked</code> which can be used for simple map-reduce workflows.</li>
@@ -509,7 +509,7 @@ i See `vignette("prudence")` for other options.</code></pre>
 <p>This time the whole query runs inside DuckDB, reading through the file on disk, and only the 16 rows of the result are returned to <code>R</code>. Tools like <code>duckplyr</code> support most, but not all, of <code>dplyr</code>; when something that works on an ordinary tibble fails, read the error message carefully, as it often says how to rewrite the code.</p>
 <section id="duckdb-with-dbplyr" class="level4" data-number="10.2.1.1">
 <h4 data-number="10.2.1.1" class="anchored" data-anchor-id="duckdb-with-dbplyr"><span class="header-section-number">10.2.1.1</span> DuckDB with <code>dbplyr</code></h4>
-<p>DuckDB can also be used in exactly the same way as the SQLite database in <a href="week09.html" class="quarto-xref">Week&nbsp;<span>9</span></a>: we connect to it with <code>DBI</code>, and query it with <code>dbplyr</code>. <code>dbConnect(duckdb::duckdb())</code> creates a temporary DuckDB database, and <code>duckdb::tbl_file()</code> gives a lazy table that reads directly from the CSV file, without loading it. Unlike <code>duckplyr</code>, <code>dbplyr</code> translates <code>group_by()</code> into SQL, so the grouped query works unchanged:</p>
+<p>DuckDB can also be used in exactly the same way as the SQLite database in <a href="week07.html" class="quarto-xref">Week&nbsp;<span>7</span></a>: we connect to it with <code>DBI</code>, and query it with <code>dbplyr</code>. <code>dbConnect(duckdb::duckdb())</code> creates a temporary DuckDB database, and <code>duckdb::tbl_file()</code> gives a lazy table that reads directly from the CSV file, without loading it. Unlike <code>duckplyr</code>, <code>dbplyr</code> translates <code>group_by()</code> into SQL, so the grouped query works unchanged:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbplyr)</span>
@@ -533,7 +533,7 @@ GROUP BY startingAirport
 ORDER BY mean_base_fare DESC</code></pre>
 </div>
 </div>
-<p>As in <a href="week09.html" class="quarto-xref">Week&nbsp;<span>9</span></a>, <code>show_query()</code> reveals the SQL that <code>dbplyr</code> has written; the only unusual feature is that its <code>FROM</code> clause names the CSV file itself, rather than a table in the database. Running the query with <code>collect()</code> gives the same result as before:</p>
+<p>As in <a href="week07.html" class="quarto-xref">Week&nbsp;<span>7</span></a>, <code>show_query()</code> reveals the SQL that <code>dbplyr</code> has written; the only unusual feature is that its <code>FROM</code> clause names the CSV file itself, rather than a table in the database. Running the query with <code>collect()</code> gives the same result as before:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>query <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -570,7 +570,7 @@ ORDER BY mean_base_fare DESC</code></pre>
 <p>This is a small-scale version of the <em>MapReduce</em> model used by big data systems such as Hadoop. The data are split into pieces, each of which is processed independently (the <em>map</em> step), and the partial results are then combined into the final answer (the <em>reduce</em> step). Because each piece is processed on its own, only one piece needs to be in memory at a time; and in a system like Hadoop, the pieces can be processed on many computers at once.</p>
 <p>Here’s an example that computes the mean of <code>baseFare</code> for each departure airport (<code>startingAirport</code>), the same query as in Example 1, by reading the file in chunks. It works in two steps:</p>
 <ul>
-<li><strong>Map.</strong> The function <code>origin_fare_chunk</code> is applied to each chunk of 50,000 rows as it is read, much as <code>map</code> applies a function to each element of a list in <a href="week08.html" class="quarto-xref">Week&nbsp;<span>8</span></a>. For each airport in the chunk, it computes the <em>sum</em> of the base fares and the <em>number</em> of fares. Only these small summaries are kept: the chunk itself is discarded before the next one is read.</li>
+<li><strong>Map.</strong> The function <code>origin_fare_chunk</code> is applied to each chunk of 50,000 rows as it is read, much as <code>map</code> applies a function to each element of a list in <a href="week09.html" class="quarto-xref">Week&nbsp;<span>9</span></a>. For each airport in the chunk, it computes the <em>sum</em> of the base fares and the <em>number</em> of fares. Only these small summaries are kept: the chunk itself is discarded before the next one is read.</li>
 <li><strong>Reduce.</strong> Once the whole file has been read, the summaries from all the chunks are combined: the sums and the counts for each airport are added up, and the mean fare is the total of the fares divided by the total count.</li>
 </ul>
 <div class="cell" data-layout-align="default">
@@ -659,7 +659,7 @@ ORDER BY mean_base_fare DESC</code></pre>
 14 DFW                 1406917690. 5674959           248.
 15 BOS                 1438004962. 5883876           244.
 16 ORD                 1311907639. 5503476           238.</code></pre>
-<p>Notice that the map step returns a sum and a count for each airport, rather than a mean: means of chunks of different sizes cannot be combined into the overall mean, but sums and counts can simply be added up. In general, the map step must return enough information for the partial results to be combined <em>exactly</em>. The reduce step is the same pattern as <code>reduce</code> with an <code>.init</code> value in <a href="week08.html" class="quarto-xref">Week&nbsp;<span>8</span></a>: an accumulator of running totals, updated with each chunk’s summary in turn.</p>
+<p>Notice that the map step returns a sum and a count for each airport, rather than a mean: means of chunks of different sizes cannot be combined into the overall mean, but sums and counts can simply be added up. In general, the map step must return enough information for the partial results to be combined <em>exactly</em>. The reduce step is the same pattern as <code>reduce</code> with an <code>.init</code> value in <a href="week09.html" class="quarto-xref">Week&nbsp;<span>9</span></a>: an accumulator of running totals, updated with each chunk’s summary in turn.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1128,8 +1128,8 @@ ORDER BY mean_base_fare DESC</code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./week09.html" class="pagination-link" aria-label="SQL for Data Science">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">SQL for Data Science</span></span>
+      <a href="./week09.html" class="pagination-link" aria-label="Research Software Engineering and Architecture in R">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Research Software Engineering and Architecture in R</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

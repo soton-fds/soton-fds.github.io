@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Research Software Engineering and Functional Programming</title>
+<title>Introduction to Shiny</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -107,7 +107,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -126,7 +158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Research Software Engineering and Functional Programming</h1>
+<h1 class="title">Introduction to Shiny</h1>
 </div>
 
 
@@ -148,98 +180,109 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>By the end of this lecture you will be able to:</p>
 <div class="fragment">
 <ul>
-<li>explain what distinguishes research <em>software</em> from a research <em>script</em></li>
+<li>explain what Shiny is, and what problem it solves</li>
 </ul>
 </div>
 <div class="fragment">
 <ul>
-<li>apply the principles of separation of concerns, modularity, DRY and “fail fast” to structure an analysis</li>
+<li>describe how a Shiny app is structured — a <code>ui</code> and a <code>server</code> — and run one</li>
 </ul>
 </div>
 <div class="fragment">
 <ul>
-<li>write pure functions, and use <code>purrr</code>’s <code>map</code>, <code>reduce</code> and predicate functions in place of loops</li>
+<li>describe <em>reactive programming</em> at a high level: sources, conductors and endpoints</li>
 </ul>
 </div>
-</section>
-<section id="sec-setup" class="level1">
-<h1>Setup</h1>
-<section id="packages-and-data" class="level2">
-<h2 class="anchored" data-anchor-id="packages-and-data">Packages and data</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)   <span class="co"># includes purrr</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/penguins.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <div class="fragment">
-<p><code>purrr</code> is part of the <code>tidyverse</code>: it’s the package for <em>functional programming</em> and iteration.</p>
-</div>
-</section>
-</section>
-<section id="sec-rse" class="level1">
-<h1>Research software</h1>
-<section id="scripts-dont-stay-scripts" class="level2">
-<h2 class="anchored" data-anchor-id="scripts-dont-stay-scripts">Scripts don’t stay scripts</h2>
-<p>A <strong>script</strong>: written quickly, to answer one question, run once by its author.</p>
-<div class="fragment">
-<p><strong>Research software</strong>: code that others — or <em>you, in six months</em> — rely on. It’s re-run on new data, extended, shared, and its results get published.</p>
-</div>
-<div class="fragment">
-<p>“Can you re-run it on next year’s data?” → “…with one variable changed?” → “…and update the plots for the paper?”</p>
-</div>
-<div class="fragment">
-<p><em>Research software engineering</em> (RSE): applying software engineering principles so that code is <strong>robust</strong>, <strong>reusable</strong> and <strong>maintainable</strong>.</p>
+<ul>
+<li>recognise the common input, output and layout components, and Shiny’s main uses and limitations</li>
+</ul>
 </div>
 <div class="notes">
-<p>Ask the room: who has had to re-run an analysis they wrote weeks ago? If the code is one long file with hard-coded paths and copy-pasted blocks, every request means editing several places and hoping nothing breaks — and nobody is sure the published numbers came from the code as it stands now. Week 3 (Quarto, git) was the first half of RSE; today is about structure.</p>
+<p>All of today’s apps are in <code>slides/apps/week08/</code> (also linked from the handout). Open RStudio with that folder before the lecture, so each demo is one click on “Run App”. Run each app from its own file so that the working directory is the app’s folder (<code>app4_explorer.R</code> reads <code>data/penguins.csv</code>).</p>
 </div>
 </section>
-<section id="four-principles" class="level2">
-<h2 class="anchored" data-anchor-id="four-principles">Four principles</h2>
+<section id="sec-what" class="level1">
+<h1>What is Shiny?</h1>
+<section id="sharing-an-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="sharing-an-analysis">Sharing an analysis</h2>
+<p>So far, our results reach other people as <strong>static</strong> reports: they see the plots and tables <em>we</em> chose.</p>
 <div class="fragment">
-<ol type="1">
-<li><strong>Separation of concerns</strong> — each part has one job: load, clean, model, plot, report</li>
-</ol>
+<p><strong>Shiny</strong> is an <code>R</code> package for building interactive <strong>web apps</strong> entirely in <code>R</code>:</p>
+<ul>
+<li>users change the inputs (e.g.&nbsp;choose a subset, move a slider) and the results update in their browser</li>
+<li>you write only <code>R</code>; Shiny generates the website (HTML, CSS and JavaScript)</li>
+</ul>
 </div>
 <div class="fragment">
-<ol start="2" type="1">
-<li><strong>Modularity</strong> — build the parts as independent, reusable functions</li>
-</ol>
+<p>The audience: people who <strong>don’t</strong> program in <code>R</code>.</p>
 </div>
-<div class="fragment">
-<ol start="3" type="1">
-<li><strong>Don’t repeat yourself (DRY)</strong> — every piece of knowledge written in exactly one place</li>
-</ol>
-</div>
-<div class="fragment">
-<ol start="4" type="1">
-<li><strong>Fail fast</strong> — check for problems early and stop with a clear error</li>
-</ol>
+<div class="notes">
+<p>Open the gallery examples now, briefly (1–2 min total):</p>
+<ul>
+<li><a href="https://gallery.shinyapps.io/051-movie-explorer/">Movie Explorer</a> — filters and selectors over a films dataset.</li>
+<li><a href="https://vnijs.shinyapps.io/radiant/">Radiant</a> — an entire statistics package built as a Shiny app.</li>
+</ul>
+<p>The point: everything they have done so far in the course could sit behind an app like this.</p>
 </div>
 </section>
-<section id="separation-of-concerns" class="level2">
-<h2 class="anchored" data-anchor-id="separation-of-concerns">Separation of concerns</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><strong>Everything mixed together</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"data.csv"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)) <span class="sc">|&gt;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fu">log</span>(x)) <span class="sc">|&gt;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:50%;">
-<p><strong>Clear separation</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>raw_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data.csv"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>clean_data <span class="ot">&lt;-</span> <span class="fu">clean_dataset</span>(raw_data)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">fit_model</span>(clean_data)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_results</span>(model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
+<section id="setting-up" class="level2">
+<h2 class="anchored" data-anchor-id="setting-up">Setting up</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"shiny"</span>)   <span class="co"># once, in the console</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)              <span class="co"># at the top of every app script</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="fragment">
-<p>Longer to write — each function must be defined somewhere — but it reads as a <strong>summary</strong> of the analysis, each step can be checked on its own, and a change to cleaning means editing one function.</p>
+<ul>
+<li><code>shiny</code> is <strong>not</strong> part of the <code>tidyverse</code></li>
+<li>apps are written in <strong><code>.R</code> scripts</strong>, not <code>.qmd</code> files — a rendered Quarto document is a static web page, with no <code>R</code> running behind it</li>
+<li>convention: one script, <code>app.R</code>, ending in <code>shinyApp(ui, server)</code></li>
+</ul>
 </div>
 </section>
-<section id="copy-paste-edit" class="level2">
-<h2 class="anchored" data-anchor-id="copy-paste-edit">Copy, paste, edit</h2>
+</section>
+<section id="sec-anatomy" class="level1">
+<h1>Anatomy of a Shiny App</h1>
+<section id="hello-shiny" class="level2">
+<h2 class="anchored" data-anchor-id="hello-shiny">Hello Shiny</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">titlePanel</span>(<span class="st">"Hello Shiny!"</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarPanel</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sliderInput</span>(<span class="st">"num"</span>, <span class="st">"Choose a number:"</span>, <span class="dv">1</span>, <span class="dv">100</span>, <span class="dv">50</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">textOutput</span>(<span class="st">"result"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>result <span class="ot">&lt;-</span> <span class="fu">renderText</span>({</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"You selected:"</span>, input<span class="sc">$</span>num)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="notes">
+<p>Walk through the code top to bottom:</p>
+<ul>
+<li><code>ui</code>: what the page looks like. <code>fluidPage</code> is the root; it becomes an HTML page styled with Bootstrap. Resize the window to show it adapting.</li>
+<li><code>server</code>: a function that connects inputs to outputs. <code>session</code> is advanced — we won’t use it.</li>
+<li><code>shinyApp(ui, server)</code> ties them together and starts a web server.</li>
+</ul>
+</div>
+</section>
+<section id="hello-shiny-running" class="level2">
+<h2 class="anchored" data-anchor-id="hello-shiny-running">Hello Shiny: running</h2>
+<p><img src="img/shiny_hello.png" class="img-fluid"></p>
+<div class="notes">
+<p>DEMO: open <code>app1_hello.R</code> and click “Run App”. Move the slider and watch the text update. Resize the window to show the layout adapting.</p>
+<p>Stop the app (red stop icon) before moving on — the console is busy while an app runs.</p>
+</div>
+</section>
+<section id="the-naming-contract" class="level2">
+<h2 class="anchored" data-anchor-id="the-naming-contract">The naming contract</h2>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -250,310 +293,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>We want the same plot for Adelie penguins on two islands. What’s wrong here?</p>
-</div>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">"Adelie"</span>, island <span class="sc">==</span> <span class="st">"Biscoe"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm, <span class="at">colour =</span> sex)) <span class="sc">+</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Adelie penguins on Biscoe"</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">"Adelia"</span>, island <span class="sc">==</span> <span class="st">"Dream"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm, <span class="at">colour =</span> sex)) <span class="sc">+</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Adelie penguins on Dream"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="week08_slides_files/figure-revealjs/unnamed-chunk-2-1.png" class="img-fluid" width="960"></p>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="week08_slides_files/figure-revealjs/unnamed-chunk-2-2.png" class="img-fluid" width="960"></p>
-</div>
+<p>How does the server know <em>which</em> slider to read, and <em>where</em> to put the text?</p>
 </div>
 </div>
 <div class="answer">
-<p>A typo, <code>"Adelia"</code>, crept in while editing the copy. <code>R</code> gives <strong>no error</strong>: filtering for a species that doesn’t exist is valid, and returns no rows — so the second plot is silently empty.</p>
-</div>
-<div class="notes">
-<p>Let them look for 30 seconds before revealing. The general lesson: two copies of the same logic must be kept in step, and nothing warns us when they drift apart.</p>
-</div>
-</section>
-<section id="dry-fail-fast" class="level2">
-<h2 class="anchored" data-anchor-id="dry-fail-fast">DRY + fail fast</h2>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Task
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Write a function <code>plot_bills(data, species_name, island_name)</code> that draws this plot, and <strong>stops with a clear error</strong> if the species or island isn’t in the data.</p>
-</div>
-</div>
-<div class="answer">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>plot_bills <span class="ot">&lt;-</span> <span class="cf">function</span>(data, species_name, island_name) {</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>(species_name <span class="sc">%in%</span> data<span class="sc">$</span>species)) {</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"Unknown species: "</span>, species_name)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>(island_name <span class="sc">%in%</span> data<span class="sc">$</span>island)) {</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"Unknown island: "</span>, island_name)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  data <span class="sc">|&gt;</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(species <span class="sc">==</span> species_name, island <span class="sc">==</span> island_name) <span class="sc">|&gt;</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm, <span class="at">colour =</span> sex)) <span class="sc">+</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">paste</span>(species_name, <span class="st">"penguins on"</span>, island_name),</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">"Bill length (mm)"</span>, <span class="at">y =</span> <span class="st">"Bill depth (mm)"</span>, <span class="at">colour =</span> <span class="st">"Sex"</span>)</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_bills</span>(penguins, <span class="st">"Adelie"</span>, <span class="st">"Biscoe"</span>)</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_bills</span>(penguins, <span class="st">"Adelie"</span>, <span class="st">"Dream"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="week08_slides_files/figure-revealjs/unnamed-chunk-3-1.png" class="img-fluid" width="960"></p>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="week08_slides_files/figure-revealjs/unnamed-chunk-3-2.png" class="img-fluid" width="960"></p>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="does-it-fail-fast" class="level2">
-<h2 class="anchored" data-anchor-id="does-it-fail-fast">Does it fail fast?</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_bills</span>(penguins, <span class="st">"Adelia"</span>, <span class="st">"Dream"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error in plot_bills(penguins, "Adelia", "Dream"): Unknown species: Adelia</code></pre>
-</div>
-</div>
-<div class="fragment">
-<ul>
-<li>the typo now <strong>stops</strong> the analysis with a clear message</li>
-<li>improvements (like the axis labels) are made <strong>once</strong> and apply to every plot</li>
-</ul>
-</div>
-</section>
-<section id="organising-a-project" class="level2">
-<h2 class="anchored" data-anchor-id="organising-a-project">Organising a project</h2>
-<pre><code>my-project/
-├── README.md        # what the project is, and how to run it
-├── data/            # raw data, never edited by hand
-├── R/               # functions, e.g. cleaning.R and plots.R
-├── analysis.qmd     # the report, which uses the functions
-└── results/         # generated outputs, can always be recreated</code></pre>
-<div class="fragment">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/cleaning.R"</span>)   <span class="co"># runs the script as if typed in</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/plots.R"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The functions (the <em>how</em>) live apart from the narrative (the <em>what</em>), and can be shared between reports — or a Shiny app.</p>
-</div>
-<div class="notes">
-<p>All paths are relative to the project folder (week 3), so the project still works on another computer.</p>
-</div>
-</section>
-<section id="speed-vs-structure" class="level2">
-<h2 class="anchored" data-anchor-id="speed-vs-structure">Speed vs structure</h2>
-<p>Research code is often exploratory and thrown away — but the parts that survive live far longer than expected.</p>
-<div class="fragment">
-<ul>
-<li><strong>exploring</strong>: rapid iteration is fine</li>
-<li><strong>once it works</strong>: <em>refactor</em> into functions, without changing what it does</li>
-<li><strong>before sharing</strong>: clean it up</li>
-</ul>
-</div>
-<div class="fragment">
-<p>Habits that cost nothing even while exploring: use functions (even small ones), no hard-coded absolute paths, write down your assumptions.</p>
-</div>
-<div class="notes">
-<p>“Perfect is the enemy of finished.” You don’t need an elaborate design: add structure when you notice patterns, like the same code appearing twice.</p>
-</div>
-</section>
-</section>
-<section id="sec-fp" class="level1">
-<h1>Functional programming</h1>
-<section id="paradigms" class="level2">
-<h2 class="anchored" data-anchor-id="paradigms">Paradigms</h2>
-<ul>
-<li><strong>Procedural</strong>: a sequence of steps</li>
-<li><strong>Object-oriented</strong>: objects bundling data and behaviour</li>
-<li><strong>Functional</strong>: <strong>pure</strong> functions and <strong>immutable</strong> data</li>
-</ul>
-<div class="fragment">
-<p><code>R</code> supports all three, but is a natural fit for functional programming:</p>
-<ul>
-<li>functions are <strong>values</strong>: assign them, pass them, return them</li>
-<li><strong>anonymous</strong> functions: <code>function(x) x + 1</code>, or <code>\(x) x + 1</code></li>
-<li><strong>higher-order</strong> functions take or return functions (week 2)</li>
-</ul>
-</div>
-</section>
-<section id="pure-functions" class="level2">
-<h2 class="anchored" data-anchor-id="pure-functions">Pure functions</h2>
-<p>A function is <strong>pure</strong> if</p>
-<ol type="1">
-<li>its result depends <strong>only on its arguments</strong>, and</li>
-<li>it has <strong>no side effects</strong> — it changes nothing outside itself.</li>
-</ol>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Task
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Which of these are pure?</p>
-</div>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>add <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) x <span class="sc">+</span> y</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>counter <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>increment <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;&lt;-</span> counter <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  counter</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>add_z <span class="ot">&lt;-</span> <span class="cf">function</span>(x) x <span class="sc">+</span> z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="answer">
-<ul>
-<li><code>add</code>: <strong>pure</strong></li>
-<li><code>increment</code>: impure — <code>&lt;&lt;-</code> changes <code>counter</code> outside the function (breaks 2)</li>
-<li><code>add_z</code>: impure — its result depends on the global <code>z</code> (breaks 1). Fix: pass <code>z</code> as an argument.</li>
-</ul>
-</div>
-<div class="notes">
-<p>Also impure by design: <code>rnorm</code> (different every call, unless the seed is set), and anything that reads files, plots or prints. That’s fine — the aim is to keep the impure parts <em>few</em> and <em>at the edges</em>: read data once at the start, save once at the end, pure functions in between. Shiny is organised the same way: <code>reactive()</code> computes values; observers exist for side effects.</p>
-</div>
-</section>
-<section id="immutability" class="level2">
-<h2 class="anchored" data-anchor-id="immutability">Immutability</h2>
-<p>You’ve been doing this since week 4:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>penguins_kg <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">body_mass_kg =</span> body_mass_g <span class="sc">/</span> <span class="dv">1000</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="st">"body_mass_kg"</span> <span class="sc">%in%</span> <span class="fu">names</span>(penguins_kg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="st">"body_mass_kg"</span> <span class="sc">%in%</span> <span class="fu">names</span>(penguins)   <span class="co"># the original is unchanged</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] FALSE</code></pre>
-</div>
-</div>
-<div class="fragment">
-<p><code>dplyr</code> verbs return a <strong>new</strong>, modified copy. <code>penguins</code> only changes if you assign the result back to it.</p>
-</div>
-</section>
-</section>
-<section id="sec-purrr" class="level1">
-<h1><code>purrr</code></h1>
-<section id="apply-a-function-to-every-element" class="level2">
-<h2 class="anchored" data-anchor-id="apply-a-function-to-every-element">Apply a function to every element</h2>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Task
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Square every element of <code>x &lt;- 1:10</code> using a <code>for</code> loop, then using <code>sapply()</code>, then using <code>purrr::map_dbl()</code>.</p>
-</div>
-</div>
-<div class="answer">
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>square <span class="ot">&lt;-</span> <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>squared_loop <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(x))</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(x)) {</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  squared_loop[i] <span class="ot">&lt;-</span> <span class="fu">square</span>(x[i])</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>squared_sapply <span class="ot">&lt;-</span> <span class="fu">sapply</span>(x, square)</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>squared_map <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(x, square)</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>squared_map</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1]   1   4   9  16  25  36  49  64  81 100</code></pre>
-</div>
-</div>
-</div>
-<div class="fragment">
-<p>The map states the intent in one line: no index to get wrong, no result to set up in advance, no variables leaking out.</p>
-</div>
-<div class="notes">
-<p>Loops aren’t wrong — they’re the clearest choice when each step depends on the previous one (the random walk from Lab 2). And for squaring, vectorised <code>x^2</code> is simplest of all: mapping is for functions that work on one element at a time, such as reading one file.</p>
-</div>
-</section>
-<section id="why-not-sapply" class="level2">
-<h2 class="anchored" data-anchor-id="why-not-sapply">Why not <code>sapply</code>?</h2>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Task
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Predict what type of object each call returns.</p>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) <span class="fu">c</span>(v, v<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) <span class="fu">seq_len</span>(v))</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">integer</span>(<span class="dv">0</span>), <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="answer">
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)          <span class="co"># a numeric vector</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1 4 9</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) <span class="fu">c</span>(v, v<span class="sc">^</span><span class="dv">2</span>))    <span class="co"># a matrix!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>     [,1] [,2] [,3]
-[1,]    1    2    3
-[2,]    1    4    9</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) <span class="fu">seq_len</span>(v))   <span class="co"># a list!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[[1]]
-[1] 1
-
-[[2]]
-[1] 1 2
-
-[[3]]
-[1] 1 2 3</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">integer</span>(<span class="dv">0</span>), <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)   <span class="co"># an empty list, not a vector!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>list()</code></pre>
-</div>
-</div>
-</div>
-<div class="notes">
-<p>The last one is the dangerous one: code that always got a numeric vector suddenly gets a list when its input happens to be empty (e.g.&nbsp;no files matched a pattern), and fails somewhere far from the real cause.</p>
-</div>
-</section>
-<section id="map-is-type-stable" class="level2">
-<h2 class="anchored" data-anchor-id="map-is-type-stable"><code>map</code> is type stable</h2>
-<p>The <strong>name</strong> tells you the type of the result:</p>
+<p>By <strong>name</strong>:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -561,72 +305,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </colgroup>
 <thead>
 <tr class="header">
-<th>Function</th>
-<th>Returns</th>
+<th>In the UI</th>
+<th>In the server</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>map()</code></td>
-<td>a list — results can be anything</td>
+<td><code>sliderInput("num", ...)</code></td>
+<td>read it as <code>input$num</code></td>
 </tr>
 <tr class="even">
-<td><code>map_lgl()</code>, <code>map_int()</code>, <code>map_dbl()</code>, <code>map_chr()</code></td>
-<td>a vector of that type</td>
+<td><code>textOutput("result")</code></td>
+<td>fill it with <code>output$result &lt;- renderText(...)</code></td>
 </tr>
 </tbody>
 </table>
-<div class="fragment">
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="fu">integer</span>(<span class="dv">0</span>), <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>numeric(0)</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(v) <span class="fu">c</span>(v, v<span class="sc">^</span><span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error in `map_dbl()`:
-i In index: 1.
-Caused by error:
-! Result must be length 1, not 2.</code></pre>
-</div>
-</div>
-</div>
-<div class="fragment">
-<p>An empty input gives an empty <code>double</code>; a result that doesn’t fit is an <strong>error, straight away</strong> — <em>fail fast</em> again.</p>
-</div>
-</section>
-<section id="writing-functions-inline" class="level2">
-<h2 class="anchored" data-anchor-id="writing-functions-inline">Writing functions inline</h2>
-<p>Three equivalent ways:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="cf">function</span>(v) v<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1]  1  4  9 16 25</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, \(v) v<span class="sc">^</span><span class="dv">2</span>)       <span class="co"># base R shorthand</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1]  1  4  9 16 25</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="sc">~</span> .x<span class="sc">^</span><span class="dv">2</span>)          <span class="co"># purrr formula: .x is the argument</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1]  1  4  9 16 25</code></pre>
-</div>
-</div>
-<div class="fragment">
-<p>And in parallel over two vectors (<code>.x</code>, <code>.y</code>), or many (<code>pmap</code>):</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map2_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">6</span><span class="sc">:</span><span class="dv">10</span>, \(a, b) (a <span class="sc">+</span> b)<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1]  49  81 121 169 225</code></pre>
-</div>
-</div>
+<p>Every input’s first argument is its name; every output’s name must match an <code>output$...</code> assignment.</p>
 </div>
 <div class="notes">
-<p>All three styles are idiomatic and appear in documentation and online, so students must be able to <em>read</em> each. Use whichever you find clearest.</p>
+<p>This is the backbone of every app. A mismatched output name gives <strong>no error</strong> — the output just stays blank. That’s the most common silent bug; we’ll come back to it.</p>
 </div>
 </section>
-<section id="lists-of-results" class="level2">
-<h2 class="anchored" data-anchor-id="lists-of-results">Lists of results</h2>
+<section id="add-an-output" class="level2">
+<h2 class="anchored" data-anchor-id="add-an-output">Add an output</h2>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -637,37 +338,47 @@ Caused by error:
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Split <code>penguins</code> into one tibble per species, compute the number of penguins and mean body mass of each, then combine the results into a single table.</p>
+<p>Extend the app so that it also shows the square of the chosen number.</p>
 </div>
 </div>
 <div class="answer">
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>by_species <span class="ot">&lt;-</span> <span class="fu">split</span>(penguins, penguins<span class="sc">$</span>species)   <span class="co"># list of tibbles</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>summaries <span class="ot">&lt;-</span> by_species <span class="sc">|&gt;</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(\(df) <span class="fu">summarise</span>(df, <span class="at">n =</span> <span class="fu">n</span>(),</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">mean_mass =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>summaries <span class="sc">|&gt;</span> <span class="fu">list_rbind</span>(<span class="at">names_to =</span> <span class="st">"species"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 x 3
-  species       n mean_mass
-  &lt;chr&gt;     &lt;int&gt;     &lt;dbl&gt;
-1 Adelie      152     3701.
-2 Chinstrap    68     3733.
-3 Gentoo      124     5076.</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># in the UI, inside mainPanel(), after a comma:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">textOutput</span>(<span class="st">"result"</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">textOutput</span>(<span class="st">"squared"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># in the server:</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>squared <span class="ot">&lt;-</span> <span class="fu">renderText</span>({</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(<span class="st">"Its square is:"</span>, input<span class="sc">$</span>num<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</div>
+<div class="fragment">
+<p>Two changes, joined by a name: a slot in the UI, and a <code>render*</code> function in the server.</p>
 </div>
 <div class="notes">
-<p><code>group_by()</code> + <code>summarise()</code> does this more simply for one data frame. Lists of results come into their own when data arrive in pieces — the classic case:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"data/monthly"</span>, <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.csv$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>all_data <span class="ot">&lt;-</span> files <span class="sc">|&gt;</span> <span class="fu">map</span>(read_csv) <span class="sc">|&gt;</span> <span class="fu">list_rbind</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>or when each piece produces something that isn’t a table (a model, a plot).</p>
+<p>Do this live in <code>app1_hello.R</code>. Deliberately forget the comma after <code>textOutput("result")</code> first and run it: the error is <code>unexpected symbol</code>, pointing at the component <em>after</em> the gap. The UI is one big nested function call, so every component needs a comma. (A trailing comma after the last one is harmless.)</p>
 </div>
 </section>
-<section id="reduce-combine-two-at-a-time" class="level2">
-<h2 class="anchored" data-anchor-id="reduce-combine-two-at-a-time"><code>reduce</code>: combine two at a time</h2>
+<section id="running-an-app" class="level2">
+<h2 class="anchored" data-anchor-id="running-an-app">Running an app</h2>
+<p>Three ways to start it:</p>
+<ol type="1">
+<li>define <code>ui</code> and <code>server</code>, then run <code>shinyApp(ui, server)</code></li>
+<li>save as <code>app.R</code> and call <code>runApp()</code> (or <code>runApp("path/to/app")</code>)</li>
+<li>click <strong>Run App</strong> in RStudio</li>
+</ol>
+<div class="fragment">
+<pre><code>Listening on http://127.0.0.1:3689</code></pre>
+<p>Shiny starts a <strong>web server</strong> on your computer. The browser and the <code>R</code> process stay connected: each change to an input is sent to <code>R</code>, which sends back updated outputs.</p>
+</div>
+<div class="fragment">
+<p>While the app runs your console is busy — stop it (stop icon, or <code>Esc</code>) to get your prompt back.</p>
+</div>
+</section>
+</section>
+<section id="sec-reactivity" class="level1">
+<h1>Reactivity</h1>
+<section id="does-the-server-re-run" class="level2">
+<h2 class="anchored" data-anchor-id="does-the-server-re-run">Does the server re-run?</h2>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -678,106 +389,168 @@ Caused by error:
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><code>reduce(x, f)</code> combines the elements of <code>x</code> pairwise: <code>f(f(f(x1, x2), x3), x4)</code>… Use it to add up <code>1:10</code>.</p>
+<p>When the user moves the slider, which code runs again?</p>
 </div>
 </div>
 <div class="answer">
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">reduce</span>(x, \(cur, new) cur <span class="sc">+</span> new)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 55</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">reduce</span>(x, <span class="st">`</span><span class="at">+</span><span class="st">`</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 55</code></pre>
-</div>
-</div>
-<p>The same as this loop, with an <strong>accumulator</strong> <code>cur</code>:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>cur <span class="ot">&lt;-</span> x[<span class="dv">1</span>]</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (new <span class="cf">in</span> x[<span class="sc">-</span><span class="dv">1</span>]) {</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  cur <span class="ot">&lt;-</span> cur <span class="sc">+</span> new</span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>cur</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 55</code></pre>
-</div>
-</div>
-</div>
-</section>
-<section id="an-accumulator-with-.init" class="level2">
-<h2 class="anchored" data-anchor-id="an-accumulator-with-.init">An accumulator with <code>.init</code></h2>
-<p>When the accumulator isn’t the same type as the elements, give a starting value:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">reduce</span>(</span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  \(cur, new) <span class="fu">list</span>(<span class="at">sum =</span> cur<span class="sc">$</span>sum <span class="sc">+</span> new, <span class="at">prod =</span> cur<span class="sc">$</span>prod <span class="sc">*</span> new),</span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">.init =</span> <span class="fu">list</span>(<span class="at">sum =</span> <span class="dv">0</span>, <span class="at">prod =</span> <span class="dv">1</span>)</span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>$sum
-[1] 55
-
-$prod
-[1] 3628800</code></pre>
-</div>
+<p><strong>Not</strong> the whole <code>server</code> function — only the <code>renderText({...})</code> block, because it reads <code>input$num</code>, which has changed.</p>
 </div>
 <div class="fragment">
-<p>Pointless for a vector in memory — <code>sum()</code> and <code>prod()</code> are faster. It pays off when each pass through the data is <strong>expensive</strong>, e.g.&nbsp;data spread over many files on disk. We’ll use exactly this idea for <strong>big data</strong> in week 10.</p>
+<p>Shiny keeps a <strong>reactive graph</strong>: a record of which code reads which values. When a value changes, it re-runs only what depends on it.</p>
 </div>
 </section>
-<section id="predicates" class="level2">
-<h2 class="anchored" data-anchor-id="predicates">Predicates</h2>
-<p>A <em>predicate</em> is a function that returns <code>TRUE</code> or <code>FALSE</code>.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">keep</span>(\(v) v <span class="sc">&gt;</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1]  6  7  8  9 10</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">every</span>(\(v) v <span class="sc">&gt;</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] FALSE</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">none</span>(\(v) v <span class="sc">&gt;</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
-</div>
+<section id="sources-conductors-and-endpoints" class="level2">
+<h2 class="anchored" data-anchor-id="sources-conductors-and-endpoints">Sources, conductors and endpoints</h2>
+<p>Every piece of reactive code plays one of three roles in the graph:</p>
+<div class="fragment">
+<ul>
+<li><strong>Sources</strong> hold values that change over time: the inputs the user sets, or values the server creates itself</li>
+</ul>
 </div>
 <div class="fragment">
-<p>They work on lists too:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>summaries <span class="sc">|&gt;</span> <span class="fu">keep</span>(\(s) s<span class="sc">$</span>mean_mass <span class="sc">&gt;</span> <span class="dv">4000</span>) <span class="sc">|&gt;</span> <span class="fu">names</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Gentoo"</code></pre>
+<ul>
+<li><strong>Conductors</strong> sit in the middle: they read sources, compute something from them, and pass the result on</li>
+</ul>
 </div>
-</div>
-</div>
-</section>
-<section id="partial-application" class="level2">
-<h2 class="anchored" data-anchor-id="partial-application">Partial application</h2>
-<p>Fix some arguments of a function, to get a new function of the rest:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>add_10 <span class="ot">&lt;-</span> <span class="fu">partial</span>(<span class="st">`</span><span class="at">+</span><span class="st">`</span>, <span class="dv">10</span>)</span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">5</span> <span class="sc">|&gt;</span> <span class="fu">map_dbl</span>(add_10)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 11 12 13 14 15</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>greet <span class="ot">&lt;-</span> <span class="fu">partial</span>(paste, <span class="st">"Hello"</span>)</span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">"Ada Lovelace"</span>, <span class="st">"Alan Turing"</span>) <span class="sc">|&gt;</span> <span class="fu">map_chr</span>(greet)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Hello Ada Lovelace" "Hello Alan Turing" </code></pre>
-</div>
+<div class="fragment">
+<ul>
+<li><strong>Endpoints</strong> sit at the end, where reactive code has an effect: <em>outputs</em> update what the user sees; <em>observers</em> do something else</li>
+</ul>
 </div>
 <div class="notes">
-<p>Related to <em>currying</em> (<code>f(a, b)</code> becomes <code>f(a)(b)</code>): <code>make_multiplier</code> from week 2 is curried multiplication. The notes also cover <code>compose()</code>, which packages a chain of functions as a new function.</p>
+<p>The Hello app is the smallest possible graph: one source (<code>input$num</code>) straight into one endpoint (<code>output$result</code>). It has no conductor; the next app has one.</p>
 </div>
 </section>
+<section id="three-roles-in-the-graph" class="level2">
+<h2 class="anchored" data-anchor-id="three-roles-in-the-graph">Three roles in the graph</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Role</th>
+<th>Created with</th>
+<th>Read with</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Source</strong></td>
+<td><code>*Input("x", ...)</code> in the UI</td>
+<td><code>input$x</code></td>
+</tr>
+<tr class="even">
+<td><strong>Source</strong></td>
+<td><code>x &lt;- reactiveVal(initial)</code></td>
+<td><code>x()</code>; set with <code>x(new_value)</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Conductor</strong></td>
+<td><code>x &lt;- reactive({...})</code></td>
+<td><code>x()</code></td>
+</tr>
+<tr class="even">
+<td><strong>Endpoint</strong> (output)</td>
+<td><code>output$x &lt;- render*({...})</code></td>
+<td>displayed by <code>*Output("x")</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Endpoint</strong> (observer)</td>
+<td><code>observe({...})</code>, <code>observeEvent(e, {...})</code></td>
+<td>not read: run for side effects</td>
+</tr>
+</tbody>
+</table>
+<div class="notes">
+<p>Point out that conductors and <code>reactiveVal</code>s are read by <em>calling</em> them, <code>x()</code>, like a function. <code>reactiveValues()</code> is a third kind of source, a list-like version of <code>reactiveVal</code>; it’s in the notes.</p>
+</div>
 </section>
-<section id="sec-defensive" class="level1">
-<h1>Defensive programming</h1>
-<section id="silent-recycling" class="level2">
-<h2 class="anchored" data-anchor-id="silent-recycling">Silent recycling</h2>
+<section id="a-sampling-app" class="level2">
+<h2 class="anchored" data-anchor-id="a-sampling-app">A sampling app</h2>
+<p>We want an app that draws a random sample of 500 points, whose <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinates are normally distributed with means <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> chosen by the user.</p>
+<div class="fragment">
+<p>It should show the sample in a <strong>scatter plot</strong>, and print the <strong>sample means</strong> beneath it. Separately, it greets the user by name.</p>
+</div>
+<div class="fragment">
+<p>Two outputs need the <em>same</em> sample. Where should it be drawn?</p>
+</div>
+<div class="notes">
+<p>Leave the question hanging: the next slide shows one answer, and the slides after it explain why.</p>
+</div>
+</section>
+<section id="a-conductor" class="level2">
+<h2 class="anchored" data-anchor-id="a-conductor">A conductor</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  samples <span class="ot">&lt;-</span> <span class="fu">reactive</span>(<span class="fu">tibble</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x1 =</span> <span class="fu">rnorm</span>(<span class="dv">500</span>, input<span class="sc">$</span>mu1, <span class="dv">1</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x2 =</span> <span class="fu">rnorm</span>(<span class="dv">500</span>, input<span class="sc">$</span>mu2, <span class="dv">1</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">samples</span>(), <span class="fu">aes</span>(<span class="at">x =</span> x1, <span class="at">y =</span> x2)) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>means <span class="ot">&lt;-</span> <span class="fu">renderText</span>({</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"Sample means:"</span>, <span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">samples</span>()<span class="sc">$</span>x1), <span class="dv">2</span>), <span class="st">"and"</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>          <span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">samples</span>()<span class="sc">$</span>x2), <span class="dv">2</span>))</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>greeting <span class="ot">&lt;-</span> <span class="fu">renderText</span>(<span class="fu">paste</span>(<span class="st">"Hello"</span>, input<span class="sc">$</span>name))</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="notes">
+<p>The new piece is <code>samples &lt;- reactive(...)</code>: a <strong>conductor</strong>. It draws the sample, and both the plot and the means read it by calling <code>samples()</code>. The greeting doesn’t touch it. Say explicitly that we’ll see over the next few slides <em>why</em> the sample is drawn in a <code>reactive()</code> rather than inside each <code>render*</code> block.</p>
+<p>The UI (in <code>app2_samples.R</code>) has two <code>numericInput</code>s (mu1, mu2) and a <code>textInput</code> (name), laid out with <code>fluidRow</code>/<code>column</code>.</p>
+<p><code>coord_cartesian</code> fixes the axes, so the cloud visibly moves rather than the axes rescaling around it.</p>
+</div>
+</section>
+<section id="a-conductor-running" class="level2">
+<h2 class="anchored" data-anchor-id="a-conductor-running">A conductor: running</h2>
+<p><img src="img/shiny_samples.png" class="img-fluid"></p>
+<div class="notes">
+<p>DEMO: run <code>app2_samples.R</code>. Change mu1: the cloud moves <em>and</em> the means update. Then type in the name box: only the greeting changes, the points stay exactly where they are. Leave the question of <em>why</em> to the next slide.</p>
+</div>
+</section>
+<section id="the-reactive-graph" class="level2">
+<h2 class="anchored" data-anchor-id="the-reactive-graph">The reactive graph</h2>
+<div class="cell" data-fig-width="9" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  mu1["input$mu1"] --&gt; samples["samples()"]
+  mu2["input$mu2"] --&gt; samples
+  samples --&gt; plot["output$plot"]
+  samples --&gt; means["output$means"]
+  name["input$name"] --&gt; greeting["output$greeting"]
+  classDef source fill:#cfe2ff,stroke:#0d6efd,color:#000
+  classDef conductor fill:#ffe5b4,stroke:#fd7e14,color:#000
+  classDef endpoint fill:#d1f2d9,stroke:#198754,color:#000
+  class mu1,mu2,name source
+  class samples conductor
+  class plot,means,greeting endpoint
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><span style="color:#0d6efd">Sources</span> → <span style="color:#fd7e14">conductor</span> → <span style="color:#198754">endpoints</span>. An arrow means “is read by”.</p>
+<div class="fragment">
+<p>Changing <span class="math inline">\(\mu_1\)</span> re-runs <code>samples()</code>, the plot and the means. Typing a name re-runs only the greeting.</p>
+</div>
+<div class="notes">
+<p>Walk through the graph once, left to right: three sources, one conductor, three endpoints. Then trace a change to mu1 along the arrows, and then a change to the name.</p>
+<p>Point out that <code>samples()</code> is computed <strong>once</strong> per change even though two endpoints call it: the first caller recomputes it, the second gets the <em>cached</em> result. That caching is the subject of the next slide.</p>
+</div>
+</section>
+<section id="why-not-skip-the-conductor" class="level2">
+<h2 class="anchored" data-anchor-id="why-not-skip-the-conductor">Why not skip the conductor?</h2>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -788,42 +561,185 @@ $prod
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>From Lab 2: what does this return, and why is it a problem?</p>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>distance <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> y)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">distance</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.828427</code></pre>
+<p>Why not just call <code>rnorm()</code> inside each <code>render*</code> block?</p>
 </div>
 </div>
 <div class="answer">
-<p>A number — but it’s meaningless. <code>-</code> silently <strong>recycles</strong> the shorter vector to the length of the longer one, so <code>1:2</code> is treated as <code>c(1, 2, 1, 2)</code>.</p>
-</div>
-</section>
-<section id="check-your-inputs" class="level2">
-<h2 class="anchored" data-anchor-id="check-your-inputs">Check your inputs</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>distance <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(</span>
-<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Both x and y must be numeric vectors."</span> <span class="ot">=</span></span>
-<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">is.numeric</span>(x) <span class="sc">&amp;&amp;</span> <span class="fu">is.numeric</span>(y),</span>
-<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"x and y must have the same length."</span> <span class="ot">=</span> <span class="fu">length</span>(x) <span class="sc">==</span> <span class="fu">length</span>(y)</span>
-<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> y)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a><span class="fu">distance</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error in distance(1:4, 1:2): x and y must have the same length.</code></pre>
-</div>
-</div>
-<div class="fragment">
-<p>Validate inputs and <strong>fail fast</strong> with a clear message, rather than letting a wrong answer travel silently through the analysis.</p>
+<p>Each output would draw its <strong>own</strong> sample: the means printed under the plot would describe <em>different</em> points from the ones plotted.</p>
+<p>A <code>reactive()</code> computes the sample once and <strong>caches</strong> it, so every output sees the same data — and it is only recomputed when <code>input$mu1</code> or <code>input$mu2</code> changes.</p>
 </div>
 <div class="notes">
-<p><code>stopifnot()</code> does nothing if every condition is <code>TRUE</code>; otherwise it stops at the first failure. The names become the error messages — much more helpful to someone else than <code>length(x) == length(y) is not TRUE</code>. The <code>if (...) stop(...)</code> form from <code>plot_bills</code> is equivalent.</p>
+<p>If asked: putting <code>set.seed()</code> at the top of the <code>reactive</code> makes each redraw use the same random numbers, so changing mu1 just slides the cloud (links back to week 3’s reproducibility).</p>
+</div>
+</section>
+<section id="spot-the-bugs" class="level2">
+<h2 class="anchored" data-anchor-id="spot-the-bugs">Spot the bugs</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Task
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Each line below is inside <code>server</code>. Each fails. Why?</p>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mean_x1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">samples</span>()<span class="sc">$</span>x1)                      <span class="co"># (a)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>means <span class="ot">&lt;-</span> <span class="fu">renderText</span>(<span class="fu">mean</span>(samples<span class="sc">$</span>x1))       <span class="co"># (b)</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>input<span class="sc">$</span>mu1 <span class="ot">&lt;-</span> <span class="dv">0</span>                                     <span class="co"># (c)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="answer">
+<ol type="a">
+<li><p>reactive values can only be read <strong>inside reactive code</strong> (<code>reactive</code>, <code>render*</code>, <code>observe*</code>): <em>“Operation not allowed without an active reactive context”</em>.</p></li>
+<li><p>missing parentheses: <code>samples</code> is a function, so <code>samples$x1</code> gives <em>“object of type ‘closure’ is not subsettable”</em>. Use <code>samples()$x1</code>.</p></li>
+<li><p>inputs are <strong>read-only</strong> — the user sets them. If the server needs a value it can change, use <code>reactiveVal()</code>.</p></li>
+</ol>
+</div>
+</section>
+<section id="observers-making-things-happen" class="level2">
+<h2 class="anchored" data-anchor-id="observers-making-things-happen">Observers: making things happen</h2>
+<p>Rule of thumb:</p>
+<ul>
+<li>compute a <strong>value</strong> for other code to use → <code>reactive()</code></li>
+<li>make something <strong>happen</strong> → an observer</li>
+</ul>
+</section>
+<section id="two-kinds-of-observer" class="level2">
+<h2 class="anchored" data-anchor-id="two-kinds-of-observer">Two kinds of observer</h2>
+<ul>
+<li><code>observe({...})</code> re-runs when <em>anything</em> it reads changes</li>
+<li><code>observeEvent(event, {...})</code> re-runs only when <code>event</code> changes</li>
+</ul>
+<div class="fragment">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">observe</span>({</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">"mu1 is now "</span>, input<span class="sc">$</span>mu1)   <span class="co"># prints to the R console</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A cheap way to watch the graph at work — and a useful debugging trick.</p>
+</div>
+</section>
+<section id="a-counter" class="level2">
+<h2 class="anchored" data-anchor-id="a-counter">A counter</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Task
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An app has two buttons and a line of text:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">actionButton</span>(<span class="st">"inc"</span>, <span class="st">"Increase counter"</span>),</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">actionButton</span>(<span class="st">"reset"</span>, <span class="st">"Reset counter"</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textOutput</span>(<span class="st">"value"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Write the server so that the text shows a count that the buttons increase and reset. There’s no input holding the count — where does it live?</p>
+</div>
+</div>
+<div class="answer">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> <span class="fu">reactiveVal</span>(<span class="dv">0</span>)           <span class="co"># a source the server can change</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">observeEvent</span>(input<span class="sc">$</span>inc, {</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">counter</span>(<span class="fu">counter</span>() <span class="sc">+</span> <span class="dv">1</span>)            <span class="co"># set by calling with a value</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">observeEvent</span>(input<span class="sc">$</span>reset, {</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">counter</span>(<span class="dv">0</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>value <span class="ot">&lt;-</span> <span class="fu">renderText</span>({</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"Counter is:"</span>, <span class="fu">counter</span>())   <span class="co"># read by calling it</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="notes">
+<p>DEMO: run <code>app3_counter.R</code> and click both buttons.</p>
+<ul>
+<li>An <code>actionButton</code>’s value is just the number of presses — rarely worth showing. What matters is that a press <em>happened</em>: an <strong>event</strong>, so pair it with <code>observeEvent</code>. By default <code>observeEvent</code> ignores the starting value 0, so nothing runs on start-up.</li>
+<li>The observers change the <code>reactiveVal</code>; the <code>renderText</code> reads it, so it re-runs automatically.</li>
+<li>Don’t use an observer to compute a value and stash it in a <code>reactiveVal</code> for others to read — that’s what <code>reactive()</code> is for.</li>
+</ul>
+</div>
+</section>
+</section>
+<section id="sec-components" class="level1">
+<h1>Building real apps</h1>
+<section id="a-penguin-explorer" class="level2">
+<h2 class="anchored" data-anchor-id="a-penguin-explorer">A penguin explorer</h2>
+<p><img src="img/shiny_explorer.png" class="img-fluid"></p>
+<div class="notes">
+<p>DEMO: run <code>app4_explorer.R</code>. Show the blank page before a species is picked, then pick Gentoo, drag the range slider, and untick the trend line.</p>
+<p>Describe it in a sentence: pick a species and a range of body mass; see a scatter plot (optional trend line) and a table of the number of penguins and their mean mass. Everything in it is something we’ve already met — inputs, outputs, one <code>reactive()</code> for the filtered data read by both outputs — except three ideas, on the next slide.</p>
+<p>Building this app from scratch is a Lab 8 task, so don’t walk through the whole script here. The full code is in <code>app4_explorer.R</code>.</p>
+</div>
+</section>
+<section id="three-new-ideas" class="level2">
+<h2 class="anchored" data-anchor-id="three-new-ideas">Three new ideas</h2>
+<div class="fragment">
+<p><strong>Read the data once</strong>, outside the server, not on every change:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/penguins.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="fragment">
+<p><strong>A range slider</strong>: give <code>value</code> two numbers, and read both ends in the server:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sliderInput</span>(<span class="st">"mass"</span>, <span class="st">"Body mass (g):"</span>, <span class="at">min =</span> <span class="dv">2700</span>, <span class="at">max =</span> <span class="dv">6300</span>,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">value =</span> <span class="fu">c</span>(<span class="dv">2700</span>, <span class="dv">6300</span>))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(body_mass_g <span class="sc">&gt;=</span> input<span class="sc">$</span>mass[<span class="dv">1</span>], body_mass_g <span class="sc">&lt;=</span> input<span class="sc">$</span>mass[<span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="fragment">
+<p><strong>Wait for the user</strong>: <code>req()</code> draws nothing until a species is chosen:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req</span>(input<span class="sc">$</span>species)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="notes">
+<ul>
+<li>Data read inside the server would be re-read from disk every time an input changes.</li>
+<li>The species dropdown starts on a named empty choice, <code>"(Choose a species)" = ""</code>. <code>input$species</code> is then <code>""</code>, which <code>req()</code> treats as “not chosen yet”, so the output stays blank. <code>validate()</code> and <code>need()</code> give a friendlier message; they’re in the notes.</li>
+<li>Remind them again: they will build the full app in Lab 8.</li>
+</ul>
+</div>
+</section>
+</section>
+<section id="sec-sharing" class="level1">
+<h1>Sharing and limitations</h1>
+<section id="deploying" class="level2">
+<h2 class="anchored" data-anchor-id="deploying">Deploying</h2>
+<p>Locally, the app runs in <strong>your</strong> <code>R</code> session — anyone else needs <code>R</code> and every package.</p>
+<div class="fragment">
+<p><strong>Deploying</strong> puts the app on a server (e.g.&nbsp;shinyapps.io, or your own Shiny Server) and gives users a web link. They need only a browser.</p>
+</div>
+<div class="fragment">
+<p>Common uses: dashboards, data exploration tools, statistical “what-if” calculators, teaching demos, prototypes for stakeholders.</p>
+</div>
+</section>
+<section id="limitations" class="level2">
+<h2 class="anchored" data-anchor-id="limitations">Limitations</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Task
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You deploy the penguin explorer and 200 people use it at once. Then you add a text box that lets users type a filter condition, run with <code>eval(parse(text = input$filter))</code>. What could go wrong?</p>
+</div>
+</div>
+<div class="answer">
+<ul>
+<li><strong>Performance / scalability</strong>: one <code>R</code> process serves everyone, and <code>R</code> does one thing at a time — a slow computation for one user makes everyone wait</li>
+<li><strong>Security</strong>: never run user input as code (or paste it into a SQL query — <em>SQL injection</em>, week 7). Anyone with the link can see the data: think twice before showing personal data (ethics week)</li>
+<li><strong>Cost and hosting</strong>: free tiers are limited; beyond them, hosting costs money or expertise</li>
+<li><strong>Customisation</strong>: polished interfaces may need HTML/CSS/JavaScript</li>
+</ul>
 </div>
 </section>
 </section>
@@ -833,17 +749,17 @@ $prod
 <h2 class="anchored" data-anchor-id="today-you-can-now">Today you can now:</h2>
 <div class="fragment">
 <ul>
-<li>structure an analysis: separate concerns, write functions, don’t repeat yourself, fail fast</li>
+<li>build an app from a <code>ui</code> (layout, inputs, outputs) and a <code>server</code> (render functions), joined by <strong>names</strong></li>
 </ul>
 </div>
 <div class="fragment">
 <ul>
-<li>recognise pure functions, and keep side effects at the edges</li>
+<li>explain reactivity: sources → conductors (<code>reactive</code>) → endpoints (<code>render*</code>, observers)</li>
 </ul>
 </div>
 <div class="fragment">
 <ul>
-<li>iterate with <code>map_*()</code>, combine with <code>reduce()</code>, filter with <code>keep()</code> and friends</li>
+<li>choose between <code>reactive()</code> (a value) and <code>observeEvent()</code> (an action), and use <code>req()</code> to wait for the user</li>
 </ul>
 </div>
 </section>
@@ -851,11 +767,13 @@ $prod
 <h2 class="anchored" data-anchor-id="read-the-notes">Read the notes</h2>
 <p>We didn’t cover in detail:</p>
 <ul>
-<li>handling errors: <code>try()</code>, <code>tryCatch()</code>, and <code>purrr::possibly()</code> for reading many files when some may fail</li>
-<li>unit tests with <code>stopifnot()</code> and <code>testthat</code></li>
-<li>documenting functions with roxygen comments (<code>#'</code>)</li>
-<li><code>compose()</code>, and dependency management with <code>renv</code></li>
+<li>the tables of layout, input and output components — and the <a href="https://gallery.shinyapps.io/081-widgets-gallery/">widget gallery</a> and <a href="https://soton-fds.github.io/cheatsheets/shiny.html">Shiny cheat sheet</a> for looking them up</li>
+<li>common mistakes, and debugging a running app with <code>message()</code> and <code>browser()</code></li>
+<li><code>reactiveValues()</code>, <code>conditionalPanel()</code>, <code>renderUI()</code></li>
+<li><code>validate()</code> / <code>need()</code> for friendlier messages than <code>req()</code></li>
+<li>Shinylive, and <code>bslib</code> layouts</li>
 </ul>
+<p>The demo apps are on the handout page: <a href="apps/week08/app1_hello.R">app1</a>, <a href="apps/week08/app2_samples.R">app2</a>, <a href="apps/week08/app3_counter.R">app3</a>, <a href="apps/week08/app4_explorer.R">app4</a> (with <a href="apps/week08/data/penguins.csv">its data</a>).</p>
 
 
 </section>
@@ -1012,44 +930,6 @@ $prod
     }
   })();
 </script>
-
-<script>
-  // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-  // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-  // slide changes (different for each slide format).
-  (function () {
-    // dispatch for htmlwidgets
-    function fireSlideEnter() {
-      const event = window.document.createEvent("Event");
-      event.initEvent("slideenter", true, true);
-      window.document.dispatchEvent(event);
-    }
-
-    function fireSlideChanged(previousSlide, currentSlide) {
-      fireSlideEnter();
-
-      // dispatch for shiny
-      if (window.jQuery) {
-        if (previousSlide) {
-          window.jQuery(previousSlide).trigger("hidden");
-        }
-        if (currentSlide) {
-          window.jQuery(currentSlide).trigger("shown");
-        }
-      }
-    }
-
-    // hookup for slidy
-    if (window.w3c_slidy) {
-      window.w3c_slidy.add_observer(function (slide_num) {
-        // slide_num starts at position 1
-        fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-      });
-    }
-
-  })();
-</script>
-
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

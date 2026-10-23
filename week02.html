@@ -223,19 +223,19 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./week07.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introduction to Shiny</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">SQL for Data Science</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./week08.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Research Software Engineering and Architecture in R</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction to Shiny</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./week09.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">SQL for Data Science</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Research Software Engineering and Architecture in R</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -499,7 +499,7 @@ window.Quarto = {
 <pre><code>[1] FALSE</code></pre>
 </div>
 </div>
-<p>Calling <code>rm(list = ls())</code> removes everything at once, which can be useful for a clean slate (use with care!). When an <code>R</code> session ends, the workspace is normally lost. It is possible to save and reload it (see <code>?save</code>), but it is much better practice to write scripts that recreate everything they need from scratch — a principle we will return to in <a href="week08.html" class="quarto-xref">Week&nbsp;<span>8</span></a>.</p>
+<p>Calling <code>rm(list = ls())</code> removes everything at once, which can be useful for a clean slate (use with care!). When an <code>R</code> session ends, the workspace is normally lost. It is possible to save and reload it (see <code>?save</code>), but it is much better practice to write scripts that recreate everything they need from scratch — a principle we will return to in <a href="week09.html" class="quarto-xref">Week&nbsp;<span>9</span></a>.</p>
 </section>
 <section id="printing-things" class="level3" data-number="2.2.3">
 <h3 data-number="2.2.3" class="anchored" data-anchor-id="printing-things"><span class="header-section-number">2.2.3</span> Printing Things</h3>
@@ -1041,7 +1041,7 @@ Tip
 </section>
 <section id="functions" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="functions"><span class="header-section-number">2.4</span> Functions</h2>
-<p>Writing one long script is very bad practice. It’s much better to break <code>R</code> code up across multiple functions and, as we will see in <a href="week08.html" class="quarto-xref">Week&nbsp;<span>8</span></a> multiple script files. We can define callable functions in <code>R</code> as follows</p>
+<p>Writing one long script is very bad practice. It’s much better to break <code>R</code> code up across multiple functions and, as we will see in <a href="week09.html" class="quarto-xref">Week&nbsp;<span>9</span></a> multiple script files. We can define callable functions in <code>R</code> as follows</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a>add <span class="ot">=</span> <span class="cf">function</span>(x, y) {</span>
 <span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a>    x <span class="sc">+</span> y</span>

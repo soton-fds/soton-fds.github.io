@@ -194,19 +194,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./week07.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introduction to Shiny</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">SQL for Data Science</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./week08.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Research Software Engineering and Architecture in R</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction to Shiny</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./week09.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">SQL for Data Science</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Research Software Engineering and Architecture in R</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -496,7 +496,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="outer-join" class="level3" data-number="5.1.4">
 <h3 data-number="5.1.4" class="anchored" data-anchor-id="outer-join"><span class="header-section-number">5.1.4</span> Outer Join</h3>
-<p>Outer join keeps records in both tables. In <code>dplyr</code> this is called a <code>full_join</code>; this matches SQL’s <code>FULL OUTER JOIN</code> (see <a href="week09.html" class="quarto-xref">Week&nbsp;<span>9</span></a>), which is often shortened to just “full join”.</p>
+<p>Outer join keeps records in both tables. In <code>dplyr</code> this is called a <code>full_join</code>; this matches SQL’s <code>FULL OUTER JOIN</code> (see <a href="week07.html" class="quarto-xref">Week&nbsp;<span>7</span></a>), which is often shortened to just “full join”.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">full_join</span>(student_data, student_grades, <span class="at">by=</span><span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"student_id"</span>))</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>result <span class="sc">|&gt;</span> <span class="fu">filter</span>(id <span class="sc">==</span> <span class="dv">7</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

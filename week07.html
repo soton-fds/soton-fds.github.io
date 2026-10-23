@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; Introduction to Shiny – Fundamentals of Data Science in R</title>
+<title>7&nbsp; SQL for Data Science – Fundamentals of Data Science in R</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -110,39 +110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -156,7 +124,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./week07.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introduction to Shiny</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./week07.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">SQL for Data Science</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -226,19 +194,19 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./week07.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introduction to Shiny</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">SQL for Data Science</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./week08.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Research Software Engineering and Architecture in R</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction to Shiny</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./week09.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">SQL for Data Science</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Research Software Engineering and Architecture in R</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -299,25 +267,22 @@ window.Quarto = {
    
   <ul>
   <li><a href="#objectives" id="toc-objectives" class="nav-link active" data-scroll-target="#objectives">Objectives</a></li>
-  <li><a href="#what-is-shiny" id="toc-what-is-shiny" class="nav-link" data-scroll-target="#what-is-shiny"><span class="header-section-number">7.1</span> What is Shiny?</a></li>
-  <li><a href="#basic-structure-of-a-shiny-app" id="toc-basic-structure-of-a-shiny-app" class="nav-link" data-scroll-target="#basic-structure-of-a-shiny-app"><span class="header-section-number">7.2</span> Basic Structure of a Shiny App</a></li>
-  <li><a href="#running-shiny-apps" id="toc-running-shiny-apps" class="nav-link" data-scroll-target="#running-shiny-apps"><span class="header-section-number">7.3</span> Running Shiny Apps</a></li>
-  <li><a href="#reactive-programming" id="toc-reactive-programming" class="nav-link" data-scroll-target="#reactive-programming"><span class="header-section-number">7.4</span> Reactive Programming</a>
+  <li><a href="#what-is-a-relational-database" id="toc-what-is-a-relational-database" class="nav-link" data-scroll-target="#what-is-a-relational-database"><span class="header-section-number">7.1</span> What is a Relational Database?</a>
   <ul class="collapse">
-  <li><a href="#sec-shiny-reactive" id="toc-sec-shiny-reactive" class="nav-link" data-scroll-target="#sec-shiny-reactive"><span class="header-section-number">7.4.1</span> Reactive Expressions</a></li>
-  <li><a href="#sec-shiny-observers" id="toc-sec-shiny-observers" class="nav-link" data-scroll-target="#sec-shiny-observers"><span class="header-section-number">7.4.2</span> Observers</a></li>
+  <li><a href="#sec-sql-why-db" id="toc-sec-sql-why-db" class="nav-link" data-scroll-target="#sec-sql-why-db"><span class="header-section-number">7.1.1</span> Why use Relational Databases?</a></li>
   </ul></li>
-  <li><a href="#sec-shiny-components" id="toc-sec-shiny-components" class="nav-link" data-scroll-target="#sec-shiny-components"><span class="header-section-number">7.5</span> Common Components</a>
+  <li><a href="#what-is-sql" id="toc-what-is-sql" class="nav-link" data-scroll-target="#what-is-sql"><span class="header-section-number">7.2</span> What is SQL?</a>
   <ul class="collapse">
-  <li><a href="#layout-functions" id="toc-layout-functions" class="nav-link" data-scroll-target="#layout-functions"><span class="header-section-number">7.5.1</span> Layout Functions</a></li>
-  <li><a href="#input-widgets" id="toc-input-widgets" class="nav-link" data-scroll-target="#input-widgets"><span class="header-section-number">7.5.2</span> Input Widgets</a></li>
-  <li><a href="#output-widgets-and-render-functions" id="toc-output-widgets-and-render-functions" class="nav-link" data-scroll-target="#output-widgets-and-render-functions"><span class="header-section-number">7.5.3</span> Output Widgets and Render Functions</a></li>
-  <li><a href="#example-a-small-data-explorer" id="toc-example-a-small-data-explorer" class="nav-link" data-scroll-target="#example-a-small-data-explorer"><span class="header-section-number">7.5.4</span> Example: A Small Data Explorer</a></li>
+  <li><a href="#creating-a-sqlite-db" id="toc-creating-a-sqlite-db" class="nav-link" data-scroll-target="#creating-a-sqlite-db"><span class="header-section-number">7.2.1</span> Creating a SQLite DB</a></li>
+  <li><a href="#creating-tables" id="toc-creating-tables" class="nav-link" data-scroll-target="#creating-tables"><span class="header-section-number">7.2.2</span> Creating Tables</a></li>
+  <li><a href="#create-read-update-and-delete" id="toc-create-read-update-and-delete" class="nav-link" data-scroll-target="#create-read-update-and-delete"><span class="header-section-number">7.2.3</span> Create, Read, Update and Delete</a></li>
+  <li><a href="#advanced-queries" id="toc-advanced-queries" class="nav-link" data-scroll-target="#advanced-queries"><span class="header-section-number">7.2.4</span> Advanced Queries</a></li>
+  <li><a href="#sec-sql-reading" id="toc-sec-sql-reading" class="nav-link" data-scroll-target="#sec-sql-reading"><span class="header-section-number">7.2.5</span> Reading SQL Queries</a></li>
   </ul></li>
-  <li><a href="#common-mistakes-and-debugging" id="toc-common-mistakes-and-debugging" class="nav-link" data-scroll-target="#common-mistakes-and-debugging"><span class="header-section-number">7.6</span> Common Mistakes and Debugging</a></li>
-  <li><a href="#common-use-cases" id="toc-common-use-cases" class="nav-link" data-scroll-target="#common-use-cases"><span class="header-section-number">7.7</span> Common Use Cases</a></li>
-  <li><a href="#sharing-and-deploying-apps" id="toc-sharing-and-deploying-apps" class="nav-link" data-scroll-target="#sharing-and-deploying-apps"><span class="header-section-number">7.8</span> Sharing and Deploying Apps</a></li>
-  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="header-section-number">7.9</span> Limitations</a></li>
+  <li><a href="#why-use-sql-vs.-r" id="toc-why-use-sql-vs.-r" class="nav-link" data-scroll-target="#why-use-sql-vs.-r"><span class="header-section-number">7.3</span> Why Use SQL vs.&nbsp;R</a>
+  <ul class="collapse">
+  <li><a href="#sec-dbplyr" id="toc-sec-dbplyr" class="nav-link" data-scroll-target="#sec-dbplyr"><span class="header-section-number">7.3.1</span> The Bridge: <code>dbplyr</code></a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -326,7 +291,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-shiny" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Introduction to Shiny</span></span></h1>
+<h1 class="title"><span id="sec-sql" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">SQL for Data Science</span></span></h1>
 </div>
 
 
@@ -346,633 +311,1039 @@ window.Quarto = {
 <section id="objectives" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="objectives">Objectives</h2>
 <ul>
-<li>Know what shiny is and what problems it solves.</li>
-<li>See how a basic shiny app is structured and executed.</li>
-<li>Be able to describe reactive programming at a high level.</li>
-<li>Recognise common use cases for <code>shiny</code>, and its limitations.</li>
-<li>Recognise the most common input, output and layout components, and know where to look up the rest.</li>
+<li>Understand SQL as a declarative language for transforming data.</li>
+<li>Be able to read and interpret SQL queries, including joins, <code>GROUP BY</code> aggregations and subqueries.</li>
+<li>Appreciate the tradeoffs of doing computation in-database rather than in <code>R</code>.</li>
+<li>Use <code>dbplyr</code> to query a database from <code>R</code>, and read the SQL that it generates.</li>
 </ul>
 </section>
-<section id="what-is-shiny" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="what-is-shiny"><span class="header-section-number">7.1</span> What is Shiny?</h2>
-<p>Shiny is an R package, developed by Posit (formerly RStudio), for building interactive web applications entirely in <code>R</code>. The problem it solves is sharing an analysis with people who do not program in <code>R</code>. A static report shows only the plots and tables that you chose to include; a Shiny app lets its users change the inputs themselves — choose a subset of the data, adjust a parameter — and see the results update immediately in their web browser. You write only <code>R</code> code: Shiny generates the HTML, CSS and JavaScript that make up the web page.</p>
-<p><code>shiny</code> is not part of <code>tidyverse</code>; it is a separate package that must be installed on its own, and loaded with <code>library(shiny)</code> at the top of every app script.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Installing Shiny
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Run <code>install.packages("shiny")</code> once in your <code>R</code> console, then load it with <code>library(shiny)</code> at the top of each app script. As with Quarto documents (see <a href="week02.html" class="quarto-xref">Week&nbsp;<span>2</span></a>), never put <code>install.packages()</code> in the app script itself: the package would be re-installed every time the app starts.</p>
-</div>
-</div>
-</section>
-<section id="basic-structure-of-a-shiny-app" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="basic-structure-of-a-shiny-app"><span class="header-section-number">7.2</span> Basic Structure of a Shiny App</h2>
-<p>A basic Shiny app consists of two main components:</p>
+<section id="what-is-a-relational-database" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="what-is-a-relational-database"><span class="header-section-number">7.1</span> What is a Relational Database?</h2>
+<p>A relational database is a structured collection of data organized into tables (also called relations). Each table consists of rows (records) and columns (fields), where each column has a specific data type and each row represents a single entry.</p>
+<p>To draw analogies with data frames, each table is essentially a data frame. However, the data frames are linked through a <em>key</em> mechanism. Each table has a column that is referred to as a <em>primary key</em> which is like a unique identifier for the row. Often this is an integer, but it can be other things (e.g.&nbsp;a string, or a UUID). The important thing is that each value of a primary key can exist only once in the table, to ensure the row can be identified uniquely.</p>
+<p>A table can also have <em>foreign keys</em>: columns whose values refer to primary keys in other tables, thus allowing for <em>relations</em> between the tables. If a column is labelled as a foreign key, consistency checks will be performed to ensure that the foreign key exists in the table it refers to.</p>
+<section id="sec-sql-why-db" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="sec-sql-why-db"><span class="header-section-number">7.1.1</span> Why use Relational Databases?</h3>
+<p>Relational databases offer several advantages:</p>
 <ul>
-<li><strong>UI (User Interface):</strong> Defines the layout and appearance of the app.</li>
-<li><strong>Server:</strong> Contains the instructions for how the app responds to user input.</li>
+<li><strong>Data Integrity</strong>: Enforce rules (such as primary and foreign keys) to maintain accurate and consistent data.</li>
+<li><strong>Scalability</strong>: Efficiently handle large volumes of data and complex queries.</li>
+<li><strong>Flexibility</strong>: Support powerful querying and data manipulation using SQL.</li>
+<li><strong>Security</strong>: Provide robust access controls and user permissions.</li>
+<li><strong>Redundancy Reduction</strong>: Minimize data duplication through normalization (i.e.&nbsp;breaking down the data into smaller, related tables rather than a single large table).</li>
+<li><strong>Concurrent Access</strong>: Allow multiple users to access and modify data safely at the same time.</li>
+<li><strong>Backup and Recovery</strong>: Offer built-in mechanisms for data backup and restoration.</li>
 </ul>
-<p>Here is a minimal example of a Shiny app:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">titlePanel</span>(<span class="st">"Hello Shiny!"</span>),</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sidebarLayout</span>(</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarPanel</span>(</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sliderInput</span>(<span class="st">"num"</span>, <span class="st">"Choose a number:"</span>, <span class="dv">1</span>, <span class="dv">100</span>, <span class="dv">50</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mainPanel</span>(</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">textOutput</span>(<span class="st">"result"</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>result <span class="ot">&lt;-</span> <span class="fu">renderText</span>({</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"You selected:"</span>, input<span class="sc">$</span>num)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The variable <code>ui</code> describes a simple user interface. The code entered into <code>fluidPage</code> is translated into an HTML page (styled using the <code>bootstrap</code> CSS library) when the app starts. The variable <code>server</code> describes the “back-end”: a function that connects the inputs defined in the UI to the outputs displayed in it. It takes three arguments — <code>input</code> and <code>output</code> make the values described below available to the server, and <code>session</code> is an advanced object we will not use (it can be omitted).</p>
-<p>The two ends of the app are tied together by the <em>names</em> given to components. The slider above was declared with <code>sliderInput("num", ...)</code>: the string <code>"num"</code> is the slider’s name, and its current value can be read in the server as <code>input$num</code>. Likewise, <code>textOutput("result")</code> reserves a display slot named <code>"result"</code>, which the server fills in by assigning to <code>output$result</code> — here using <code>renderText</code>. Pairing names in this way is the backbone of every shiny app: the input names determine what <code>input$...</code> contains, and the output names must match the <code>output$...</code> assignments. A reference table of output components and their matching render functions appears in <a href="#sec-shiny-components" class="quarto-xref"><span>Section 7.5</span></a>.</p>
-<p>When the user changes something in the UI, the <code>server</code> function is <strong>not</strong> re-run; instead, shiny re-runs only the reactive code registered inside it — here, the <code>renderText</code> block — when the values it depends on (here <code>input$num</code>) change. This is the reactive programming model we describe in the sections below.</p>
-<p>The example above produces the following output:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/shiny_example.png" class="img-fluid figure-img"></p>
-<figcaption>Rendered Shiny app: GUI</figcaption>
-</figure>
-</div>
-</section>
-<section id="running-shiny-apps" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="running-shiny-apps"><span class="header-section-number">7.3</span> Running Shiny Apps</h2>
-<p>In this course we always write Shiny apps in <code>R</code> scripts, not in <code>.qmd</code> files. A rendered Quarto document such as this book is a static web page with no <code>R</code> process behind it, so it cannot run the apps it shows. (Quarto can in fact host Shiny apps, either in <code>server: shiny</code> documents that are served by a running <code>R</code> process, or through Shinylive, which runs <code>R</code> inside the browser; we will not use either.) The usual convention is a single script named <code>app.R</code> that defines <code>ui</code> and <code>server</code> and ends with a call to <code>shinyApp</code>, sometimes kept in a folder of its own with any data files alongside (<code>app.R</code> and <code>ui.R</code>/<code>server.R</code> splits are also common). There are several ways to run Shiny apps in development:</p>
-<ol type="1">
-<li>In an interactive session, having defined <code>ui</code> and <code>server</code>, type the code <code>shinyApp(ui, server)</code>.</li>
-<li>Save the app as <code>app.R</code> and run it through the shiny function <code>runApp</code> — for example, <code>runApp()</code> if you are working in the app’s folder, or <code>runApp("path/to/app")</code> otherwise.</li>
-<li>Clicking the “Run App” button that appears in RStudio when you open a Shiny app file.</li>
-</ol>
-<p>In all of the above, Shiny will start a web server on your computer. You should see an output that looks like:</p>
-<pre><code>Listening on http://127.0.0.1:3689
-Browsing http://127.0.0.1:3689</code></pre>
-<p>This gives you a URL that you can enter into your browser to interact with the app. In <code>RStudio</code> the app will be opened automatically in a new window. While the app is running, your <code>R</code> console is busy serving it: stop the app (the stop icon in RStudio, or <code>Esc</code> in the console) to get your prompt back before continuing to work.</p>
-<p>While the app runs, the web page in the browser and the <code>R</code> process behind it stay connected. When the app starts, the UI is generated and displayed in the browser. Each time the user changes an input, the browser sends the new value to <code>R</code>, which recalculates whatever depends on it and sends the updated outputs back to be displayed. Working out <em>what</em> needs recalculating is the job of reactive programming, the subject of the next section.</p>
-</section>
-<section id="reactive-programming" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="reactive-programming"><span class="header-section-number">7.4</span> Reactive Programming</h2>
-<p>Reactive programming is a programming paradigm centred around the propagation of changes. In Shiny, this means that outputs automatically update in response to changes in inputs, without the need for explicit instructions to recalculate or redraw.</p>
-<p>To make this work, Shiny builds a <em>reactive graph</em> while the app runs: a record of which pieces of reactive code read which values. When a value changes, Shiny follows the graph to find everything that depends on it, and re-runs only those pieces. Every piece of reactive code plays one of three roles in the graph:</p>
-<ul>
-<li><strong>Sources</strong> hold values that change over time. The <code>input$...</code> values set by the user are sources; so are values created in the server with <code>reactiveVal()</code> or <code>reactiveValues()</code>.</li>
-<li><strong>Conductors</strong> sit in the middle of the graph: they read sources (or other conductors), compute something from them, and pass the result on. They are created with <code>reactive()</code>, and are called <em>reactive expressions</em>.</li>
-<li><strong>Endpoints</strong> sit at the end of the graph, and are where reactive code has an effect on the outside world. There are two kinds: <em>outputs</em> (<code>output$... &lt;- render*({...})</code>), which update what the user sees, and <em>observers</em> (<code>observe()</code> and <code>observeEvent()</code>), which carry out other actions, such as changing a source or writing to the console.</li>
-</ul>
-<p>In the first example the graph was as simple as it can be: one source, <code>input$num</code>, connected directly to one endpoint, <code>output$result</code>. Moving the slider tells Shiny that <code>output$result</code> is out of date, so its <code>renderText</code> block re-runs.</p>
-<p>The table below summarises how each role is created, and how its value is read in the server.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 19%">
-<col style="width: 45%">
-<col style="width: 35%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Role</th>
-<th style="text-align: left;">Created with</th>
-<th style="text-align: left;">Read with</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Source</td>
-<td style="text-align: left;"><code>*Input("x", ...)</code> in the UI</td>
-<td style="text-align: left;"><code>input$x</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Source</td>
-<td style="text-align: left;"><code>x &lt;- reactiveVal(initial)</code></td>
-<td style="text-align: left;"><code>x()</code>; set it with <code>x(new_value)</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Source</td>
-<td style="text-align: left;"><code>x &lt;- reactiveValues(a = ..., b = ...)</code></td>
-<td style="text-align: left;"><code>x$a</code>; set it with <code>x$a &lt;- new_value</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Conductor</td>
-<td style="text-align: left;"><code>x &lt;- reactive({...})</code></td>
-<td style="text-align: left;"><code>x()</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Endpoint (output)</td>
-<td style="text-align: left;"><code>output$x &lt;- render*({...})</code></td>
-<td style="text-align: left;">Not read in the server: displayed by <code>*Output("x")</code> in the UI (see <a href="#sec-shiny-components" class="quarto-xref"><span>Section 7.5</span></a>)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Endpoint (observer)</td>
-<td style="text-align: left;"><code>observe({...})</code> or <code>observeEvent(event, {...})</code></td>
-<td style="text-align: left;">Not read at all: run only for its actions</td>
-</tr>
-</tbody>
-</table>
-<p>Notice that reactive expressions and <code>reactiveVal</code>s are read by <em>calling</em> them like a function — <code>x()</code>, not <code>x</code>. Like <code>input$...</code>, they can only be read inside reactive code (see the warning below).</p>
-<section id="sec-shiny-reactive" class="level3" data-number="7.4.1">
-<h3 data-number="7.4.1" class="anchored" data-anchor-id="sec-shiny-reactive"><span class="header-section-number">7.4.1</span> Reactive Expressions</h3>
-<p>A reactive expression is useful whenever more than one endpoint needs the same intermediate result. The app below draws a random sample of 500 points, whose <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinates are normally distributed with means <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span> chosen by the user. It displays the sample in a scatterplot, and prints the sample means beneath it.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fluidRow</span>(</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">column</span>(</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="dv">2</span>,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">numericInput</span>(<span class="st">"mu1"</span>, <span class="at">label =</span> <span class="fu">withMathJax</span>(<span class="st">"$$</span><span class="sc">\\</span><span class="st">mu_1$$"</span>), <span class="at">value =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">width =</span> <span class="st">"80px"</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">column</span>(</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>      <span class="dv">2</span>,</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">numericInput</span>(<span class="st">"mu2"</span>, <span class="at">label =</span> <span class="fu">withMathJax</span>(<span class="st">"$$</span><span class="sc">\\</span><span class="st">mu_2$$"</span>), <span class="at">value =</span> <span class="dv">1</span>, <span class="at">width =</span> <span class="st">"80px"</span>)</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plotOutput</span>(<span class="st">"plot"</span>),</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textOutput</span>(<span class="st">"means"</span>)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  samples <span class="ot">&lt;-</span> <span class="fu">reactive</span>(<span class="fu">tibble</span>(</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">x1 =</span> <span class="fu">rnorm</span>(<span class="dv">500</span>, input<span class="sc">$</span>mu1, <span class="dv">1</span>),</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x2 =</span> <span class="fu">rnorm</span>(<span class="dv">500</span>, input<span class="sc">$</span>mu2, <span class="dv">1</span>)</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>(</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>(<span class="fu">samples</span>(), <span class="fu">aes</span>(<span class="at">x =</span> x1, <span class="at">y =</span> x2)) <span class="sc">+</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>))</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">res =</span> <span class="dv">96</span></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>means <span class="ot">&lt;-</span> <span class="fu">renderText</span>({</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Sample means:"</span>,</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>      <span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">samples</span>()<span class="sc">$</span>x1), <span class="dv">2</span>), <span class="st">"and"</span>,</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>      <span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">samples</span>()<span class="sc">$</span>x2), <span class="dv">2</span>)</span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This app has two sources, one conductor and two endpoints, connected like this:</p>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">flowchart LR
-  mu1["input$mu1"] --&gt; samples["samples()"]
-  mu2["input$mu2"] --&gt; samples
-  samples --&gt; plot["output$plot"]
-  samples --&gt; means["output$means"]
-</pre>
-</div>
-<p></p><figcaption> The reactive graph of the app above: sources on the left, the conductor in the middle and endpoints on the right. An arrow means “is read by”.</figcaption> </figure><p></p>
-</div>
-</div>
-</div>
-<p>Changing <span class="math inline">\(\mu_1\)</span> marks <code>samples()</code> as out of date, and with it both of the endpoints that read it. Both endpoints then re-run; the first to do so recomputes <code>samples()</code>, while the second receives the <em>cached</em> result. This is the defining feature of a reactive expression: it re-runs only when one of the values it reads has changed, however many times it is called in between.</p>
-<p>The caching matters for more than speed. Suppose we had left out the conductor, and called <code>rnorm</code> separately inside each <code>render*</code> block. Each output would then draw its <em>own</em> sample, and the means printed beneath the plot would describe a different set of points from the ones shown in it. Computing the sample once, in a single <code>reactive</code>, guarantees that every output sees the same data.</p>
-<p>A few other details in this example are worth a second look:</p>
-<ul>
-<li><code>withMathJax</code> renders its argument as LaTeX, so the input labels display properly as <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_2\)</span>.</li>
-<li>We call the reactive expression <code>samples</code>, rather than <code>data</code>, because <code>data</code> is already the name of a built-in <code>R</code> function; reusing it makes error messages much harder to understand.</li>
-<li><code>coord_cartesian(xlim = c(-5, 5), ylim = c(-5, 5))</code> fixes the axes rather than letting <code>ggplot2</code> rescale to whatever data is currently displayed; without it, the visible area would jump around with every change to the inputs.</li>
-<li><code>res = 96</code> sets the resolution (pixels per inch) of the rendered plot image.</li>
-<li>Because <code>samples()</code> draws new random numbers each time it re-runs, the cloud of points changes shape as well as position whenever an input changes. Calling <code>set.seed()</code> (see <a href="week03.html" class="quarto-xref">Week&nbsp;<span>3</span></a>) at the start of the <code>reactive</code> block makes every draw use the same random numbers, so that changing <span class="math inline">\(\mu_1\)</span> simply slides the cloud left or right.</li>
-</ul>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Reactive values can only be read inside reactive code
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Values like <code>input$mu1</code> and calls to reactive expressions like <code>samples()</code> may only be read <em>inside</em> reactive code — that is, inside <code>reactive</code>, <code>render*</code>, <code>observe</code> or <code>observeEvent</code> blocks. Reading them anywhere else (for example, directly in the body of <code>server</code>) triggers an error. For an input the message is</p>
-<pre><code>Can't access reactive value 'mu1' outside of reactive consumer.</code></pre>
-<p>and for a reactive expression it is</p>
-<pre><code>Operation not allowed without an active reactive context.</code></pre>
-<p>A related mistake is forgetting the parentheses when reading a reactive expression: <code>samples$x1</code> instead of <code>samples()$x1</code> fails with <code>object of type 'closure' is not subsettable</code>, because <code>samples</code> is a function, not a data frame.</p>
-<p>Inputs also cannot be overwritten from the server: assigning to <code>input$mu1</code> fails with <code>Can't modify read-only reactive value 'mu1'</code>, because inputs are set by the user through the UI. If you need a value the server can <em>change</em>, use <code>reactiveVal</code> or <code>reactiveValues</code>.</p>
-</div>
-</div>
-</section>
-<section id="sec-shiny-observers" class="level3" data-number="7.4.2">
-<h3 data-number="7.4.2" class="anchored" data-anchor-id="sec-shiny-observers"><span class="header-section-number">7.4.2</span> Observers</h3>
-<p>Outputs are one kind of endpoint; observers are the other. Like an output, an observer re-runs when the values it reads change, but rather than displaying something it is run purely for its <em>side effects</em>: changing a <code>reactiveVal</code>, writing a message to the console, saving a file, and so on. An observer does not return a value, so — unlike a reactive expression — nothing else in the app can read from it.</p>
-<p>This gives a simple rule of thumb for choosing between the two:</p>
-<ul>
-<li>if you want to compute a <strong>value</strong> for other reactive code to use, use <code>reactive()</code>;</li>
-<li>if you want something to <strong>happen</strong>, use an observer.</li>
-</ul>
-<p>In particular, avoid using an observer to compute a value and store it in a <code>reactiveVal</code> for other code to read: a <code>reactive()</code> does the same job more simply, and only recomputes when it needs to.</p>
-<p>The two observer functions are:</p>
-<ul>
-<li><code>observe({...})</code>: re-runs whenever any reactive value read inside the block changes.</li>
-<li><code>observeEvent(event, {...})</code>: re-runs only when <code>event</code> changes, ignoring changes to any other reactive values read inside the block.</li>
-</ul>
-<p>For example, adding the following to the server of the previous app prints a message to the <code>R</code> console each time the user changes <span class="math inline">\(\mu_1\)</span> — a simple way to watch the reactive graph at work, and a useful debugging technique:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">observe</span>({</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">"mu1 is now "</span>, input<span class="sc">$</span>mu1)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Here’s an example showing how <code>observeEvent</code> can be used to run code on button clicks. Button presses are the classic case for observers. The value of an <code>actionButton</code> is the number of times it has been pressed, starting from 0. That count is rarely worth displaying in its own right: what matters is that a press has <em>happened</em>, which is an event to respond to. Buttons are therefore usually paired with <code>observeEvent</code>, which re-runs its code each time the count goes up, rather than used inside <code>render*</code> functions. By default, <code>observeEvent</code> ignores a button’s starting value of 0, so its code does not run when the app first starts.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">actionButton</span>(<span class="st">"inc"</span>, <span class="st">"Increase counter"</span>),</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">actionButton</span>(<span class="st">"reset"</span>, <span class="st">"Reset counter"</span>),</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textOutput</span>(<span class="st">"value"</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create a reactiveVal starting at 0.</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Retrieve its value by calling it, counter(); set it by calling it with an</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># argument, counter(new_value).</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> <span class="fu">reactiveVal</span>(<span class="dv">0</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Increase counter when 'inc' button is clicked</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">observeEvent</span>(input<span class="sc">$</span>inc, {</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">counter</span>(<span class="fu">counter</span>() <span class="sc">+</span> <span class="dv">1</span>)   <span class="co"># update value</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Reset counter when 'reset' button is clicked</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">observeEvent</span>(input<span class="sc">$</span>reset, {</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">counter</span>(<span class="dv">0</span>)</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Display the current value</span></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>value <span class="ot">&lt;-</span> <span class="fu">renderText</span>({</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"Counter is:"</span>, <span class="fu">counter</span>())   <span class="co"># read value</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
-<section id="sec-shiny-components" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="sec-shiny-components"><span class="header-section-number">7.5</span> Common Components</h2>
-<p>Shiny provides a large collection of UI components; this section is a quick reference to the ones you are most likely to need in this course, ending with a worked example that combines several of them. The naming contract from the first example applies throughout: an input component’s first argument is its name, and its current value can then be read in the server as <code>input$name</code>; an output component’s name must match the <code>output$name</code> assignment that fills it. For components not listed here, the <a href="https://gallery.shinyapps.io/081-widgets-gallery/">widget gallery</a> has a live, runnable example of every input widget, the <a href="https://shiny.posit.co/r/gallery/">Shiny gallery</a> showcases complete apps, and the <a href="cheatsheets/shiny.html">Shiny cheat sheet</a> condenses the essentials onto two pages; Winston Chang’s free online book <a href="https://mastering-shiny.org/">Mastering Shiny</a> is the standard in-depth reference.</p>
-<section id="layout-functions" class="level3" data-number="7.5.1">
-<h3 data-number="7.5.1" class="anchored" data-anchor-id="layout-functions"><span class="header-section-number">7.5.1</span> Layout Functions</h3>
-<p>These components control the <em>structure</em> of the page. In this course, every app has a <code>fluidPage</code> at its root.</p>
+<section id="what-is-sql" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="what-is-sql"><span class="header-section-number">7.2</span> What is SQL?</h2>
+<p>SQL (Structured Query Language) is a standardized language used to manage and manipulate relational databases. It allows users to define, query, update, and control access to data stored in tables. SQL is declarative, meaning you specify <em>what</em> data you want, not <em>how</em> to retrieve it. Common SQL operations include selecting data (<code>SELECT</code>), filtering (<code>WHERE</code>), joining tables (<code>JOIN</code>), aggregating results (<code>GROUP BY</code>), and modifying data (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>). SQL is widely supported by database systems such as MySQL, PostgreSQL, SQLite, and Microsoft SQL Server, though there are some features that differ between implementations. In this course we will focus on <code>sqlite</code>, since it is widely available and does not require access to a server on which to host the database.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span><code>bslib</code> layouts
+<span class="screen-reader-only">Note</span>Using SQLite
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Recent Shiny documentation and gallery apps often build their pages with functions from the <code>bslib</code> package instead, such as <code>page_sidebar()</code> and <code>card()</code>. These are a more modern way of producing the same kinds of layout. <code>fluidPage</code> and the other functions below remain fully supported, and are the ones we use in this course.</p>
+<p>In this chapter we describe how relational databases behave in general, as provided by database servers such as PostgreSQL or MySQL. SQLite supports all of the SQL in this chapter, but it is a deliberately lightweight system, and its behaviour differs from that of a database server in some places — for example, in how strictly it enforces some of the rules described here. More generally, every database system has its own <em>dialect</em> of SQL, so it is worth checking the documentation of the system you are using.</p>
 </div>
 </div>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 52%">
-<col style="width: 47%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Function</th>
-<th style="text-align: left;">Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><code>fluidPage(...)</code></td>
-<td style="text-align: left;">The root of the UI: a page whose rows and columns adapt to the width of the screen.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>titlePanel("...")</code></td>
-<td style="text-align: left;">Displays a title at the top of the page.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>sidebarLayout(sidebarPanel(...), mainPanel(...))</code></td>
-<td style="text-align: left;">The classic layout: a narrow panel of controls beside a wide panel of results.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>fluidRow(...)</code></td>
-<td style="text-align: left;">A row spanning the page, holding one or more <code>column</code>s.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>column(width, ...)</code></td>
-<td style="text-align: left;">A column within a <code>fluidRow</code>. <code>width</code> runs from 1 (narrow) to 12 (the full page).</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>tabsetPanel(tabPanel("A", ...), tabPanel("B", ...))</code></td>
-<td style="text-align: left;">Splits content across tabs that the user switches between.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>conditionalPanel(condition, ...)</code></td>
-<td style="text-align: left;">Displays its contents only while <code>condition</code> — a JavaScript string such as <code>"input.choice != ''"</code> — holds.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>wellPanel(...)</code></td>
-<td style="text-align: left;">A bordered, grey panel that visually groups other components.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>helpText("...")</code></td>
-<td style="text-align: left;">Small, low-contrast explanatory text.</td>
-</tr>
-</tbody>
-</table>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Reading, not writing, SQL
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this course you will not be expected to write SQL yourself. You should, however, be able to <em>read</em> SQL: to interpret a query you are given, and explain what it does and what it returns (<a href="#sec-sql-reading" class="quarto-xref"><span>Section 7.2.5</span></a> gives a guide to doing this). When we work with databases from <code>R</code>, we will write <code>dplyr</code> code and let the <code>dbplyr</code> package translate it into SQL for us (see <a href="#sec-dbplyr" class="quarto-xref"><span>Section 7.3.1</span></a>).</p>
+</div>
+</div>
+<p>Much like <code>R</code>, <code>SQL</code> is typically written in plain text into text files, with the extension <code>.sql</code>. <code>SQL</code> is also stricter on formatting: a script containing several statements must separate them with semicolons (<code>;</code>), and it is good practice to end every statement with one.</p>
+<section id="creating-a-sqlite-db" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="creating-a-sqlite-db"><span class="header-section-number">7.2.1</span> Creating a SQLite DB</h3>
+<p>In this course you will mostly be supplied with pre-built SQLite databases to work with. There are various ways to create a database from scratch. One user-friendly way is using the <a href="https://sqlitebrowser.org/dl/">DB Browser for SQLite</a>. This gives the facility to create new databases and execute arbitrary SQL scripts on them, as well as interactive ways to create tables and insert data.</p>
 </section>
-<section id="input-widgets" class="level3" data-number="7.5.2">
-<h3 data-number="7.5.2" class="anchored" data-anchor-id="input-widgets"><span class="header-section-number">7.5.2</span> Input Widgets</h3>
-<p>Input widgets are placed in the UI, and their current values are read in the server through <code>input$&lt;name&gt;</code>.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 32%">
-<col style="width: 40%">
-<col style="width: 28%">
-</colgroup>
+<section id="creating-tables" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="creating-tables"><span class="header-section-number">7.2.2</span> Creating Tables</h3>
+<p>The command for creating a table in a database is</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CREATE</span> <span class="kw">TABLE</span> <span class="op">&lt;</span>table_name<span class="op">&gt;</span> (</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>        column_1 <span class="op">&lt;</span>column_1_type<span class="op">&gt;</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        column_2 <span class="op">&lt;</span>column_2_type<span class="op">&gt;</span>, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="op">..</span>.,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;</span><span class="kw">constraints</span><span class="op">&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>It is idiomatic for keywords (e.g.&nbsp;<code>CREATE TABLE</code>) to be in all caps. Unlike <code>R</code>, the column types must be specified when the table is created, and the database checks that the values inserted into each column match its type.</p>
+<p>The types that can be used vary between database systems, but most provide at least the following (sometimes under slightly different names):</p>
+<ul>
+<li><code>INTEGER</code>: a whole number.</li>
+<li><code>REAL</code>: a decimal number (called <code>DOUBLE PRECISION</code> or <code>FLOAT</code> in some systems).</li>
+<li><code>TEXT</code>: a text string (often <code>VARCHAR</code>).</li>
+<li><code>BOOLEAN</code>: true or false.</li>
+<li><code>DATE</code> and <code>TIMESTAMP</code>: dates, and dates with times.</li>
+<li><code>BLOB</code>: binary data (we won’t use these).</li>
+</ul>
+<p>The examples in this chapter use only <code>INTEGER</code>, <code>REAL</code> and <code>TEXT</code>.</p>
+<p>In addition to the type, a column can be designated as the table’s <code>PRIMARY KEY</code>, indicating that it contains the unique identifier for each row. A table has at most one primary key, but it can span several columns, when it is the <em>combination</em> of their values that identifies each row; this is written as a constraint, <code>PRIMARY KEY (column_1, column_2)</code>, after the column definitions. We can further add the text <code>AUTOINCREMENT</code> after <code>PRIMARY KEY</code> to have the database generate new IDs automatically; this avoids having to check what the largest ID in a table is before inserting. (The keyword for this is one of the places where database systems differ: SQLite uses <code>AUTOINCREMENT</code>, while for example MySQL uses <code>AUTO_INCREMENT</code>.)</p>
+<p>In addition to types, tables can also have constraints. Examples of constraints include:</p>
+<ul>
+<li><code>UNIQUE</code>: the column is not a primary key but each row can only contain unique values.</li>
+<li><code>FOREIGN KEY</code>: the column references the primary key in another table. The syntax for this differs, as we’ll see next.</li>
+</ul>
+<p>The SQL examples in the rest of this section are run, in order, against a small SQLite database, so that you can see the result of each query beneath it.</p>
+<p>Here is an example that creates three tables, each with a primary key: <code>customers</code>, <code>products</code>, and <code>orders</code>, which links the other two together through foreign keys.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Unlike R, comments in SQL start with two hyphens</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- Create customers table</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> customers (</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> AUTOINCREMENT, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    first_name TEXT,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    last_name TEXT,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    email TEXT</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Create products table</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> products (</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> AUTOINCREMENT,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    product_name TEXT,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    price <span class="dt">REAL</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    stock <span class="dt">INTEGER</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Create orders table</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> orders (</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> AUTOINCREMENT,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    customer_id <span class="dt">INTEGER</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    product_id <span class="dt">INTEGER</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    quantity <span class="dt">INTEGER</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- Constrain with two foreign keys:</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (customer_id) <span class="kw">REFERENCES</span> customers(<span class="kw">id</span>),</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (product_id) <span class="kw">REFERENCES</span> products(<span class="kw">id</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Notice that the <code>customers</code> table holds <em>personal data</em>: names and email addresses. In a real database, data like this is subject to data protection law such as UK GDPR, which limits who may access it and what it may be used for (see <a href="./ethics.html">Data Ethics</a>); the access controls of a database server are one way of enforcing those limits.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Dropping Tables
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We can also remove tables using the <code>DROP TABLE</code> syntax. This will delete all the data in the table, so should be used with care! A helpful command is <code>DROP TABLE IF EXISTS</code> which will drop the table only if it exists, otherwise do nothing.</p>
+</div>
+</div>
+</section>
+<section id="create-read-update-and-delete" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="create-read-update-and-delete"><span class="header-section-number">7.2.3</span> Create, Read, Update and Delete</h3>
+<p>Once the table structure has been initialised, the four basic operations of persistent storage are Create, Read, Update and Delete (often abbreviated as CRUD).</p>
+<section id="create" class="level4" data-number="7.2.3.1">
+<h4 data-number="7.2.3.1" class="anchored" data-anchor-id="create"><span class="header-section-number">7.2.3.1</span> Create</h4>
+<p>Inserting records into a table is accomplished with the <code>INSERT</code> command.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Insert data into customers table</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- Specifying the column names we want to insert into is good practice,</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- as it avoids a dependency on the order of database columns as well </span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- as allowing us to avoid needing to pass an ID.</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> customers(first_name, last_name, email) <span class="kw">VALUES</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Alice'</span>, <span class="st">'Smith'</span>, <span class="st">'alice.smith@email.com'</span>), <span class="co">-- We don't need to pass an ID because of AUTOINCREMENT</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Bob'</span>, <span class="st">'Jones'</span>, <span class="st">'bob.jones@email.com'</span>),</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Carol'</span>, <span class="st">'Lee'</span>, <span class="st">'carol.lee@email.com'</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Insert data into products table</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> products(product_name, price, stock) <span class="kw">VALUES</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Widget'</span>, <span class="fl">19.99</span>, <span class="dv">10</span>),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Gadget'</span>, <span class="fl">29.99</span>, <span class="dv">5</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Thingamajig'</span>, <span class="fl">9.99</span>, <span class="dv">2</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Insert data into orders table</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> orders(customer_id, product_id, quantity) <span class="kw">VALUES</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">4</span>),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="read" class="level4" data-number="7.2.3.2">
+<h4 data-number="7.2.3.2" class="anchored" data-anchor-id="read"><span class="header-section-number">7.2.3.2</span> Read</h4>
+<p>We can read from a table using the <code>SELECT</code> command.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> customers;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>3 records</caption>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Widget</th>
-<th style="text-align: left;">Collects</th>
-<th style="text-align: left;">Notes</th>
+<th style="text-align: left;">id</th>
+<th style="text-align: left;">first_name</th>
+<th style="text-align: left;">last_name</th>
+<th style="text-align: left;">email</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><code>sliderInput(id, label, min, max, value)</code></td>
-<td style="text-align: left;">A number, by dragging a slider</td>
-<td style="text-align: left;">Doubles as a <em>range</em> slider — see the callout below.</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Alice</td>
+<td style="text-align: left;">Smith</td>
+<td style="text-align: left;">alice.smith@email.com</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><code>selectInput(id, label, choices)</code></td>
-<td style="text-align: left;">One choice from a dropdown</td>
-<td style="text-align: left;"><code>choices</code> is a character vector; giving its entries <em>names</em> (e.g.&nbsp;<code>c("(Choose a species)" = "")</code>) displays the name while <code>input$&lt;id&gt;</code> takes the value. The first choice is selected when the app starts, so a named empty first entry like the one shown is the standard way to represent “nothing chosen yet”.</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Bob</td>
+<td style="text-align: left;">Jones</td>
+<td style="text-align: left;">bob.jones@email.com</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><code>numericInput(id, label, value)</code></td>
-<td style="text-align: left;">A number, typed</td>
-<td style="text-align: left;">Optional <code>min</code>, <code>max</code> and <code>step</code> control the attached arrows.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>textInput(id, label)</code></td>
-<td style="text-align: left;">A string, typed</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>checkboxInput(id, label)</code></td>
-<td style="text-align: left;">A single tick-box</td>
-<td style="text-align: left;"><code>input$&lt;id&gt;</code> is <code>TRUE</code> or <code>FALSE</code>.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>checkboxGroupInput(id, label, choices)</code></td>
-<td style="text-align: left;">Any number of tick-boxes</td>
-<td style="text-align: left;"><code>input$&lt;id&gt;</code> is a character vector of the ticked values.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>radioButtons(id, label, choices)</code></td>
-<td style="text-align: left;">Exactly one of several options</td>
-<td style="text-align: left;">Like a <code>selectInput</code>, but with all choices visible at once. The first choice is selected by default; pass <code>selected = character(0)</code> to start with no button selected, in which case <code>input$&lt;id&gt;</code> is <code>NULL</code> until the user picks one (so <code>req(input$&lt;id&gt;)</code> waits for a choice). Once a button is picked, the user cannot return to “none selected”.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>dateInput(id, label)</code></td>
-<td style="text-align: left;">A single date</td>
-<td style="text-align: left;">A <code>Date</code> value.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>dateRangeInput(id, label)</code></td>
-<td style="text-align: left;">A start and end date</td>
-<td style="text-align: left;">A <code>Date</code> vector of length two, so index it as <code>input$&lt;id&gt;[1]</code> and <code>input$&lt;id&gt;[2]</code>.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>actionButton(id, label)</code></td>
-<td style="text-align: left;">Button presses</td>
-<td style="text-align: left;"><code>input$&lt;id&gt;</code> counts the presses, starting from 0. Respond to each press with <code>observeEvent</code>, rather than displaying the count.</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Carol</td>
+<td style="text-align: left;">Lee</td>
+<td style="text-align: left;">carol.lee@email.com</td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- subset columns</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> product_name <span class="kw">FROM</span> products;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>3 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">product_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Widget</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gadget</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Thingamajig</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- filter rows</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> products</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> stock <span class="op">&lt;=</span> <span class="dv">5</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>2 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">id</th>
+<th style="text-align: left;">product_name</th>
+<th style="text-align: right;">price</th>
+<th style="text-align: right;">stock</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Gadget</td>
+<td style="text-align: right;">29.99</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Thingamajig</td>
+<td style="text-align: right;">9.99</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- limit number of results</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> orders <span class="kw">LIMIT</span> <span class="dv">2</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>2 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">id</th>
+<th style="text-align: right;">customer_id</th>
+<th style="text-align: right;">product_id</th>
+<th style="text-align: right;">quantity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We can also sort the results, and remove duplicates:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- sort products by price, most expensive first</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> product_name, price <span class="kw">FROM</span> products</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> price <span class="kw">DESC</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>3 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">product_name</th>
+<th style="text-align: right;">price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Gadget</td>
+<td style="text-align: right;">29.99</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Widget</td>
+<td style="text-align: right;">19.99</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Thingamajig</td>
+<td style="text-align: right;">9.99</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- combined with LIMIT: the single most expensive product</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> product_name, price <span class="kw">FROM</span> products</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> price <span class="kw">DESC</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">product_name</th>
+<th style="text-align: right;">price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Gadget</td>
+<td style="text-align: right;">29.99</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- each customer who has placed an order, listed once</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">DISTINCT</span> customer_id <span class="kw">FROM</span> orders;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>3 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">customer_id</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><code>ORDER BY</code> sorts the rows by one or more columns, in ascending order unless the column is followed by <code>DESC</code>. Without an <code>ORDER BY</code>, the database makes no promise about the order in which it returns rows. <code>DISTINCT</code> removes duplicate rows from the result: each customer appears once, however many orders they have placed.</p>
+<p>We can also directly <code>JOIN</code> tables using SQL, to produce more complex queries.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="co">-- specify columns to select</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    orders.<span class="kw">id</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    products.product_name,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    orders.quantity,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    customers.first_name,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    customers.last_name</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> orders <span class="co">-- the table to start from</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- each JOIN adds a table, with ON saying how its rows match</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> customers <span class="kw">ON</span> orders.customer_id <span class="op">=</span> customers.<span class="kw">id</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> products <span class="kw">ON</span> orders.product_id <span class="op">=</span> products.<span class="kw">id</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>5 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">id</th>
+<th style="text-align: left;">product_name</th>
+<th style="text-align: right;">quantity</th>
+<th style="text-align: left;">first_name</th>
+<th style="text-align: left;">last_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Gadget</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Alice</td>
+<td style="text-align: left;">Smith</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Thingamajig</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Alice</td>
+<td style="text-align: left;">Smith</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Widget</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Bob</td>
+<td style="text-align: left;">Jones</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Gadget</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Bob</td>
+<td style="text-align: left;">Jones</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">Thingamajig</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Carol</td>
+<td style="text-align: left;">Lee</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Each <code>JOIN</code> adds one table to the query, and its <code>ON</code> condition says which of the new table’s rows match each existing row: here, each order is matched to the customer who placed it and the product that was ordered. Because the tables contain columns with the same names (all three have an <code>id</code>), each column is written as <code>table.column</code> to make clear which table it comes from.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Range sliders
+<span class="screen-reader-only">Tip</span>Join Types
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Passing a length-two <code>value</code> to <code>sliderInput</code> produces a double-ended slider with which the user selects a <em>range</em>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sliderInput</span>(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"years"</span>,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Release years:"</span>,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">min =</span> <span class="dv">1960</span>,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">max =</span> <span class="dv">2024</span>,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> <span class="fu">c</span>(<span class="dv">1960</span>, <span class="dv">2024</span>),</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sep =</span> <span class="st">""</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The server then sees a vector of two numbers: <code>input$years[1]</code> is the lower end of the range and <code>input$years[2]</code> the upper, so <code>filter(year &gt;= input$years[1], year &lt;= input$years[2])</code> selects the rows falling inside it. (<code>sep = ""</code> just removes the thousands-separating comma from the numbers displayed on the slider.)</p>
+<p>The other join types we saw in <a href="week05.html" class="quarto-xref">Week&nbsp;<span>5</span></a> also exist in SQL. The syntax <code>JOIN</code> is a shorthand for <code>INNER JOIN</code>, while <code>LEFT JOIN</code>, <code>RIGHT JOIN</code> and <code>FULL OUTER JOIN</code> are the equivalents of <code>left_join</code>, <code>right_join</code> and <code>full_join</code>. (<code>OUTER JOIN</code> on its own is not valid: you must say which kind of outer join you mean.)</p>
 </div>
 </div>
 </section>
-<section id="output-widgets-and-render-functions" class="level3" data-number="7.5.3">
-<h3 data-number="7.5.3" class="anchored" data-anchor-id="output-widgets-and-render-functions"><span class="header-section-number">7.5.3</span> Output Widgets and Render Functions</h3>
-<p>Every output widget in the UI is filled in by a matching render function assigned in the server: <code>output$name &lt;- renderPlot({...})</code> pairs with <code>plotOutput("name")</code>. These are the common pairs.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 29%">
-<col style="width: 43%">
-<col style="width: 27%">
-</colgroup>
+<section id="update" class="level4" data-number="7.2.3.3">
+<h4 data-number="7.2.3.3" class="anchored" data-anchor-id="update"><span class="header-section-number">7.2.3.3</span> Update</h4>
+<p>Updating records is accomplished with the <code>UPDATE</code> command:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Update the price of a product</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">UPDATE</span> products</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> price <span class="op">=</span> <span class="fl">24.99</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> product_name <span class="op">=</span> <span class="st">'Gadget'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Update the stock for a specific product</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">UPDATE</span> products</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> stock <span class="op">=</span> stock <span class="op">+</span> <span class="dv">5</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="op">=</span> <span class="dv">1</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Update a customer's email address</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">UPDATE</span> customers</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> email <span class="op">=</span> <span class="st">'alice.new@email.com'</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="op">=</span> <span class="dv">1</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="delete" class="level4" data-number="7.2.3.4">
+<h4 data-number="7.2.3.4" class="anchored" data-anchor-id="delete"><span class="header-section-number">7.2.3.4</span> Delete</h4>
+<p>As you might expect, deleting is accomplished with <code>DELETE</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Delete a specific order by id</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> orders</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="op">=</span> <span class="dv">3</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Delete all products with zero stock</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> products</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> stock <span class="op">=</span> <span class="dv">0</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Delete a customer by email</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> customers</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> email <span class="op">=</span> <span class="st">'bob.jones@email.com'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="advanced-queries" class="level3" data-number="7.2.4">
+<h3 data-number="7.2.4" class="anchored" data-anchor-id="advanced-queries"><span class="header-section-number">7.2.4</span> Advanced Queries</h3>
+<p>Beyond reading, filtering and joining tables, SQL has some more advanced syntax that is useful for particular kinds of query.</p>
+<section id="aggregation" class="level4" data-number="7.2.4.1">
+<h4 data-number="7.2.4.1" class="anchored" data-anchor-id="aggregation"><span class="header-section-number">7.2.4.1</span> Aggregation</h4>
+<p>We can perform aggregation using the <code>GROUP BY</code> statement, which is the analogue of <code>group_by</code> in <code>dplyr</code>. This allows us to lump multiple records into a group and specify how they should be aggregated. Some example statements are given below. The first counts the total number of orders for each customer.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Count orders per customer</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> customer_id, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">as</span> order_count</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> orders</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> customer_id;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>3 records</caption>
 <thead>
 <tr class="header">
-<th style="text-align: left;">In the UI</th>
-<th style="text-align: left;">In the server</th>
-<th style="text-align: left;">Displays</th>
+<th style="text-align: left;">customer_id</th>
+<th style="text-align: right;">order_count</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><code>textOutput(id)</code></td>
-<td style="text-align: left;"><code>renderText({...})</code></td>
-<td style="text-align: left;">A character string.</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">2</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><code>verbatimTextOutput(id)</code></td>
-<td style="text-align: left;"><code>renderPrint({...})</code></td>
-<td style="text-align: left;">Whatever printing produces, as fixed-width console-style text — handy for <code>str()</code> output or a fitted model.</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><code>plotOutput(id)</code></td>
-<td style="text-align: left;"><code>renderPlot({...})</code></td>
-<td style="text-align: left;">Any plot, including <code>ggplot2</code> plots.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>tableOutput(id)</code></td>
-<td style="text-align: left;"><code>renderTable({...})</code></td>
-<td style="text-align: left;">A data frame, as a static table.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>DT::dataTableOutput(id)</code></td>
-<td style="text-align: left;"><code>DT::renderDataTable({...})</code></td>
-<td style="text-align: left;">A data frame as a large, sortable, searchable table. <code>DT</code> is a separate package (<code>install.packages("DT")</code>).</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>uiOutput(id)</code></td>
-<td style="text-align: left;"><code>renderUI({...})</code></td>
-<td style="text-align: left;">UI components that are constructed dynamically in the server.</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: right;">1</td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<p>The syntax <code>COUNT(*)</code> specifies a <em>calculated column</em>: the number of rows in each group defined by the <code>GROUP BY</code> statement. <code>COUNT(*)</code> counts every row, whereas <code>COUNT(column_name)</code> counts only the rows in which that column is not missing (<code>NULL</code>).</p>
+<p>The next statement calculates total revenue for each product.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Total revenue per product</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> product_id, product_name, <span class="fu">SUM</span>(quantity <span class="op">*</span> price) <span class="kw">AS</span> total_revenue</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> orders</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> products</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">ON</span> orders.product_id <span class="op">=</span> products.<span class="kw">id</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> product_id, product_name;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>2 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">product_id</th>
+<th style="text-align: left;">product_name</th>
+<th style="text-align: right;">total_revenue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Gadget</td>
+<td style="text-align: right;">124.95</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Thingamajig</td>
+<td style="text-align: right;">29.97</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><code>SUM(quantity * price)</code> specifies that we should calculate <code>quantity * price</code> for each order, and then <code>SUM</code> over the groups specified. <code>AS</code> gives the calculated column a name. Notice that <code>product_name</code> appears in the <code>GROUP BY</code> as well as <code>product_id</code>: every column in the <code>SELECT</code> must either be grouped by, or be calculated by an aggregate function such as <code>SUM</code> or <code>COUNT</code>. (Here each <code>product_id</code> has a single <code>product_name</code>, so grouping by both gives the same groups as grouping by <code>product_id</code> alone.)</p>
 </section>
-<section id="example-a-small-data-explorer" class="level3" data-number="7.5.4">
-<h3 data-number="7.5.4" class="anchored" data-anchor-id="example-a-small-data-explorer"><span class="header-section-number">7.5.4</span> Example: A Small Data Explorer</h3>
-<p>The app below combines several of the components above — a dropdown with a placeholder choice, a range slider and a tick-box on the input side; a plot and a table on the output side. It follows the usual convention for loading data: <code>read_csv</code> is called <strong>once</strong>, before the app starts, rather than inside the server, so that the file is not re-read every time an input changes. The plot also follows the principles of <a href="week06.html" class="quarto-xref">Week&nbsp;<span>6</span></a>: <code>labs()</code> gives it a title and axis labels with units, and, as in the earlier example, <code>coord_cartesian</code> fixes the axes to cover the whole dataset, so that plots for different species and mass ranges can be compared directly rather than each being rescaled to fit its own points.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the data once, when the app starts (not inside the server).</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/penguins.csv"</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">titlePanel</span>(<span class="st">"Penguin explorer"</span>),</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sidebarLayout</span>(</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarPanel</span>(</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">selectInput</span>(</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"species"</span>,</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Choose a species:"</span>,</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">choices =</span> <span class="fu">c</span>(<span class="st">"(Choose a species)"</span> <span class="ot">=</span> <span class="st">""</span>, <span class="st">"Adelie"</span>, <span class="st">"Gentoo"</span>, <span class="st">"Chinstrap"</span>)</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sliderInput</span>(</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"mass"</span>,</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Body mass (g):"</span>,</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">min =</span> <span class="dv">2700</span>,</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">max =</span> <span class="dv">6300</span>,</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">value =</span> <span class="fu">c</span>(<span class="dv">2700</span>, <span class="dv">6300</span>),</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">sep =</span> <span class="st">""</span></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">checkboxInput</span>(<span class="st">"trend"</span>, <span class="st">"Show a trend line"</span>, <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mainPanel</span>(</span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">plotOutput</span>(<span class="st">"plot"</span>),</span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tableOutput</span>(<span class="st">"table"</span>)</span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  selected <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    penguins <span class="sc">|&gt;</span></span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(</span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>        species <span class="sc">==</span> input<span class="sc">$</span>species,</span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>        body_mass_g <span class="sc">&gt;=</span> input<span class="sc">$</span>mass[<span class="dv">1</span>],</span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>        body_mass_g <span class="sc">&lt;=</span> input<span class="sc">$</span>mass[<span class="dv">2</span>]</span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req</span>(input<span class="sc">$</span>species)   <span class="co"># do nothing until a species is chosen</span></span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>    plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">selected</span>(), <span class="fu">aes</span>(<span class="at">x =</span> flipper_length_mm, <span class="at">y =</span> body_mass_g)) <span class="sc">+</span></span>
-<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>      <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">170</span>, <span class="dv">235</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">2700</span>, <span class="dv">6300</span>)) <span class="sc">+</span></span>
-<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(</span>
-<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"Body mass against flipper length:"</span>, input<span class="sc">$</span>species, <span class="st">"penguins"</span>),</span>
-<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> <span class="st">"Flipper length (mm)"</span>,</span>
-<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Body mass (g)"</span></span>
-<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (input<span class="sc">$</span>trend) {</span>
-<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>      plot <span class="ot">&lt;-</span> plot <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>    plot</span>
-<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
-<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req</span>(input<span class="sc">$</span>species)</span>
-<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>    <span class="fu">selected</span>() <span class="sc">|&gt;</span></span>
-<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarise</span>(</span>
-<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>        <span class="at">n =</span> <span class="fu">n</span>(),</span>
-<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>        <span class="at">mean_mass =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Doing nothing until the user has chosen
+<section id="subqueries" class="level4" data-number="7.2.4.2">
+<h4 data-number="7.2.4.2" class="anchored" data-anchor-id="subqueries"><span class="header-section-number">7.2.4.2</span> Subqueries</h4>
+<p>Sometimes we might not be able to compute a table of interest using a single query; we might need to perform two queries to accomplish this. For example, if we want to view the details of customers who have placed more than one order, we first need to execute a query on the <code>orders</code> table to identify those customers, then filter the <code>customers</code> table based on the IDs. To accomplish this we can use <em>subqueries</em>, to nest the <code>orders</code> query inside another query.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Find customers who have placed more than one order</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> first_name, last_name</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> customers</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="kw">IN</span> (</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> customer_id</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> orders</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">GROUP</span> <span class="kw">BY</span> customer_id</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">HAVING</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="op">&gt;</span> <span class="dv">1</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">first_name</th>
+<th style="text-align: left;">last_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Alice</td>
+<td style="text-align: left;">Smith</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>Before a user interacts, inputs hold their initial values — in the app above, <code>input$species</code> starts as the empty string <code>""</code>, because that is the placeholder entry. Calling <code>req(...)</code> at the start of a reactive block tells the block to produce nothing until its arguments are non-empty. Used inside a <code>render*</code> function this leaves the corresponding output blank, which is the simplest way to implement a requirement like “do not display anything until the user has made a selection”. For a customised message instead of a blank space, look up <code>validate()</code> and <code>need()</code>.</p>
+<p>Note that this introduces the <code>HAVING</code> syntax for <code>GROUP BY</code> also, allowing us to filter groups, as well as the <code>IN</code> syntax for specifying a <em>list</em> of IDs to compare to, rather than a single ID.</p>
+<p>The next query identifies products that have never been ordered, again by querying the <code>orders</code> table first.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Find products that have never been ordered</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> product_name</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> products</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="kw">NOT</span> <span class="kw">IN</span> ( <span class="co">-- NOT IN also works!</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> product_id</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> orders</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">product_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Widget</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="missing-values" class="level4" data-number="7.2.4.3">
+<h4 data-number="7.2.4.3" class="anchored" data-anchor-id="missing-values"><span class="header-section-number">7.2.4.3</span> Missing Values</h4>
+<p>Missing values are represented in SQL by <code>NULL</code>, the equivalent of <code>NA</code> in <code>R</code> (see <a href="week02.html" class="quarto-xref">Week&nbsp;<span>2</span></a>). Like <code>NA</code>, <code>NULL</code> means “unknown”, so any comparison with it is also unknown: a condition such as <code>email = NULL</code> is never true, and a <code>WHERE</code> clause using it keeps no rows at all. To test whether a value is missing, use <code>IS NULL</code> or <code>IS NOT NULL</code> instead:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- customers with no email address recorded</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> first_name, last_name</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> customers</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> email <span class="kw">IS</span> <span class="kw">NULL</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<caption>0 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">first_name</th>
+<th style="text-align: left;">last_name</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+</div>
+<p>Every customer in our small database has an email address, so this query returns no rows.</p>
+<p>Aggregate functions such as <code>SUM</code> and <code>AVG</code> skip <code>NULL</code>s, as if <code>na.rm = TRUE</code> had been set in <code>R</code>; so does <code>COUNT(column_name)</code>, whereas <code>COUNT(*)</code> counts every row.</p>
+<p><code>NULL</code>s also cause a subtle trap in queries using <code>NOT IN</code>. Suppose that an order had been recorded without a product, so that its <code>product_id</code> is <code>NULL</code>. The subquery in the “never been ordered” example would then return a list containing a <code>NULL</code>, and since the database cannot tell whether a product’s <code>id</code> is equal to an unknown value, <code>id NOT IN (...)</code> is never true: the query returns no rows at all, without any error. Excluding the <code>NULL</code>s inside the subquery avoids the problem:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> product_name</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> products</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="kw">id</span> <span class="kw">NOT</span> <span class="kw">IN</span> (</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> product_id</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> orders</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">WHERE</span> product_id <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">product_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Widget</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </section>
 </section>
-<section id="common-mistakes-and-debugging" class="level2" data-number="7.6">
-<h2 data-number="7.6" class="anchored" data-anchor-id="common-mistakes-and-debugging"><span class="header-section-number">7.6</span> Common Mistakes and Debugging</h2>
-<p>Shiny apps tend to go wrong in a few characteristic ways, most of which are easy to fix once you recognise them.</p>
+<section id="sec-sql-reading" class="level3" data-number="7.2.5">
+<h3 data-number="7.2.5" class="anchored" data-anchor-id="sec-sql-reading"><span class="header-section-number">7.2.5</span> Reading SQL Queries</h3>
+<p>You will have noticed that most SQL clauses have a direct counterpart in <code>dplyr</code>, which we met in <a href="week04.html" class="quarto-xref">Week&nbsp;<span>4</span></a> and <a href="week05.html" class="quarto-xref"><span>5</span></a>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 35%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">SQL</th>
+<th style="text-align: left;"><code>dplyr</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>FROM table</code></td>
+<td style="text-align: left;">the data frame at the start of the pipe</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>JOIN other ON ...</code></td>
+<td style="text-align: left;"><code>inner_join(other, by = ...)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>LEFT JOIN other ON ...</code></td>
+<td style="text-align: left;"><code>left_join(other, by = ...)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>WHERE condition</code></td>
+<td style="text-align: left;"><code>filter(condition)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>GROUP BY column</code></td>
+<td style="text-align: left;"><code>group_by(column)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>COUNT(*)</code>, <code>SUM(x)</code>, <code>AVG(x)</code>, …</td>
+<td style="text-align: left;"><code>n()</code>, <code>sum(x)</code>, <code>mean(x)</code>, …, inside <code>summarise()</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>HAVING condition</code></td>
+<td style="text-align: left;"><code>filter(condition)</code> after <code>summarise()</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>SELECT column_1, column_2</code></td>
+<td style="text-align: left;"><code>select(column_1, column_2)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>expression AS name</code></td>
+<td style="text-align: left;"><code>mutate(name = expression)</code>, or <code>name = expression</code> inside <code>summarise()</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>DISTINCT</code></td>
+<td style="text-align: left;"><code>distinct()</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>ORDER BY column DESC</code></td>
+<td style="text-align: left;"><code>arrange(desc(column))</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>LIMIT n</code></td>
+<td style="text-align: left;"><code>head(n)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>column IS NULL</code></td>
+<td style="text-align: left;"><code>is.na(column)</code></td>
+</tr>
+</tbody>
+</table>
+<p>The main difference is in the <em>order</em> of the steps. A <code>dplyr</code> pipeline is written in the order in which it runs, from top to bottom. A SQL query is always written in the same fixed order, beginning with <code>SELECT</code>, but the database evaluates its clauses in a different order:</p>
+<ol type="1">
+<li><code>FROM</code> and <code>JOIN</code>: assemble the rows from the tables.</li>
+<li><code>WHERE</code>: keep only the rows that satisfy the condition.</li>
+<li><code>GROUP BY</code>: split the remaining rows into groups.</li>
+<li><code>HAVING</code>: keep only the groups that satisfy the condition.</li>
+<li><code>SELECT</code>: compute the columns of the result, including aggregates such as <code>COUNT(*)</code>.</li>
+<li><code>DISTINCT</code>: remove duplicate rows.</li>
+<li><code>ORDER BY</code>: sort the result.</li>
+<li><code>LIMIT</code>: keep only the first few rows.</li>
+</ol>
+<p>To read a query, therefore, start at <code>FROM</code> rather than at <code>SELECT</code>. For example, this query</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> customer_id, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> order_count</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> orders</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> quantity <span class="op">&gt;=</span> <span class="dv">2</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> customer_id</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="kw">HAVING</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="op">&gt;</span> <span class="dv">1</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> order_count <span class="kw">DESC</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>reads, in evaluation order: take the <code>orders</code> table; keep the orders of at least two items; group them by customer; keep the customers with more than one such order; for each, report the customer’s ID and their number of orders; sort with the most orders first; and keep the top five. In <code>dplyr</code>, the same steps appear in the same order:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>orders <span class="sc">|&gt;</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(quantity <span class="sc">&gt;=</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(customer_id) <span class="sc">|&gt;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">order_count =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(order_count <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(order_count)) <span class="sc">|&gt;</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The evaluation order also explains some of SQL’s rules. <code>WHERE</code> filters individual rows <em>before</em> they are grouped, so it cannot refer to aggregates such as <code>COUNT(*)</code>; that is the job of <code>HAVING</code>, which filters the groups afterwards. Similarly, in most databases a name defined with <code>AS</code> in the <code>SELECT</code> can be used in <code>ORDER BY</code>, which comes later, but not in <code>WHERE</code>, which comes earlier.</p>
+<p><code>dbplyr</code>, which we meet below, does this translation in the other direction: it turns a <code>dplyr</code> pipeline into SQL, which we can read using the same approach.</p>
+</section>
+</section>
+<section id="why-use-sql-vs.-r" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="why-use-sql-vs.-r"><span class="header-section-number">7.3</span> Why Use SQL vs.&nbsp;R</h2>
+<p>You will by now have noticed that SQL can do much of what we learned to do with <code>dplyr</code> in Weeks 4–5 (see <a href="#sec-sql-reading" class="quarto-xref"><span>Section 7.2.5</span></a>). We discussed the advantages of a database for <em>storing</em> data in <a href="#sec-sql-why-db" class="quarto-xref"><span>Section 7.1.1</span></a>. This section is about a different question: once the data are stored in a database, where should the work of filtering, joining and summarising them be done? There are two options:</p>
 <ul>
-<li><strong>A missing comma in the UI.</strong> The UI is one large, nested function call, so each component must be separated from the next by a comma. This is easy to forget when adding to an existing UI: to add a component after <code>titlePanel("My app")</code>, you must also add a comma after it. A missing comma stops the script from running at all, with an error such as <code>unexpected symbol</code> pointing at the component after the gap. (A comma <em>after</em> the last component, on the other hand, is harmless.)</li>
-<li><strong>Mismatched or duplicated IDs.</strong> If the name in an <code>output$...</code> assignment does not exactly match the ID of an output in the UI, or two components share the same ID, Shiny does not report an error in the <code>R</code> console: the output simply stays blank, or the app misbehaves. When an output is mysteriously empty, first compare its ID in the UI with the name used in the server, character by character.</li>
-<li><strong>Forgetting the parentheses on a reactive expression, or reading a reactive value outside reactive code.</strong> The warning in <a href="#sec-shiny-reactive" class="quarto-xref"><span>Section 7.4.1</span></a> lists the error messages these produce.</li>
-<li><strong>An error inside a <code>render*</code> function.</strong> The app keeps running, but the output displays the error message in place of its result. The same message appears in the <code>R</code> console, beginning <code>Warning: Error in</code>, along with a list of the function calls that led to it.</li>
+<li>run the query in the database, and import only its result into <code>R</code>; or</li>
+<li>import the tables into <code>R</code>, and run the query there using <code>dplyr</code>.</li>
 </ul>
-<p>To find out what is going on inside a running app, use the <code>R</code> console. Although you cannot type into it while the app runs, the server can still write to it:</p>
+<p>Doing the work in the database has several advantages:</p>
 <ul>
-<li><code>print()</code> or <code>message()</code> calls inside the server write to the <code>R</code> console — not to the app — each time the code around them runs. This is the same technique as in <a href="week02.html" class="quarto-xref">Week&nbsp;<span>2</span></a>; the <code>observe()</code> example in <a href="#sec-shiny-observers" class="quarto-xref"><span>Section 7.4.2</span></a> uses it to watch an input change.</li>
-<li>Adding <code>browser()</code> inside a reactive block pauses the app each time that line is reached, and gives you an interactive prompt in the console from <em>inside</em> the block. There you can inspect values such as <code>input$species</code> or <code>selected()</code>, and run code to try out a fix. Type <code>c</code> and press Enter to let the app continue, or <code>Q</code> to stop it.</li>
+<li><strong>Less data to transfer.</strong> Only the result of the query leaves the database. A summary of a table with millions of rows might be a handful of rows, so moving it to <code>R</code> is far quicker than moving the table itself, particularly when the database is on a remote server.</li>
+<li><strong>Data larger than memory.</strong> <code>R</code> holds the data it works on in memory, whereas a database works with data stored on disk, so it can process tables far too large to load into <code>R</code> at all. In <a href="week10.html" class="quarto-xref">Week&nbsp;<span>10</span></a> we will meet DuckDB, a database designed for analysing large datasets, which can even run queries directly on CSV files stored on disk, using the same <code>dplyr</code> verbs.</li>
+<li><strong>Speed.</strong> Databases are designed for exactly these operations. They plan how to carry out each query efficiently, can use <em>indexes</em> to find matching rows without reading the whole table, and often run on a server more powerful than your own computer.</li>
+<li><strong>Privacy.</strong> If only summaries leave the database, sensitive individual-level data, such as the names and email addresses in our example, never need to be copied onto your computer. Combined with the access controls of a database server, this can make it much easier to handle personal data responsibly (see <a href="./ethics.html">Data Ethics</a>).</li>
 </ul>
-</section>
-<section id="common-use-cases" class="level2" data-number="7.7">
-<h2 data-number="7.7" class="anchored" data-anchor-id="common-use-cases"><span class="header-section-number">7.7</span> Common Use Cases</h2>
-<p>Shiny is widely used in a variety of contexts where interactive data exploration, visualization, or reporting is valuable. Common use cases include:</p>
+<p>Doing the work in <code>R</code> has advantages too:</p>
 <ul>
-<li><strong>Interactive dashboards:</strong> Creating dynamic dashboards for monitoring key metrics, business intelligence, or research results.</li>
-<li><strong>Data exploration tools:</strong> Allowing users to filter, subset, and visualize data interactively without writing code.</li>
-<li><strong>Statistical analysis apps:</strong> Providing interfaces for running statistical models, simulations, or hypothesis tests with user-specified parameters.</li>
-<li><strong>Educational tools:</strong> Building interactive tutorials, quizzes, or demonstrations for teaching statistics, data science, or other quantitative subjects.</li>
-<li><strong>Reporting and decision support:</strong> Enabling stakeholders to explore scenarios, adjust assumptions, and view results in real time.</li>
-<li><strong>Prototyping and sharing analyses:</strong> Rapidly developing and sharing prototypes of data products or analyses with collaborators or clients.</li>
+<li><strong>Expressiveness.</strong> <code>R</code> can do far more than SQL: statistical modelling, visualisation, and the many functions provided by <code>R</code> packages. As we will see in <a href="#sec-dbplyr" class="quarto-xref"><span>Section 7.3.1</span></a>, only some <code>R</code> functions can be translated into SQL.</li>
+<li><strong>Simplicity for small data.</strong> If a table fits comfortably in memory, it is often simpler to import it once and work with it in <code>R</code>, rather than querying the database again for every change to the analysis.</li>
 </ul>
-<p>Shiny is especially useful when you want to empower non-programmers to interact with data or models, or when you need to communicate results in a more engaging and flexible way than static reports allow. To see what is possible, browse the <a href="https://shiny.posit.co/r/gallery/">Shiny gallery</a>: two well-known examples are <a href="https://gallery.shinyapps.io/051-movie-explorer/">Movie Explorer</a>, which combines a scatterplot with filters and selectors over a films dataset, and <a href="https://vnijs.shinyapps.io/radiant/">Radiant</a>, an entire statistics package built as a shiny app.</p>
-</section>
-<section id="sharing-and-deploying-apps" class="level2" data-number="7.8">
-<h2 data-number="7.8" class="anchored" data-anchor-id="sharing-and-deploying-apps"><span class="header-section-number">7.8</span> Sharing and Deploying Apps</h2>
-<p>So far we have run apps <em>locally</em>: the app runs in your own <code>R</code> session, and only you can use it. Anyone else who wants to run an app this way needs <code>R</code>, and every package the app uses, installed — which is fine for a colleague who uses <code>R</code>, but not for the non-programmers that Shiny is designed for.</p>
-<p>To share an app more widely, you <em>deploy</em> it to a server, such as shinyapps.io or your own Shiny Server, which runs the app and makes it available through a web link. Its users then need only a web browser: the <code>R</code> code runs on the server, so they can explore the data interactively without installing <code>R</code> or any packages.</p>
-</section>
-<section id="limitations" class="level2" data-number="7.9">
-<h2 data-number="7.9" class="anchored" data-anchor-id="limitations"><span class="header-section-number">7.9</span> Limitations</h2>
-<p>While Shiny is a powerful tool, it has several limitations:</p>
-<ul>
-<li><strong>Performance:</strong> Shiny apps can become slow with large datasets or complex computations, as all processing is handled on the server side and R is single-threaded by default.</li>
-<li><strong>Scalability:</strong> On a standard server, all the users of an app share a single R process. Because R does one thing at a time, a slow computation triggered by one user makes every other user wait too. Serving many simultaneous users therefore needs additional infrastructure that runs several R processes and shares users between them (e.g., Posit Connect, or a load balancer).</li>
-<li><strong>Security:</strong> A deployed app runs R code on a server in response to whatever its users enter, so user input must be handled with care. Never run text entered by a user as code (e.g., with <code>eval(parse(text = input$x))</code>), and never paste user input into the text of a SQL query: this allows <em>SQL injection</em>, in which a user enters text that changes the query itself, for example to read or delete other tables. A deployed app also shows its data to anyone who has the link, so think carefully before displaying personal data (see <a href="./ethics.html">Data Ethics</a>).</li>
-<li><strong>Deployment:</strong> Making an app available to other people requires hosting it on a server, for example on shinyapps.io or on your own Shiny Server. Free options exist — shinyapps.io has a free tier, and the open-source Shiny Server is free to install — but they limit how many apps you can host and how much they can be used; beyond those limits, hosting costs money or needs technical expertise to set up.</li>
-<li><strong>Limited UI Customization:</strong> While Shiny provides many UI components, highly customized or modern web interfaces may require additional HTML, CSS, or JavaScript knowledge.</li>
-<li><strong>Dependency on R:</strong> Shiny apps normally need a running R process on a server. Shinylive removes this requirement by running R entirely inside the user’s browser, so that an app can be hosted as a static web page; however, such apps are slow to load, cannot use every R package, and send all of their code and data to the user’s browser, where anyone can read them.</li>
-</ul>
-<p>Understanding these limitations helps in deciding when Shiny is the right tool and when alternative solutions (such as static reports, other dashboard frameworks, or web technologies) may be more appropriate.</p>
+<p>In practice, the two are usually combined: the database does the filtering, joining and summarising that reduce the data to what the analysis needs, and <code>R</code> does the rest. Whichever you choose, the query is part of your analysis, so it belongs in your code, alongside the rest of the analysis, rather than being run separately by hand: this keeps the whole analysis reproducible (<a href="week03.html" class="quarto-xref"><span>Chapter 3</span></a>). <code>dbplyr</code>, which we turn to next, makes this especially convenient, because the boundary between the two becomes a single call to <code>collect()</code>.</p>
+<section id="sec-dbplyr" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="sec-dbplyr"><span class="header-section-number">7.3.1</span> The Bridge: <code>dbplyr</code></h3>
+<p>The <code>R</code> library <code>dbplyr</code> allows you to connect to a database and interact with it as though it were <code>dplyr</code>, while still getting SQL level performance. The file <code>data/customers.db</code> contains a larger version of the database above: it has the same three tables, created with the same <code>CREATE TABLE</code> statements, but contains more customers, products and orders, so the results below differ from those of the small examples above. Here’s how we can interact with it using <code>dbplyr</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># additional packages required</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("DBI")</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("dbplyr")</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("RSQLite")</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbplyr)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Connect to the SQLite database</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">"data/customers.db"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The <code>con</code> object provides some standard database functionality that we can use to, for example, run SQL code:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, <span class="st">"SELECT * FROM customers"</span>) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  id first_name last_name                    email
+1  1      David     Brown  david.brown@example.com
+2  2        Eve     Davis    eve.davis@example.com
+3  3      Frank    Miller frank.miller@example.com
+4  4      Grace    Wilson grace.wilson@example.com
+5  5      Henry     Moore  henry.moore@example.com
+6  6        Ivy    Taylor   ivy.taylor@example.com</code></pre>
+</div>
+</div>
+<p>However, it is more useful to use the high-level interface provided by <code>dbplyr</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reference tables as lazy tibbles</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>customers <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"customers"</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>products <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"products"</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>orders <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"orders"</span>)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="co"># note that it is reported as ?? x 4 - tidyverse has not loaded the entire table</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>customers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Source:   table&lt;`customers`&gt; [?? x 4]
+# Database: sqlite 3.51.1 [/Users/jon/Teaching/fds/notes/data/customers.db]
+      id first_name last_name email                    
+   &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;                    
+ 1     1 David      Brown     david.brown@example.com  
+ 2     2 Eve        Davis     eve.davis@example.com    
+ 3     3 Frank      Miller    frank.miller@example.com 
+ 4     4 Grace      Wilson    grace.wilson@example.com 
+ 5     5 Henry      Moore     henry.moore@example.com  
+ 6     6 Ivy        Taylor    ivy.taylor@example.com   
+ 7     7 Jack       Anderson  jack.anderson@example.com
+ 8     8 Karen      Thomas    karen.thomas@example.com 
+ 9     9 Leo        Jackson   leo.jackson@example.com  
+10    10 Mona       White     mona.white@example.com   
+# ℹ more rows</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Find total orders per customer</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>query <span class="ot">=</span> orders <span class="sc">|&gt;</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(customer_id) <span class="sc">|&gt;</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">order_count =</span> <span class="fu">n</span>())  <span class="co"># n() - shortcut for counting rows</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>At this point <code>query</code> is not a <code>tibble</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>query</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Source:   SQL [?? x 2]
+# Database: sqlite 3.51.1 [/Users/jon/Teaching/fds/notes/data/customers.db]
+   customer_id order_count
+         &lt;int&gt;       &lt;int&gt;
+ 1           1           6
+ 2           2           5
+ 3           3           5
+ 4           4           5
+ 5           5           5
+ 6           6           5
+ 7           7           5
+ 8           8           5
+ 9           9           5
+10          10           5
+# ℹ more rows</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "tbl_SQLiteConnection" "tbl_dbi"              "tbl_sql"             
+[4] "tbl_lazy"             "tbl"                 </code></pre>
+</div>
+</div>
+<p>We can force the query to evaluate using the <code>collect()</code> function:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>query <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23 × 2
+   customer_id order_count
+         &lt;int&gt;       &lt;int&gt;
+ 1           1           6
+ 2           2           5
+ 3           3           5
+ 4           4           5
+ 5           5           5
+ 6           6           5
+ 7           7           5
+ 8           8           5
+ 9           9           5
+10          10           5
+# ℹ 13 more rows</code></pre>
+</div>
+</div>
+<p>Under the hood, <code>dbplyr</code> has turned our pipes into <code>SQL</code>; we can view this with <code>show_query</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_query</span>(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;SQL&gt;
+SELECT `customer_id`, COUNT(*) AS `order_count`
+FROM `orders`
+GROUP BY `customer_id`</code></pre>
+</div>
+</div>
+<p>A related function, <code>sql_render()</code>, <em>returns</em> the generated SQL as a string rather than printing it. Because it is a string, we can pass it to <code>dbGetQuery()</code> and run dbplyr’s generated SQL directly — a quick way to check that the query it has written does what we intend:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sql_render</span>(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;SQL&gt; SELECT `customer_id`, COUNT(*) AS `order_count`
+FROM `orders`
+GROUP BY `customer_id`</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, <span class="fu">sql_render</span>(query))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   customer_id order_count
+1            1           6
+2            2           5
+3            3           5
+4            4           5
+5            5           5
+6            6           5
+7            7           5
+8            8           5
+9            9           5
+10          10           5
+11          11           5
+12          12           5
+13          13           5
+14          14           5
+15          15           4
+16          16           4
+17          17           4
+18          18           4
+19          19           4
+20          20           4
+21          21           4
+22          22           4
+23          23           4</code></pre>
+</div>
+</div>
+<p>Joins work in the same way. This pipeline matches each order to the customer who placed it and the product that was ordered, just like the SQL join earlier in the chapter:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>orders <span class="sc">|&gt;</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(customers, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"customer_id"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(products, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"product_id"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(first_name, last_name, product_name, quantity) <span class="sc">|&gt;</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 107 × 4
+   first_name last_name product_name quantity
+   &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;           &lt;int&gt;
+ 1 David      Brown     Widget              2
+ 2 Eve        Davis     Gadget              1
+ 3 Frank      Miller    Thingamajig         5
+ 4 David      Brown     Thingamajig         1
+ 5 Grace      Wilson    Contraption         2
+ 6 Henry      Moore     Apparatus           3
+ 7 Ivy        Taylor    Tool                1
+ 8 Jack       Anderson  Gadget              4
+ 9 Karen      Thomas    Gizmo               2
+10 Leo        Jackson   Implement           1
+# ℹ 97 more rows</code></pre>
+</div>
+</div>
+<section id="using-dbplyr-well" class="level4" data-number="7.3.1.1">
+<h4 data-number="7.3.1.1" class="anchored" data-anchor-id="using-dbplyr-well"><span class="header-section-number">7.3.1.1</span> Using <code>dbplyr</code> Well</h4>
+<p>Because <code>dbplyr</code> translates our code into SQL, rather than running it in <code>R</code>, there are a few things to bear in mind.</p>
+<p><strong>Call <code>collect()</code> as late as possible.</strong> Everything before <code>collect()</code> runs in the database, and only its result is sent to <code>R</code>; everything after it runs in <code>R</code>, on data that has already been transferred. These two pipelines give the same result:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter in the database: only the matching rows are sent to R</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>orders <span class="sc">|&gt;</span> <span class="fu">filter</span>(quantity <span class="sc">&gt;=</span> <span class="dv">3</span>) <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="co"># filter in R: the whole table is sent to R first</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>orders <span class="sc">|&gt;</span> <span class="fu">collect</span>() <span class="sc">|&gt;</span> <span class="fu">filter</span>(quantity <span class="sc">&gt;=</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>but the first sends <code>R</code> only the matching orders, while the second transfers the entire <code>orders</code> table before discarding most of it. On a table this small the difference is negligible; on one with millions of rows, it is the difference between a query that finishes in seconds and one that does not fit in memory.</p>
+<p><strong>Only functions that <code>dbplyr</code> knows how to translate can be used before <code>collect()</code>.</strong> <code>dbplyr</code> translates common functions, such as the arithmetic operators, <code>mean()</code>, <code>n()</code> and <code>paste()</code>, into their SQL equivalents. Functions without an equivalent in the database’s SQL cannot be translated, and cause an error:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>customers <span class="sc">|&gt;</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">padded_name =</span> stringr<span class="sc">::</span><span class="fu">str_pad</span>(first_name, <span class="dv">10</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `stringr::str_pad()`:
+! `str_pad()` is not available in this SQL variant.</code></pre>
+</div>
+</div>
+<p>The fix is to do as much work as possible in the database, then <code>collect()</code> the result and use the function in <code>R</code> afterwards.</p>
+<p><strong>A lazy table can only be joined to another table in the same database.</strong> Joining it to a tibble that lives in <code>R</code> fails:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>vip_customers <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>), <span class="at">level =</span> <span class="fu">c</span>(<span class="st">"gold"</span>, <span class="st">"silver"</span>))</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>customers <span class="sc">|&gt;</span> <span class="fu">inner_join</span>(vip_customers, <span class="at">by =</span> <span class="st">"id"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `auto_copy()`:
+! `x` and `y` must share the same src.
+ℹ `x` is a &lt;tbl_SQLiteConnection/tbl_dbi/tbl_sql/tbl_lazy/tbl&gt; object.
+ℹ `y` is a &lt;tbl_df/tbl/data.frame&gt; object.
+ℹ Set `copy = TRUE` if `y` can be copied to the same source as `x` (may be
+  slow).</code></pre>
+</div>
+</div>
+<p>As the error message suggests, adding <code>copy = TRUE</code> copies the tibble into a temporary table in the database, after which the join can run there:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>customers <span class="sc">|&gt;</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">inner_join</span>(vip_customers, <span class="at">by =</span> <span class="st">"id"</span>, <span class="at">copy =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+     id first_name last_name email                    level 
+  &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;                    &lt;chr&gt; 
+1     1 David      Brown     david.brown@example.com  gold  
+2     4 Grace      Wilson    grace.wilson@example.com silver</code></pre>
+</div>
+</div>
+<p>For a small tibble like this one, copying is cheap; for a large one, it may be better to <code>collect()</code> the database table first, if it is small enough, and join in <code>R</code>.</p>
+<p>Finally, we close the connection to the database once we have finished with it:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -1383,8 +1754,8 @@ Browsing http://127.0.0.1:3689</code></pre>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./week08.html" class="pagination-link" aria-label="Research Software Engineering and Architecture in R">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Research Software Engineering and Architecture in R</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./week08.html" class="pagination-link" aria-label="Introduction to Shiny">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction to Shiny</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
