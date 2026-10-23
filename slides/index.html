@@ -82,7 +82,8 @@ ul.task-list li input[type="checkbox"] {
 
   Turn it on by visiting any page with ?instructor, e.g.
     https://soton-fds.github.io/?instructor
-  and off again with ?instructor=off. The setting is remembered in
+  and off again with ?instructor=off, or with the button on the "Instructor
+  view" badge shown in the corner of every page. The setting is remembered in
   localStorage, so it lasts across the whole site.
 
   This only makes the content harder to find: it is still in the page's HTML.
@@ -106,6 +107,51 @@ ul.task-list li input[type="checkbox"] {
     font-weight: bold;
   }
   span.instructor { background: #fdecea; }
+
+  /* Badge in the corner; hover (or tap, which focuses it) for the panel. */
+  .instructor-badge {
+    position: fixed;
+    right: 12px;
+    bottom: 12px;
+    z-index: 10000;
+    max-width: 18rem;
+    font-size: 0.85rem;
+    text-align: right;
+  }
+  .instructor-badge-label {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #c0392b;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 999px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+    cursor: default;
+  }
+  .instructor-badge-panel {
+    display: none;
+    margin-bottom: 6px;
+    padding: 0.75em;
+    background: #fff;
+    border: 1px solid #c0392b;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+    text-align: left;
+  }
+  .instructor-badge:hover .instructor-badge-panel,
+  .instructor-badge:focus-within .instructor-badge-panel { display: block; }
+  .instructor-badge-panel p { margin: 0 0 0.6em 0; }
+  .instructor-badge-panel button {
+    padding: 2px 10px;
+    background: #fff;
+    color: #c0392b;
+    border: 1px solid #c0392b;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  @media print {
+    .instructor-badge { display: none !important; }
+  }
 </style>
 
 <script>
@@ -121,6 +167,30 @@ ul.task-list li input[type="checkbox"] {
     } catch (e) {
       // Storage blocked: show the student view.
     }
+    if (!document.documentElement.classList.contains("instructor-view")) return;
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var badge = document.createElement("div");
+      badge.className = "instructor-badge";
+      badge.tabIndex = 0;
+      badge.innerHTML =
+        '<div class="instructor-badge-panel">' +
+        "<p>You are seeing content that is hidden from students, highlighted in red. " +
+        "This browser stays in instructor view on every page until you leave.</p>" +
+        '<button type="button">Leave instructor view</button>' +
+        "</div>" +
+        '<span class="instructor-badge-label">Instructor view</span>';
+      badge.querySelector("button").addEventListener("click", function () {
+        try {
+          localStorage.removeItem(STORAGE);
+        } catch (e) {}
+        // Reload without ?instructor, which would turn the view straight back on.
+        var url = new URL(location.href);
+        url.searchParams.delete("instructor");
+        location.replace(url);
+      });
+      document.body.appendChild(badge);
+    });
   })();
 </script>
 
@@ -293,6 +363,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#week-6" id="toc-week-6" class="nav-link" data-scroll-target="#week-6">Week 6</a></li>
   <li><a href="#week-7" id="toc-week-7" class="nav-link" data-scroll-target="#week-7">Week 7</a></li>
   <li><a href="#week-8" id="toc-week-8" class="nav-link" data-scroll-target="#week-8">Week 8</a></li>
+  <li><a href="#week-9-covered-by-dr.-mcgonigle" id="toc-week-9-covered-by-dr.-mcgonigle" class="nav-link" data-scroll-target="#week-9-covered-by-dr.-mcgonigle">Week 9 (Covered by Dr.&nbsp;McGonigle)</a></li>
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
   </ul>
 </nav>
@@ -371,7 +442,7 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>Lab 1: <strong>Mock Assessment</strong></li>
 <li>Lecture: <a href="week07_slides_handout.html">Chapter 7 Slides</a></li>
-<li>Lab 2: <strong>Slides later</strong></li>
+<li>Lab 2: <a href="lab07_slides.html">Lab 7 Slides</a></li>
 </ul>
 </section>
 <section id="week-8" class="level3">
@@ -384,11 +455,14 @@ ul.task-list li input[type="checkbox"] {
 <li><a href="week08_apps.html">Chapter 8 Shiny Demo Apps</a></li>
 </ul></li>
 </ul>
+</section>
+<section id="week-9-covered-by-dr.-mcgonigle" class="level3">
+<h3 class="anchored" data-anchor-id="week-9-covered-by-dr.-mcgonigle">Week 9 (Covered by Dr.&nbsp;McGonigle)</h3>
+<ul>
+<li>Lab: <a href="lab09_slides.html">Lab 9 Slides</a></li>
+<li>Lecture: <a href="week09_slides_handout.html">Chapter 9 Slides</a></li>
+</ul>
 <!--
-### Week 9 (Covered by Dr. McGonigle)
-
-- Lecture: [Chapter 9 Slides](week09_slides_handout.html)
-
 ### Week 10 (Covered by Dr. McGonigle)
 
 - Lecture: [Chapter 10 Slides](week10_slides_handout.html)
