@@ -734,7 +734,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 2          2 MATH6195    67
 3          3 MATH6195    68
 4          4 MATH6195    74
-# i more rows</code></pre>
+# ℹ more rows</code></pre>
 </div>
 </div>
 <div class="fragment">
@@ -788,7 +788,7 @@ GROUP BY `course`</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>query <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 x 3
+<pre><code># A tibble: 3 × 3
   course       n mean_grade
   &lt;chr&gt;    &lt;int&gt;      &lt;dbl&gt;
 1 MATH2010    17       64.5
@@ -847,9 +847,9 @@ GROUP BY `course`</code></pre>
 <div class="cell-output cell-output-error">
 <pre><code>Error in `auto_copy()`:
 ! `x` and `y` must share the same src.
-i `x` is a &lt;tbl_SQLiteConnection/tbl_dbi/tbl_sql/tbl_lazy/tbl&gt; object.
-i `y` is a &lt;tbl_df/tbl/data.frame&gt; object.
-i Set `copy = TRUE` if `y` can be copied to the same source as `x` (may be
+ℹ `x` is a &lt;tbl_SQLiteConnection/tbl_dbi/tbl_sql/tbl_lazy/tbl&gt; object.
+ℹ `y` is a &lt;tbl_df/tbl/data.frame&gt; object.
+ℹ Set `copy = TRUE` if `y` can be copied to the same source as `x` (may be
   slow).</code></pre>
 </div>
 </div>
@@ -866,7 +866,7 @@ i Set `copy = TRUE` if `y` can be copied to the same source as `x` (may be
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(given_name, family_name, prize) <span class="sc">|&gt;</span></span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 x 3
+<pre><code># A tibble: 2 × 3
   given_name family_name   prize 
   &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt; 
 1 Tariq      Ibn Rashid    Gold  
@@ -1063,44 +1063,6 @@ i Set `copy = TRUE` if `y` can be copied to the same source as `x` (may be
     }
   })();
 </script>
-
-<script>
-  // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-  // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-  // slide changes (different for each slide format).
-  (function () {
-    // dispatch for htmlwidgets
-    function fireSlideEnter() {
-      const event = window.document.createEvent("Event");
-      event.initEvent("slideenter", true, true);
-      window.document.dispatchEvent(event);
-    }
-
-    function fireSlideChanged(previousSlide, currentSlide) {
-      fireSlideEnter();
-
-      // dispatch for shiny
-      if (window.jQuery) {
-        if (previousSlide) {
-          window.jQuery(previousSlide).trigger("hidden");
-        }
-        if (currentSlide) {
-          window.jQuery(currentSlide).trigger("shown");
-        }
-      }
-    }
-
-    // hookup for slidy
-    if (window.w3c_slidy) {
-      window.w3c_slidy.add_observer(function (slide_num) {
-        // slide_num starts at position 1
-        fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-      });
-    }
-
-  })();
-</script>
-
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

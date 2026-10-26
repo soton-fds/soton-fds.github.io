@@ -398,11 +398,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>Error in `group_by()`:
 ! This operation cannot be carried out by DuckDB, and the input is a
   stingy duckplyr frame.
-* Try `summarise(.by = ...)` or `mutate(.by = ...)` instead of `group_by()` and
+• Try `summarise(.by = ...)` or `mutate(.by = ...)` instead of `group_by()` and
   `ungroup()`.
-i Use `compute(prudence = "lavish")` to materialize to temporary storage and
+ℹ Use `compute(prudence = "lavish")` to materialize to temporary storage and
   continue with duckplyr.
-i See `vignette("prudence")` for other options.</code></pre>
+ℹ See `vignette("prudence")` for other options.</code></pre>
 </div>
 </div>
 </div>
@@ -559,7 +559,7 @@ GROUP BY startingAirport</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>results              <span class="co"># one row per species per chunk</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 x 3
+<pre><code># A tibble: 6 × 3
   species   sum_mass     n
   &lt;chr&gt;        &lt;dbl&gt; &lt;int&gt;
 1 Adelie      368225    99
@@ -573,7 +573,7 @@ GROUP BY startingAirport</code></pre>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_mass =</span> <span class="fu">sum</span>(sum_mass) <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 x 2
+<pre><code># A tibble: 3 × 2
   species   mean_mass
   &lt;chr&gt;         &lt;dbl&gt;
 1 Adelie        3701.
@@ -613,7 +613,7 @@ GROUP BY startingAirport</code></pre>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 x 2
+<pre><code># A tibble: 6 × 2
      id  code
   &lt;dbl&gt; &lt;dbl&gt;
 1    15    15
@@ -812,44 +812,6 @@ GROUP BY startingAirport</code></pre>
     }
   })();
 </script>
-
-<script>
-  // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-  // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-  // slide changes (different for each slide format).
-  (function () {
-    // dispatch for htmlwidgets
-    function fireSlideEnter() {
-      const event = window.document.createEvent("Event");
-      event.initEvent("slideenter", true, true);
-      window.document.dispatchEvent(event);
-    }
-
-    function fireSlideChanged(previousSlide, currentSlide) {
-      fireSlideEnter();
-
-      // dispatch for shiny
-      if (window.jQuery) {
-        if (previousSlide) {
-          window.jQuery(previousSlide).trigger("hidden");
-        }
-        if (currentSlide) {
-          window.jQuery(currentSlide).trigger("shown");
-        }
-      }
-    }
-
-    // hookup for slidy
-    if (window.w3c_slidy) {
-      window.w3c_slidy.add_observer(function (slide_num) {
-        // slide_num starts at position 1
-        fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-      });
-    }
-
-  })();
-</script>
-
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

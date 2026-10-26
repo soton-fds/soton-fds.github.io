@@ -442,6 +442,196 @@
         ]
       });
     </script>
+    <!--
+      Seats attendance code, shown in a fixed badge at the top-right of every slide.
+
+      Setting the code:
+        - Press "t" while presenting (or click the badge) and type the code.
+          Enter saves, Escape cancels, saving an empty code removes the badge.
+        - Or open the deck with ?seats=123456 in the URL.
+
+      The code is remembered in this browser for the rest of the day (so it
+      survives a page reload), and is dropped automatically the next day.
+      Until a code has been set, only a small faded "Seats code?" reminder is
+      shown (top-right of the first slide only); click it to enter the code.
+    -->
+    <style>
+      .seats-code {
+        position: fixed;
+        top: 12px;
+        right: 12px;
+        z-index: 10000;
+        display: none;
+        padding: 6px 14px 8px;
+        background: #fff;
+        color: #222;
+        border: 2px solid #222;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        text-align: center;
+        cursor: pointer;
+      }
+      .seats-code.is-visible { display: block; }
+      .seats-code-reminder {
+        position: fixed;
+        top: 10px;
+        right: 12px;
+        z-index: 10000;
+        display: none;
+        padding: 2px 8px;
+        background: none;
+        border: 0;
+        color: #222;
+        opacity: 0.35;
+        font: 500 max(11px, 0.8vw) system-ui, -apple-system, "Segoe UI", sans-serif;
+        cursor: pointer;
+      }
+      .seats-code-reminder:hover { opacity: 0.9; text-decoration: underline; }
+      .seats-code-reminder.is-visible { display: block; }
+      .seats-code-label {
+        font-size: max(11px, 0.9vw);
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+      .seats-code-value,
+      .seats-code input {
+        font: 700 max(28px, 2.8vw)/1.1 ui-monospace, Menlo, Consolas, monospace;
+        letter-spacing: 0.08em;
+      }
+      .seats-code input {
+        width: 7em;
+        padding: 0 4px;
+        border: 1px solid #888;
+        border-radius: 4px;
+        text-align: center;
+      }
+      @media print { .seats-code, .seats-code-reminder { display: none !important; } }
+    </style>
+    <script>
+      (function () {
+        var KEY = "seats-code:" + location.pathname;
+        var today = new Date().toDateString();
+
+        var badge = document.createElement("div");
+        badge.className = "seats-code";
+        badge.title = "Click or press T to change the Seats code";
+        var label = document.createElement("div");
+        label.className = "seats-code-label";
+        label.textContent = "Seats code";
+        var value = document.createElement("div");
+        value.className = "seats-code-value";
+        badge.appendChild(label);
+        badge.appendChild(value);
+
+        function load() {
+          try {
+            var saved = JSON.parse(localStorage.getItem(KEY));
+            return saved && saved.date === today ? saved.code : "";
+          } catch (e) {
+            return "";
+          }
+        }
+
+        function save(code) {
+          try {
+            if (code) localStorage.setItem(KEY, JSON.stringify({ code: code, date: today }));
+            else localStorage.removeItem(KEY);
+          } catch (e) {}
+        }
+
+        var reminder = document.createElement("button");
+        reminder.type = "button";
+        reminder.className = "seats-code-reminder";
+        reminder.textContent = "Seats code?";
+        reminder.title = "Click or press T to set the Seats code";
+
+        var editing = false;
+
+        function onFirstSlide() {
+          if (!window.Reveal || !Reveal.getIndices) return false;
+          var i = Reveal.getIndices();
+          return i.h === 0 && i.v === 0;
+        }
+
+        function updateReminder() {
+          reminder.classList.toggle(
+            "is-visible",
+            !value.textContent && !editing && onFirstSlide()
+          );
+        }
+
+        function show(code) {
+          value.textContent = code;
+          badge.classList.toggle("is-visible", !!code);
+          updateReminder();
+        }
+
+        function edit() {
+          if (editing) return;
+          editing = true;
+          updateReminder();
+          var old = value.textContent;
+          var input = document.createElement("input");
+          input.type = "text";
+          input.value = old;
+          input.setAttribute("aria-label", "Seats code");
+          value.replaceWith(input);
+          badge.classList.add("is-visible");
+          input.focus();
+          input.select();
+
+          function finish(code) {
+            if (!editing) return;
+            editing = false;
+            input.replaceWith(value);
+            show(code);
+          }
+          input.addEventListener("keydown", function (e) {
+            // Keep reveal.js from treating typed keys as navigation.
+            e.stopPropagation();
+            if (e.key === "Enter") {
+              var code = input.value.trim();
+              save(code);
+              finish(code);
+            } else if (e.key === "Escape") {
+              finish(old);
+            }
+          });
+          input.addEventListener("blur", function () { finish(old); });
+        }
+
+        badge.addEventListener("click", edit);
+        reminder.addEventListener("click", edit);
+
+        var fromUrl = new URLSearchParams(location.search).get("seats");
+        if (fromUrl !== null) save(fromUrl.trim());
+        show(fromUrl !== null ? fromUrl.trim() : load());
+
+        // Put the badge inside the reveal container (if there is one) so it also
+        // shows when only that element is in fullscreen.
+        var host = document.querySelector(".reveal") || document.body;
+        host.appendChild(badge);
+        host.appendChild(reminder);
+
+        var bound = false;
+        function bindKey() {
+          if (bound || !window.Reveal || !Reveal.addKeyBinding) return;
+          bound = true;
+          Reveal.on("slidechanged", updateReminder);
+          updateReminder();
+          Reveal.addKeyBinding({ keyCode: 84, key: "T", description: "Set Seats code" }, edit);
+        }
+        function setUp() {
+          if (!window.Reveal) return;
+          if (Reveal.isReady && Reveal.isReady()) bindKey();
+          else Reveal.on("ready", bindKey);
+        }
+        setUp();
+        window.addEventListener("load", setUp);
+      })();
+    </script>
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")

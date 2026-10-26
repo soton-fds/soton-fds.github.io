@@ -430,7 +430,8 @@
 
       The code is remembered in this browser for the rest of the day (so it
       survives a page reload), and is dropped automatically the next day.
-      Nothing is shown until a code has been set.
+      Until a code has been set, only a small faded "Seats code?" reminder is
+      shown (top-right of the first slide only); click it to enter the code.
     -->
     <style>
       .seats-code {
@@ -450,6 +451,22 @@
         cursor: pointer;
       }
       .seats-code.is-visible { display: block; }
+      .seats-code-reminder {
+        position: fixed;
+        top: 10px;
+        right: 12px;
+        z-index: 10000;
+        display: none;
+        padding: 2px 8px;
+        background: none;
+        border: 0;
+        color: #222;
+        opacity: 0.35;
+        font: 500 max(11px, 0.8vw) system-ui, -apple-system, "Segoe UI", sans-serif;
+        cursor: pointer;
+      }
+      .seats-code-reminder:hover { opacity: 0.9; text-decoration: underline; }
+      .seats-code-reminder.is-visible { display: block; }
       .seats-code-label {
         font-size: max(11px, 0.9vw);
         font-weight: 600;
@@ -468,7 +485,7 @@
         border-radius: 4px;
         text-align: center;
       }
-      @media print { .seats-code { display: none !important; } }
+      @media print { .seats-code, .seats-code-reminder { display: none !important; } }
     </style>
     <script>
       (function () {
@@ -502,16 +519,37 @@
           } catch (e) {}
         }
 
+        var reminder = document.createElement("button");
+        reminder.type = "button";
+        reminder.className = "seats-code-reminder";
+        reminder.textContent = "Seats code?";
+        reminder.title = "Click or press T to set the Seats code";
+
+        var editing = false;
+
+        function onFirstSlide() {
+          if (!window.Reveal || !Reveal.getIndices) return false;
+          var i = Reveal.getIndices();
+          return i.h === 0 && i.v === 0;
+        }
+
+        function updateReminder() {
+          reminder.classList.toggle(
+            "is-visible",
+            !value.textContent && !editing && onFirstSlide()
+          );
+        }
+
         function show(code) {
           value.textContent = code;
           badge.classList.toggle("is-visible", !!code);
+          updateReminder();
         }
-
-        var editing = false;
 
         function edit() {
           if (editing) return;
           editing = true;
+          updateReminder();
           var old = value.textContent;
           var input = document.createElement("input");
           input.type = "text";
@@ -543,6 +581,7 @@
         }
 
         badge.addEventListener("click", edit);
+        reminder.addEventListener("click", edit);
 
         var fromUrl = new URLSearchParams(location.search).get("seats");
         if (fromUrl !== null) save(fromUrl.trim());
@@ -550,12 +589,16 @@
 
         // Put the badge inside the reveal container (if there is one) so it also
         // shows when only that element is in fullscreen.
-        (document.querySelector(".reveal") || document.body).appendChild(badge);
+        var host = document.querySelector(".reveal") || document.body;
+        host.appendChild(badge);
+        host.appendChild(reminder);
 
         var bound = false;
         function bindKey() {
           if (bound || !window.Reveal || !Reveal.addKeyBinding) return;
           bound = true;
+          Reveal.on("slidechanged", updateReminder);
+          updateReminder();
           Reveal.addKeyBinding({ keyCode: 84, key: "T", description: "Set Seats code" }, edit);
         }
         function setUp() {
