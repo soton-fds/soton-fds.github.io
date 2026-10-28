@@ -1722,424 +1722,207 @@
     "text": "Generative AI\n\nPowerful - but dangerous\nNot permitted in assessments for this course"
   },
   {
-    "objectID": "lab09_slides.html#two-files-this-week",
-    "href": "lab09_slides.html#two-files-this-week",
-    "title": "Lab 9: Functional Programming and Robust Code",
+    "objectID": "lab10_slides.html#two-files-this-week",
+    "href": "lab10_slides.html#two-files-this-week",
+    "title": "Lab 10: Working with Big Data",
     "section": "Two files this week",
-    "text": "Two files this week\n\nlab_09.qmd is today’s lab: work through it at your own pace.\nlab_09_practice.qmd is a practice sheet with more questions on the same data, for after the lab (or if you finish early).\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
+    "text": "Two files this week\n\nlab_10.qmd is today’s lab: work through it at your own pace.\nlab_10_practice.qmd is a practice sheet with more questions on the same data, for after the lab (or if you finish early).\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
   },
   {
-    "objectID": "lab09_slides.html#getting-started",
-    "href": "lab09_slides.html#getting-started",
-    "title": "Lab 9: Functional Programming and Robust Code",
+    "objectID": "lab10_slides.html#getting-started",
+    "href": "lab10_slides.html#getting-started",
+    "title": "Lab 10: Working with Big Data",
     "section": "Getting started",
-    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_09_2627.\nOpen lab_09.qmd in RStudio and work through it, writing your answers in the solution boxes.\nThe lab accompanies the Week 9 notes."
+    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_10_2627.\nOpen lab_10.qmd in RStudio and work through it, writing your answers in the solution boxes.\nThe lab accompanies the Week 10 notes."
   },
   {
-    "objectID": "lab09_slides.html#todays-plan",
-    "href": "lab09_slides.html#todays-plan",
-    "title": "Lab 9: Functional Programming and Robust Code",
+    "objectID": "lab10_slides.html#todays-plan",
+    "href": "lab10_slides.html#todays-plan",
+    "title": "Lab 10: Working with Big Data",
     "section": "Today’s plan",
-    "text": "Today’s plan\n\nBlock 1 (45 min) — Task 1: From loops to maps\n☕ Break (15 min)\nBlock 2 (45 min) — Task 2: Many files, and failing well"
+    "text": "Today’s plan\n\nBlock 1 (45 min) — Task 1: Working in Chunks\n☕ Break (15 min)\nBlock 2 (45 min) — Task 2: Scaling Up"
   },
   {
-    "objectID": "lab09_slides.html#task-1-from-loops-to-maps",
-    "href": "lab09_slides.html#task-1-from-loops-to-maps",
-    "title": "Lab 9: Functional Programming and Robust Code",
-    "section": "Task 1 — From Loops to Maps",
-    "text": "Task 1 — From Loops to Maps\n\nWarm-ups with map_dbl, including a list of functions.\nThree penguin plots from one pmap. We’ll stop to look at .data[[...]] and walk(plots, print).\nReplace the per-species for loop with split(), map() and list_rbind(), and check you get the same answer. We’ll stop to see why you don’t, quite.\nFinished early? Try Tasks 1–4 in lab_09_practice.qmd."
+    "objectID": "lab10_slides.html#task-1-working-in-chunks",
+    "href": "lab10_slides.html#task-1-working-in-chunks",
+    "title": "Lab 10: Working with Big Data",
+    "section": "Task 1 — Working in Chunks",
+    "text": "Task 1 — Working in Chunks\n\nCheck how big the data really is: file size, memory, col_select and n_max. Spoiler: it isn’t big.\nVary the chunk_size in read_csv_chunked() and time it. We’ll stop to look at what you notice.\nCompute the sum for group A, then the sums and means for every group. We’ll stop to see why the map step returns sums and counts rather than means.\nDecide whether quantiles can be computed this way.\nFinished early? Try Task 1 in lab_10_practice.qmd."
   },
   {
-    "objectID": "lab09_slides.html#task-2-many-files-and-failing-well",
-    "href": "lab09_slides.html#task-2-many-files-and-failing-well",
-    "title": "Lab 9: Functional Programming and Robust Code",
-    "section": "Task 2 — Many Files, and Failing Well",
-    "text": "Task 2 — Many Files, and Failing Well\n\nRead a whole folder of CSV files into one tibble.\nFit a line to each file: one file breaks everything. We’ll stop to read the error message together.\nUse possibly() so one bad file doesn’t stop the others. We’ll stop to discuss what you must report when you drop data.\nMake fit_bill_model() fail with a clear message.\nFinished early? Try Tasks 5–8 in lab_09_practice.qmd."
+    "objectID": "lab10_slides.html#task-2-scaling-up",
+    "href": "lab10_slides.html#task-2-scaling-up",
+    "title": "Lab 10: Working with Big Data",
+    "section": "Task 2 — Scaling Up",
+    "text": "Task 2 — Scaling Up\n\nGenerate a larger file (3 million rows) and check how big it is on disk and in memory.\nRepeat the chunk_size experiment on the larger file. We’ll stop to compare the pattern with Task 1: is bigger always better?\nCompare read_csv() and read_csv_chunked(), and decide which you’d use for a 50GB file. We’ll stop to discuss, and to see where DuckDB fits in.\nFinished early? Try Tasks 2 and 3 in lab_10_practice.qmd."
   },
   {
-    "objectID": "lab09_slides.html#after-the-lab",
-    "href": "lab09_slides.html#after-the-lab",
-    "title": "Lab 9: Functional Programming and Robust Code",
+    "objectID": "lab10_slides.html#after-the-lab",
+    "href": "lab10_slides.html#after-the-lab",
+    "title": "Lab 10: Working with Big Data",
     "section": "After the lab",
-    "text": "After the lab\n\nFinish any parts of lab_09.qmd you didn’t get to.\nThen work through lab_09_practice.qmd: map2 and walk2, reduce, Simpson’s paradox, pure functions, unit tests, misspelt folders and more."
+    "text": "After the lab\n\nFinish any parts of lab_10.qmd you didn’t get to.\nThen work through lab_10_practice.qmd: standard deviations from chunks, DuckDB with duckplyr, and dbplyr."
   },
   {
-    "objectID": "lab07_slides.html#two-files-this-week",
-    "href": "lab07_slides.html#two-files-this-week",
-    "title": "Lab 7: SQL and dbplyr",
+    "objectID": "lab08_slides.html#two-files-this-week",
+    "href": "lab08_slides.html#two-files-this-week",
+    "title": "Lab 8: Introduction to Shiny",
     "section": "Two files this week",
-    "text": "Two files this week\n\nlab_07.qmd is today’s lab: work through it at your own pace.\nlab_07_practice.qmd is a practice sheet with more questions on the same data, for after the lab (or if you finish early).\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
+    "text": "Two files this week\n\nlab_08.qmd is today’s lab: work through it at your own pace.\nlab_08_practice.qmd is a practice sheet with more questions, for after the lab (or if you finish early).\nWrite your apps in src/, and your written answers in the solution boxes.\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
   },
   {
-    "objectID": "lab07_slides.html#getting-started",
-    "href": "lab07_slides.html#getting-started",
-    "title": "Lab 7: SQL and dbplyr",
+    "objectID": "lab08_slides.html#getting-started",
+    "href": "lab08_slides.html#getting-started",
+    "title": "Lab 8: Introduction to Shiny",
     "section": "Getting started",
-    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_07_2627.\nOpen lab_07.qmd in RStudio and work through it, writing your answers in the solution boxes.\nThe lab accompanies the Week 7 notes."
+    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_08_2627.\nOpen lab_08.qmd in RStudio, and the apps in src/. Run an app with the Run App button, and stop it to get your console back.\nThe lab accompanies the Week 8 notes."
   },
   {
-    "objectID": "lab07_slides.html#todays-plan",
-    "href": "lab07_slides.html#todays-plan",
-    "title": "Lab 7: SQL and dbplyr",
+    "objectID": "lab08_slides.html#todays-plan",
+    "href": "lab08_slides.html#todays-plan",
+    "title": "Lab 8: Introduction to Shiny",
     "section": "Today’s plan",
-    "text": "Today’s plan\n\nBlock 1 (45 min) — Task 1: Reading SQL\n☕ Break (15 min)\nBlock 2 (45 min) — Task 2: Using dbplyr"
+    "text": "Today’s plan\n\nBlock 1 (45 min) — Task 1: A first app\n☕ Break (15 min)\nBlock 2 (45 min) — Task 2: A data visualiser"
   },
   {
-    "objectID": "lab07_slides.html#task-1-reading-sql",
-    "href": "lab07_slides.html#task-1-reading-sql",
-    "title": "Lab 7: SQL and dbplyr",
-    "section": "Task 1 — Reading SQL",
-    "text": "Task 1 — Reading SQL\n\nYou’ll read SQL queries, not write them: for each one, say what question it answers and predict the shape of the result before running it.\nWhich theme has the most sets? Two queries give two different answers. We’ll stop to discuss why, and whether a count of sets measures popularity.\nHow are the tables connected? One-to-many, many-to-many, and the tables in between.\nWhat’s missing from the CREATE TABLE statement for inventory_parts? We’ll stop to find a primary key that works.\nFinished early? Try Tasks 1–3 in lab_07_practice.qmd."
+    "objectID": "lab08_slides.html#task-1-a-first-app",
+    "href": "lab08_slides.html#task-1-a-first-app",
+    "title": "Lab 8: Introduction to Shiny",
+    "section": "Task 1 — A First App",
+    "text": "Task 1 — A First App\n\nStart from src/app1.R: add a greeting, an age and a favourite colour, each with its own input and output.\nWhat does your app show before anyone types a name? We’ll stop to fix it with req().\nSources, conductors and endpoints: we’ll stop to draw the reactive graph of your app, and work out what re-runs when only the colour changes.\nFinished early? Try Tasks 1 and 2 in lab_08_practice.qmd."
   },
   {
-    "objectID": "lab07_slides.html#task-2-using-dbplyr",
-    "href": "lab07_slides.html#task-2-using-dbplyr",
-    "title": "Lab 7: SQL and dbplyr",
-    "section": "Task 2 — Using dbplyr",
-    "text": "Task 2 — Using dbplyr\n\nWrite dplyr code for the queries from Task 1, and read the SQL that dbplyr generates with show_query().\nAre LEGO sets getting bigger? Summarise in the database, collect(), then plot in R. We’ll stop to look at the plot, and how many sets each point is based on.\nWhat should run in the database, and what in R? Collecting late, and functions that can’t be translated.\nFinished early? Try Tasks 4–6 in lab_07_practice.qmd."
+    "objectID": "lab08_slides.html#task-2-a-data-visualiser",
+    "href": "lab08_slides.html#task-2-a-data-visualiser",
+    "title": "Lab 8: Introduction to Shiny",
+    "section": "Task 2 — A Data Visualiser",
+    "text": "Task 2 — A Data Visualiser\n\nBuild a visualiser for the penguins data from scratch: choose the axes, the colour, the labels and a species to show.\nA selectInput gives you a string, not a column. We’ll stop once your first plot works, to look at .data[[...]] and where the app looks for its data.\nAdelie vs Gentoo: are they really the same size? We’ll stop to see how rescaled axes mislead, and fix them.\nFinished early? Try Tasks 3–5 in lab_08_practice.qmd."
   },
   {
-    "objectID": "lab07_slides.html#after-the-lab",
-    "href": "lab07_slides.html#after-the-lab",
-    "title": "Lab 7: SQL and dbplyr",
+    "objectID": "lab08_slides.html#after-the-lab",
+    "href": "lab08_slides.html#after-the-lab",
+    "title": "Lab 8: Introduction to Shiny",
     "section": "After the lab",
-    "text": "After the lab\n\nFinish any parts of lab_07.qmd you didn’t get to.\nThen work through lab_07_practice.qmd: LEFT JOINs, a second schema to critique, joining a tibble to a database table, theme families and more."
+    "text": "After the lab\n\nFinish any parts of lab_08.qmd you didn’t get to.\nThen work through lab_08_practice.qmd: why reactive expressions matter, a resample button, exploring the penguins, deploying your app to shinyapps.io and more."
   },
   {
-    "objectID": "lab05_slides.html#two-files-this-week",
-    "href": "lab05_slides.html#two-files-this-week",
-    "title": "Lab 5: Joins, Strings & Dates",
+    "objectID": "lab06_slides.html#two-files-this-week",
+    "href": "lab06_slides.html#two-files-this-week",
+    "title": "Lab 6: Data Visualisation with ggplot2",
     "section": "Two files this week",
-    "text": "Two files this week\n\nlab_05.qmd is today’s lab: work through it at your own pace.\nlab_05_practice.qmd is a practice sheet with more questions on the same data, for after the lab (or if you finish early).\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
+    "text": "Two files this week\n\nlab_06.qmd is today’s lab: work through it at your own pace.\nlab_06_practice.qmd is a practice sheet with more questions on the same data, for after the lab (or if you finish early).\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
   },
   {
-    "objectID": "lab05_slides.html#getting-started",
-    "href": "lab05_slides.html#getting-started",
-    "title": "Lab 5: Joins, Strings & Dates",
+    "objectID": "lab06_slides.html#getting-started",
+    "href": "lab06_slides.html#getting-started",
+    "title": "Lab 6: Data Visualisation with ggplot2",
     "section": "Getting started",
-    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_05_2627.\nOpen lab_05.qmd in RStudio and work through it, writing your answers in the solution boxes.\nThe lab accompanies the Week 5 notes."
+    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_06_2627.\nOpen lab_06.qmd in RStudio and work through it, writing your answers in the solution boxes.\nThe lab accompanies the Week 6 notes."
   },
   {
-    "objectID": "lab05_slides.html#todays-plan",
-    "href": "lab05_slides.html#todays-plan",
-    "title": "Lab 5: Joins, Strings & Dates",
+    "objectID": "lab06_slides.html#todays-plan",
+    "href": "lab06_slides.html#todays-plan",
+    "title": "Lab 6: Data Visualisation with ggplot2",
     "section": "Today’s plan",
-    "text": "Today’s plan\n\nBlock 1 (45 min) — Joining data\n☕ Break (15 min)\nBlock 2 (45 min) — Strings and dates"
+    "text": "Today’s plan\n\nBlock 1 (45 min) — Task 1: Temperature trends\n☕ Break (15 min)\nBlock 2 (45 min) — Task 2: Rainfall"
   },
   {
-    "objectID": "lab05_slides.html#block-1",
-    "href": "lab05_slides.html#block-1",
-    "title": "Lab 5: Joins, Strings & Dates",
-    "section": "Block 1",
-    "text": "Block 1\n\nTask 1 — Joining Data (~25 min): load the Simpsons tables, work out how they link together, then answer the research questions with joins.\nTask 1b — Choosing a Join (~15 min): what does an inner_join throw away? We’ll then go through some of the surprises in the data.\nFinished early? Try Joining Data in lab_05_practice.qmd."
+    "objectID": "lab06_slides.html#task-1-temperature-trends",
+    "href": "lab06_slides.html#task-1-temperature-trends",
+    "title": "Lab 6: Data Visualisation with ggplot2",
+    "section": "Task 1 — Temperature Trends",
+    "text": "Task 1 — Temperature Trends\n\nJuly temperatures in Southampton: what causes the break in the line?\nEvery month at four stations: are temperatures rising? Trend lines with geom_smooth().\nAnnual means: remove the seasonal cycle to see the trend. We’ll stop to look at the suspicious years.\nFinished early? Try Tasks 1–4 in lab_06_practice.qmd."
   },
   {
-    "objectID": "lab05_slides.html#module-feedback",
-    "href": "lab05_slides.html#module-feedback",
-    "title": "Lab 5: Joins, Strings & Dates",
-    "section": "Module feedback",
-    "text": "Module feedback\nPlease take a couple of minutes in the break to tell us how the module is going.\n\n\n\nMSc students\n\nOpen the MSc form\n\n\n\nBSc students\n\nOpen the BSc form"
+    "objectID": "lab06_slides.html#task-2-rainfall",
+    "href": "lab06_slides.html#task-2-rainfall",
+    "title": "Lab 6: Data Visualisation with ggplot2",
+    "section": "Task 2 — Rainfall",
+    "text": "Task 2 — Rainfall\n\nBar charts: geom_bar() vs geom_col(), and how to make a plot lie. We’ll stop to compare misleading plots.\nDistributions: box plots and histograms, and what a log scale does to months with no rain.\nFinished early? Try Tasks 5 and 6 in lab_06_practice.qmd."
   },
   {
-    "objectID": "lab05_slides.html#block-2",
-    "href": "lab05_slides.html#block-2",
-    "title": "Lab 5: Joins, Strings & Dates",
-    "section": "Block 2",
-    "text": "Block 2\n\nTask 2 — String Processing (~20 min): is the longest line really a line? We’ll stop to look at what went wrong.\nTask 3a — Parsing Dates (~15 min): the same dates written four ways, and what happens when you use the wrong function.\nTask 3b — Date Processing (~10 min): stock market data — watch out for leap years!\nFinished early? Try String Processing and Dates in lab_05_practice.qmd."
-  },
-  {
-    "objectID": "lab05_slides.html#after-the-lab",
-    "href": "lab05_slides.html#after-the-lab",
-    "title": "Lab 5: Joins, Strings & Dates",
+    "objectID": "lab06_slides.html#after-the-lab",
+    "href": "lab06_slides.html#after-the-lab",
+    "title": "Lab 6: Data Visualisation with ggplot2",
     "section": "After the lab",
-    "text": "After the lab\n\nFinish any tasks in lab_05.qmd you didn’t get to.\nThen work through lab_05_practice.qmd: each section follows on from the matching lab task.\nIf you haven’t already, please fill in the module feedback form: MSc · BSc"
+    "text": "After the lab\n\nFinish any parts of lab_06.qmd you didn’t get to.\nThen work through lab_06_practice.qmd: themes, facets, colourblind-safe palettes, violin plots and more."
   },
   {
-    "objectID": "lab03_slides.html#these-are-problem-sheets",
-    "href": "lab03_slides.html#these-are-problem-sheets",
-    "title": "Lab 3: Reproducible Quarto & Collaboration",
+    "objectID": "lab04_slides.html#these-are-problem-sheets",
+    "href": "lab04_slides.html#these-are-problem-sheets",
+    "title": "Lab 4: Loading, Checking & Tidying Data",
     "section": "These are problem sheets",
-    "text": "These are problem sheets\n\nWork at your own pace — you are not expected to finish everything.\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
+    "text": "These are problem sheets\n\nWork at your own pace — you are not expected to finish everything.\nTasks marked Extension are for if you finish early.\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
   },
   {
-    "objectID": "lab03_slides.html#getting-started",
-    "href": "lab03_slides.html#getting-started",
-    "title": "Lab 3: Reproducible Quarto & Collaboration",
+    "objectID": "lab04_slides.html#getting-started",
+    "href": "lab04_slides.html#getting-started",
+    "title": "Lab 4: Loading, Checking & Tidying Data",
     "section": "Getting started",
-    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_03_2627.\nOpen the lab README.md and work through the tasks."
+    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_04_2627.\nOpen lab_04.qmd in RStudio and work through it, writing your answers in the solution boxes.\nThe lab accompanies the Week 4 notes."
   },
   {
-    "objectID": "lab03_slides.html#todays-plan",
-    "href": "lab03_slides.html#todays-plan",
-    "title": "Lab 3: Reproducible Quarto & Collaboration",
+    "objectID": "lab04_slides.html#todays-plan",
+    "href": "lab04_slides.html#todays-plan",
+    "title": "Lab 4: Loading, Checking & Tidying Data",
     "section": "Today’s plan",
-    "text": "Today’s plan\n\nBlock 1 (45 min) — Reproducible Quarto\n☕ Break (15 min)\nBlock 2 (45 min) — Git for collaboration"
+    "text": "Today’s plan\n\nBlock 1 (45 min) — Loading and checking data\n☕ Break (15 min)\nBlock 2 (45 min) — Transforming and tidying data"
   },
   {
-    "objectID": "lab03_slides.html#task-1-reproducible-quarto",
-    "href": "lab03_slides.html#task-1-reproducible-quarto",
-    "title": "Lab 3: Reproducible Quarto & Collaboration",
-    "section": "Task 1 — Reproducible Quarto",
-    "text": "Task 1 — Reproducible Quarto\n\nThere is some data analysis and commentary in bond.R.\nThe task is to convert it to Quarto.\nSee the lab README.md for the full checklist.\n~30 minutes — work at your own pace, then we’ll go through it."
+    "objectID": "lab04_slides.html#block-1",
+    "href": "lab04_slides.html#block-1",
+    "title": "Lab 4: Loading, Checking & Tidying Data",
+    "section": "Block 1",
+    "text": "Block 1\n\nTask 1 — Loading Data (~10 min): load the three files in data/part1/.\nTask 1b — Checking Loaded Data (~25 min): loading without an error ≠ loading correctly! We’ll then go through some of the traps.\nTask 2 — dplyr: make a start if you have time."
   },
   {
-    "objectID": "lab03_slides.html#advanced-quarto-options",
-    "href": "lab03_slides.html#advanced-quarto-options",
-    "title": "Lab 3: Reproducible Quarto & Collaboration",
-    "section": "Advanced Quarto Options",
-    "text": "Advanced Quarto Options\nI’ll now demo some advanced finishing touches."
+    "objectID": "lab04_slides.html#block-2",
+    "href": "lab04_slides.html#block-2",
+    "title": "Lab 4: Loading, Checking & Tidying Data",
+    "section": "Block 2",
+    "text": "Block 2\n\nTask 2 — dplyr (~25 min): work through the diamonds questions, then sanity-check your “unusually large” diamonds. We’ll then look at what the checks turned up.\nTask 3 — tidyr (~20 min): is the assessment data tidy? Tidy it with pivot_longer and separate_wider_delim.\nExtensions: pick these up if you have time."
   },
   {
-    "objectID": "lab03_slides.html#before-the-break-add-a-collaborator",
-    "href": "lab03_slides.html#before-the-break-add-a-collaborator",
-    "title": "Lab 3: Reproducible Quarto & Collaboration",
-    "section": "Before the break: add a collaborator",
-    "text": "Before the break: add a collaborator\n\nPair up with someone next to you.\nPerson A adds their partner as a collaborator:\n\nOn your forked repo: Settings → Collaborators.\nAdd Person B’s GitHub username.\n\nPerson B accepts the emailed invite.\nGet this going now — it’ll be ready when we come back."
+    "objectID": "lab02_slides.html#these-are-problem-sheets",
+    "href": "lab02_slides.html#these-are-problem-sheets",
+    "title": "Lab 2: Coding in R",
+    "section": "These are problem sheets",
+    "text": "These are problem sheets\n\nThe lab worksheet is a problem sheet, not a walkthrough — it is deliberately longer than one session.\nYou are not expected to finish everything. Work at your own pace and go as far as you get.\nI will try to guide you through the material in this presentation, but feel free to linger on earlier exercises (or go ahead).\nI’ll stop everyone at certain points to demonstrate some of the solutions."
   },
   {
-    "objectID": "lab03_slides.html#task-2-collaborating",
-    "href": "lab03_slides.html#task-2-collaborating",
-    "title": "Lab 3: Reproducible Quarto & Collaboration",
-    "section": "Task 2 — Collaborating",
-    "text": "Task 2 — Collaborating\n\nPerson B clones Person A’s repo.\nYou’ll both work in the same repo and practise fixing merge conflicts.\nSee the lab README.md for the steps."
+    "objectID": "lab02_slides.html#solutions",
+    "href": "lab02_slides.html#solutions",
+    "title": "Lab 2: Coding in R",
+    "section": "Solutions",
+    "text": "Solutions\n\nPublished on Fridays in a solutions branch.\nE.g. show solutions to lab 1."
   },
   {
-    "objectID": "lab01_slides.html#about-the-lab",
-    "href": "lab01_slides.html#about-the-lab",
-    "title": "Week 1 Slides",
-    "section": "About the Lab",
-    "text": "About the Lab\n\nThis lab will be a lighter load than coming weeks.\nWe will be focussing on getting people set up with git and R.\nThere are some coding tasks for you to complete if you get started quickly."
+    "objectID": "lab02_slides.html#getting-started",
+    "href": "lab02_slides.html#getting-started",
+    "title": "Lab 2: Coding in R",
+    "section": "Getting started",
+    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_02_2627.\nOpen lab_02.qmd in RStudio and work through it, running each chunk as you go.\nAsk for help — put your hand up and we will come round."
   },
   {
-    "objectID": "lab01_slides.html#about-university-machines",
-    "href": "lab01_slides.html#about-university-machines",
-    "title": "Week 1 Slides",
-    "section": "About University Machines",
-    "text": "About University Machines\n\nWhere you should save files\nHow to open RStudio"
+    "objectID": "lab02_slides.html#todays-plan",
+    "href": "lab02_slides.html#todays-plan",
+    "title": "Lab 2: Coding in R",
+    "section": "Today’s plan",
+    "text": "Today’s plan\n\nBlock 1 (45 min) — Foundations & data structures\n☕ Break (15 min)\nBlock 2 (45 min) — Control flow, pipes & debugging"
   },
   {
-    "objectID": "lab01_slides.html#task-1-basic-git",
-    "href": "lab01_slides.html#task-1-basic-git",
-    "title": "Week 1 Slides",
-    "section": "Task 1: Basic Git",
-    "text": "Task 1: Basic Git\n\nNavigate to github.com/soton-fds/lab_01_2627\nFollow the instructions on soton-fds.github.io/github-tutorial.html to fork and then clone the repo.\nWhen you have a GitHub Username, input it on Blackboard."
+    "objectID": "lab02_slides.html#block-1",
+    "href": "lab02_slides.html#block-1",
+    "title": "Lab 2: Coding in R",
+    "section": "Block 1",
+    "text": "Block 1\n\nPart 1 — R Fundamentals: work through at your own pace.\nPart 1b — Lists: get here if you have time.\nPart 2 — Advanced Array Indexing."
   },
   {
-    "objectID": "lab01_slides.html#task-2-3-simple-data-analysis",
-    "href": "lab01_slides.html#task-2-3-simple-data-analysis",
-    "title": "Week 1 Slides",
-    "section": "Task 2-3: Simple Data Analysis",
-    "text": "Task 2-3: Simple Data Analysis\n\nOpen the Palmer Penguins CSV file\nGenerate some simple plots"
-  },
-  {
-    "objectID": "course_intro.html#about-the-course",
-    "href": "course_intro.html#about-the-course",
-    "title": "Week 1 Slides",
-    "section": "About the Course",
-    "text": "About the Course\nThis is a double-badged module: MATH2051 and MATH6195. Taught material:\n\n1 hour lecture (16:00-17:00 in 58/1007, L/R C)\n2 hour lab (Mondays, 14:00-16:00 in 25/1009)"
-  },
-  {
-    "objectID": "course_intro.html#lectures",
-    "href": "course_intro.html#lectures",
-    "title": "Week 1 Slides",
-    "section": "Lectures",
-    "text": "Lectures\n\n1 hour session.\nI will demo some new techniques that we will focus on in the labs."
-  },
-  {
-    "objectID": "course_intro.html#labs",
-    "href": "course_intro.html#labs",
-    "title": "Week 1 Slides",
-    "section": "Labs",
-    "text": "Labs\n\n2 hour session.\nYou will code!\nPart of the Course Material.\n\nYou will be assessed on material from the labs.\nI will attempt to record the labs, but cannot guarantee the quality of the recordings.\n\nBoth lab worksheets and solutions will still be available to everyone."
-  },
-  {
-    "objectID": "course_intro.html#office-hour",
-    "href": "course_intro.html#office-hour",
-    "title": "Week 1 Slides",
-    "section": "Office Hour",
-    "text": "Office Hour\n\nMondays at 13:00 (right before the lab)\nIn my office (Building 39, Room 2025)."
-  },
-  {
-    "objectID": "course_intro.html#assessment---summary",
-    "href": "course_intro.html#assessment---summary",
-    "title": "Week 1 Slides",
-    "section": "Assessment - Summary",
-    "text": "Assessment - Summary\n\n20% Mini Coursework\n80% Supervised Coursework"
-  },
-  {
-    "objectID": "course_intro.html#assessment---mini-courseworks",
-    "href": "course_intro.html#assessment---mini-courseworks",
-    "title": "Week 1 Slides",
-    "section": "Assessment - Mini Courseworks",
-    "text": "Assessment - Mini Courseworks\n\nFour take-home mini courseworks. (5% each, total 20%)\n\nWeeks 2, 4, 6 and 10.\nYou will have one week to complete each coursework.\nSubmission via GitHub (using Classroom50).\nAutograded."
-  },
-  {
-    "objectID": "course_intro.html#assessment---mini-courseworks-1",
-    "href": "course_intro.html#assessment---mini-courseworks-1",
-    "title": "Week 1 Slides",
-    "section": "Assessment - Mini Courseworks",
-    "text": "Assessment - Mini Courseworks\n\nGenAI allowed in the mini-courseworks.\nYou will nee do to know how to use Quarto and Git to submit the mini-courseworks!"
-  },
-  {
-    "objectID": "course_intro.html#assessment---mini-courseworks-2",
-    "href": "course_intro.html#assessment---mini-courseworks-2",
-    "title": "Week 1 Slides",
-    "section": "Assessment - Mini Courseworks",
-    "text": "Assessment - Mini Courseworks\n\n\n\n\n\n\nWarning\n\n\nIt is essential that you upload your GitHub Username to Blackboard; otherwise you cannot complete the mini-courseworks."
-  },
-  {
-    "objectID": "course_intro.html#assessment---supervised-courseworks",
-    "href": "course_intro.html#assessment---supervised-courseworks",
-    "title": "Week 1 Slides",
-    "section": "Assessment - Supervised Courseworks",
-    "text": "Assessment - Supervised Courseworks\n\nTwo in-person supervised courseworks. (40% each, total 80%)\n\nA1 Week 8 - Tuesday 10th November, 11:00-13:00, 25/1009. Covers Chapters 1-6.\nA2 Week 12 - Tuesday, 8th December, 11:00-13:00, 25/1009. Covers the entire module."
-  },
-  {
-    "objectID": "course_intro.html#assessment---supervised-courseworks-1",
-    "href": "course_intro.html#assessment---supervised-courseworks-1",
-    "title": "Week 1 Slides",
-    "section": "Assessment - Supervised Courseworks",
-    "text": "Assessment - Supervised Courseworks\n\nGenAI blocked in supervised coursework.\nUses University computers."
-  },
-  {
-    "objectID": "course_intro.html#main-text",
-    "href": "course_intro.html#main-text",
-    "title": "Week 1 Slides",
-    "section": "Main Text",
-    "text": "Main Text\n\n“R for Data Science”, https://r4ds.hadley.nz"
-  },
-  {
-    "objectID": "ethics_slides.html#agenda",
-    "href": "ethics_slides.html#agenda",
-    "title": "Data Ethics and Biases",
-    "section": "Objectives",
-    "text": "Objectives\nBy the end of this lecture you will be able to:\n\n\nidentify ethical and regulatory considerations in a data science project\n\n\n\n\nrecognise different types of bias, and their impact\n\n\n\n\nevaluate real-world cases, and document data and models with data cards and model cards\n\n\n\nNo code today: this is a discussion lecture. Every “Task” works well as a 1–2 minute talk-to-your-neighbour, then take two or three answers before revealing."
-  },
-  {
-    "objectID": "ethics_slides.html#amazons-recruiting-tool",
-    "href": "ethics_slides.html#amazons-recruiting-tool",
-    "title": "Data Ethics and Biases",
-    "section": "Amazon’s recruiting tool",
-    "text": "Amazon’s recruiting tool\n\n\nAmazon built a tool to score job applicants’ CVs automatically\n\n\n\n\nTraining data: every CV submitted to the company over the previous ten years, and who was hired\n\n\n\n\nBy 2015 they found it was not gender neutral: given equally skilled applicants, it preferred men\n\n\n\n\n\n\n\n\nTask\n\n\nWhy? The tool was never told the applicants’ gender.\n\n\n\n\nIt didn’t learn what makes a good candidate — it learned what Amazon’s past hires looked like, and past hiring in tech had favoured men (and most applicants were men).\n\n\nSource: the Reuters report, linked from the notes. Let them discuss before revealing — someone usually gets there."
-  },
-  {
-    "objectID": "ethics_slides.html#removing-gender-isnt-enough",
-    "href": "ethics_slides.html#removing-gender-isnt-enough",
-    "title": "Data Ethics and Biases",
-    "section": "Removing gender isn’t enough",
-    "text": "Removing gender isn’t enough\nAmazon made the tool ignore words that penalised women. It still wasn’t fair:\n\n\n“captain of the women’s chess club”\nall-women colleges\nmen and women describing their experience in different words\n\n\n\nThese are proxies: they stand in for the removed attribute, as a postcode can for ethnicity or income.\n\n\nAmazon scrapped the tool."
-  },
-  {
-    "objectID": "ethics_slides.html#its-not-just-amazon",
-    "href": "ethics_slides.html#its-not-just-amazon",
-    "title": "Data Ethics and Biases",
-    "section": "It’s not just Amazon",
-    "text": "It’s not just Amazon\n\nCOMPAS, used in some US courts to predict reoffending: a 2016 ProPublica investigation found Black defendants who did not reoffend were labelled high risk nearly twice as often as white defendants\nCredit scoring: lower scores for freelancers and gig workers, whose income is documented differently — regardless of whether they are financially stable\n\n\nWe can’t prevent every bias. Our job: recognise it, mitigate it, and alert the people who rely on our work."
-  },
-  {
-    "objectID": "ethics_slides.html#six-kinds-of-bias",
-    "href": "ethics_slides.html#six-kinds-of-bias",
-    "title": "Data Ethics and Biases",
-    "section": "Six kinds of bias",
-    "text": "Six kinds of bias\n\nSampling: the sample doesn’t represent the population\nSelection: whether a record appears depends on the outcome being studied\nHistorical: the data are accurate, but the past was unfair\nMeasurement: data are collected or measured inaccurately\nConfirmation: we see what we expected to see\nAlgorithmic: a model’s results are systematically prejudiced, because of its data or design\n\n\nNot an exhaustive list. Historical bias is the subtle one: perfect sampling doesn’t fix it, because the data faithfully record an unfair past."
-  },
-  {
-    "objectID": "ethics_slides.html#name-that-bias",
-    "href": "ethics_slides.html#name-that-bias",
-    "title": "Data Ethics and Biases",
-    "section": "Name that bias",
-    "text": "Name that bias\n\n\n\n\n\n\nTask\n\n\nWhich kind of bias is each?\n\nA survey on smartphone use is run only among university students.\nA study of successful business strategies looks only at companies still trading today.\nA fitness tracker undercounts steps for people who walk slowly or with an irregular gait.\nAn analyst who believes remote work boosts productivity focuses on the survey answers that agree.\nA face recognition system trained mostly on lighter-skinned faces misidentifies darker-skinned people more often.\nThe Amazon tool.\n\n\n\n\n\n\nSampling — young people over-represented\nSelection — the failed companies are missing (survivorship)\nMeasurement\nConfirmation\nAlgorithmic — caused by sampling bias in its training data\nHistorical mainly (it imitated past decisions), plus sampling (mostly male applicants) → algorithmic"
-  },
-  {
-    "objectID": "ethics_slides.html#patterns-are-the-point",
-    "href": "ethics_slides.html#patterns-are-the-point",
-    "title": "Data Ethics and Biases",
-    "section": "Patterns are the point",
-    "text": "Patterns are the point\nEvery model relies on finding patterns — that’s what it’s for.\n\n\nlegitimate: “applicants with higher marks in data science tend to do better in the job”\nnot: patterns that disadvantage people because of who they are — e.g. their sex or race\n\n\n\nRemoving protected characteristics doesn’t stop it (proxies). The way to know is to check: compare results across groups."
-  },
-  {
-    "objectID": "ethics_slides.html#ethics-by-design",
-    "href": "ethics_slides.html#ethics-by-design",
-    "title": "Data Ethics and Biases",
-    "section": "Ethics by design",
-    "text": "Ethics by design\nAsk the questions at every stage, not at the end:\n\n\nCollection: do we need all this data? (data minimisation)\nAnalysis: who is represented, who is missing? Could the results be biased against a group?\nSharing: could results identify individuals, or be used unfairly? Are they presented honestly? (week 6’s honest plots)\nDocumentation: are these decisions written down? (data cards, model cards)\n\n\n\nReproducibility (week 3) is part of this: it lets others check exactly how a result was produced."
-  },
-  {
-    "objectID": "ethics_slides.html#a-disclaimer",
-    "href": "ethics_slides.html#a-disclaimer",
-    "title": "Data Ethics and Biases",
-    "section": "A disclaimer",
-    "text": "A disclaimer\n\n\n\n\n\n\nCaution\n\n\nWe focus on the UK. This is a complex area and the law changes: in real work, check the current rules and ask an expert — especially when handling personal data, protected characteristics, or data that could affect people’s rights."
-  },
-  {
-    "objectID": "ethics_slides.html#personal-data",
-    "href": "ethics_slides.html#personal-data",
-    "title": "Data Ethics and Biases",
-    "section": "Personal data",
-    "text": "Personal data\nAny information relating to an identified or identifiable living person.\n\n\nAnonymised: individuals can no longer be identified → no longer personal data\nPseudonymised: names replaced by IDs, with the link kept separately → still personal data\n\n\n\n\n\n\n\n\nTask\n\n\nA dataset has had names removed, but keeps postcode, date of birth and sex. Is it anonymous?\n\n\n\n\nAlmost certainly not. A well-known study found that 87% of the US population can be uniquely identified by ZIP code, date of birth and sex alone (Sweeney, 2000). Joining to another dataset (week 5) can re-identify people."
-  },
-  {
-    "objectID": "ethics_slides.html#uk-gdpr",
-    "href": "ethics_slides.html#uk-gdpr",
-    "title": "Data Ethics and Biases",
-    "section": "UK GDPR",
-    "text": "UK GDPR\nPersonal data must be:\n\n\n\nused fairly, lawfully, openly\nfor specified, explicit purposes\nlimited to what is necessary\n\n\n\naccurate and up to date\nkept no longer than needed\nhandled securely\n\n\n\nData minimisation in practice: read only the columns you need (col_select, week 10), drop identifying columns early, share summaries rather than records (week 7’s databases).\n\n\nThe government’s wording: “fairly, lawfully and transparently”, and “adequate, relevant and limited to only what is necessary”.\nFines: up to £17.5 million or 4% of annual global turnover, whichever is higher — plus reputational damage, compensation claims and disruption from investigations."
-  },
-  {
-    "objectID": "ethics_slides.html#special-category-data",
-    "href": "ethics_slides.html#special-category-data",
-    "title": "Data Ethics and Biases",
-    "section": "Special category data",
-    "text": "Special category data\nUK GDPR: how sensitive data must be handled.\n\nrace, ethnic background\npolitical opinions\nreligious beliefs\ntrade union membership\ngenetics, biometrics\nhealth\nsex life, sexual orientation"
-  },
-  {
-    "objectID": "ethics_slides.html#protected-characteristics",
-    "href": "ethics_slides.html#protected-characteristics",
-    "title": "Data Ethics and Biases",
-    "section": "Protected characteristics",
-    "text": "Protected characteristics\nThe Equality Act 2010: how people must not be treated.\n\n\n\nage\ndisability\ngender reassignment\nmarriage, civil partnership\npregnancy, maternity\n\n\n\nrace\nreligion or belief\nsex\nsexual orientation\n\n\n\nThe Amazon tool used no special category data — but discriminating by sex may still be unlawful.\n\n\nIt is unlawful to discriminate because of a protected characteristic. The two lists overlap but differ: age and sex are protected characteristics, but not special category data."
-  },
-  {
-    "objectID": "ethics_slides.html#data-cards",
-    "href": "ethics_slides.html#data-cards",
-    "title": "Data Ethics and Biases",
-    "section": "Data cards",
-    "text": "Data cards\nA data card does for a dataset what documentation does for a function: what it is, and how it may — and may not — be used.\n\nOur minimal version:\n\n\n\nname, date, description\nsource, collection method\nintended / forbidden uses\nrows, columns, variables\nprotected attributes?\n\n\n\nmissingness\nlimitations / biases\nprivacy / sensitivity\nlicence, contact\n\n\n\n\nThe full framework (Pushkarna et al., 2022; the Data Cards Playbook) is the “gold standard” and very long. Kaggle has users fill in partial data cards. In the assessment students may be asked to complete parts of a data card."
-  },
-  {
-    "objectID": "ethics_slides.html#write-part-of-a-data-card",
-    "href": "ethics_slides.html#write-part-of-a-data-card",
-    "title": "Data Ethics and Biases",
-    "section": "Write part of a data card",
-    "text": "Write part of a data card\n\n\n\n\n\n\nTask\n\n\nThe Kaggle Titanic dataset: 891 passengers, with Survived, Pclass, Name, Sex, Age, Fare, Cabin, … Age is missing for 177 rows, Cabin for 687. Fill in:\n\nprotected attributes present?\nknown limitations / biases\nprivacy / sensitivity\n\n\n\n\n\n\nProtected attributes: yes — sex and age\nLimitations / biases: not representative of modern populations; survival depends on class and sex because of historical boarding policies (“women and children first”) — not causal for modern uses; ~20% of ages and ~77% of cabins missing\nPrivacy: contains names, but the passengers have all died, so UK GDPR (living people only) doesn’t apply; public historical data, low risk"
-  },
-  {
-    "objectID": "ethics_slides.html#model-cards",
-    "href": "ethics_slides.html#model-cards",
-    "title": "Data Ethics and Biases",
-    "section": "Model cards",
-    "text": "Model cards\nThe equivalent for a model: intended use, performance, fairness assessment, limitations and risks.\n\nWe won’t build models in this course, but you may well have to use one: read its model card as a consumer, looking for fairness and safety concerns."
-  },
-  {
-    "objectID": "ethics_slides.html#read-a-model-card",
-    "href": "ethics_slides.html#read-a-model-card",
-    "title": "Data Ethics and Biases",
-    "section": "Read a model card",
-    "text": "Read a model card\n\n\n\n\n\n\nTask\n\n\nYou’re asked to feed applicant data into this model. What concerns you, and what would you do?\n\nModel: Loan Approval Classifier v1.0\nIntended use: assisting bank staff; NOT fully automated decisions\nPerformance: accuracy 85%, precision 80%, recall 78%\nProtected attributes: gender, ethnicity, age — used for fairness analysis, not as predictors\nFairness: no significant gender bias; slight bias for age 60+\nLimitations: may not generalise outside the training region; sensitive to missing income data\n\n\n\n\n\n\nthe age 60+ bias: age is a protected characteristic — test it on our own applicants, and flag it\nhuman review is required: attach that warning to our outputs; don’t let it become an automatic decision\nextrapolation: check our applicants come from the training region, and how much income data is missing\nproxies: “not used as predictors” doesn’t rule out indirect bias\n\n\n\nReal examples: model cards on Hugging Face (e.g. BERT’s). Mitchell et al. (2019) introduced them. Students won’t build ML models in this course, but they need to read model cards as consumers."
-  },
-  {
-    "objectID": "ethics_slides.html#our-job-as-data-scientists",
-    "href": "ethics_slides.html#our-job-as-data-scientists",
-    "title": "Data Ethics and Biases",
-    "section": "Our job as data scientists",
-    "text": "Our job as data scientists\n\n\nlook for bias at every stage — and don’t assume your data are representative or your model is fair\n\n\n\n\nmitigate what you can, and tell stakeholders about the rest\n\n\n\n\nknow when personal data, special category data or protected characteristics are involved — and get expert advice\n\n\n\n\ndocument data and models with data cards and model cards"
-  },
-  {
-    "objectID": "ethics_slides.html#read-the-notes",
-    "href": "ethics_slides.html#read-the-notes",
-    "title": "Data Ethics and Biases",
-    "section": "Read the notes",
-    "text": "Read the notes\n\nthe full data card and model card examples\nlinks to the Data Cards Playbook and its extended template\nthe GDPR summary, and the Reuters and ProPublica reports"
+    "objectID": "lab02_slides.html#block-2",
+    "href": "lab02_slides.html#block-2",
+    "title": "Lab 2: Coding in R",
+    "section": "Block 2",
+    "text": "Block 2\n\nPart 3 — Control Flow: focus on the non-Advanced tasks.\nPart 4 — Pipes and Part 5 — Debugging: pick these up if you have time."
   },
   {
     "objectID": "ethics_slides_handout.html",
@@ -2282,207 +2065,739 @@
     "text": "Read the notes\n\nthe full data card and model card examples\nlinks to the Data Cards Playbook and its extended template\nthe GDPR summary, and the Reuters and ProPublica reports"
   },
   {
-    "objectID": "lab02_slides.html#these-are-problem-sheets",
-    "href": "lab02_slides.html#these-are-problem-sheets",
-    "title": "Lab 2: Coding in R",
+    "objectID": "ethics_slides.html#agenda",
+    "href": "ethics_slides.html#agenda",
+    "title": "Data Ethics and Biases",
+    "section": "Objectives",
+    "text": "Objectives\nBy the end of this lecture you will be able to:\n\n\nidentify ethical and regulatory considerations in a data science project\n\n\n\n\nrecognise different types of bias, and their impact\n\n\n\n\nevaluate real-world cases, and document data and models with data cards and model cards\n\n\n\nNo code today: this is a discussion lecture. Every “Task” works well as a 1–2 minute talk-to-your-neighbour, then take two or three answers before revealing."
+  },
+  {
+    "objectID": "ethics_slides.html#amazons-recruiting-tool",
+    "href": "ethics_slides.html#amazons-recruiting-tool",
+    "title": "Data Ethics and Biases",
+    "section": "Amazon’s recruiting tool",
+    "text": "Amazon’s recruiting tool\n\n\nAmazon built a tool to score job applicants’ CVs automatically\n\n\n\n\nTraining data: every CV submitted to the company over the previous ten years, and who was hired\n\n\n\n\nBy 2015 they found it was not gender neutral: given equally skilled applicants, it preferred men\n\n\n\n\n\n\n\n\nTask\n\n\nWhy? The tool was never told the applicants’ gender.\n\n\n\n\nIt didn’t learn what makes a good candidate — it learned what Amazon’s past hires looked like, and past hiring in tech had favoured men (and most applicants were men).\n\n\nSource: the Reuters report, linked from the notes. Let them discuss before revealing — someone usually gets there."
+  },
+  {
+    "objectID": "ethics_slides.html#removing-gender-isnt-enough",
+    "href": "ethics_slides.html#removing-gender-isnt-enough",
+    "title": "Data Ethics and Biases",
+    "section": "Removing gender isn’t enough",
+    "text": "Removing gender isn’t enough\nAmazon made the tool ignore words that penalised women. It still wasn’t fair:\n\n\n“captain of the women’s chess club”\nall-women colleges\nmen and women describing their experience in different words\n\n\n\nThese are proxies: they stand in for the removed attribute, as a postcode can for ethnicity or income.\n\n\nAmazon scrapped the tool."
+  },
+  {
+    "objectID": "ethics_slides.html#its-not-just-amazon",
+    "href": "ethics_slides.html#its-not-just-amazon",
+    "title": "Data Ethics and Biases",
+    "section": "It’s not just Amazon",
+    "text": "It’s not just Amazon\n\nCOMPAS, used in some US courts to predict reoffending: a 2016 ProPublica investigation found Black defendants who did not reoffend were labelled high risk nearly twice as often as white defendants\nCredit scoring: lower scores for freelancers and gig workers, whose income is documented differently — regardless of whether they are financially stable\n\n\nWe can’t prevent every bias. Our job: recognise it, mitigate it, and alert the people who rely on our work."
+  },
+  {
+    "objectID": "ethics_slides.html#six-kinds-of-bias",
+    "href": "ethics_slides.html#six-kinds-of-bias",
+    "title": "Data Ethics and Biases",
+    "section": "Six kinds of bias",
+    "text": "Six kinds of bias\n\nSampling: the sample doesn’t represent the population\nSelection: whether a record appears depends on the outcome being studied\nHistorical: the data are accurate, but the past was unfair\nMeasurement: data are collected or measured inaccurately\nConfirmation: we see what we expected to see\nAlgorithmic: a model’s results are systematically prejudiced, because of its data or design\n\n\nNot an exhaustive list. Historical bias is the subtle one: perfect sampling doesn’t fix it, because the data faithfully record an unfair past."
+  },
+  {
+    "objectID": "ethics_slides.html#name-that-bias",
+    "href": "ethics_slides.html#name-that-bias",
+    "title": "Data Ethics and Biases",
+    "section": "Name that bias",
+    "text": "Name that bias\n\n\n\n\n\n\nTask\n\n\nWhich kind of bias is each?\n\nA survey on smartphone use is run only among university students.\nA study of successful business strategies looks only at companies still trading today.\nA fitness tracker undercounts steps for people who walk slowly or with an irregular gait.\nAn analyst who believes remote work boosts productivity focuses on the survey answers that agree.\nA face recognition system trained mostly on lighter-skinned faces misidentifies darker-skinned people more often.\nThe Amazon tool.\n\n\n\n\n\n\nSampling — young people over-represented\nSelection — the failed companies are missing (survivorship)\nMeasurement\nConfirmation\nAlgorithmic — caused by sampling bias in its training data\nHistorical mainly (it imitated past decisions), plus sampling (mostly male applicants) → algorithmic"
+  },
+  {
+    "objectID": "ethics_slides.html#patterns-are-the-point",
+    "href": "ethics_slides.html#patterns-are-the-point",
+    "title": "Data Ethics and Biases",
+    "section": "Patterns are the point",
+    "text": "Patterns are the point\nEvery model relies on finding patterns — that’s what it’s for.\n\n\nlegitimate: “applicants with higher marks in data science tend to do better in the job”\nnot: patterns that disadvantage people because of who they are — e.g. their sex or race\n\n\n\nRemoving protected characteristics doesn’t stop it (proxies). The way to know is to check: compare results across groups."
+  },
+  {
+    "objectID": "ethics_slides.html#ethics-by-design",
+    "href": "ethics_slides.html#ethics-by-design",
+    "title": "Data Ethics and Biases",
+    "section": "Ethics by design",
+    "text": "Ethics by design\nAsk the questions at every stage, not at the end:\n\n\nCollection: do we need all this data? (data minimisation)\nAnalysis: who is represented, who is missing? Could the results be biased against a group?\nSharing: could results identify individuals, or be used unfairly? Are they presented honestly? (week 6’s honest plots)\nDocumentation: are these decisions written down? (data cards, model cards)\n\n\n\nReproducibility (week 3) is part of this: it lets others check exactly how a result was produced."
+  },
+  {
+    "objectID": "ethics_slides.html#a-disclaimer",
+    "href": "ethics_slides.html#a-disclaimer",
+    "title": "Data Ethics and Biases",
+    "section": "A disclaimer",
+    "text": "A disclaimer\n\n\n\n\n\n\nCaution\n\n\nWe focus on the UK. This is a complex area and the law changes: in real work, check the current rules and ask an expert — especially when handling personal data, protected characteristics, or data that could affect people’s rights."
+  },
+  {
+    "objectID": "ethics_slides.html#personal-data",
+    "href": "ethics_slides.html#personal-data",
+    "title": "Data Ethics and Biases",
+    "section": "Personal data",
+    "text": "Personal data\nAny information relating to an identified or identifiable living person.\n\n\nAnonymised: individuals can no longer be identified → no longer personal data\nPseudonymised: names replaced by IDs, with the link kept separately → still personal data\n\n\n\n\n\n\n\n\nTask\n\n\nA dataset has had names removed, but keeps postcode, date of birth and sex. Is it anonymous?\n\n\n\n\nAlmost certainly not. A well-known study found that 87% of the US population can be uniquely identified by ZIP code, date of birth and sex alone (Sweeney, 2000). Joining to another dataset (week 5) can re-identify people."
+  },
+  {
+    "objectID": "ethics_slides.html#uk-gdpr",
+    "href": "ethics_slides.html#uk-gdpr",
+    "title": "Data Ethics and Biases",
+    "section": "UK GDPR",
+    "text": "UK GDPR\nPersonal data must be:\n\n\n\nused fairly, lawfully, openly\nfor specified, explicit purposes\nlimited to what is necessary\n\n\n\naccurate and up to date\nkept no longer than needed\nhandled securely\n\n\n\nData minimisation in practice: read only the columns you need (col_select, week 10), drop identifying columns early, share summaries rather than records (week 7’s databases).\n\n\nThe government’s wording: “fairly, lawfully and transparently”, and “adequate, relevant and limited to only what is necessary”.\nFines: up to £17.5 million or 4% of annual global turnover, whichever is higher — plus reputational damage, compensation claims and disruption from investigations."
+  },
+  {
+    "objectID": "ethics_slides.html#special-category-data",
+    "href": "ethics_slides.html#special-category-data",
+    "title": "Data Ethics and Biases",
+    "section": "Special category data",
+    "text": "Special category data\nUK GDPR: how sensitive data must be handled.\n\nrace, ethnic background\npolitical opinions\nreligious beliefs\ntrade union membership\ngenetics, biometrics\nhealth\nsex life, sexual orientation"
+  },
+  {
+    "objectID": "ethics_slides.html#protected-characteristics",
+    "href": "ethics_slides.html#protected-characteristics",
+    "title": "Data Ethics and Biases",
+    "section": "Protected characteristics",
+    "text": "Protected characteristics\nThe Equality Act 2010: how people must not be treated.\n\n\n\nage\ndisability\ngender reassignment\nmarriage, civil partnership\npregnancy, maternity\n\n\n\nrace\nreligion or belief\nsex\nsexual orientation\n\n\n\nThe Amazon tool used no special category data — but discriminating by sex may still be unlawful.\n\n\nIt is unlawful to discriminate because of a protected characteristic. The two lists overlap but differ: age and sex are protected characteristics, but not special category data."
+  },
+  {
+    "objectID": "ethics_slides.html#data-cards",
+    "href": "ethics_slides.html#data-cards",
+    "title": "Data Ethics and Biases",
+    "section": "Data cards",
+    "text": "Data cards\nA data card does for a dataset what documentation does for a function: what it is, and how it may — and may not — be used.\n\nOur minimal version:\n\n\n\nname, date, description\nsource, collection method\nintended / forbidden uses\nrows, columns, variables\nprotected attributes?\n\n\n\nmissingness\nlimitations / biases\nprivacy / sensitivity\nlicence, contact\n\n\n\n\nThe full framework (Pushkarna et al., 2022; the Data Cards Playbook) is the “gold standard” and very long. Kaggle has users fill in partial data cards. In the assessment students may be asked to complete parts of a data card."
+  },
+  {
+    "objectID": "ethics_slides.html#write-part-of-a-data-card",
+    "href": "ethics_slides.html#write-part-of-a-data-card",
+    "title": "Data Ethics and Biases",
+    "section": "Write part of a data card",
+    "text": "Write part of a data card\n\n\n\n\n\n\nTask\n\n\nThe Kaggle Titanic dataset: 891 passengers, with Survived, Pclass, Name, Sex, Age, Fare, Cabin, … Age is missing for 177 rows, Cabin for 687. Fill in:\n\nprotected attributes present?\nknown limitations / biases\nprivacy / sensitivity\n\n\n\n\n\n\nProtected attributes: yes — sex and age\nLimitations / biases: not representative of modern populations; survival depends on class and sex because of historical boarding policies (“women and children first”) — not causal for modern uses; ~20% of ages and ~77% of cabins missing\nPrivacy: contains names, but the passengers have all died, so UK GDPR (living people only) doesn’t apply; public historical data, low risk"
+  },
+  {
+    "objectID": "ethics_slides.html#model-cards",
+    "href": "ethics_slides.html#model-cards",
+    "title": "Data Ethics and Biases",
+    "section": "Model cards",
+    "text": "Model cards\nThe equivalent for a model: intended use, performance, fairness assessment, limitations and risks.\n\nWe won’t build models in this course, but you may well have to use one: read its model card as a consumer, looking for fairness and safety concerns."
+  },
+  {
+    "objectID": "ethics_slides.html#read-a-model-card",
+    "href": "ethics_slides.html#read-a-model-card",
+    "title": "Data Ethics and Biases",
+    "section": "Read a model card",
+    "text": "Read a model card\n\n\n\n\n\n\nTask\n\n\nYou’re asked to feed applicant data into this model. What concerns you, and what would you do?\n\nModel: Loan Approval Classifier v1.0\nIntended use: assisting bank staff; NOT fully automated decisions\nPerformance: accuracy 85%, precision 80%, recall 78%\nProtected attributes: gender, ethnicity, age — used for fairness analysis, not as predictors\nFairness: no significant gender bias; slight bias for age 60+\nLimitations: may not generalise outside the training region; sensitive to missing income data\n\n\n\n\n\n\nthe age 60+ bias: age is a protected characteristic — test it on our own applicants, and flag it\nhuman review is required: attach that warning to our outputs; don’t let it become an automatic decision\nextrapolation: check our applicants come from the training region, and how much income data is missing\nproxies: “not used as predictors” doesn’t rule out indirect bias\n\n\n\nReal examples: model cards on Hugging Face (e.g. BERT’s). Mitchell et al. (2019) introduced them. Students won’t build ML models in this course, but they need to read model cards as consumers."
+  },
+  {
+    "objectID": "ethics_slides.html#our-job-as-data-scientists",
+    "href": "ethics_slides.html#our-job-as-data-scientists",
+    "title": "Data Ethics and Biases",
+    "section": "Our job as data scientists",
+    "text": "Our job as data scientists\n\n\nlook for bias at every stage — and don’t assume your data are representative or your model is fair\n\n\n\n\nmitigate what you can, and tell stakeholders about the rest\n\n\n\n\nknow when personal data, special category data or protected characteristics are involved — and get expert advice\n\n\n\n\ndocument data and models with data cards and model cards"
+  },
+  {
+    "objectID": "ethics_slides.html#read-the-notes",
+    "href": "ethics_slides.html#read-the-notes",
+    "title": "Data Ethics and Biases",
+    "section": "Read the notes",
+    "text": "Read the notes\n\nthe full data card and model card examples\nlinks to the Data Cards Playbook and its extended template\nthe GDPR summary, and the Reuters and ProPublica reports"
+  },
+  {
+    "objectID": "course_intro.html#about-the-course",
+    "href": "course_intro.html#about-the-course",
+    "title": "Week 1 Slides",
+    "section": "About the Course",
+    "text": "About the Course\nThis is a double-badged module: MATH2051 and MATH6195. Taught material:\n\n1 hour lecture (16:00-17:00 in 58/1007, L/R C)\n2 hour lab (Mondays, 14:00-16:00 in 25/1009)"
+  },
+  {
+    "objectID": "course_intro.html#lectures",
+    "href": "course_intro.html#lectures",
+    "title": "Week 1 Slides",
+    "section": "Lectures",
+    "text": "Lectures\n\n1 hour session.\nI will demo some new techniques that we will focus on in the labs."
+  },
+  {
+    "objectID": "course_intro.html#labs",
+    "href": "course_intro.html#labs",
+    "title": "Week 1 Slides",
+    "section": "Labs",
+    "text": "Labs\n\n2 hour session.\nYou will code!\nPart of the Course Material.\n\nYou will be assessed on material from the labs.\nI will attempt to record the labs, but cannot guarantee the quality of the recordings.\n\nBoth lab worksheets and solutions will still be available to everyone."
+  },
+  {
+    "objectID": "course_intro.html#office-hour",
+    "href": "course_intro.html#office-hour",
+    "title": "Week 1 Slides",
+    "section": "Office Hour",
+    "text": "Office Hour\n\nMondays at 13:00 (right before the lab)\nIn my office (Building 39, Room 2025)."
+  },
+  {
+    "objectID": "course_intro.html#assessment---summary",
+    "href": "course_intro.html#assessment---summary",
+    "title": "Week 1 Slides",
+    "section": "Assessment - Summary",
+    "text": "Assessment - Summary\n\n20% Mini Coursework\n80% Supervised Coursework"
+  },
+  {
+    "objectID": "course_intro.html#assessment---mini-courseworks",
+    "href": "course_intro.html#assessment---mini-courseworks",
+    "title": "Week 1 Slides",
+    "section": "Assessment - Mini Courseworks",
+    "text": "Assessment - Mini Courseworks\n\nFour take-home mini courseworks. (5% each, total 20%)\n\nWeeks 2, 4, 6 and 10.\nYou will have one week to complete each coursework.\nSubmission via GitHub (using Classroom50).\nAutograded."
+  },
+  {
+    "objectID": "course_intro.html#assessment---mini-courseworks-1",
+    "href": "course_intro.html#assessment---mini-courseworks-1",
+    "title": "Week 1 Slides",
+    "section": "Assessment - Mini Courseworks",
+    "text": "Assessment - Mini Courseworks\n\nGenAI allowed in the mini-courseworks.\nYou will nee do to know how to use Quarto and Git to submit the mini-courseworks!"
+  },
+  {
+    "objectID": "course_intro.html#assessment---mini-courseworks-2",
+    "href": "course_intro.html#assessment---mini-courseworks-2",
+    "title": "Week 1 Slides",
+    "section": "Assessment - Mini Courseworks",
+    "text": "Assessment - Mini Courseworks\n\n\n\n\n\n\nWarning\n\n\nIt is essential that you upload your GitHub Username to Blackboard; otherwise you cannot complete the mini-courseworks."
+  },
+  {
+    "objectID": "course_intro.html#assessment---supervised-courseworks",
+    "href": "course_intro.html#assessment---supervised-courseworks",
+    "title": "Week 1 Slides",
+    "section": "Assessment - Supervised Courseworks",
+    "text": "Assessment - Supervised Courseworks\n\nTwo in-person supervised courseworks. (40% each, total 80%)\n\nA1 Week 8 - Tuesday 10th November, 11:00-13:00, 25/1009. Covers Chapters 1-6.\nA2 Week 12 - Tuesday, 8th December, 11:00-13:00, 25/1009. Covers the entire module."
+  },
+  {
+    "objectID": "course_intro.html#assessment---supervised-courseworks-1",
+    "href": "course_intro.html#assessment---supervised-courseworks-1",
+    "title": "Week 1 Slides",
+    "section": "Assessment - Supervised Courseworks",
+    "text": "Assessment - Supervised Courseworks\n\nGenAI blocked in supervised coursework.\nUses University computers."
+  },
+  {
+    "objectID": "course_intro.html#main-text",
+    "href": "course_intro.html#main-text",
+    "title": "Week 1 Slides",
+    "section": "Main Text",
+    "text": "Main Text\n\n“R for Data Science”, https://r4ds.hadley.nz"
+  },
+  {
+    "objectID": "lab01_slides.html#about-the-lab",
+    "href": "lab01_slides.html#about-the-lab",
+    "title": "Week 1 Slides",
+    "section": "About the Lab",
+    "text": "About the Lab\n\nThis lab will be a lighter load than coming weeks.\nWe will be focussing on getting people set up with git and R.\nThere are some coding tasks for you to complete if you get started quickly."
+  },
+  {
+    "objectID": "lab01_slides.html#about-university-machines",
+    "href": "lab01_slides.html#about-university-machines",
+    "title": "Week 1 Slides",
+    "section": "About University Machines",
+    "text": "About University Machines\n\nWhere you should save files\nHow to open RStudio"
+  },
+  {
+    "objectID": "lab01_slides.html#task-1-basic-git",
+    "href": "lab01_slides.html#task-1-basic-git",
+    "title": "Week 1 Slides",
+    "section": "Task 1: Basic Git",
+    "text": "Task 1: Basic Git\n\nNavigate to github.com/soton-fds/lab_01_2627\nFollow the instructions on soton-fds.github.io/github-tutorial.html to fork and then clone the repo.\nWhen you have a GitHub Username, input it on Blackboard."
+  },
+  {
+    "objectID": "lab01_slides.html#task-2-3-simple-data-analysis",
+    "href": "lab01_slides.html#task-2-3-simple-data-analysis",
+    "title": "Week 1 Slides",
+    "section": "Task 2-3: Simple Data Analysis",
+    "text": "Task 2-3: Simple Data Analysis\n\nOpen the Palmer Penguins CSV file\nGenerate some simple plots"
+  },
+  {
+    "objectID": "lab03_slides.html#these-are-problem-sheets",
+    "href": "lab03_slides.html#these-are-problem-sheets",
+    "title": "Lab 3: Reproducible Quarto & Collaboration",
     "section": "These are problem sheets",
-    "text": "These are problem sheets\n\nThe lab worksheet is a problem sheet, not a walkthrough — it is deliberately longer than one session.\nYou are not expected to finish everything. Work at your own pace and go as far as you get.\nI will try to guide you through the material in this presentation, but feel free to linger on earlier exercises (or go ahead).\nI’ll stop everyone at certain points to demonstrate some of the solutions."
+    "text": "These are problem sheets\n\nWork at your own pace — you are not expected to finish everything.\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
   },
   {
-    "objectID": "lab02_slides.html#solutions",
-    "href": "lab02_slides.html#solutions",
-    "title": "Lab 2: Coding in R",
-    "section": "Solutions",
-    "text": "Solutions\n\nPublished on Fridays in a solutions branch.\nE.g. show solutions to lab 1."
-  },
-  {
-    "objectID": "lab02_slides.html#getting-started",
-    "href": "lab02_slides.html#getting-started",
-    "title": "Lab 2: Coding in R",
+    "objectID": "lab03_slides.html#getting-started",
+    "href": "lab03_slides.html#getting-started",
+    "title": "Lab 3: Reproducible Quarto & Collaboration",
     "section": "Getting started",
-    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_02_2627.\nOpen lab_02.qmd in RStudio and work through it, running each chunk as you go.\nAsk for help — put your hand up and we will come round."
+    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_03_2627.\nOpen the lab README.md and work through the tasks."
   },
   {
-    "objectID": "lab02_slides.html#todays-plan",
-    "href": "lab02_slides.html#todays-plan",
-    "title": "Lab 2: Coding in R",
+    "objectID": "lab03_slides.html#todays-plan",
+    "href": "lab03_slides.html#todays-plan",
+    "title": "Lab 3: Reproducible Quarto & Collaboration",
     "section": "Today’s plan",
-    "text": "Today’s plan\n\nBlock 1 (45 min) — Foundations & data structures\n☕ Break (15 min)\nBlock 2 (45 min) — Control flow, pipes & debugging"
+    "text": "Today’s plan\n\nBlock 1 (45 min) — Reproducible Quarto\n☕ Break (15 min)\nBlock 2 (45 min) — Git for collaboration"
   },
   {
-    "objectID": "lab02_slides.html#block-1",
-    "href": "lab02_slides.html#block-1",
-    "title": "Lab 2: Coding in R",
+    "objectID": "lab03_slides.html#task-1-reproducible-quarto",
+    "href": "lab03_slides.html#task-1-reproducible-quarto",
+    "title": "Lab 3: Reproducible Quarto & Collaboration",
+    "section": "Task 1 — Reproducible Quarto",
+    "text": "Task 1 — Reproducible Quarto\n\nThere is some data analysis and commentary in bond.R.\nThe task is to convert it to Quarto.\nSee the lab README.md for the full checklist.\n~30 minutes — work at your own pace, then we’ll go through it."
+  },
+  {
+    "objectID": "lab03_slides.html#advanced-quarto-options",
+    "href": "lab03_slides.html#advanced-quarto-options",
+    "title": "Lab 3: Reproducible Quarto & Collaboration",
+    "section": "Advanced Quarto Options",
+    "text": "Advanced Quarto Options\nI’ll now demo some advanced finishing touches."
+  },
+  {
+    "objectID": "lab03_slides.html#before-the-break-add-a-collaborator",
+    "href": "lab03_slides.html#before-the-break-add-a-collaborator",
+    "title": "Lab 3: Reproducible Quarto & Collaboration",
+    "section": "Before the break: add a collaborator",
+    "text": "Before the break: add a collaborator\n\nPair up with someone next to you.\nPerson A adds their partner as a collaborator:\n\nOn your forked repo: Settings → Collaborators.\nAdd Person B’s GitHub username.\n\nPerson B accepts the emailed invite.\nGet this going now — it’ll be ready when we come back."
+  },
+  {
+    "objectID": "lab03_slides.html#task-2-collaborating",
+    "href": "lab03_slides.html#task-2-collaborating",
+    "title": "Lab 3: Reproducible Quarto & Collaboration",
+    "section": "Task 2 — Collaborating",
+    "text": "Task 2 — Collaborating\n\nPerson B clones Person A’s repo.\nYou’ll both work in the same repo and practise fixing merge conflicts.\nSee the lab README.md for the steps."
+  },
+  {
+    "objectID": "lab05_slides.html#two-files-this-week",
+    "href": "lab05_slides.html#two-files-this-week",
+    "title": "Lab 5: Joins, Strings & Dates",
+    "section": "Two files this week",
+    "text": "Two files this week\n\nlab_05.qmd is today’s lab: work through it at your own pace.\nlab_05_practice.qmd is a practice sheet with more questions on the same data, for after the lab (or if you finish early).\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
+  },
+  {
+    "objectID": "lab05_slides.html#getting-started",
+    "href": "lab05_slides.html#getting-started",
+    "title": "Lab 5: Joins, Strings & Dates",
+    "section": "Getting started",
+    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_05_2627.\nOpen lab_05.qmd in RStudio and work through it, writing your answers in the solution boxes.\nThe lab accompanies the Week 5 notes."
+  },
+  {
+    "objectID": "lab05_slides.html#todays-plan",
+    "href": "lab05_slides.html#todays-plan",
+    "title": "Lab 5: Joins, Strings & Dates",
+    "section": "Today’s plan",
+    "text": "Today’s plan\n\nBlock 1 (45 min) — Joining data\n☕ Break (15 min)\nBlock 2 (45 min) — Strings and dates"
+  },
+  {
+    "objectID": "lab05_slides.html#block-1",
+    "href": "lab05_slides.html#block-1",
+    "title": "Lab 5: Joins, Strings & Dates",
     "section": "Block 1",
-    "text": "Block 1\n\nPart 1 — R Fundamentals: work through at your own pace.\nPart 1b — Lists: get here if you have time.\nPart 2 — Advanced Array Indexing."
+    "text": "Block 1\n\nTask 1 — Joining Data (~25 min): load the Simpsons tables, work out how they link together, then answer the research questions with joins.\nTask 1b — Choosing a Join (~15 min): what does an inner_join throw away? We’ll then go through some of the surprises in the data.\nFinished early? Try Joining Data in lab_05_practice.qmd."
   },
   {
-    "objectID": "lab02_slides.html#block-2",
-    "href": "lab02_slides.html#block-2",
-    "title": "Lab 2: Coding in R",
+    "objectID": "lab05_slides.html#module-feedback",
+    "href": "lab05_slides.html#module-feedback",
+    "title": "Lab 5: Joins, Strings & Dates",
+    "section": "Module feedback",
+    "text": "Module feedback\nPlease take a couple of minutes in the break to tell us how the module is going.\n\n\n\nMSc students\n\nOpen the MSc form\n\n\n\nBSc students\n\nOpen the BSc form"
+  },
+  {
+    "objectID": "lab05_slides.html#block-2",
+    "href": "lab05_slides.html#block-2",
+    "title": "Lab 5: Joins, Strings & Dates",
     "section": "Block 2",
-    "text": "Block 2\n\nPart 3 — Control Flow: focus on the non-Advanced tasks.\nPart 4 — Pipes and Part 5 — Debugging: pick these up if you have time."
+    "text": "Block 2\n\nTask 2 — String Processing (~20 min): is the longest line really a line? We’ll stop to look at what went wrong.\nTask 3a — Parsing Dates (~15 min): the same dates written four ways, and what happens when you use the wrong function.\nTask 3b — Date Processing (~10 min): stock market data — watch out for leap years!\nFinished early? Try String Processing and Dates in lab_05_practice.qmd."
   },
   {
-    "objectID": "lab04_slides.html#these-are-problem-sheets",
-    "href": "lab04_slides.html#these-are-problem-sheets",
-    "title": "Lab 4: Loading, Checking & Tidying Data",
-    "section": "These are problem sheets",
-    "text": "These are problem sheets\n\nWork at your own pace — you are not expected to finish everything.\nTasks marked Extension are for if you finish early.\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
-  },
-  {
-    "objectID": "lab04_slides.html#getting-started",
-    "href": "lab04_slides.html#getting-started",
-    "title": "Lab 4: Loading, Checking & Tidying Data",
-    "section": "Getting started",
-    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_04_2627.\nOpen lab_04.qmd in RStudio and work through it, writing your answers in the solution boxes.\nThe lab accompanies the Week 4 notes."
-  },
-  {
-    "objectID": "lab04_slides.html#todays-plan",
-    "href": "lab04_slides.html#todays-plan",
-    "title": "Lab 4: Loading, Checking & Tidying Data",
-    "section": "Today’s plan",
-    "text": "Today’s plan\n\nBlock 1 (45 min) — Loading and checking data\n☕ Break (15 min)\nBlock 2 (45 min) — Transforming and tidying data"
-  },
-  {
-    "objectID": "lab04_slides.html#block-1",
-    "href": "lab04_slides.html#block-1",
-    "title": "Lab 4: Loading, Checking & Tidying Data",
-    "section": "Block 1",
-    "text": "Block 1\n\nTask 1 — Loading Data (~10 min): load the three files in data/part1/.\nTask 1b — Checking Loaded Data (~25 min): loading without an error ≠ loading correctly! We’ll then go through some of the traps.\nTask 2 — dplyr: make a start if you have time."
-  },
-  {
-    "objectID": "lab04_slides.html#block-2",
-    "href": "lab04_slides.html#block-2",
-    "title": "Lab 4: Loading, Checking & Tidying Data",
-    "section": "Block 2",
-    "text": "Block 2\n\nTask 2 — dplyr (~25 min): work through the diamonds questions, then sanity-check your “unusually large” diamonds. We’ll then look at what the checks turned up.\nTask 3 — tidyr (~20 min): is the assessment data tidy? Tidy it with pivot_longer and separate_wider_delim.\nExtensions: pick these up if you have time."
-  },
-  {
-    "objectID": "lab06_slides.html#two-files-this-week",
-    "href": "lab06_slides.html#two-files-this-week",
-    "title": "Lab 6: Data Visualisation with ggplot2",
-    "section": "Two files this week",
-    "text": "Two files this week\n\nlab_06.qmd is today’s lab: work through it at your own pace.\nlab_06_practice.qmd is a practice sheet with more questions on the same data, for after the lab (or if you finish early).\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
-  },
-  {
-    "objectID": "lab06_slides.html#getting-started",
-    "href": "lab06_slides.html#getting-started",
-    "title": "Lab 6: Data Visualisation with ggplot2",
-    "section": "Getting started",
-    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_06_2627.\nOpen lab_06.qmd in RStudio and work through it, writing your answers in the solution boxes.\nThe lab accompanies the Week 6 notes."
-  },
-  {
-    "objectID": "lab06_slides.html#todays-plan",
-    "href": "lab06_slides.html#todays-plan",
-    "title": "Lab 6: Data Visualisation with ggplot2",
-    "section": "Today’s plan",
-    "text": "Today’s plan\n\nBlock 1 (45 min) — Task 1: Temperature trends\n☕ Break (15 min)\nBlock 2 (45 min) — Task 2: Rainfall"
-  },
-  {
-    "objectID": "lab06_slides.html#task-1-temperature-trends",
-    "href": "lab06_slides.html#task-1-temperature-trends",
-    "title": "Lab 6: Data Visualisation with ggplot2",
-    "section": "Task 1 — Temperature Trends",
-    "text": "Task 1 — Temperature Trends\n\nJuly temperatures in Southampton: what causes the break in the line?\nEvery month at four stations: are temperatures rising? Trend lines with geom_smooth().\nAnnual means: remove the seasonal cycle to see the trend. We’ll stop to look at the suspicious years.\nFinished early? Try Tasks 1–4 in lab_06_practice.qmd."
-  },
-  {
-    "objectID": "lab06_slides.html#task-2-rainfall",
-    "href": "lab06_slides.html#task-2-rainfall",
-    "title": "Lab 6: Data Visualisation with ggplot2",
-    "section": "Task 2 — Rainfall",
-    "text": "Task 2 — Rainfall\n\nBar charts: geom_bar() vs geom_col(), and how to make a plot lie. We’ll stop to compare misleading plots.\nDistributions: box plots and histograms, and what a log scale does to months with no rain.\nFinished early? Try Tasks 5 and 6 in lab_06_practice.qmd."
-  },
-  {
-    "objectID": "lab06_slides.html#after-the-lab",
-    "href": "lab06_slides.html#after-the-lab",
-    "title": "Lab 6: Data Visualisation with ggplot2",
+    "objectID": "lab05_slides.html#after-the-lab",
+    "href": "lab05_slides.html#after-the-lab",
+    "title": "Lab 5: Joins, Strings & Dates",
     "section": "After the lab",
-    "text": "After the lab\n\nFinish any parts of lab_06.qmd you didn’t get to.\nThen work through lab_06_practice.qmd: themes, facets, colourblind-safe palettes, violin plots and more."
+    "text": "After the lab\n\nFinish any tasks in lab_05.qmd you didn’t get to.\nThen work through lab_05_practice.qmd: each section follows on from the matching lab task.\nIf you haven’t already, please fill in the module feedback form: MSc · BSc"
   },
   {
-    "objectID": "lab08_slides.html#two-files-this-week",
-    "href": "lab08_slides.html#two-files-this-week",
-    "title": "Lab 8: Introduction to Shiny",
+    "objectID": "lab07_slides.html#two-files-this-week",
+    "href": "lab07_slides.html#two-files-this-week",
+    "title": "Lab 7: SQL and dbplyr",
     "section": "Two files this week",
-    "text": "Two files this week\n\nlab_08.qmd is today’s lab: work through it at your own pace.\nlab_08_practice.qmd is a practice sheet with more questions, for after the lab (or if you finish early).\nWrite your apps in src/, and your written answers in the solution boxes.\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
+    "text": "Two files this week\n\nlab_07.qmd is today’s lab: work through it at your own pace.\nlab_07_practice.qmd is a practice sheet with more questions on the same data, for after the lab (or if you finish early).\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
   },
   {
-    "objectID": "lab08_slides.html#getting-started",
-    "href": "lab08_slides.html#getting-started",
-    "title": "Lab 8: Introduction to Shiny",
+    "objectID": "lab07_slides.html#getting-started",
+    "href": "lab07_slides.html#getting-started",
+    "title": "Lab 7: SQL and dbplyr",
     "section": "Getting started",
-    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_08_2627.\nOpen lab_08.qmd in RStudio, and the apps in src/. Run an app with the Run App button, and stop it to get your console back.\nThe lab accompanies the Week 8 notes."
+    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_07_2627.\nOpen lab_07.qmd in RStudio and work through it, writing your answers in the solution boxes.\nThe lab accompanies the Week 7 notes."
   },
   {
-    "objectID": "lab08_slides.html#todays-plan",
-    "href": "lab08_slides.html#todays-plan",
-    "title": "Lab 8: Introduction to Shiny",
+    "objectID": "lab07_slides.html#todays-plan",
+    "href": "lab07_slides.html#todays-plan",
+    "title": "Lab 7: SQL and dbplyr",
     "section": "Today’s plan",
-    "text": "Today’s plan\n\nBlock 1 (45 min) — Task 1: A first app\n☕ Break (15 min)\nBlock 2 (45 min) — Task 2: A data visualiser"
+    "text": "Today’s plan\n\nBlock 1 (45 min) — Task 1: Reading SQL\n☕ Break (15 min)\nBlock 2 (45 min) — Task 2: Using dbplyr"
   },
   {
-    "objectID": "lab08_slides.html#task-1-a-first-app",
-    "href": "lab08_slides.html#task-1-a-first-app",
-    "title": "Lab 8: Introduction to Shiny",
-    "section": "Task 1 — A First App",
-    "text": "Task 1 — A First App\n\nStart from src/app1.R: add a greeting, an age and a favourite colour, each with its own input and output.\nWhat does your app show before anyone types a name? We’ll stop to fix it with req().\nSources, conductors and endpoints: we’ll stop to draw the reactive graph of your app, and work out what re-runs when only the colour changes.\nFinished early? Try Tasks 1 and 2 in lab_08_practice.qmd."
+    "objectID": "lab07_slides.html#task-1-reading-sql",
+    "href": "lab07_slides.html#task-1-reading-sql",
+    "title": "Lab 7: SQL and dbplyr",
+    "section": "Task 1 — Reading SQL",
+    "text": "Task 1 — Reading SQL\n\nYou’ll read SQL queries, not write them: for each one, say what question it answers and predict the shape of the result before running it.\nWhich theme has the most sets? Two queries give two different answers. We’ll stop to discuss why, and whether a count of sets measures popularity.\nHow are the tables connected? One-to-many, many-to-many, and the tables in between.\nWhat’s missing from the CREATE TABLE statement for inventory_parts? We’ll stop to find a primary key that works.\nFinished early? Try Tasks 1–3 in lab_07_practice.qmd."
   },
   {
-    "objectID": "lab08_slides.html#task-2-a-data-visualiser",
-    "href": "lab08_slides.html#task-2-a-data-visualiser",
-    "title": "Lab 8: Introduction to Shiny",
-    "section": "Task 2 — A Data Visualiser",
-    "text": "Task 2 — A Data Visualiser\n\nBuild a visualiser for the penguins data from scratch: choose the axes, the colour, the labels and a species to show.\nA selectInput gives you a string, not a column. We’ll stop once your first plot works, to look at .data[[...]] and where the app looks for its data.\nAdelie vs Gentoo: are they really the same size? We’ll stop to see how rescaled axes mislead, and fix them.\nFinished early? Try Tasks 3–5 in lab_08_practice.qmd."
+    "objectID": "lab07_slides.html#task-2-using-dbplyr",
+    "href": "lab07_slides.html#task-2-using-dbplyr",
+    "title": "Lab 7: SQL and dbplyr",
+    "section": "Task 2 — Using dbplyr",
+    "text": "Task 2 — Using dbplyr\n\nWrite dplyr code for the queries from Task 1, and read the SQL that dbplyr generates with show_query().\nAre LEGO sets getting bigger? Summarise in the database, collect(), then plot in R. We’ll stop to look at the plot, and how many sets each point is based on.\nWhat should run in the database, and what in R? Collecting late, and functions that can’t be translated.\nFinished early? Try Tasks 4–6 in lab_07_practice.qmd."
   },
   {
-    "objectID": "lab08_slides.html#after-the-lab",
-    "href": "lab08_slides.html#after-the-lab",
-    "title": "Lab 8: Introduction to Shiny",
+    "objectID": "lab07_slides.html#after-the-lab",
+    "href": "lab07_slides.html#after-the-lab",
+    "title": "Lab 7: SQL and dbplyr",
     "section": "After the lab",
-    "text": "After the lab\n\nFinish any parts of lab_08.qmd you didn’t get to.\nThen work through lab_08_practice.qmd: why reactive expressions matter, a resample button, exploring the penguins, deploying your app to shinyapps.io and more."
+    "text": "After the lab\n\nFinish any parts of lab_07.qmd you didn’t get to.\nThen work through lab_07_practice.qmd: LEFT JOINs, a second schema to critique, joining a tibble to a database table, theme families and more."
   },
   {
-    "objectID": "lab10_slides.html#two-files-this-week",
-    "href": "lab10_slides.html#two-files-this-week",
-    "title": "Lab 10: Working with Big Data",
+    "objectID": "lab09_slides.html#two-files-this-week",
+    "href": "lab09_slides.html#two-files-this-week",
+    "title": "Lab 9: Functional Programming and Robust Code",
     "section": "Two files this week",
-    "text": "Two files this week\n\nlab_10.qmd is today’s lab: work through it at your own pace.\nlab_10_practice.qmd is a practice sheet with more questions on the same data, for after the lab (or if you finish early).\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
+    "text": "Two files this week\n\nlab_09.qmd is today’s lab: work through it at your own pace.\nlab_09_practice.qmd is a practice sheet with more questions on the same data, for after the lab (or if you finish early).\nI’ll stop everyone at certain points to demonstrate solutions.\nPut your hand up if you get stuck and we’ll come round."
   },
   {
-    "objectID": "lab10_slides.html#getting-started",
-    "href": "lab10_slides.html#getting-started",
-    "title": "Lab 10: Working with Big Data",
+    "objectID": "lab09_slides.html#getting-started",
+    "href": "lab09_slides.html#getting-started",
+    "title": "Lab 9: Functional Programming and Robust Code",
     "section": "Getting started",
-    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_10_2627.\nOpen lab_10.qmd in RStudio and work through it, writing your answers in the solution boxes.\nThe lab accompanies the Week 10 notes."
+    "text": "Getting started\n\nFork and clone github.com/soton-fds/lab_09_2627.\nOpen lab_09.qmd in RStudio and work through it, writing your answers in the solution boxes.\nThe lab accompanies the Week 9 notes."
   },
   {
-    "objectID": "lab10_slides.html#todays-plan",
-    "href": "lab10_slides.html#todays-plan",
-    "title": "Lab 10: Working with Big Data",
+    "objectID": "lab09_slides.html#todays-plan",
+    "href": "lab09_slides.html#todays-plan",
+    "title": "Lab 9: Functional Programming and Robust Code",
     "section": "Today’s plan",
-    "text": "Today’s plan\n\nBlock 1 (45 min) — Task 1: Working in Chunks\n☕ Break (15 min)\nBlock 2 (45 min) — Task 2: Scaling Up"
+    "text": "Today’s plan\n\nBlock 1 (45 min) — Task 1: From loops to maps\n☕ Break (15 min)\nBlock 2 (45 min) — Task 2: Many files, and failing well"
   },
   {
-    "objectID": "lab10_slides.html#task-1-working-in-chunks",
-    "href": "lab10_slides.html#task-1-working-in-chunks",
-    "title": "Lab 10: Working with Big Data",
-    "section": "Task 1 — Working in Chunks",
-    "text": "Task 1 — Working in Chunks\n\nCheck how big the data really is: file size, memory, col_select and n_max. Spoiler: it isn’t big.\nVary the chunk_size in read_csv_chunked() and time it. We’ll stop to look at what you notice.\nCompute the sum for group A, then the sums and means for every group. We’ll stop to see why the map step returns sums and counts rather than means.\nDecide whether quantiles can be computed this way.\nFinished early? Try Task 1 in lab_10_practice.qmd."
+    "objectID": "lab09_slides.html#task-1-from-loops-to-maps",
+    "href": "lab09_slides.html#task-1-from-loops-to-maps",
+    "title": "Lab 9: Functional Programming and Robust Code",
+    "section": "Task 1 — From Loops to Maps",
+    "text": "Task 1 — From Loops to Maps\n\nWarm-ups with map_dbl, including a list of functions.\nThree penguin plots from one pmap. We’ll stop to look at .data[[...]] and walk(plots, print).\nReplace the per-species for loop with split(), map() and list_rbind(), and check you get the same answer. We’ll stop to see why you don’t, quite.\nFinished early? Try Tasks 1–4 in lab_09_practice.qmd."
   },
   {
-    "objectID": "lab10_slides.html#task-2-scaling-up",
-    "href": "lab10_slides.html#task-2-scaling-up",
-    "title": "Lab 10: Working with Big Data",
-    "section": "Task 2 — Scaling Up",
-    "text": "Task 2 — Scaling Up\n\nGenerate a larger file (3 million rows) and check how big it is on disk and in memory.\nRepeat the chunk_size experiment on the larger file. We’ll stop to compare the pattern with Task 1: is bigger always better?\nCompare read_csv() and read_csv_chunked(), and decide which you’d use for a 50GB file. We’ll stop to discuss, and to see where DuckDB fits in.\nFinished early? Try Tasks 2 and 3 in lab_10_practice.qmd."
+    "objectID": "lab09_slides.html#task-2-many-files-and-failing-well",
+    "href": "lab09_slides.html#task-2-many-files-and-failing-well",
+    "title": "Lab 9: Functional Programming and Robust Code",
+    "section": "Task 2 — Many Files, and Failing Well",
+    "text": "Task 2 — Many Files, and Failing Well\n\nRead a whole folder of CSV files into one tibble.\nFit a line to each file: one file breaks everything. We’ll stop to read the error message together.\nUse possibly() so one bad file doesn’t stop the others. We’ll stop to discuss what you must report when you drop data.\nMake fit_bill_model() fail with a clear message.\nFinished early? Try Tasks 5–8 in lab_09_practice.qmd."
   },
   {
-    "objectID": "lab10_slides.html#after-the-lab",
-    "href": "lab10_slides.html#after-the-lab",
-    "title": "Lab 10: Working with Big Data",
+    "objectID": "lab09_slides.html#after-the-lab",
+    "href": "lab09_slides.html#after-the-lab",
+    "title": "Lab 9: Functional Programming and Robust Code",
     "section": "After the lab",
-    "text": "After the lab\n\nFinish any parts of lab_10.qmd you didn’t get to.\nThen work through lab_10_practice.qmd: standard deviations from chunks, DuckDB with duckplyr, and dbplyr."
+    "text": "After the lab\n\nFinish any parts of lab_09.qmd you didn’t get to.\nThen work through lab_09_practice.qmd: map2 and walk2, reduce, Simpson’s paradox, pure functions, unit tests, misspelt folders and more."
+  },
+  {
+    "objectID": "revision.html#sec-past-papers",
+    "href": "revision.html#sec-past-papers",
+    "title": "Revision",
+    "section": "Past papers",
+    "text": "Past papers\nPast papers are available on Blackboard.\n\nTry a paper to get used to the questions and the amount of work involved.\nWork through it on your own, using the resources allowed in the assessment.\nRender your answers. Read the commentary as well as checking the code.\nCheck any solutions or feedback, then go back over anything you found difficult.\n\n\nShow the past papers folder on Blackboard. Suggest making a note of any questions they get stuck on, then going back to the relevant notes or lab."
+  },
+  {
+    "objectID": "revision.html#marks",
+    "href": "revision.html#marks",
+    "title": "Revision",
+    "section": "Marks",
+    "text": "Marks\nAssessment 1 is worth 40 marks and 40% of the module grade. You have 90 minutes, unless you have an approved adjustment.\n\n\n\nComponent\nMarks\n\n\n\n\nQuestion 1\n4\n\n\nQuestion 2\n16\n\n\nQuestion 3\n16\n\n\nReproducibility\n4\n\n\n\n\nThere are marks for commentary in the reproducibility section and in some question parts. We will look at examples in the Quarto section.\n\n\nSome students have extra time under their approved arrangements. Commentary earns marks both in the reproducibility section and in some question parts. The marks beside each part are a useful guide to how much work it needs."
+  },
+  {
+    "objectID": "revision.html#using-examstart",
+    "href": "revision.html#using-examstart",
+    "title": "Revision",
+    "section": "Using ExamStart",
+    "text": "Using ExamStart\n\nOpen the supplied assessment .qmd in RStudio.\nWrite your answers in the solution boxes.\nSave and render as you go.\nCorrect any errors and render the whole document again.\nSave before clicking Submit and End Session in ExamStart.\n\n\nKeep the files in the supplied folder and use relative paths to load them.\n\n\nDemonstrate using the mock assessment folder. In ExamStart, clicking Submit and End Session submits the saved work. There is no separate upload step, and unsaved changes will be lost. Only edit the answer boxes."
+  },
+  {
+    "objectID": "revision.html#sec-imports",
+    "href": "revision.html#sec-imports",
+    "title": "Revision",
+    "section": "Reading different file formats",
+    "text": "Reading different file formats\nLook inside the file: what separates the columns, and how are decimals written?\nshop|area\nNorth|12.5\nshop;area\nNorth;12,5\nshop    area     (columns separated by a tab)\nNorth   12.5\n\nThese are extracts from three example files. The last one uses tabs, which can be hard to distinguish from spaces on screen. The area should come out as 12.5 in all three cases."
+  },
+  {
+    "objectID": "revision.html#loading-and-checking-the-data",
+    "href": "revision.html#loading-and-checking-the-data",
+    "title": "Revision",
+    "section": "Loading and checking the data",
+    "text": "Loading and checking the data\nareas_1 &lt;- read_delim(\"areas_pipe.txt\", delim = \"|\")\nareas_2 &lt;- read_csv2(\"areas_semicolon.csv\")\nareas_3 &lt;- read_tsv(\"areas_tab.txt\")\n\nhead(areas_2)\nglimpse(areas_2)\nall(areas_1 == areas_2)\nall(areas_1 == areas_3)\n\nread_csv2() uses semicolons between fields and decimal commas. A file can load without errors and still be read incorrectly. Check the values and column types.\n\n\nThese filenames are examples. The equality checks assume the rows and columns are in the same order and there are no missing values. For other data, match the rows first and consider all.equal for decimal values. The file extension does not always tell you how the contents are arranged."
+  },
+  {
+    "objectID": "revision.html#sec-pivots",
+    "href": "revision.html#sec-pivots",
+    "title": "Revision",
+    "section": "What should one row represent?",
+    "text": "What should one row represent?\n\nshop_data &lt;- tibble(\n  shop = c(\"North\", \"South\"),\n  revenue_2023 = c(120, 90), cost_2023 = c(100, 95),\n  revenue_2024 = c(150, 130), cost_2024 = c(110, 105)\n)\nshop_data\n\n# A tibble: 2 × 5\n  shop  revenue_2023 cost_2023 revenue_2024 cost_2024\n  &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;\n1 North          120       100          150       110\n2 South           90        95          130       105\n\n\nWe want four rows, one per shop per year, with columns shop, year, revenue and cost.\nThe assessment will state the required final shape, including what each row should represent and which measurements should be in separate columns.\n\nThere are two shops and two years, so we want four rows. At the moment, the year is part of the column name. We want it in its own column, with revenue and cost side by side for each shop and year."
+  },
+  {
+    "objectID": "revision.html#making-the-data-longer",
+    "href": "revision.html#making-the-data-longer",
+    "title": "Revision",
+    "section": "Making the data longer",
+    "text": "Making the data longer\n\nshop_long &lt;- shop_data |&gt;\n  pivot_longer(\n    cols = -shop,\n    names_to = \"measure_year\",\n    values_to = \"amount\"\n  )\nshop_long |&gt; head(4)\n\n# A tibble: 4 × 3\n  shop  measure_year amount\n  &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;\n1 North revenue_2023    120\n2 North cost_2023       100\n3 North revenue_2024    150\n4 North cost_2024       110\n\n\n\nThere are now eight rows: one per shop, measurement and year.\n\n\nShow where revenue_2023 ends up in measure_year. The shop name repeats for each measurement, and the numbers go into amount."
+  },
+  {
+    "objectID": "revision.html#splitting-the-names-and-making-the-data-wider",
+    "href": "revision.html#splitting-the-names-and-making-the-data-wider",
+    "title": "Revision",
+    "section": "Splitting the names and making the data wider",
+    "text": "Splitting the names and making the data wider\n\nshop_tidy &lt;- shop_long |&gt;\n  separate_wider_delim(\n    measure_year, delim = \"_\", names = c(\"measure\", \"year\")\n  ) |&gt;\n  pivot_wider(names_from = measure, values_from = amount) |&gt;\n  mutate(year = as.integer(year))\nshop_tidy\n\n# A tibble: 4 × 4\n  shop   year revenue  cost\n  &lt;chr&gt; &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;\n1 North  2023     120   100\n2 North  2024     150   110\n3 South  2023      90    95\n4 South  2024     130   105\n\n\n\nFollow revenue_2023 through the steps: split it into revenue and 2023, then use revenue to name a column. Convert the year from text to a number."
+  },
+  {
+    "objectID": "revision.html#names_sep-combines-the-first-two-steps",
+    "href": "revision.html#names_sep-combines-the-first-two-steps",
+    "title": "Revision",
+    "section": "names_sep combines the first two steps",
+    "text": "names_sep combines the first two steps\n\nshop_split &lt;- shop_data |&gt;\n  pivot_longer(\n    cols = -shop,\n    names_to = c(\"measure\", \"year\"),\n    names_sep = \"_\",\n    values_to = \"amount\"\n  )\nshop_split |&gt; head(2)\n\n# A tibble: 2 × 4\n  shop  measure year  amount\n  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;\n1 North revenue 2023     120\n2 North cost    2023     100\n\n\n\nrevenue_2023 splits into measure = \"revenue\" and year = \"2023\". We still have one amount column.\n\n\nThe result still has eight rows. Here, the underscore separates parts of a column name. It has nothing to do with the separator in the CSV file."
+  },
+  {
+    "objectID": "revision.html#calculating-profit",
+    "href": "revision.html#calculating-profit",
+    "title": "Revision",
+    "section": "Calculating profit",
+    "text": "Calculating profit\n\nshop_profit &lt;- shop_tidy |&gt;\n  mutate(profit = revenue - cost)\nshop_profit |&gt; select(shop, year, profit)\n\n# A tibble: 4 × 3\n  shop   year profit\n  &lt;chr&gt; &lt;int&gt;  &lt;dbl&gt;\n1 North  2023     20\n2 North  2024     40\n3 South  2023     -5\n4 South  2024     25\n\n\n\nNorth’s profit rises from 20 to 40. South moves from a loss of 5 to a profit of 25.\n\n\nBoth shops make more profit in the second year. North makes more in both years. We can describe the change, but these figures do not tell us why it happened."
+  },
+  {
+    "objectID": "revision.html#sec-joins",
+    "href": "revision.html#sec-joins",
+    "title": "Revision",
+    "section": "What does a row represent here?",
+    "text": "What does a row represent here?\n\n\n# A tibble: 5 × 4\n  person_id club  event  award    \n      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    \n1         1 N     Relay  Winner   \n2         2 N     Relay  Winner   \n3         1 N     Sprint Winner   \n4         3 S     Sprint Runner-up\n5         4 X     Jump   Winner   \n\n\nThere are five rows, four different people, and three wins when we count each event once per winning club.\n\nPerson 1 appears twice because they entered two events. The relay also appears twice because two members of the winning team are listed. Counting rows would overcount both people and team wins."
+  },
+  {
+    "objectID": "revision.html#joining-on-columns-with-different-names",
+    "href": "revision.html#joining-on-columns-with-different-names",
+    "title": "Revision",
+    "section": "Joining on columns with different names",
+    "text": "Joining on columns with different names\n\nclubs &lt;- tibble(\n  code = c(\"N\", \"S\"),\n  club_name = c(\"North Club\", \"South Club\")\n)\njoined &lt;- results |&gt;\n  left_join(clubs, by = c(\"club\" = \"code\"))\njoined |&gt; select(person_id, club, club_name)\n\n# A tibble: 5 × 3\n  person_id club  club_name \n      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     \n1         1 N     North Club\n2         2 N     North Club\n3         1 N     North Club\n4         3 S     South Club\n5         4 X     &lt;NA&gt;      \n\n\n\nSeveral rows in results can match the same row in clubs. left_join() keeps every result, including those with no matching club name.\n\n\nIn by, club is the name in results and code is the name in clubs. An inner join would lose the row with club X. The left join keeps it, with a missing club name."
+  },
+  {
+    "objectID": "revision.html#checking-a-join",
+    "href": "revision.html#checking-a-join",
+    "title": "Revision",
+    "section": "Checking a join",
+    "text": "Checking a join\n\nclubs |&gt; count(code) |&gt; filter(n &gt; 1)\n\n# A tibble: 0 × 2\n# ℹ 2 variables: code &lt;chr&gt;, n &lt;int&gt;\n\nresults |&gt; anti_join(clubs, by = c(\"club\" = \"code\"))\n\n# A tibble: 1 × 4\n  person_id club  event award \n      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; \n1         4 X     Jump  Winner\n\n\n\n\nMore than one match for a key can duplicate rows.\nAn inner join drops rows whose keys have no match.\nCheck the keys as well as the row count.\n\n\n\nThe lookup is missing club X. Find out why before changing the code or discarding the row. For MATH6195, checking for lost data matters too. A join can lose some rows and duplicate others, leaving the total unchanged."
+  },
+  {
+    "objectID": "revision.html#counting-people-and-counting-events",
+    "href": "revision.html#counting-people-and-counting-events",
+    "title": "Revision",
+    "section": "Counting people and counting events",
+    "text": "Counting people and counting events\n\nresults |&gt;\n  summarise(rows = n(), people = n_distinct(person_id))\n\n# A tibble: 1 × 2\n   rows people\n  &lt;int&gt;  &lt;int&gt;\n1     5      4\n\nresults |&gt;\n  filter(award == \"Winner\") |&gt;\n  group_by(club) |&gt;\n  summarise(wins = n_distinct(event), .groups = \"drop\") |&gt;\n  arrange(desc(wins))\n\n# A tibble: 2 × 2\n  club   wins\n  &lt;chr&gt; &lt;int&gt;\n1 N         2\n2 X         1\n\n\n\nNorth has two wins: the relay and the sprint. Club X has one. To add club names to this summary, join it to clubs and check the unmatched codes. Use n() for rows and n_distinct() for different people or events."
+  },
+  {
+    "objectID": "revision.html#many-to-many-joins",
+    "href": "revision.html#many-to-many-joins",
+    "title": "Revision",
+    "section": "Many-to-many joins",
+    "text": "Many-to-many joins\nTwo rows in x have key \"A\". Three rows in y have key \"A\".\nThe join produces six rows for \"A\": each row in x matches all three rows in y.\n\nThis might mean the key is missing a column, or that there are duplicate records. Sometimes all six matches are what we want.\n\n\nA two-by-three sketch may help here. Setting relationship = “many-to-many” tells dplyr that the matches are intentional. It does not change which rows match."
+  },
+  {
+    "objectID": "revision.html#what-should-be-in-your-quarto-document",
+    "href": "revision.html#what-should-be-in-your-quarto-document",
+    "title": "Revision",
+    "section": "What should be in your Quarto document?",
+    "text": "What should be in your Quarto document?\n\nAll the code needed to render the document on another computer.\nA short explanation of your results.\nInline R for numbers calculated in the code.\nReadable code with sensible variable names.\n\n\nThese are the four reproducibility marks. Some question parts also ask you to explain or interpret your results.\n\n\nThe four reproducibility marks cover: code that runs on another computer, commentary, inline results, and code quality. Put library calls and all calculations in the document. Use relative paths, and leave out install.packages() and setwd()."
+  },
+  {
+    "objectID": "revision.html#code-and-commentary-back-to-lab-3",
+    "href": "revision.html#code-and-commentary-back-to-lab-3",
+    "title": "Revision",
+    "section": "Code and commentary: back to Lab 3",
+    "text": "Code and commentary: back to Lab 3\n\nscores &lt;- c(12, 17, 19)\nmean_score &lt;- mean(scores)\n\nWrite this in the Quarto source:\nThe mean score was `r mean_score` out of 20.\nThe mean score was 16 out of 20.\nIf the scores change, the number in the sentence updates when we render.\n\nShow the inline code in the source and the number in the rendered document. Running a calculation in the console does not make it part of the document. For MATH6195, commentary should go beyond repeating the output: explain what it means or mention a limitation."
+  },
+  {
+    "objectID": "revision.html#before-submitting",
+    "href": "revision.html#before-submitting",
+    "title": "Revision",
+    "section": "Before submitting",
+    "text": "Before submitting\n\nHave I answered all parts of each question?\nHave I checked the units, joins and counts?\nHave I explained my results and used inline R for calculated numbers?\nDoes the whole document render?\nHave I saved the final changes before Submit and End Session?\n\n\nStudents may use the course notes, their permitted notes and R’s built-in help. They may not use GenAI, search the internet for solutions, or communicate with anyone other than the invigilators."
+  },
+  {
+    "objectID": "revision.html#sec-debugging",
+    "href": "revision.html#sec-debugging",
+    "title": "Revision",
+    "section": "Finding the problem",
+    "text": "Finding the problem\n\nStart with the first error message.\nRun the code a line or a chunk at a time to find where it fails.\nCheck the object just before that line: column names, types and values.\nChange one thing, then try again.\nRender the whole document again.\n\n\nAlso check the output. R cannot tell you whether you have answered the question.\n\n\nUseful functions here are names(), glimpse(), head(), count() and is.na(). In each example, show what went wrong and how to check the fix."
+  },
+  {
+    "objectID": "revision.html#checking-the-units",
+    "href": "revision.html#checking-the-units",
+    "title": "Revision",
+    "section": "Checking the units",
+    "text": "Checking the units\ndistance_m is in metres. minutes is in minutes.\ntrips |&gt; mutate(speed_kmh = distance_m / minutes)\nConvert metres to kilometres and minutes to hours before dividing.\n\ntrips |&gt;\n  mutate(speed_kmh = (distance_m / 1000) / (minutes / 60))\n\n# A tibble: 3 × 3\n  distance_m minutes speed_kmh\n       &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;\n1       5000      30        10\n2       3000      20         9\n3         NA      25        NA\n\n\n\nThe first calculation gives metres per minute. After converting the units, the speeds are 10, 9 and NA. A missing distance gives a missing speed. Count missing values with sum(is.na(speed_kmh)). If you leave missing values out of a summary, say so."
+  },
+  {
+    "objectID": "revision.html#when-one-pattern-matches-too-much",
+    "href": "revision.html#when-one-pattern-matches-too-much",
+    "title": "Revision",
+    "section": "When one pattern matches too much",
+    "text": "When one pattern matches too much\ncase_when(\n  str_detect(label, \"paid\") ~ \"Paid\",\n  str_detect(label, \"unpaid\") ~ \"Unpaid\"\n)\n\"unpaid assistant\" matches \"paid\" too. Check the more specific pattern first.\n\nlabel &lt;- c(\"paid assistant\", \"unpaid assistant\", \"volunteer\")\ncase_when(\n  str_detect(label, \"unpaid\") ~ \"Unpaid\",\n  str_detect(label, \"paid\") ~ \"Paid\",\n  .default = \"Other\"\n)\n\n[1] \"Paid\"   \"Unpaid\" \"Other\" \n\n\n\nThe word unpaid contains paid. case_when uses the first condition that matches, so the order matters. Matching is case-sensitive by default. In a data frame, put this inside mutate() and check with count(category)."
+  },
+  {
+    "objectID": "revision.html#making-a-crowded-plot-readable",
+    "href": "revision.html#making-a-crowded-plot-readable",
+    "title": "Revision",
+    "section": "Making a crowded plot readable",
+    "text": "Making a crowded plot readable\nggplot(observations, aes(x = height, y = mass, colour = group)) +\n  geom_point()\nMake the points partly transparent so overlaps show up. Use shape as well as colour to distinguish the groups.\nggplot(observations, aes(height, mass, colour = group, shape = group)) +\n  geom_point(alpha = 0.3, size = 1.5) +\n  scale_colour_brewer(palette = \"Dark2\") +\n  labs(x = \"Height (cm)\", y = \"Mass (kg)\",\n       title = \"Height and mass by group\")\n\nHere, observations is an example dataset with a categorical group column. Lower alpha makes dense parts of the plot darker. Shape gives readers another way to tell the groups apart. Check whether each point is a different person or a repeated observation, and explain any rows removed because of missing values."
+  },
+  {
+    "objectID": "revision_handout.html",
+    "href": "revision_handout.html",
+    "title": "Revision",
+    "section": "",
+    "text": "The examples use made-up data. The Quarto section goes back over the first part of Lab 3.\n\n\n\nPast papers are available on Blackboard.\n\nTry a paper to get used to the questions and the amount of work involved.\nWork through it on your own, using the resources allowed in the assessment.\nRender your answers. Read the commentary as well as checking the code.\nCheck any solutions or feedback, then go back over anything you found difficult.\n\n\nShow the past papers folder on Blackboard. Suggest making a note of any questions they get stuck on, then going back to the relevant notes or lab.\n\n\n\n\nAssessment 1 is worth 40 marks and 40% of the module grade. You have 90 minutes, unless you have an approved adjustment.\n\n\n\nComponent\nMarks\n\n\n\n\nQuestion 1\n4\n\n\nQuestion 2\n16\n\n\nQuestion 3\n16\n\n\nReproducibility\n4\n\n\n\n\nThere are marks for commentary in the reproducibility section and in some question parts. We will look at examples in the Quarto section.\n\n\nSome students have extra time under their approved arrangements. Commentary earns marks both in the reproducibility section and in some question parts. The marks beside each part are a useful guide to how much work it needs.\n\n\n\n\n\nOpen the supplied assessment .qmd in RStudio.\nWrite your answers in the solution boxes.\nSave and render as you go.\nCorrect any errors and render the whole document again.\nSave before clicking Submit and End Session in ExamStart.\n\n\nKeep the files in the supplied folder and use relative paths to load them.\n\n\nDemonstrate using the mock assessment folder. In ExamStart, clicking Submit and End Session submits the saved work. There is no separate upload step, and unsaved changes will be lost. Only edit the answer boxes."
+  },
+  {
+    "objectID": "revision_handout.html#sec-past-papers",
+    "href": "revision_handout.html#sec-past-papers",
+    "title": "Revision",
+    "section": "",
+    "text": "Past papers are available on Blackboard.\n\nTry a paper to get used to the questions and the amount of work involved.\nWork through it on your own, using the resources allowed in the assessment.\nRender your answers. Read the commentary as well as checking the code.\nCheck any solutions or feedback, then go back over anything you found difficult.\n\n\nShow the past papers folder on Blackboard. Suggest making a note of any questions they get stuck on, then going back to the relevant notes or lab."
+  },
+  {
+    "objectID": "revision_handout.html#marks",
+    "href": "revision_handout.html#marks",
+    "title": "Revision",
+    "section": "",
+    "text": "Assessment 1 is worth 40 marks and 40% of the module grade. You have 90 minutes, unless you have an approved adjustment.\n\n\n\nComponent\nMarks\n\n\n\n\nQuestion 1\n4\n\n\nQuestion 2\n16\n\n\nQuestion 3\n16\n\n\nReproducibility\n4\n\n\n\n\nThere are marks for commentary in the reproducibility section and in some question parts. We will look at examples in the Quarto section.\n\n\nSome students have extra time under their approved arrangements. Commentary earns marks both in the reproducibility section and in some question parts. The marks beside each part are a useful guide to how much work it needs."
+  },
+  {
+    "objectID": "revision_handout.html#using-examstart",
+    "href": "revision_handout.html#using-examstart",
+    "title": "Revision",
+    "section": "",
+    "text": "Open the supplied assessment .qmd in RStudio.\nWrite your answers in the solution boxes.\nSave and render as you go.\nCorrect any errors and render the whole document again.\nSave before clicking Submit and End Session in ExamStart.\n\n\nKeep the files in the supplied folder and use relative paths to load them.\n\n\nDemonstrate using the mock assessment folder. In ExamStart, clicking Submit and End Session submits the saved work. There is no separate upload step, and unsaved changes will be lost. Only edit the answer boxes."
+  },
+  {
+    "objectID": "revision_handout.html#sec-imports",
+    "href": "revision_handout.html#sec-imports",
+    "title": "Revision",
+    "section": "Reading different file formats",
+    "text": "Reading different file formats\nLook inside the file: what separates the columns, and how are decimals written?\nshop|area\nNorth|12.5\nshop;area\nNorth;12,5\nshop    area     (columns separated by a tab)\nNorth   12.5\n\nThese are extracts from three example files. The last one uses tabs, which can be hard to distinguish from spaces on screen. The area should come out as 12.5 in all three cases."
+  },
+  {
+    "objectID": "revision_handout.html#loading-and-checking-the-data",
+    "href": "revision_handout.html#loading-and-checking-the-data",
+    "title": "Revision",
+    "section": "Loading and checking the data",
+    "text": "Loading and checking the data\nareas_1 &lt;- read_delim(\"areas_pipe.txt\", delim = \"|\")\nareas_2 &lt;- read_csv2(\"areas_semicolon.csv\")\nareas_3 &lt;- read_tsv(\"areas_tab.txt\")\n\nhead(areas_2)\nglimpse(areas_2)\nall(areas_1 == areas_2)\nall(areas_1 == areas_3)\n\nread_csv2() uses semicolons between fields and decimal commas. A file can load without errors and still be read incorrectly. Check the values and column types.\n\n\nThese filenames are examples. The equality checks assume the rows and columns are in the same order and there are no missing values. For other data, match the rows first and consider all.equal for decimal values. The file extension does not always tell you how the contents are arranged."
+  },
+  {
+    "objectID": "revision_handout.html#sec-pivots",
+    "href": "revision_handout.html#sec-pivots",
+    "title": "Revision",
+    "section": "What should one row represent?",
+    "text": "What should one row represent?\n\nshop_data &lt;- tibble(\n  shop = c(\"North\", \"South\"),\n  revenue_2023 = c(120, 90), cost_2023 = c(100, 95),\n  revenue_2024 = c(150, 130), cost_2024 = c(110, 105)\n)\nshop_data\n\n# A tibble: 2 × 5\n  shop  revenue_2023 cost_2023 revenue_2024 cost_2024\n  &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;\n1 North          120       100          150       110\n2 South           90        95          130       105\n\n\nWe want four rows, one per shop per year, with columns shop, year, revenue and cost.\nThe assessment will state the required final shape, including what each row should represent and which measurements should be in separate columns.\n\nThere are two shops and two years, so we want four rows. At the moment, the year is part of the column name. We want it in its own column, with revenue and cost side by side for each shop and year."
+  },
+  {
+    "objectID": "revision_handout.html#making-the-data-longer",
+    "href": "revision_handout.html#making-the-data-longer",
+    "title": "Revision",
+    "section": "Making the data longer",
+    "text": "Making the data longer\n\nshop_long &lt;- shop_data |&gt;\n  pivot_longer(\n    cols = -shop,\n    names_to = \"measure_year\",\n    values_to = \"amount\"\n  )\nshop_long |&gt; head(4)\n\n# A tibble: 4 × 3\n  shop  measure_year amount\n  &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;\n1 North revenue_2023    120\n2 North cost_2023       100\n3 North revenue_2024    150\n4 North cost_2024       110\n\n\n\nThere are now eight rows: one per shop, measurement and year.\n\n\nShow where revenue_2023 ends up in measure_year. The shop name repeats for each measurement, and the numbers go into amount."
+  },
+  {
+    "objectID": "revision_handout.html#splitting-the-names-and-making-the-data-wider",
+    "href": "revision_handout.html#splitting-the-names-and-making-the-data-wider",
+    "title": "Revision",
+    "section": "Splitting the names and making the data wider",
+    "text": "Splitting the names and making the data wider\n\nshop_tidy &lt;- shop_long |&gt;\n  separate_wider_delim(\n    measure_year, delim = \"_\", names = c(\"measure\", \"year\")\n  ) |&gt;\n  pivot_wider(names_from = measure, values_from = amount) |&gt;\n  mutate(year = as.integer(year))\nshop_tidy\n\n# A tibble: 4 × 4\n  shop   year revenue  cost\n  &lt;chr&gt; &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;\n1 North  2023     120   100\n2 North  2024     150   110\n3 South  2023      90    95\n4 South  2024     130   105\n\n\n\nFollow revenue_2023 through the steps: split it into revenue and 2023, then use revenue to name a column. Convert the year from text to a number."
+  },
+  {
+    "objectID": "revision_handout.html#names_sep-combines-the-first-two-steps",
+    "href": "revision_handout.html#names_sep-combines-the-first-two-steps",
+    "title": "Revision",
+    "section": "names_sep combines the first two steps",
+    "text": "names_sep combines the first two steps\n\nshop_split &lt;- shop_data |&gt;\n  pivot_longer(\n    cols = -shop,\n    names_to = c(\"measure\", \"year\"),\n    names_sep = \"_\",\n    values_to = \"amount\"\n  )\nshop_split |&gt; head(2)\n\n# A tibble: 2 × 4\n  shop  measure year  amount\n  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;\n1 North revenue 2023     120\n2 North cost    2023     100\n\n\n\nrevenue_2023 splits into measure = \"revenue\" and year = \"2023\". We still have one amount column.\n\n\nThe result still has eight rows. Here, the underscore separates parts of a column name. It has nothing to do with the separator in the CSV file."
+  },
+  {
+    "objectID": "revision_handout.html#calculating-profit",
+    "href": "revision_handout.html#calculating-profit",
+    "title": "Revision",
+    "section": "Calculating profit",
+    "text": "Calculating profit\n\nshop_profit &lt;- shop_tidy |&gt;\n  mutate(profit = revenue - cost)\nshop_profit |&gt; select(shop, year, profit)\n\n# A tibble: 4 × 3\n  shop   year profit\n  &lt;chr&gt; &lt;int&gt;  &lt;dbl&gt;\n1 North  2023     20\n2 North  2024     40\n3 South  2023     -5\n4 South  2024     25\n\n\n\nNorth’s profit rises from 20 to 40. South moves from a loss of 5 to a profit of 25.\n\n\nBoth shops make more profit in the second year. North makes more in both years. We can describe the change, but these figures do not tell us why it happened."
+  },
+  {
+    "objectID": "revision_handout.html#sec-joins",
+    "href": "revision_handout.html#sec-joins",
+    "title": "Revision",
+    "section": "What does a row represent here?",
+    "text": "What does a row represent here?\n\n\n# A tibble: 5 × 4\n  person_id club  event  award    \n      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    \n1         1 N     Relay  Winner   \n2         2 N     Relay  Winner   \n3         1 N     Sprint Winner   \n4         3 S     Sprint Runner-up\n5         4 X     Jump   Winner   \n\n\nThere are five rows, four different people, and three wins when we count each event once per winning club.\n\nPerson 1 appears twice because they entered two events. The relay also appears twice because two members of the winning team are listed. Counting rows would overcount both people and team wins."
+  },
+  {
+    "objectID": "revision_handout.html#joining-on-columns-with-different-names",
+    "href": "revision_handout.html#joining-on-columns-with-different-names",
+    "title": "Revision",
+    "section": "Joining on columns with different names",
+    "text": "Joining on columns with different names\n\nclubs &lt;- tibble(\n  code = c(\"N\", \"S\"),\n  club_name = c(\"North Club\", \"South Club\")\n)\njoined &lt;- results |&gt;\n  left_join(clubs, by = c(\"club\" = \"code\"))\njoined |&gt; select(person_id, club, club_name)\n\n# A tibble: 5 × 3\n  person_id club  club_name \n      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     \n1         1 N     North Club\n2         2 N     North Club\n3         1 N     North Club\n4         3 S     South Club\n5         4 X     &lt;NA&gt;      \n\n\n\nSeveral rows in results can match the same row in clubs. left_join() keeps every result, including those with no matching club name.\n\n\nIn by, club is the name in results and code is the name in clubs. An inner join would lose the row with club X. The left join keeps it, with a missing club name."
+  },
+  {
+    "objectID": "revision_handout.html#checking-a-join",
+    "href": "revision_handout.html#checking-a-join",
+    "title": "Revision",
+    "section": "Checking a join",
+    "text": "Checking a join\n\nclubs |&gt; count(code) |&gt; filter(n &gt; 1)\n\n# A tibble: 0 × 2\n# ℹ 2 variables: code &lt;chr&gt;, n &lt;int&gt;\n\nresults |&gt; anti_join(clubs, by = c(\"club\" = \"code\"))\n\n# A tibble: 1 × 4\n  person_id club  event award \n      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; \n1         4 X     Jump  Winner\n\n\n\n\nMore than one match for a key can duplicate rows.\nAn inner join drops rows whose keys have no match.\nCheck the keys as well as the row count.\n\n\n\nThe lookup is missing club X. Find out why before changing the code or discarding the row. For MATH6195, checking for lost data matters too. A join can lose some rows and duplicate others, leaving the total unchanged."
+  },
+  {
+    "objectID": "revision_handout.html#counting-people-and-counting-events",
+    "href": "revision_handout.html#counting-people-and-counting-events",
+    "title": "Revision",
+    "section": "Counting people and counting events",
+    "text": "Counting people and counting events\n\nresults |&gt;\n  summarise(rows = n(), people = n_distinct(person_id))\n\n# A tibble: 1 × 2\n   rows people\n  &lt;int&gt;  &lt;int&gt;\n1     5      4\n\nresults |&gt;\n  filter(award == \"Winner\") |&gt;\n  group_by(club) |&gt;\n  summarise(wins = n_distinct(event), .groups = \"drop\") |&gt;\n  arrange(desc(wins))\n\n# A tibble: 2 × 2\n  club   wins\n  &lt;chr&gt; &lt;int&gt;\n1 N         2\n2 X         1\n\n\n\nNorth has two wins: the relay and the sprint. Club X has one. To add club names to this summary, join it to clubs and check the unmatched codes. Use n() for rows and n_distinct() for different people or events."
+  },
+  {
+    "objectID": "revision_handout.html#many-to-many-joins",
+    "href": "revision_handout.html#many-to-many-joins",
+    "title": "Revision",
+    "section": "Many-to-many joins",
+    "text": "Many-to-many joins\nTwo rows in x have key \"A\". Three rows in y have key \"A\".\nThe join produces six rows for \"A\": each row in x matches all three rows in y.\n\nThis might mean the key is missing a column, or that there are duplicate records. Sometimes all six matches are what we want.\n\n\nA two-by-three sketch may help here. Setting relationship = “many-to-many” tells dplyr that the matches are intentional. It does not change which rows match."
+  },
+  {
+    "objectID": "revision_handout.html#what-should-be-in-your-quarto-document",
+    "href": "revision_handout.html#what-should-be-in-your-quarto-document",
+    "title": "Revision",
+    "section": "What should be in your Quarto document?",
+    "text": "What should be in your Quarto document?\n\nAll the code needed to render the document on another computer.\nA short explanation of your results.\nInline R for numbers calculated in the code.\nReadable code with sensible variable names.\n\n\nThese are the four reproducibility marks. Some question parts also ask you to explain or interpret your results.\n\n\nThe four reproducibility marks cover: code that runs on another computer, commentary, inline results, and code quality. Put library calls and all calculations in the document. Use relative paths, and leave out install.packages() and setwd()."
+  },
+  {
+    "objectID": "revision_handout.html#code-and-commentary-back-to-lab-3",
+    "href": "revision_handout.html#code-and-commentary-back-to-lab-3",
+    "title": "Revision",
+    "section": "Code and commentary: back to Lab 3",
+    "text": "Code and commentary: back to Lab 3\n\nscores &lt;- c(12, 17, 19)\nmean_score &lt;- mean(scores)\n\nWrite this in the Quarto source:\nThe mean score was `r mean_score` out of 20.\nThe mean score was 16 out of 20.\nIf the scores change, the number in the sentence updates when we render.\n\nShow the inline code in the source and the number in the rendered document. Running a calculation in the console does not make it part of the document. For MATH6195, commentary should go beyond repeating the output: explain what it means or mention a limitation."
+  },
+  {
+    "objectID": "revision_handout.html#before-submitting",
+    "href": "revision_handout.html#before-submitting",
+    "title": "Revision",
+    "section": "Before submitting",
+    "text": "Before submitting\n\nHave I answered all parts of each question?\nHave I checked the units, joins and counts?\nHave I explained my results and used inline R for calculated numbers?\nDoes the whole document render?\nHave I saved the final changes before Submit and End Session?\n\n\nStudents may use the course notes, their permitted notes and R’s built-in help. They may not use GenAI, search the internet for solutions, or communicate with anyone other than the invigilators."
+  },
+  {
+    "objectID": "revision_handout.html#sec-debugging",
+    "href": "revision_handout.html#sec-debugging",
+    "title": "Revision",
+    "section": "Finding the problem",
+    "text": "Finding the problem\n\nStart with the first error message.\nRun the code a line or a chunk at a time to find where it fails.\nCheck the object just before that line: column names, types and values.\nChange one thing, then try again.\nRender the whole document again.\n\n\nAlso check the output. R cannot tell you whether you have answered the question.\n\n\nUseful functions here are names(), glimpse(), head(), count() and is.na(). In each example, show what went wrong and how to check the fix."
+  },
+  {
+    "objectID": "revision_handout.html#checking-the-units",
+    "href": "revision_handout.html#checking-the-units",
+    "title": "Revision",
+    "section": "Checking the units",
+    "text": "Checking the units\ndistance_m is in metres. minutes is in minutes.\ntrips |&gt; mutate(speed_kmh = distance_m / minutes)\nConvert metres to kilometres and minutes to hours before dividing.\n\ntrips |&gt;\n  mutate(speed_kmh = (distance_m / 1000) / (minutes / 60))\n\n# A tibble: 3 × 3\n  distance_m minutes speed_kmh\n       &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;\n1       5000      30        10\n2       3000      20         9\n3         NA      25        NA\n\n\n\nThe first calculation gives metres per minute. After converting the units, the speeds are 10, 9 and NA. A missing distance gives a missing speed. Count missing values with sum(is.na(speed_kmh)). If you leave missing values out of a summary, say so."
+  },
+  {
+    "objectID": "revision_handout.html#when-one-pattern-matches-too-much",
+    "href": "revision_handout.html#when-one-pattern-matches-too-much",
+    "title": "Revision",
+    "section": "When one pattern matches too much",
+    "text": "When one pattern matches too much\ncase_when(\n  str_detect(label, \"paid\") ~ \"Paid\",\n  str_detect(label, \"unpaid\") ~ \"Unpaid\"\n)\n\"unpaid assistant\" matches \"paid\" too. Check the more specific pattern first.\n\nlabel &lt;- c(\"paid assistant\", \"unpaid assistant\", \"volunteer\")\ncase_when(\n  str_detect(label, \"unpaid\") ~ \"Unpaid\",\n  str_detect(label, \"paid\") ~ \"Paid\",\n  .default = \"Other\"\n)\n\n[1] \"Paid\"   \"Unpaid\" \"Other\" \n\n\n\nThe word unpaid contains paid. case_when uses the first condition that matches, so the order matters. Matching is case-sensitive by default. In a data frame, put this inside mutate() and check with count(category)."
+  },
+  {
+    "objectID": "revision_handout.html#making-a-crowded-plot-readable",
+    "href": "revision_handout.html#making-a-crowded-plot-readable",
+    "title": "Revision",
+    "section": "Making a crowded plot readable",
+    "text": "Making a crowded plot readable\nggplot(observations, aes(x = height, y = mass, colour = group)) +\n  geom_point()\nMake the points partly transparent so overlaps show up. Use shape as well as colour to distinguish the groups.\nggplot(observations, aes(height, mass, colour = group, shape = group)) +\n  geom_point(alpha = 0.3, size = 1.5) +\n  scale_colour_brewer(palette = \"Dark2\") +\n  labs(x = \"Height (cm)\", y = \"Mass (kg)\",\n       title = \"Height and mass by group\")\n\nHere, observations is an example dataset with a categorical group column. Lower alpha makes dense parts of the plot darker. Shape gives readers another way to tell the groups apart. Check whether each point is a different person or a repeated observation, and explain any rows removed because of missing values."
   },
   {
     "objectID": "week02_slides.html#agenda",
