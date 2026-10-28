@@ -206,6 +206,28 @@
 </div>
 
 </section>
+<section id="what-you-asked-about" class="slide level2">
+<h2>What you asked about</h2>
+<ul>
+<li><strong>Data wrangling:</strong> <code>pivot_longer()</code>, <code>names_sep</code> and many-to-many joins.</li>
+<li><strong>Revisiting Lab 3.</strong></li>
+<li><strong>The assessment:</strong> ExamStart, reproducibility and commentary marks, and practice questions.</li>
+<li><strong>Debugging quickly.</strong></li>
+</ul>
+<aside class="notes">
+<p>These summarise the five responses. The Lab 3 request did not specify a particular task. Past papers on Blackboard address the request for practice questions.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section>
 <section id="sec-assessment" class="title-slide slide level1 center">
 <h1>About the assessment</h1>
@@ -294,18 +316,19 @@
 </section>
 <section id="using-examstart" class="slide level2 scrollable">
 <h2>Using ExamStart</h2>
+<p>See the <a href="https://soton-fds.github.io/using-examstart.html">Using ExamStart guide</a> for the full workflow with screenshots.</p>
 <ol type="1">
 <li>Open the supplied assessment <code>.qmd</code> in RStudio.</li>
 <li>Write your answers in the solution boxes.</li>
 <li><strong>Save and render</strong> as you go.</li>
 <li>Correct any errors and render the whole document again.</li>
-<li><strong>Save</strong> before clicking <strong>Submit and End Session</strong> in ExamStart.</li>
+<li><strong>Save</strong>, close RStudio, then use <strong>Submit and End Session</strong> and confirm <strong>Upload, Submit and End Session</strong>.</li>
 </ol>
 <div class="fragment">
 <p>Keep the files in the supplied folder and use relative paths to load them.</p>
 </div>
 <aside class="notes">
-<p>Demonstrate using the mock assessment folder. In ExamStart, clicking Submit and End Session submits the saved work. There is no separate upload step, and unsaved changes will be lost. Only edit the answer boxes.</p>
+<p>Demonstrate using the mock assessment folder and the Using ExamStart guide. Save all work directly in C:&nbsp;and close RStudio. Click Submit and End Session, read the final check, then click Upload, Submit and End Session and wait for confirmation. Unsaved changes will be lost. Only edit the answer boxes.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -323,65 +346,15 @@
 <h1>Data Wrangling and Joins</h1>
 
 </section>
-<section id="sec-imports" class="slide level2">
-<h2>Reading different file formats</h2>
-<p>Look inside the file: what separates the columns, and how are decimals written?</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a aria-label="1"></a>shop|area</span>
-<span id="cb1-2"><a aria-label="2"></a>North|12.5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a aria-label="1"></a>shop;area</span>
-<span id="cb2-2"><a aria-label="2"></a>North;12,5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a aria-label="1"></a>shop    area     (columns separated by a tab)</span>
-<span id="cb3-2"><a aria-label="2"></a>North   12.5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>These are extracts from three example files. The last one uses tabs, which can be hard to distinguish from spaces on screen. The area should come out as 12.5 in all three cases.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="loading-and-checking-the-data" class="slide level2">
-<h2>Loading and checking the data</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-label="1"></a>areas_1 <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"areas_pipe.txt"</span>, <span class="at">delim =</span> <span class="st">"|"</span>)</span>
-<span id="cb4-2"><a aria-label="2"></a>areas_2 <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">"areas_semicolon.csv"</span>)</span>
-<span id="cb4-3"><a aria-label="3"></a>areas_3 <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"areas_tab.txt"</span>)</span>
-<span id="cb4-4"><a aria-label="4"></a></span>
-<span id="cb4-5"><a aria-label="5"></a><span class="fu">head</span>(areas_2)</span>
-<span id="cb4-6"><a aria-label="6"></a><span class="fu">glimpse</span>(areas_2)</span>
-<span id="cb4-7"><a aria-label="7"></a><span class="fu">all</span>(areas_1 <span class="sc">==</span> areas_2)</span>
-<span id="cb4-8"><a aria-label="8"></a><span class="fu">all</span>(areas_1 <span class="sc">==</span> areas_3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="fragment">
-<p><code>read_csv2()</code> uses <strong>semicolons</strong> between fields and <strong>decimal commas</strong>. A file can load without errors and still be read incorrectly. Check the values and column types.</p>
-</div>
-<aside class="notes">
-<p>These filenames are examples. The equality checks assume the rows and columns are in the same order and there are no missing values. For other data, match the rows first and consider all.equal for decimal values. The file extension does not always tell you how the contents are arranged.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
 <section id="sec-pivots" class="slide level2">
 <h2>What should one row represent?</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-label="1"></a>shop_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb5-2"><a aria-label="2"></a>  <span class="at">shop =</span> <span class="fu">c</span>(<span class="st">"North"</span>, <span class="st">"South"</span>),</span>
-<span id="cb5-3"><a aria-label="3"></a>  <span class="at">revenue_2023 =</span> <span class="fu">c</span>(<span class="dv">120</span>, <span class="dv">90</span>), <span class="at">cost_2023 =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">95</span>),</span>
-<span id="cb5-4"><a aria-label="4"></a>  <span class="at">revenue_2024 =</span> <span class="fu">c</span>(<span class="dv">150</span>, <span class="dv">130</span>), <span class="at">cost_2024 =</span> <span class="fu">c</span>(<span class="dv">110</span>, <span class="dv">105</span>)</span>
-<span id="cb5-5"><a aria-label="5"></a>)</span>
-<span id="cb5-6"><a aria-label="6"></a>shop_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-label="1"></a>shop_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb1-2"><a aria-label="2"></a>  <span class="at">shop =</span> <span class="fu">c</span>(<span class="st">"North"</span>, <span class="st">"South"</span>),</span>
+<span id="cb1-3"><a aria-label="3"></a>  <span class="at">revenue_2023 =</span> <span class="fu">c</span>(<span class="dv">120</span>, <span class="dv">90</span>), <span class="at">cost_2023 =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">95</span>),</span>
+<span id="cb1-4"><a aria-label="4"></a>  <span class="at">revenue_2024 =</span> <span class="fu">c</span>(<span class="dv">150</span>, <span class="dv">130</span>), <span class="at">cost_2024 =</span> <span class="fu">c</span>(<span class="dv">110</span>, <span class="dv">105</span>)</span>
+<span id="cb1-5"><a aria-label="5"></a>)</span>
+<span id="cb1-6"><a aria-label="6"></a>shop_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 5
   shop  revenue_2023 cost_2023 revenue_2024 cost_2024
@@ -408,25 +381,23 @@
 </section>
 <section id="making-the-data-longer" class="slide level2">
 <h2>Making the data longer</h2>
+<p>Collect the measurement columns into <code>measure_year</code> and <code>amount</code>.</p>
+<div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-label="1"></a>shop_long <span class="ot">&lt;-</span> shop_data <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a aria-label="2"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb7-3"><a aria-label="3"></a>    <span class="at">cols =</span> <span class="sc">-</span>shop,</span>
-<span id="cb7-4"><a aria-label="4"></a>    <span class="at">names_to =</span> <span class="st">"measure_year"</span>,</span>
-<span id="cb7-5"><a aria-label="5"></a>    <span class="at">values_to =</span> <span class="st">"amount"</span></span>
-<span id="cb7-6"><a aria-label="6"></a>  )</span>
-<span id="cb7-7"><a aria-label="7"></a>shop_long <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-label="1"></a>shop_long <span class="ot">&lt;-</span> shop_data <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a aria-label="2"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb3-3"><a aria-label="3"></a>    <span class="at">cols =</span> <span class="sc">-</span>shop,</span>
+<span id="cb3-4"><a aria-label="4"></a>    <span class="at">names_to =</span> <span class="st">"measure_year"</span>,</span>
+<span id="cb3-5"><a aria-label="5"></a>    <span class="at">values_to =</span> <span class="st">"amount"</span></span>
+<span id="cb3-6"><a aria-label="6"></a>  )</span>
+<span id="cb3-7"><a aria-label="7"></a>shop_long <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4 × 3
+<pre><code># A tibble: 1 × 3
   shop  measure_year amount
   &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;
-1 North revenue_2023    120
-2 North cost_2023       100
-3 North revenue_2024    150
-4 North cost_2024       110</code></pre>
+1 North revenue_2023    120</code></pre>
 </div>
 </div>
-<div class="fragment">
 <p>There are now <strong>eight rows</strong>: one per shop, measurement and year.</p>
 </div>
 <aside class="notes">
@@ -443,16 +414,18 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="splitting-the-names-and-making-the-data-wider" class="slide level2">
-<h2>Splitting the names and making the data wider</h2>
+<section id="splitting-names-and-widening" class="slide level2">
+<h2>Splitting names and widening</h2>
+<p>Split the measurement from the year, then put revenue and cost in separate columns.</p>
+<div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-label="1"></a>shop_tidy <span class="ot">&lt;-</span> shop_long <span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a aria-label="2"></a>  <span class="fu">separate_wider_delim</span>(</span>
-<span id="cb9-3"><a aria-label="3"></a>    measure_year, <span class="at">delim =</span> <span class="st">"_"</span>, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"measure"</span>, <span class="st">"year"</span>)</span>
-<span id="cb9-4"><a aria-label="4"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb9-5"><a aria-label="5"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> measure, <span class="at">values_from =</span> amount) <span class="sc">|&gt;</span></span>
-<span id="cb9-6"><a aria-label="6"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.integer</span>(year))</span>
-<span id="cb9-7"><a aria-label="7"></a>shop_tidy</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-label="1"></a>shop_tidy <span class="ot">&lt;-</span> shop_long <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a aria-label="2"></a>  <span class="fu">separate_wider_delim</span>(</span>
+<span id="cb5-3"><a aria-label="3"></a>    measure_year, <span class="at">delim =</span> <span class="st">"_"</span>, <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"measure"</span>, <span class="st">"year"</span>)</span>
+<span id="cb5-4"><a aria-label="4"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb5-5"><a aria-label="5"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> measure, <span class="at">values_from =</span> amount) <span class="sc">|&gt;</span></span>
+<span id="cb5-6"><a aria-label="6"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.integer</span>(year))</span>
+<span id="cb5-7"><a aria-label="7"></a>shop_tidy</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 4
   shop   year revenue  cost
@@ -461,6 +434,7 @@
 2 North  2024     150   110
 3 South  2023      90    95
 4 South  2024     130   105</code></pre>
+</div>
 </div>
 </div>
 <aside class="notes">
@@ -477,27 +451,27 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="names_sep-combines-the-first-two-steps" class="slide level2">
-<h2><code>names_sep</code> combines the first two steps</h2>
+<section id="splitting-names-with-names_sep" class="slide level2">
+<h2>Splitting names with <code>names_sep</code></h2>
+<p>Split the names as we pivot.</p>
+<div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-label="1"></a>shop_split <span class="ot">&lt;-</span> shop_data <span class="sc">|&gt;</span></span>
-<span id="cb11-2"><a aria-label="2"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb11-3"><a aria-label="3"></a>    <span class="at">cols =</span> <span class="sc">-</span>shop,</span>
-<span id="cb11-4"><a aria-label="4"></a>    <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"measure"</span>, <span class="st">"year"</span>),</span>
-<span id="cb11-5"><a aria-label="5"></a>    <span class="at">names_sep =</span> <span class="st">"_"</span>,</span>
-<span id="cb11-6"><a aria-label="6"></a>    <span class="at">values_to =</span> <span class="st">"amount"</span></span>
-<span id="cb11-7"><a aria-label="7"></a>  )</span>
-<span id="cb11-8"><a aria-label="8"></a>shop_split <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-label="1"></a>shop_split <span class="ot">&lt;-</span> shop_data <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a aria-label="2"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb7-3"><a aria-label="3"></a>    <span class="at">cols =</span> <span class="sc">-</span>shop,</span>
+<span id="cb7-4"><a aria-label="4"></a>    <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"measure"</span>, <span class="st">"year"</span>),</span>
+<span id="cb7-5"><a aria-label="5"></a>    <span class="at">names_sep =</span> <span class="st">"_"</span>,</span>
+<span id="cb7-6"><a aria-label="6"></a>    <span class="at">values_to =</span> <span class="st">"amount"</span></span>
+<span id="cb7-7"><a aria-label="7"></a>  )</span>
+<span id="cb7-8"><a aria-label="8"></a>shop_split <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 4
+<pre><code># A tibble: 1 × 4
   shop  measure year  amount
   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;
-1 North revenue 2023     120
-2 North cost    2023     100</code></pre>
+1 North revenue 2023     120</code></pre>
 </div>
 </div>
-<div class="fragment">
-<p><code>revenue_2023</code> splits into <code>measure = "revenue"</code> and <code>year = "2023"</code>. We still have one <code>amount</code> column.</p>
+<p><code>revenue_2023</code> splits into <code>measure = "revenue"</code> and <code>year = "2023"</code>.</p>
 </div>
 <aside class="notes">
 <p>The result still has eight rows. Here, the underscore separates parts of a column name. It has nothing to do with the separator in the CSV file.</p>
@@ -513,56 +487,23 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="calculating-profit" class="slide level2">
-<h2>Calculating profit</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-label="1"></a>shop_profit <span class="ot">&lt;-</span> shop_tidy <span class="sc">|&gt;</span></span>
-<span id="cb13-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">profit =</span> revenue <span class="sc">-</span> cost)</span>
-<span id="cb13-3"><a aria-label="3"></a>shop_profit <span class="sc">|&gt;</span> <span class="fu">select</span>(shop, year, profit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4 × 3
-  shop   year profit
-  &lt;chr&gt; &lt;int&gt;  &lt;dbl&gt;
-1 North  2023     20
-2 North  2024     40
-3 South  2023     -5
-4 South  2024     25</code></pre>
-</div>
-</div>
-<div class="fragment">
-<p>North’s profit rises from 20 to 40. South moves from a loss of 5 to a profit of 25.</p>
-</div>
-<aside class="notes">
-<p>Both shops make more profit in the second year. North makes more in both years. We can describe the change, but these figures do not tell us why it happened.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
 <section id="sec-joins" class="slide level2">
-<h2>What does a row represent here?</h2>
+<h2>Results by club</h2>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 4
-  person_id club  event  award    
-      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    
-1         1 N     Relay  Winner   
-2         2 N     Relay  Winner   
-3         1 N     Sprint Winner   
-4         3 S     Sprint Runner-up
-5         4 X     Jump   Winner   </code></pre>
+<pre><code># A tibble: 5 × 3
+  person_id club  score
+      &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+1         1 N        12
+2         2 N        15
+3         3 S        10
+4         4 S        17
+5         5 X        14</code></pre>
 </div>
 </div>
-<p>There are <strong>five rows</strong>, <strong>four different people</strong>, and <strong>three wins</strong> when we count each event once per winning club.</p>
+<p>Each result has a club code. We will join on the club names from a lookup table.</p>
 <aside class="notes">
-<p>Person 1 appears twice because they entered two events. The relay also appears twice because two members of the winning team are listed. Counting rows would overcount both people and team wins.</p>
+<p>Several results share the same club code. The club lookup should have one row per code.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -577,27 +518,24 @@
 </section>
 <section id="joining-on-columns-with-different-names" class="slide level2">
 <h2>Joining on columns with different names</h2>
+<p>Match <code>club</code> in the results to <code>code</code> in the lookup.</p>
+<div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-label="1"></a>clubs <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb16-2"><a aria-label="2"></a>  <span class="at">code =</span> <span class="fu">c</span>(<span class="st">"N"</span>, <span class="st">"S"</span>),</span>
-<span id="cb16-3"><a aria-label="3"></a>  <span class="at">club_name =</span> <span class="fu">c</span>(<span class="st">"North Club"</span>, <span class="st">"South Club"</span>)</span>
-<span id="cb16-4"><a aria-label="4"></a>)</span>
-<span id="cb16-5"><a aria-label="5"></a>joined <span class="ot">&lt;-</span> results <span class="sc">|&gt;</span></span>
-<span id="cb16-6"><a aria-label="6"></a>  <span class="fu">left_join</span>(clubs, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"club"</span> <span class="ot">=</span> <span class="st">"code"</span>))</span>
-<span id="cb16-7"><a aria-label="7"></a>joined <span class="sc">|&gt;</span> <span class="fu">select</span>(person_id, club, club_name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-label="1"></a>joined <span class="ot">&lt;-</span> results <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a aria-label="2"></a>  <span class="fu">left_join</span>(clubs, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"club"</span> <span class="ot">=</span> <span class="st">"code"</span>))</span>
+<span id="cb10-3"><a aria-label="3"></a>joined <span class="sc">|&gt;</span> <span class="fu">select</span>(club, club_name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 3
-  person_id club  club_name 
-      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     
-1         1 N     North Club
-2         2 N     North Club
-3         1 N     North Club
-4         3 S     South Club
-5         4 X     &lt;NA&gt;      </code></pre>
+<pre><code># A tibble: 5 × 2
+  club  club_name 
+  &lt;chr&gt; &lt;chr&gt;     
+1 N     North Club
+2 N     North Club
+3 S     South Club
+4 S     South Club
+5 X     &lt;NA&gt;      </code></pre>
 </div>
 </div>
-<div class="fragment">
-<p>Several rows in <code>results</code> can match the same row in <code>clubs</code>. <code>left_join()</code> keeps every result, including those with no matching club name.</p>
+<p><code>left_join()</code> keeps results with no matching club name too.</p>
 </div>
 <aside class="notes">
 <p>In by, club is the name in results and code is the name in clubs. An inner join would lose the row with club X. The left join keeps it, with a missing club name.</p>
@@ -615,21 +553,22 @@
 </section>
 <section id="checking-a-join" class="slide level2">
 <h2>Checking a join</h2>
+<p>Check for repeated lookup keys and result rows with no match.</p>
+<div class="answer">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-label="1"></a>clubs <span class="sc">|&gt;</span> <span class="fu">count</span>(code) <span class="sc">|&gt;</span> <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-label="1"></a>clubs <span class="sc">|&gt;</span> <span class="fu">count</span>(code) <span class="sc">|&gt;</span> <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 0 × 2
 # ℹ 2 variables: code &lt;chr&gt;, n &lt;int&gt;</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-label="1"></a>results <span class="sc">|&gt;</span> <span class="fu">anti_join</span>(clubs, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"club"</span> <span class="ot">=</span> <span class="st">"code"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-label="1"></a>results <span class="sc">|&gt;</span> <span class="fu">anti_join</span>(clubs, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"club"</span> <span class="ot">=</span> <span class="st">"code"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 4
-  person_id club  event award 
-      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; 
-1         4 X     Jump  Winner</code></pre>
+<pre><code># A tibble: 1 × 3
+  person_id club  score
+      &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+1         5 X        14</code></pre>
 </div>
 </div>
-<div class="fragment">
 <ul>
 <li>More than one match for a key can duplicate rows.</li>
 <li>An inner join drops rows whose keys have no match.</li>
@@ -650,48 +589,12 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="counting-people-and-counting-events" class="slide level2">
-<h2>Counting people and counting events</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-label="1"></a>results <span class="sc">|&gt;</span></span>
-<span id="cb22-2"><a aria-label="2"></a>  <span class="fu">summarise</span>(<span class="at">rows =</span> <span class="fu">n</span>(), <span class="at">people =</span> <span class="fu">n_distinct</span>(person_id))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 2
-   rows people
-  &lt;int&gt;  &lt;int&gt;
-1     5      4</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a aria-label="1"></a>results <span class="sc">|&gt;</span></span>
-<span id="cb24-2"><a aria-label="2"></a>  <span class="fu">filter</span>(award <span class="sc">==</span> <span class="st">"Winner"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb24-3"><a aria-label="3"></a>  <span class="fu">group_by</span>(club) <span class="sc">|&gt;</span></span>
-<span id="cb24-4"><a aria-label="4"></a>  <span class="fu">summarise</span>(<span class="at">wins =</span> <span class="fu">n_distinct</span>(event), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb24-5"><a aria-label="5"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(wins))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 2
-  club   wins
-  &lt;chr&gt; &lt;int&gt;
-1 N         2
-2 X         1</code></pre>
-</div>
-</div>
-<aside class="notes">
-<p>North has two wins: the relay and the sprint. Club X has one. To add club names to this summary, join it to clubs and check the unmatched codes. Use n() for rows and n_distinct() for different people or events.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
 <section id="many-to-many-joins" class="slide level2">
 <h2>Many-to-many joins</h2>
 <p>Two rows in <code>x</code> have key <code>"A"</code>. Three rows in <code>y</code> have key <code>"A"</code>.</p>
+<div class="answer">
 <p>The join produces <strong>six rows</strong> for <code>"A"</code>: each row in <code>x</code> matches all three rows in <code>y</code>.</p>
+</div>
 <div class="fragment">
 <p>This might mean the key is missing a column, or that there are duplicate records. Sometimes all six matches are what we want.</p>
 </div>
@@ -742,13 +645,15 @@
 <section id="code-and-commentary-back-to-lab-3" class="slide level2">
 <h2>Code and commentary: back to Lab 3</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a aria-label="1"></a>scores <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">17</span>, <span class="dv">19</span>)</span>
-<span id="cb26-2"><a aria-label="2"></a>mean_score <span class="ot">&lt;-</span> <span class="fu">mean</span>(scores)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-label="1"></a>scores <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">17</span>, <span class="dv">19</span>)</span>
+<span id="cb16-2"><a aria-label="2"></a>mean_score <span class="ot">&lt;-</span> <span class="fu">mean</span>(scores)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Write this in the Quarto source:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb27-1"><a aria-label="1"></a>The mean score was <span class="in">`r mean_score`</span> out of 20.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="answer">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb17-1"><a aria-label="1"></a>The mean score was <span class="in">`r mean_score`</span> out of 20.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The mean score was 16 out of 20.</p>
 <p>If the scores change, the number in the sentence updates when we render.</p>
+</div>
 <aside class="notes">
 <p>Show the inline code in the source and the number in the rendered document. Running a calculation in the console does not make it part of the document. For MATH6195, commentary should go beyond repeating the output: explain what it means or mention a limitation.</p>
 <style type="text/css">
@@ -804,94 +709,7 @@
 <p>Also check the output. R cannot tell you whether you have answered the question.</p>
 </div>
 <aside class="notes">
-<p>Useful functions here are names(), glimpse(), head(), count() and is.na(). In each example, show what went wrong and how to check the fix.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="checking-the-units" class="slide level2">
-<h2>Checking the units</h2>
-<p><code>distance_m</code> is in metres. <code>minutes</code> is in minutes.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a aria-label="1"></a>trips <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">speed_kmh =</span> distance_m <span class="sc">/</span> minutes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Convert metres to kilometres and minutes to hours before dividing.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a aria-label="1"></a>trips <span class="sc">|&gt;</span></span>
-<span id="cb29-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">speed_kmh =</span> (distance_m <span class="sc">/</span> <span class="dv">1000</span>) <span class="sc">/</span> (minutes <span class="sc">/</span> <span class="dv">60</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 3
-  distance_m minutes speed_kmh
-       &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;
-1       5000      30        10
-2       3000      20         9
-3         NA      25        NA</code></pre>
-</div>
-</div>
-<aside class="notes">
-<p>The first calculation gives metres per minute. After converting the units, the speeds are 10, 9 and NA. A missing distance gives a missing speed. Count missing values with sum(is.na(speed_kmh)). If you leave missing values out of a summary, say so.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="when-one-pattern-matches-too-much" class="slide level2">
-<h2>When one pattern matches too much</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a aria-label="1"></a><span class="fu">case_when</span>(</span>
-<span id="cb31-2"><a aria-label="2"></a>  <span class="fu">str_detect</span>(label, <span class="st">"paid"</span>) <span class="sc">~</span> <span class="st">"Paid"</span>,</span>
-<span id="cb31-3"><a aria-label="3"></a>  <span class="fu">str_detect</span>(label, <span class="st">"unpaid"</span>) <span class="sc">~</span> <span class="st">"Unpaid"</span></span>
-<span id="cb31-4"><a aria-label="4"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>"unpaid assistant"</code> matches <code>"paid"</code> too. Check the more specific pattern first.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a aria-label="1"></a>label <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"paid assistant"</span>, <span class="st">"unpaid assistant"</span>, <span class="st">"volunteer"</span>)</span>
-<span id="cb32-2"><a aria-label="2"></a><span class="fu">case_when</span>(</span>
-<span id="cb32-3"><a aria-label="3"></a>  <span class="fu">str_detect</span>(label, <span class="st">"unpaid"</span>) <span class="sc">~</span> <span class="st">"Unpaid"</span>,</span>
-<span id="cb32-4"><a aria-label="4"></a>  <span class="fu">str_detect</span>(label, <span class="st">"paid"</span>) <span class="sc">~</span> <span class="st">"Paid"</span>,</span>
-<span id="cb32-5"><a aria-label="5"></a>  <span class="at">.default =</span> <span class="st">"Other"</span></span>
-<span id="cb32-6"><a aria-label="6"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Paid"   "Unpaid" "Other" </code></pre>
-</div>
-</div>
-<aside class="notes">
-<p>The word unpaid contains paid. case_when uses the first condition that matches, so the order matters. Matching is case-sensitive by default. In a data frame, put this inside mutate() and check with count(category).</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="making-a-crowded-plot-readable" class="slide level2">
-<h2>Making a crowded plot readable</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a aria-label="1"></a><span class="fu">ggplot</span>(observations, <span class="fu">aes</span>(<span class="at">x =</span> height, <span class="at">y =</span> mass, <span class="at">colour =</span> group)) <span class="sc">+</span></span>
-<span id="cb34-2"><a aria-label="2"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Make the points partly transparent so overlaps show up. Use shape as well as colour to distinguish the groups.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a aria-label="1"></a><span class="fu">ggplot</span>(observations, <span class="fu">aes</span>(height, mass, <span class="at">colour =</span> group, <span class="at">shape =</span> group)) <span class="sc">+</span></span>
-<span id="cb35-2"><a aria-label="2"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>, <span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
-<span id="cb35-3"><a aria-label="3"></a>  <span class="fu">scale_colour_brewer</span>(<span class="at">palette =</span> <span class="st">"Dark2"</span>) <span class="sc">+</span></span>
-<span id="cb35-4"><a aria-label="4"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Height (cm)"</span>, <span class="at">y =</span> <span class="st">"Mass (kg)"</span>,</span>
-<span id="cb35-5"><a aria-label="5"></a>       <span class="at">title =</span> <span class="st">"Height and mass by group"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<aside class="notes">
-<p>Here, observations is an example dataset with a categorical group column. Lower alpha makes dense parts of the plot darker. Shape gives readers another way to tell the groups apart. Check whether each point is a different person or a repeated observation, and explain any rows removed because of missing values.</p>
+<p>Useful functions here are names(), glimpse(), head(), count() and is.na(). Use these to inspect the object at the point where the code fails.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;

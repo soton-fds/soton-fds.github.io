@@ -2485,6 +2485,13 @@
     "text": "After the lab\n\nFinish any parts of lab_09.qmd you didn’t get to.\nThen work through lab_09_practice.qmd: map2 and walk2, reduce, Simpson’s paradox, pure functions, unit tests, misspelt folders and more."
   },
   {
+    "objectID": "revision.html#what-you-asked-about",
+    "href": "revision.html#what-you-asked-about",
+    "title": "Revision",
+    "section": "What you asked about",
+    "text": "What you asked about\n\nData wrangling: pivot_longer(), names_sep and many-to-many joins.\nRevisiting Lab 3.\nThe assessment: ExamStart, reproducibility and commentary marks, and practice questions.\nDebugging quickly.\n\n\nThese summarise the five responses. The Lab 3 request did not specify a particular task. Past papers on Blackboard address the request for practice questions."
+  },
+  {
     "objectID": "revision.html#sec-past-papers",
     "href": "revision.html#sec-past-papers",
     "title": "Revision",
@@ -2503,21 +2510,7 @@
     "href": "revision.html#using-examstart",
     "title": "Revision",
     "section": "Using ExamStart",
-    "text": "Using ExamStart\n\nOpen the supplied assessment .qmd in RStudio.\nWrite your answers in the solution boxes.\nSave and render as you go.\nCorrect any errors and render the whole document again.\nSave before clicking Submit and End Session in ExamStart.\n\n\nKeep the files in the supplied folder and use relative paths to load them.\n\n\nDemonstrate using the mock assessment folder. In ExamStart, clicking Submit and End Session submits the saved work. There is no separate upload step, and unsaved changes will be lost. Only edit the answer boxes."
-  },
-  {
-    "objectID": "revision.html#sec-imports",
-    "href": "revision.html#sec-imports",
-    "title": "Revision",
-    "section": "Reading different file formats",
-    "text": "Reading different file formats\nLook inside the file: what separates the columns, and how are decimals written?\nshop|area\nNorth|12.5\nshop;area\nNorth;12,5\nshop    area     (columns separated by a tab)\nNorth   12.5\n\nThese are extracts from three example files. The last one uses tabs, which can be hard to distinguish from spaces on screen. The area should come out as 12.5 in all three cases."
-  },
-  {
-    "objectID": "revision.html#loading-and-checking-the-data",
-    "href": "revision.html#loading-and-checking-the-data",
-    "title": "Revision",
-    "section": "Loading and checking the data",
-    "text": "Loading and checking the data\nareas_1 &lt;- read_delim(\"areas_pipe.txt\", delim = \"|\")\nareas_2 &lt;- read_csv2(\"areas_semicolon.csv\")\nareas_3 &lt;- read_tsv(\"areas_tab.txt\")\n\nhead(areas_2)\nglimpse(areas_2)\nall(areas_1 == areas_2)\nall(areas_1 == areas_3)\n\nread_csv2() uses semicolons between fields and decimal commas. A file can load without errors and still be read incorrectly. Check the values and column types.\n\n\nThese filenames are examples. The equality checks assume the rows and columns are in the same order and there are no missing values. For other data, match the rows first and consider all.equal for decimal values. The file extension does not always tell you how the contents are arranged."
+    "text": "Using ExamStart\nSee the Using ExamStart guide for the full workflow with screenshots.\n\nOpen the supplied assessment .qmd in RStudio.\nWrite your answers in the solution boxes.\nSave and render as you go.\nCorrect any errors and render the whole document again.\nSave, close RStudio, then use Submit and End Session and confirm Upload, Submit and End Session.\n\n\nKeep the files in the supplied folder and use relative paths to load them.\n\n\nDemonstrate using the mock assessment folder and the Using ExamStart guide. Save all work directly in C: and close RStudio. Click Submit and End Session, read the final check, then click Upload, Submit and End Session and wait for confirmation. Unsaved changes will be lost. Only edit the answer boxes."
   },
   {
     "objectID": "revision.html#sec-pivots",
@@ -2531,63 +2524,49 @@
     "href": "revision.html#making-the-data-longer",
     "title": "Revision",
     "section": "Making the data longer",
-    "text": "Making the data longer\n\nshop_long &lt;- shop_data |&gt;\n  pivot_longer(\n    cols = -shop,\n    names_to = \"measure_year\",\n    values_to = \"amount\"\n  )\nshop_long |&gt; head(4)\n\n# A tibble: 4 × 3\n  shop  measure_year amount\n  &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;\n1 North revenue_2023    120\n2 North cost_2023       100\n3 North revenue_2024    150\n4 North cost_2024       110\n\n\n\nThere are now eight rows: one per shop, measurement and year.\n\n\nShow where revenue_2023 ends up in measure_year. The shop name repeats for each measurement, and the numbers go into amount."
+    "text": "Making the data longer\nCollect the measurement columns into measure_year and amount.\n\n\nshop_long &lt;- shop_data |&gt;\n  pivot_longer(\n    cols = -shop,\n    names_to = \"measure_year\",\n    values_to = \"amount\"\n  )\nshop_long |&gt; head(1)\n\n# A tibble: 1 × 3\n  shop  measure_year amount\n  &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;\n1 North revenue_2023    120\n\n\nThere are now eight rows: one per shop, measurement and year.\n\n\nShow where revenue_2023 ends up in measure_year. The shop name repeats for each measurement, and the numbers go into amount."
   },
   {
-    "objectID": "revision.html#splitting-the-names-and-making-the-data-wider",
-    "href": "revision.html#splitting-the-names-and-making-the-data-wider",
+    "objectID": "revision.html#splitting-names-and-widening",
+    "href": "revision.html#splitting-names-and-widening",
     "title": "Revision",
-    "section": "Splitting the names and making the data wider",
-    "text": "Splitting the names and making the data wider\n\nshop_tidy &lt;- shop_long |&gt;\n  separate_wider_delim(\n    measure_year, delim = \"_\", names = c(\"measure\", \"year\")\n  ) |&gt;\n  pivot_wider(names_from = measure, values_from = amount) |&gt;\n  mutate(year = as.integer(year))\nshop_tidy\n\n# A tibble: 4 × 4\n  shop   year revenue  cost\n  &lt;chr&gt; &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;\n1 North  2023     120   100\n2 North  2024     150   110\n3 South  2023      90    95\n4 South  2024     130   105\n\n\n\nFollow revenue_2023 through the steps: split it into revenue and 2023, then use revenue to name a column. Convert the year from text to a number."
+    "section": "Splitting names and widening",
+    "text": "Splitting names and widening\nSplit the measurement from the year, then put revenue and cost in separate columns.\n\n\nshop_tidy &lt;- shop_long |&gt;\n  separate_wider_delim(\n    measure_year, delim = \"_\", names = c(\"measure\", \"year\")\n  ) |&gt;\n  pivot_wider(names_from = measure, values_from = amount) |&gt;\n  mutate(year = as.integer(year))\nshop_tidy\n\n# A tibble: 4 × 4\n  shop   year revenue  cost\n  &lt;chr&gt; &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;\n1 North  2023     120   100\n2 North  2024     150   110\n3 South  2023      90    95\n4 South  2024     130   105\n\n\n\n\nFollow revenue_2023 through the steps: split it into revenue and 2023, then use revenue to name a column. Convert the year from text to a number."
   },
   {
-    "objectID": "revision.html#names_sep-combines-the-first-two-steps",
-    "href": "revision.html#names_sep-combines-the-first-two-steps",
+    "objectID": "revision.html#splitting-names-with-names_sep",
+    "href": "revision.html#splitting-names-with-names_sep",
     "title": "Revision",
-    "section": "names_sep combines the first two steps",
-    "text": "names_sep combines the first two steps\n\nshop_split &lt;- shop_data |&gt;\n  pivot_longer(\n    cols = -shop,\n    names_to = c(\"measure\", \"year\"),\n    names_sep = \"_\",\n    values_to = \"amount\"\n  )\nshop_split |&gt; head(2)\n\n# A tibble: 2 × 4\n  shop  measure year  amount\n  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;\n1 North revenue 2023     120\n2 North cost    2023     100\n\n\n\nrevenue_2023 splits into measure = \"revenue\" and year = \"2023\". We still have one amount column.\n\n\nThe result still has eight rows. Here, the underscore separates parts of a column name. It has nothing to do with the separator in the CSV file."
-  },
-  {
-    "objectID": "revision.html#calculating-profit",
-    "href": "revision.html#calculating-profit",
-    "title": "Revision",
-    "section": "Calculating profit",
-    "text": "Calculating profit\n\nshop_profit &lt;- shop_tidy |&gt;\n  mutate(profit = revenue - cost)\nshop_profit |&gt; select(shop, year, profit)\n\n# A tibble: 4 × 3\n  shop   year profit\n  &lt;chr&gt; &lt;int&gt;  &lt;dbl&gt;\n1 North  2023     20\n2 North  2024     40\n3 South  2023     -5\n4 South  2024     25\n\n\n\nNorth’s profit rises from 20 to 40. South moves from a loss of 5 to a profit of 25.\n\n\nBoth shops make more profit in the second year. North makes more in both years. We can describe the change, but these figures do not tell us why it happened."
+    "section": "Splitting names with names_sep",
+    "text": "Splitting names with names_sep\nSplit the names as we pivot.\n\n\nshop_split &lt;- shop_data |&gt;\n  pivot_longer(\n    cols = -shop,\n    names_to = c(\"measure\", \"year\"),\n    names_sep = \"_\",\n    values_to = \"amount\"\n  )\nshop_split |&gt; head(1)\n\n# A tibble: 1 × 4\n  shop  measure year  amount\n  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;\n1 North revenue 2023     120\n\n\nrevenue_2023 splits into measure = \"revenue\" and year = \"2023\".\n\n\nThe result still has eight rows. Here, the underscore separates parts of a column name. It has nothing to do with the separator in the CSV file."
   },
   {
     "objectID": "revision.html#sec-joins",
     "href": "revision.html#sec-joins",
     "title": "Revision",
-    "section": "What does a row represent here?",
-    "text": "What does a row represent here?\n\n\n# A tibble: 5 × 4\n  person_id club  event  award    \n      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    \n1         1 N     Relay  Winner   \n2         2 N     Relay  Winner   \n3         1 N     Sprint Winner   \n4         3 S     Sprint Runner-up\n5         4 X     Jump   Winner   \n\n\nThere are five rows, four different people, and three wins when we count each event once per winning club.\n\nPerson 1 appears twice because they entered two events. The relay also appears twice because two members of the winning team are listed. Counting rows would overcount both people and team wins."
+    "section": "Results by club",
+    "text": "Results by club\n\n\n# A tibble: 5 × 3\n  person_id club  score\n      &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;\n1         1 N        12\n2         2 N        15\n3         3 S        10\n4         4 S        17\n5         5 X        14\n\n\nEach result has a club code. We will join on the club names from a lookup table.\n\nSeveral results share the same club code. The club lookup should have one row per code."
   },
   {
     "objectID": "revision.html#joining-on-columns-with-different-names",
     "href": "revision.html#joining-on-columns-with-different-names",
     "title": "Revision",
     "section": "Joining on columns with different names",
-    "text": "Joining on columns with different names\n\nclubs &lt;- tibble(\n  code = c(\"N\", \"S\"),\n  club_name = c(\"North Club\", \"South Club\")\n)\njoined &lt;- results |&gt;\n  left_join(clubs, by = c(\"club\" = \"code\"))\njoined |&gt; select(person_id, club, club_name)\n\n# A tibble: 5 × 3\n  person_id club  club_name \n      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     \n1         1 N     North Club\n2         2 N     North Club\n3         1 N     North Club\n4         3 S     South Club\n5         4 X     &lt;NA&gt;      \n\n\n\nSeveral rows in results can match the same row in clubs. left_join() keeps every result, including those with no matching club name.\n\n\nIn by, club is the name in results and code is the name in clubs. An inner join would lose the row with club X. The left join keeps it, with a missing club name."
+    "text": "Joining on columns with different names\nMatch club in the results to code in the lookup.\n\n\njoined &lt;- results |&gt;\n  left_join(clubs, by = c(\"club\" = \"code\"))\njoined |&gt; select(club, club_name)\n\n# A tibble: 5 × 2\n  club  club_name \n  &lt;chr&gt; &lt;chr&gt;     \n1 N     North Club\n2 N     North Club\n3 S     South Club\n4 S     South Club\n5 X     &lt;NA&gt;      \n\n\nleft_join() keeps results with no matching club name too.\n\n\nIn by, club is the name in results and code is the name in clubs. An inner join would lose the row with club X. The left join keeps it, with a missing club name."
   },
   {
     "objectID": "revision.html#checking-a-join",
     "href": "revision.html#checking-a-join",
     "title": "Revision",
     "section": "Checking a join",
-    "text": "Checking a join\n\nclubs |&gt; count(code) |&gt; filter(n &gt; 1)\n\n# A tibble: 0 × 2\n# ℹ 2 variables: code &lt;chr&gt;, n &lt;int&gt;\n\nresults |&gt; anti_join(clubs, by = c(\"club\" = \"code\"))\n\n# A tibble: 1 × 4\n  person_id club  event award \n      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; \n1         4 X     Jump  Winner\n\n\n\n\nMore than one match for a key can duplicate rows.\nAn inner join drops rows whose keys have no match.\nCheck the keys as well as the row count.\n\n\n\nThe lookup is missing club X. Find out why before changing the code or discarding the row. For MATH6195, checking for lost data matters too. A join can lose some rows and duplicate others, leaving the total unchanged."
-  },
-  {
-    "objectID": "revision.html#counting-people-and-counting-events",
-    "href": "revision.html#counting-people-and-counting-events",
-    "title": "Revision",
-    "section": "Counting people and counting events",
-    "text": "Counting people and counting events\n\nresults |&gt;\n  summarise(rows = n(), people = n_distinct(person_id))\n\n# A tibble: 1 × 2\n   rows people\n  &lt;int&gt;  &lt;int&gt;\n1     5      4\n\nresults |&gt;\n  filter(award == \"Winner\") |&gt;\n  group_by(club) |&gt;\n  summarise(wins = n_distinct(event), .groups = \"drop\") |&gt;\n  arrange(desc(wins))\n\n# A tibble: 2 × 2\n  club   wins\n  &lt;chr&gt; &lt;int&gt;\n1 N         2\n2 X         1\n\n\n\nNorth has two wins: the relay and the sprint. Club X has one. To add club names to this summary, join it to clubs and check the unmatched codes. Use n() for rows and n_distinct() for different people or events."
+    "text": "Checking a join\nCheck for repeated lookup keys and result rows with no match.\n\n\nclubs |&gt; count(code) |&gt; filter(n &gt; 1)\n\n# A tibble: 0 × 2\n# ℹ 2 variables: code &lt;chr&gt;, n &lt;int&gt;\n\nresults |&gt; anti_join(clubs, by = c(\"club\" = \"code\"))\n\n# A tibble: 1 × 3\n  person_id club  score\n      &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;\n1         5 X        14\n\n\n\nMore than one match for a key can duplicate rows.\nAn inner join drops rows whose keys have no match.\nCheck the keys as well as the row count.\n\n\n\nThe lookup is missing club X. Find out why before changing the code or discarding the row. For MATH6195, checking for lost data matters too. A join can lose some rows and duplicate others, leaving the total unchanged."
   },
   {
     "objectID": "revision.html#many-to-many-joins",
     "href": "revision.html#many-to-many-joins",
     "title": "Revision",
     "section": "Many-to-many joins",
-    "text": "Many-to-many joins\nTwo rows in x have key \"A\". Three rows in y have key \"A\".\nThe join produces six rows for \"A\": each row in x matches all three rows in y.\n\nThis might mean the key is missing a column, or that there are duplicate records. Sometimes all six matches are what we want.\n\n\nA two-by-three sketch may help here. Setting relationship = “many-to-many” tells dplyr that the matches are intentional. It does not change which rows match."
+    "text": "Many-to-many joins\nTwo rows in x have key \"A\". Three rows in y have key \"A\".\n\nThe join produces six rows for \"A\": each row in x matches all three rows in y.\n\n\nThis might mean the key is missing a column, or that there are duplicate records. Sometimes all six matches are what we want.\n\n\nA two-by-three sketch may help here. Setting relationship = “many-to-many” tells dplyr that the matches are intentional. It does not change which rows match."
   },
   {
     "objectID": "revision.html#what-should-be-in-your-quarto-document",
@@ -2601,7 +2580,7 @@
     "href": "revision.html#code-and-commentary-back-to-lab-3",
     "title": "Revision",
     "section": "Code and commentary: back to Lab 3",
-    "text": "Code and commentary: back to Lab 3\n\nscores &lt;- c(12, 17, 19)\nmean_score &lt;- mean(scores)\n\nWrite this in the Quarto source:\nThe mean score was `r mean_score` out of 20.\nThe mean score was 16 out of 20.\nIf the scores change, the number in the sentence updates when we render.\n\nShow the inline code in the source and the number in the rendered document. Running a calculation in the console does not make it part of the document. For MATH6195, commentary should go beyond repeating the output: explain what it means or mention a limitation."
+    "text": "Code and commentary: back to Lab 3\n\nscores &lt;- c(12, 17, 19)\nmean_score &lt;- mean(scores)\n\nWrite this in the Quarto source:\n\nThe mean score was `r mean_score` out of 20.\nThe mean score was 16 out of 20.\nIf the scores change, the number in the sentence updates when we render.\n\n\nShow the inline code in the source and the number in the rendered document. Running a calculation in the console does not make it part of the document. For MATH6195, commentary should go beyond repeating the output: explain what it means or mention a limitation."
   },
   {
     "objectID": "revision.html#before-submitting",
@@ -2615,70 +2594,42 @@
     "href": "revision.html#sec-debugging",
     "title": "Revision",
     "section": "Finding the problem",
-    "text": "Finding the problem\n\nStart with the first error message.\nRun the code a line or a chunk at a time to find where it fails.\nCheck the object just before that line: column names, types and values.\nChange one thing, then try again.\nRender the whole document again.\n\n\nAlso check the output. R cannot tell you whether you have answered the question.\n\n\nUseful functions here are names(), glimpse(), head(), count() and is.na(). In each example, show what went wrong and how to check the fix."
-  },
-  {
-    "objectID": "revision.html#checking-the-units",
-    "href": "revision.html#checking-the-units",
-    "title": "Revision",
-    "section": "Checking the units",
-    "text": "Checking the units\ndistance_m is in metres. minutes is in minutes.\ntrips |&gt; mutate(speed_kmh = distance_m / minutes)\nConvert metres to kilometres and minutes to hours before dividing.\n\ntrips |&gt;\n  mutate(speed_kmh = (distance_m / 1000) / (minutes / 60))\n\n# A tibble: 3 × 3\n  distance_m minutes speed_kmh\n       &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;\n1       5000      30        10\n2       3000      20         9\n3         NA      25        NA\n\n\n\nThe first calculation gives metres per minute. After converting the units, the speeds are 10, 9 and NA. A missing distance gives a missing speed. Count missing values with sum(is.na(speed_kmh)). If you leave missing values out of a summary, say so."
-  },
-  {
-    "objectID": "revision.html#when-one-pattern-matches-too-much",
-    "href": "revision.html#when-one-pattern-matches-too-much",
-    "title": "Revision",
-    "section": "When one pattern matches too much",
-    "text": "When one pattern matches too much\ncase_when(\n  str_detect(label, \"paid\") ~ \"Paid\",\n  str_detect(label, \"unpaid\") ~ \"Unpaid\"\n)\n\"unpaid assistant\" matches \"paid\" too. Check the more specific pattern first.\n\nlabel &lt;- c(\"paid assistant\", \"unpaid assistant\", \"volunteer\")\ncase_when(\n  str_detect(label, \"unpaid\") ~ \"Unpaid\",\n  str_detect(label, \"paid\") ~ \"Paid\",\n  .default = \"Other\"\n)\n\n[1] \"Paid\"   \"Unpaid\" \"Other\" \n\n\n\nThe word unpaid contains paid. case_when uses the first condition that matches, so the order matters. Matching is case-sensitive by default. In a data frame, put this inside mutate() and check with count(category)."
-  },
-  {
-    "objectID": "revision.html#making-a-crowded-plot-readable",
-    "href": "revision.html#making-a-crowded-plot-readable",
-    "title": "Revision",
-    "section": "Making a crowded plot readable",
-    "text": "Making a crowded plot readable\nggplot(observations, aes(x = height, y = mass, colour = group)) +\n  geom_point()\nMake the points partly transparent so overlaps show up. Use shape as well as colour to distinguish the groups.\nggplot(observations, aes(height, mass, colour = group, shape = group)) +\n  geom_point(alpha = 0.3, size = 1.5) +\n  scale_colour_brewer(palette = \"Dark2\") +\n  labs(x = \"Height (cm)\", y = \"Mass (kg)\",\n       title = \"Height and mass by group\")\n\nHere, observations is an example dataset with a categorical group column. Lower alpha makes dense parts of the plot darker. Shape gives readers another way to tell the groups apart. Check whether each point is a different person or a repeated observation, and explain any rows removed because of missing values."
+    "text": "Finding the problem\n\nStart with the first error message.\nRun the code a line or a chunk at a time to find where it fails.\nCheck the object just before that line: column names, types and values.\nChange one thing, then try again.\nRender the whole document again.\n\n\nAlso check the output. R cannot tell you whether you have answered the question.\n\n\nUseful functions here are names(), glimpse(), head(), count() and is.na(). Use these to inspect the object at the point where the code fails."
   },
   {
     "objectID": "revision_handout.html",
     "href": "revision_handout.html",
     "title": "Revision",
     "section": "",
-    "text": "The examples use made-up data. The Quarto section goes back over the first part of Lab 3.\n\n\n\nPast papers are available on Blackboard.\n\nTry a paper to get used to the questions and the amount of work involved.\nWork through it on your own, using the resources allowed in the assessment.\nRender your answers. Read the commentary as well as checking the code.\nCheck any solutions or feedback, then go back over anything you found difficult.\n\n\nShow the past papers folder on Blackboard. Suggest making a note of any questions they get stuck on, then going back to the relevant notes or lab.\n\n\n\n\nAssessment 1 is worth 40 marks and 40% of the module grade. You have 90 minutes, unless you have an approved adjustment.\n\n\n\nComponent\nMarks\n\n\n\n\nQuestion 1\n4\n\n\nQuestion 2\n16\n\n\nQuestion 3\n16\n\n\nReproducibility\n4\n\n\n\n\nThere are marks for commentary in the reproducibility section and in some question parts. We will look at examples in the Quarto section.\n\n\nSome students have extra time under their approved arrangements. Commentary earns marks both in the reproducibility section and in some question parts. The marks beside each part are a useful guide to how much work it needs.\n\n\n\n\n\nOpen the supplied assessment .qmd in RStudio.\nWrite your answers in the solution boxes.\nSave and render as you go.\nCorrect any errors and render the whole document again.\nSave before clicking Submit and End Session in ExamStart.\n\n\nKeep the files in the supplied folder and use relative paths to load them.\n\n\nDemonstrate using the mock assessment folder. In ExamStart, clicking Submit and End Session submits the saved work. There is no separate upload step, and unsaved changes will be lost. Only edit the answer boxes."
+    "text": "Data wrangling: pivot_longer(), names_sep and many-to-many joins.\nRevisiting Lab 3.\nThe assessment: ExamStart, reproducibility and commentary marks, and practice questions.\nDebugging quickly.\n\n\nThese summarise the five responses. The Lab 3 request did not specify a particular task. Past papers on Blackboard address the request for practice questions."
+  },
+  {
+    "objectID": "revision_handout.html#what-you-asked-about",
+    "href": "revision_handout.html#what-you-asked-about",
+    "title": "Revision",
+    "section": "",
+    "text": "Data wrangling: pivot_longer(), names_sep and many-to-many joins.\nRevisiting Lab 3.\nThe assessment: ExamStart, reproducibility and commentary marks, and practice questions.\nDebugging quickly.\n\n\nThese summarise the five responses. The Lab 3 request did not specify a particular task. Past papers on Blackboard address the request for practice questions."
   },
   {
     "objectID": "revision_handout.html#sec-past-papers",
     "href": "revision_handout.html#sec-past-papers",
     "title": "Revision",
-    "section": "",
-    "text": "Past papers are available on Blackboard.\n\nTry a paper to get used to the questions and the amount of work involved.\nWork through it on your own, using the resources allowed in the assessment.\nRender your answers. Read the commentary as well as checking the code.\nCheck any solutions or feedback, then go back over anything you found difficult.\n\n\nShow the past papers folder on Blackboard. Suggest making a note of any questions they get stuck on, then going back to the relevant notes or lab."
+    "section": "Past papers",
+    "text": "Past papers\nPast papers are available on Blackboard.\n\nTry a paper to get used to the questions and the amount of work involved.\nWork through it on your own, using the resources allowed in the assessment.\nRender your answers. Read the commentary as well as checking the code.\nCheck any solutions or feedback, then go back over anything you found difficult.\n\n\nShow the past papers folder on Blackboard. Suggest making a note of any questions they get stuck on, then going back to the relevant notes or lab."
   },
   {
     "objectID": "revision_handout.html#marks",
     "href": "revision_handout.html#marks",
     "title": "Revision",
-    "section": "",
-    "text": "Assessment 1 is worth 40 marks and 40% of the module grade. You have 90 minutes, unless you have an approved adjustment.\n\n\n\nComponent\nMarks\n\n\n\n\nQuestion 1\n4\n\n\nQuestion 2\n16\n\n\nQuestion 3\n16\n\n\nReproducibility\n4\n\n\n\n\nThere are marks for commentary in the reproducibility section and in some question parts. We will look at examples in the Quarto section.\n\n\nSome students have extra time under their approved arrangements. Commentary earns marks both in the reproducibility section and in some question parts. The marks beside each part are a useful guide to how much work it needs."
+    "section": "Marks",
+    "text": "Marks\nAssessment 1 is worth 40 marks and 40% of the module grade. You have 90 minutes, unless you have an approved adjustment.\n\n\n\nComponent\nMarks\n\n\n\n\nQuestion 1\n4\n\n\nQuestion 2\n16\n\n\nQuestion 3\n16\n\n\nReproducibility\n4\n\n\n\n\nThere are marks for commentary in the reproducibility section and in some question parts. We will look at examples in the Quarto section.\n\n\nSome students have extra time under their approved arrangements. Commentary earns marks both in the reproducibility section and in some question parts. The marks beside each part are a useful guide to how much work it needs."
   },
   {
     "objectID": "revision_handout.html#using-examstart",
     "href": "revision_handout.html#using-examstart",
     "title": "Revision",
-    "section": "",
-    "text": "Open the supplied assessment .qmd in RStudio.\nWrite your answers in the solution boxes.\nSave and render as you go.\nCorrect any errors and render the whole document again.\nSave before clicking Submit and End Session in ExamStart.\n\n\nKeep the files in the supplied folder and use relative paths to load them.\n\n\nDemonstrate using the mock assessment folder. In ExamStart, clicking Submit and End Session submits the saved work. There is no separate upload step, and unsaved changes will be lost. Only edit the answer boxes."
-  },
-  {
-    "objectID": "revision_handout.html#sec-imports",
-    "href": "revision_handout.html#sec-imports",
-    "title": "Revision",
-    "section": "Reading different file formats",
-    "text": "Reading different file formats\nLook inside the file: what separates the columns, and how are decimals written?\nshop|area\nNorth|12.5\nshop;area\nNorth;12,5\nshop    area     (columns separated by a tab)\nNorth   12.5\n\nThese are extracts from three example files. The last one uses tabs, which can be hard to distinguish from spaces on screen. The area should come out as 12.5 in all three cases."
-  },
-  {
-    "objectID": "revision_handout.html#loading-and-checking-the-data",
-    "href": "revision_handout.html#loading-and-checking-the-data",
-    "title": "Revision",
-    "section": "Loading and checking the data",
-    "text": "Loading and checking the data\nareas_1 &lt;- read_delim(\"areas_pipe.txt\", delim = \"|\")\nareas_2 &lt;- read_csv2(\"areas_semicolon.csv\")\nareas_3 &lt;- read_tsv(\"areas_tab.txt\")\n\nhead(areas_2)\nglimpse(areas_2)\nall(areas_1 == areas_2)\nall(areas_1 == areas_3)\n\nread_csv2() uses semicolons between fields and decimal commas. A file can load without errors and still be read incorrectly. Check the values and column types.\n\n\nThese filenames are examples. The equality checks assume the rows and columns are in the same order and there are no missing values. For other data, match the rows first and consider all.equal for decimal values. The file extension does not always tell you how the contents are arranged."
+    "section": "Using ExamStart",
+    "text": "Using ExamStart\nSee the Using ExamStart guide for the full workflow with screenshots.\n\nOpen the supplied assessment .qmd in RStudio.\nWrite your answers in the solution boxes.\nSave and render as you go.\nCorrect any errors and render the whole document again.\nSave, close RStudio, then use Submit and End Session and confirm Upload, Submit and End Session.\n\n\nKeep the files in the supplied folder and use relative paths to load them.\n\n\nDemonstrate using the mock assessment folder and the Using ExamStart guide. Save all work directly in C: and close RStudio. Click Submit and End Session, read the final check, then click Upload, Submit and End Session and wait for confirmation. Unsaved changes will be lost. Only edit the answer boxes."
   },
   {
     "objectID": "revision_handout.html#sec-pivots",
@@ -2692,63 +2643,49 @@
     "href": "revision_handout.html#making-the-data-longer",
     "title": "Revision",
     "section": "Making the data longer",
-    "text": "Making the data longer\n\nshop_long &lt;- shop_data |&gt;\n  pivot_longer(\n    cols = -shop,\n    names_to = \"measure_year\",\n    values_to = \"amount\"\n  )\nshop_long |&gt; head(4)\n\n# A tibble: 4 × 3\n  shop  measure_year amount\n  &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;\n1 North revenue_2023    120\n2 North cost_2023       100\n3 North revenue_2024    150\n4 North cost_2024       110\n\n\n\nThere are now eight rows: one per shop, measurement and year.\n\n\nShow where revenue_2023 ends up in measure_year. The shop name repeats for each measurement, and the numbers go into amount."
+    "text": "Making the data longer\nCollect the measurement columns into measure_year and amount.\n\n\nshop_long &lt;- shop_data |&gt;\n  pivot_longer(\n    cols = -shop,\n    names_to = \"measure_year\",\n    values_to = \"amount\"\n  )\nshop_long |&gt; head(1)\n\n# A tibble: 1 × 3\n  shop  measure_year amount\n  &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;\n1 North revenue_2023    120\n\n\nThere are now eight rows: one per shop, measurement and year.\n\n\nShow where revenue_2023 ends up in measure_year. The shop name repeats for each measurement, and the numbers go into amount."
   },
   {
-    "objectID": "revision_handout.html#splitting-the-names-and-making-the-data-wider",
-    "href": "revision_handout.html#splitting-the-names-and-making-the-data-wider",
+    "objectID": "revision_handout.html#splitting-names-and-widening",
+    "href": "revision_handout.html#splitting-names-and-widening",
     "title": "Revision",
-    "section": "Splitting the names and making the data wider",
-    "text": "Splitting the names and making the data wider\n\nshop_tidy &lt;- shop_long |&gt;\n  separate_wider_delim(\n    measure_year, delim = \"_\", names = c(\"measure\", \"year\")\n  ) |&gt;\n  pivot_wider(names_from = measure, values_from = amount) |&gt;\n  mutate(year = as.integer(year))\nshop_tidy\n\n# A tibble: 4 × 4\n  shop   year revenue  cost\n  &lt;chr&gt; &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;\n1 North  2023     120   100\n2 North  2024     150   110\n3 South  2023      90    95\n4 South  2024     130   105\n\n\n\nFollow revenue_2023 through the steps: split it into revenue and 2023, then use revenue to name a column. Convert the year from text to a number."
+    "section": "Splitting names and widening",
+    "text": "Splitting names and widening\nSplit the measurement from the year, then put revenue and cost in separate columns.\n\n\nshop_tidy &lt;- shop_long |&gt;\n  separate_wider_delim(\n    measure_year, delim = \"_\", names = c(\"measure\", \"year\")\n  ) |&gt;\n  pivot_wider(names_from = measure, values_from = amount) |&gt;\n  mutate(year = as.integer(year))\nshop_tidy\n\n# A tibble: 4 × 4\n  shop   year revenue  cost\n  &lt;chr&gt; &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;\n1 North  2023     120   100\n2 North  2024     150   110\n3 South  2023      90    95\n4 South  2024     130   105\n\n\n\n\nFollow revenue_2023 through the steps: split it into revenue and 2023, then use revenue to name a column. Convert the year from text to a number."
   },
   {
-    "objectID": "revision_handout.html#names_sep-combines-the-first-two-steps",
-    "href": "revision_handout.html#names_sep-combines-the-first-two-steps",
+    "objectID": "revision_handout.html#splitting-names-with-names_sep",
+    "href": "revision_handout.html#splitting-names-with-names_sep",
     "title": "Revision",
-    "section": "names_sep combines the first two steps",
-    "text": "names_sep combines the first two steps\n\nshop_split &lt;- shop_data |&gt;\n  pivot_longer(\n    cols = -shop,\n    names_to = c(\"measure\", \"year\"),\n    names_sep = \"_\",\n    values_to = \"amount\"\n  )\nshop_split |&gt; head(2)\n\n# A tibble: 2 × 4\n  shop  measure year  amount\n  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;\n1 North revenue 2023     120\n2 North cost    2023     100\n\n\n\nrevenue_2023 splits into measure = \"revenue\" and year = \"2023\". We still have one amount column.\n\n\nThe result still has eight rows. Here, the underscore separates parts of a column name. It has nothing to do with the separator in the CSV file."
-  },
-  {
-    "objectID": "revision_handout.html#calculating-profit",
-    "href": "revision_handout.html#calculating-profit",
-    "title": "Revision",
-    "section": "Calculating profit",
-    "text": "Calculating profit\n\nshop_profit &lt;- shop_tidy |&gt;\n  mutate(profit = revenue - cost)\nshop_profit |&gt; select(shop, year, profit)\n\n# A tibble: 4 × 3\n  shop   year profit\n  &lt;chr&gt; &lt;int&gt;  &lt;dbl&gt;\n1 North  2023     20\n2 North  2024     40\n3 South  2023     -5\n4 South  2024     25\n\n\n\nNorth’s profit rises from 20 to 40. South moves from a loss of 5 to a profit of 25.\n\n\nBoth shops make more profit in the second year. North makes more in both years. We can describe the change, but these figures do not tell us why it happened."
+    "section": "Splitting names with names_sep",
+    "text": "Splitting names with names_sep\nSplit the names as we pivot.\n\n\nshop_split &lt;- shop_data |&gt;\n  pivot_longer(\n    cols = -shop,\n    names_to = c(\"measure\", \"year\"),\n    names_sep = \"_\",\n    values_to = \"amount\"\n  )\nshop_split |&gt; head(1)\n\n# A tibble: 1 × 4\n  shop  measure year  amount\n  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;\n1 North revenue 2023     120\n\n\nrevenue_2023 splits into measure = \"revenue\" and year = \"2023\".\n\n\nThe result still has eight rows. Here, the underscore separates parts of a column name. It has nothing to do with the separator in the CSV file."
   },
   {
     "objectID": "revision_handout.html#sec-joins",
     "href": "revision_handout.html#sec-joins",
     "title": "Revision",
-    "section": "What does a row represent here?",
-    "text": "What does a row represent here?\n\n\n# A tibble: 5 × 4\n  person_id club  event  award    \n      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    \n1         1 N     Relay  Winner   \n2         2 N     Relay  Winner   \n3         1 N     Sprint Winner   \n4         3 S     Sprint Runner-up\n5         4 X     Jump   Winner   \n\n\nThere are five rows, four different people, and three wins when we count each event once per winning club.\n\nPerson 1 appears twice because they entered two events. The relay also appears twice because two members of the winning team are listed. Counting rows would overcount both people and team wins."
+    "section": "Results by club",
+    "text": "Results by club\n\n\n# A tibble: 5 × 3\n  person_id club  score\n      &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;\n1         1 N        12\n2         2 N        15\n3         3 S        10\n4         4 S        17\n5         5 X        14\n\n\nEach result has a club code. We will join on the club names from a lookup table.\n\nSeveral results share the same club code. The club lookup should have one row per code."
   },
   {
     "objectID": "revision_handout.html#joining-on-columns-with-different-names",
     "href": "revision_handout.html#joining-on-columns-with-different-names",
     "title": "Revision",
     "section": "Joining on columns with different names",
-    "text": "Joining on columns with different names\n\nclubs &lt;- tibble(\n  code = c(\"N\", \"S\"),\n  club_name = c(\"North Club\", \"South Club\")\n)\njoined &lt;- results |&gt;\n  left_join(clubs, by = c(\"club\" = \"code\"))\njoined |&gt; select(person_id, club, club_name)\n\n# A tibble: 5 × 3\n  person_id club  club_name \n      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     \n1         1 N     North Club\n2         2 N     North Club\n3         1 N     North Club\n4         3 S     South Club\n5         4 X     &lt;NA&gt;      \n\n\n\nSeveral rows in results can match the same row in clubs. left_join() keeps every result, including those with no matching club name.\n\n\nIn by, club is the name in results and code is the name in clubs. An inner join would lose the row with club X. The left join keeps it, with a missing club name."
+    "text": "Joining on columns with different names\nMatch club in the results to code in the lookup.\n\n\njoined &lt;- results |&gt;\n  left_join(clubs, by = c(\"club\" = \"code\"))\njoined |&gt; select(club, club_name)\n\n# A tibble: 5 × 2\n  club  club_name \n  &lt;chr&gt; &lt;chr&gt;     \n1 N     North Club\n2 N     North Club\n3 S     South Club\n4 S     South Club\n5 X     &lt;NA&gt;      \n\n\nleft_join() keeps results with no matching club name too.\n\n\nIn by, club is the name in results and code is the name in clubs. An inner join would lose the row with club X. The left join keeps it, with a missing club name."
   },
   {
     "objectID": "revision_handout.html#checking-a-join",
     "href": "revision_handout.html#checking-a-join",
     "title": "Revision",
     "section": "Checking a join",
-    "text": "Checking a join\n\nclubs |&gt; count(code) |&gt; filter(n &gt; 1)\n\n# A tibble: 0 × 2\n# ℹ 2 variables: code &lt;chr&gt;, n &lt;int&gt;\n\nresults |&gt; anti_join(clubs, by = c(\"club\" = \"code\"))\n\n# A tibble: 1 × 4\n  person_id club  event award \n      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; \n1         4 X     Jump  Winner\n\n\n\n\nMore than one match for a key can duplicate rows.\nAn inner join drops rows whose keys have no match.\nCheck the keys as well as the row count.\n\n\n\nThe lookup is missing club X. Find out why before changing the code or discarding the row. For MATH6195, checking for lost data matters too. A join can lose some rows and duplicate others, leaving the total unchanged."
-  },
-  {
-    "objectID": "revision_handout.html#counting-people-and-counting-events",
-    "href": "revision_handout.html#counting-people-and-counting-events",
-    "title": "Revision",
-    "section": "Counting people and counting events",
-    "text": "Counting people and counting events\n\nresults |&gt;\n  summarise(rows = n(), people = n_distinct(person_id))\n\n# A tibble: 1 × 2\n   rows people\n  &lt;int&gt;  &lt;int&gt;\n1     5      4\n\nresults |&gt;\n  filter(award == \"Winner\") |&gt;\n  group_by(club) |&gt;\n  summarise(wins = n_distinct(event), .groups = \"drop\") |&gt;\n  arrange(desc(wins))\n\n# A tibble: 2 × 2\n  club   wins\n  &lt;chr&gt; &lt;int&gt;\n1 N         2\n2 X         1\n\n\n\nNorth has two wins: the relay and the sprint. Club X has one. To add club names to this summary, join it to clubs and check the unmatched codes. Use n() for rows and n_distinct() for different people or events."
+    "text": "Checking a join\nCheck for repeated lookup keys and result rows with no match.\n\n\nclubs |&gt; count(code) |&gt; filter(n &gt; 1)\n\n# A tibble: 0 × 2\n# ℹ 2 variables: code &lt;chr&gt;, n &lt;int&gt;\n\nresults |&gt; anti_join(clubs, by = c(\"club\" = \"code\"))\n\n# A tibble: 1 × 3\n  person_id club  score\n      &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;\n1         5 X        14\n\n\n\nMore than one match for a key can duplicate rows.\nAn inner join drops rows whose keys have no match.\nCheck the keys as well as the row count.\n\n\n\nThe lookup is missing club X. Find out why before changing the code or discarding the row. For MATH6195, checking for lost data matters too. A join can lose some rows and duplicate others, leaving the total unchanged."
   },
   {
     "objectID": "revision_handout.html#many-to-many-joins",
     "href": "revision_handout.html#many-to-many-joins",
     "title": "Revision",
     "section": "Many-to-many joins",
-    "text": "Many-to-many joins\nTwo rows in x have key \"A\". Three rows in y have key \"A\".\nThe join produces six rows for \"A\": each row in x matches all three rows in y.\n\nThis might mean the key is missing a column, or that there are duplicate records. Sometimes all six matches are what we want.\n\n\nA two-by-three sketch may help here. Setting relationship = “many-to-many” tells dplyr that the matches are intentional. It does not change which rows match."
+    "text": "Many-to-many joins\nTwo rows in x have key \"A\". Three rows in y have key \"A\".\n\nThe join produces six rows for \"A\": each row in x matches all three rows in y.\n\n\nThis might mean the key is missing a column, or that there are duplicate records. Sometimes all six matches are what we want.\n\n\nA two-by-three sketch may help here. Setting relationship = “many-to-many” tells dplyr that the matches are intentional. It does not change which rows match."
   },
   {
     "objectID": "revision_handout.html#what-should-be-in-your-quarto-document",
@@ -2762,7 +2699,7 @@
     "href": "revision_handout.html#code-and-commentary-back-to-lab-3",
     "title": "Revision",
     "section": "Code and commentary: back to Lab 3",
-    "text": "Code and commentary: back to Lab 3\n\nscores &lt;- c(12, 17, 19)\nmean_score &lt;- mean(scores)\n\nWrite this in the Quarto source:\nThe mean score was `r mean_score` out of 20.\nThe mean score was 16 out of 20.\nIf the scores change, the number in the sentence updates when we render.\n\nShow the inline code in the source and the number in the rendered document. Running a calculation in the console does not make it part of the document. For MATH6195, commentary should go beyond repeating the output: explain what it means or mention a limitation."
+    "text": "Code and commentary: back to Lab 3\n\nscores &lt;- c(12, 17, 19)\nmean_score &lt;- mean(scores)\n\nWrite this in the Quarto source:\n\nThe mean score was `r mean_score` out of 20.\nThe mean score was 16 out of 20.\nIf the scores change, the number in the sentence updates when we render.\n\n\nShow the inline code in the source and the number in the rendered document. Running a calculation in the console does not make it part of the document. For MATH6195, commentary should go beyond repeating the output: explain what it means or mention a limitation."
   },
   {
     "objectID": "revision_handout.html#before-submitting",
@@ -2776,28 +2713,7 @@
     "href": "revision_handout.html#sec-debugging",
     "title": "Revision",
     "section": "Finding the problem",
-    "text": "Finding the problem\n\nStart with the first error message.\nRun the code a line or a chunk at a time to find where it fails.\nCheck the object just before that line: column names, types and values.\nChange one thing, then try again.\nRender the whole document again.\n\n\nAlso check the output. R cannot tell you whether you have answered the question.\n\n\nUseful functions here are names(), glimpse(), head(), count() and is.na(). In each example, show what went wrong and how to check the fix."
-  },
-  {
-    "objectID": "revision_handout.html#checking-the-units",
-    "href": "revision_handout.html#checking-the-units",
-    "title": "Revision",
-    "section": "Checking the units",
-    "text": "Checking the units\ndistance_m is in metres. minutes is in minutes.\ntrips |&gt; mutate(speed_kmh = distance_m / minutes)\nConvert metres to kilometres and minutes to hours before dividing.\n\ntrips |&gt;\n  mutate(speed_kmh = (distance_m / 1000) / (minutes / 60))\n\n# A tibble: 3 × 3\n  distance_m minutes speed_kmh\n       &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;\n1       5000      30        10\n2       3000      20         9\n3         NA      25        NA\n\n\n\nThe first calculation gives metres per minute. After converting the units, the speeds are 10, 9 and NA. A missing distance gives a missing speed. Count missing values with sum(is.na(speed_kmh)). If you leave missing values out of a summary, say so."
-  },
-  {
-    "objectID": "revision_handout.html#when-one-pattern-matches-too-much",
-    "href": "revision_handout.html#when-one-pattern-matches-too-much",
-    "title": "Revision",
-    "section": "When one pattern matches too much",
-    "text": "When one pattern matches too much\ncase_when(\n  str_detect(label, \"paid\") ~ \"Paid\",\n  str_detect(label, \"unpaid\") ~ \"Unpaid\"\n)\n\"unpaid assistant\" matches \"paid\" too. Check the more specific pattern first.\n\nlabel &lt;- c(\"paid assistant\", \"unpaid assistant\", \"volunteer\")\ncase_when(\n  str_detect(label, \"unpaid\") ~ \"Unpaid\",\n  str_detect(label, \"paid\") ~ \"Paid\",\n  .default = \"Other\"\n)\n\n[1] \"Paid\"   \"Unpaid\" \"Other\" \n\n\n\nThe word unpaid contains paid. case_when uses the first condition that matches, so the order matters. Matching is case-sensitive by default. In a data frame, put this inside mutate() and check with count(category)."
-  },
-  {
-    "objectID": "revision_handout.html#making-a-crowded-plot-readable",
-    "href": "revision_handout.html#making-a-crowded-plot-readable",
-    "title": "Revision",
-    "section": "Making a crowded plot readable",
-    "text": "Making a crowded plot readable\nggplot(observations, aes(x = height, y = mass, colour = group)) +\n  geom_point()\nMake the points partly transparent so overlaps show up. Use shape as well as colour to distinguish the groups.\nggplot(observations, aes(height, mass, colour = group, shape = group)) +\n  geom_point(alpha = 0.3, size = 1.5) +\n  scale_colour_brewer(palette = \"Dark2\") +\n  labs(x = \"Height (cm)\", y = \"Mass (kg)\",\n       title = \"Height and mass by group\")\n\nHere, observations is an example dataset with a categorical group column. Lower alpha makes dense parts of the plot darker. Shape gives readers another way to tell the groups apart. Check whether each point is a different person or a repeated observation, and explain any rows removed because of missing values."
+    "text": "Finding the problem\n\nStart with the first error message.\nRun the code a line or a chunk at a time to find where it fails.\nCheck the object just before that line: column names, types and values.\nChange one thing, then try again.\nRender the whole document again.\n\n\nAlso check the output. R cannot tell you whether you have answered the question.\n\n\nUseful functions here are names(), glimpse(), head(), count() and is.na(). Use these to inspect the object at the point where the code fails."
   },
   {
     "objectID": "week02_slides.html#agenda",

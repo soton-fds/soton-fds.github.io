@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data Ethics and Biases – Fundamentals of Data Science in R</title>
+<title>11&nbsp; Data Ethics and Biases – Fundamentals of Data Science in R</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -55,8 +55,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./bibliography.html" rel="next">
-<link href="./lab-solutions.html" rel="prev">
+<link href="./github-tutorial.html" rel="next">
+<link href="./week10.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -226,7 +226,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./github-tutorial.html">Additional Material</a></li><li class="breadcrumb-item"><a href="./ethics.html">Data Ethics and Biases</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ethics.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Ethics and Biases</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -317,6 +317,12 @@ div.csl-indent {
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Working with Big Data</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ethics.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Ethics and Biases</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
@@ -330,6 +336,12 @@ div.csl-indent {
   <div class="sidebar-item-container"> 
   <a href="./github-tutorial.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GitHub for FDS Tutorial</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./using-examstart.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Using ExamStart</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -348,12 +360,6 @@ div.csl-indent {
   <div class="sidebar-item-container"> 
   <a href="./lab-solutions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab Solutions</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./ethics.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Data Ethics and Biases</span></a>
   </div>
 </li>
       </ul>
@@ -375,33 +381,33 @@ div.csl-indent {
    
   <ul>
   <li><a href="#objectives" id="toc-objectives" class="nav-link active" data-scroll-target="#objectives">Objectives</a></li>
-  <li><a href="#ethics-in-data-science" id="toc-ethics-in-data-science" class="nav-link" data-scroll-target="#ethics-in-data-science">Ethics in Data Science</a>
+  <li><a href="#ethics-in-data-science" id="toc-ethics-in-data-science" class="nav-link" data-scroll-target="#ethics-in-data-science"><span class="header-section-number">11.1</span> Ethics in Data Science</a>
   <ul class="collapse">
-  <li><a href="#ethics-by-design" id="toc-ethics-by-design" class="nav-link" data-scroll-target="#ethics-by-design">Ethics by Design</a></li>
+  <li><a href="#ethics-by-design" id="toc-ethics-by-design" class="nav-link" data-scroll-target="#ethics-by-design"><span class="header-section-number">11.1.1</span> Ethics by Design</a></li>
   </ul></li>
-  <li><a href="#understanding-bias-in-data-science" id="toc-understanding-bias-in-data-science" class="nav-link" data-scroll-target="#understanding-bias-in-data-science">Understanding Bias in Data Science</a></li>
-  <li><a href="#regulatory-considerations" id="toc-regulatory-considerations" class="nav-link" data-scroll-target="#regulatory-considerations">Regulatory Considerations</a>
+  <li><a href="#understanding-bias-in-data-science" id="toc-understanding-bias-in-data-science" class="nav-link" data-scroll-target="#understanding-bias-in-data-science"><span class="header-section-number">11.2</span> Understanding Bias in Data Science</a></li>
+  <li><a href="#regulatory-considerations" id="toc-regulatory-considerations" class="nav-link" data-scroll-target="#regulatory-considerations"><span class="header-section-number">11.3</span> Regulatory Considerations</a>
   <ul class="collapse">
-  <li><a href="#personal-data" id="toc-personal-data" class="nav-link" data-scroll-target="#personal-data">Personal Data</a></li>
-  <li><a href="#uk-gdpr" id="toc-uk-gdpr" class="nav-link" data-scroll-target="#uk-gdpr">UK GDPR</a></li>
-  <li><a href="#discrimination-and-protected-characteristics" id="toc-discrimination-and-protected-characteristics" class="nav-link" data-scroll-target="#discrimination-and-protected-characteristics">Discrimination and Protected Characteristics</a></li>
-  <li><a href="#consequences-of-violating-gdpr" id="toc-consequences-of-violating-gdpr" class="nav-link" data-scroll-target="#consequences-of-violating-gdpr">Consequences of Violating GDPR</a></li>
+  <li><a href="#personal-data" id="toc-personal-data" class="nav-link" data-scroll-target="#personal-data"><span class="header-section-number">11.3.1</span> Personal Data</a></li>
+  <li><a href="#uk-gdpr" id="toc-uk-gdpr" class="nav-link" data-scroll-target="#uk-gdpr"><span class="header-section-number">11.3.2</span> UK GDPR</a></li>
+  <li><a href="#discrimination-and-protected-characteristics" id="toc-discrimination-and-protected-characteristics" class="nav-link" data-scroll-target="#discrimination-and-protected-characteristics"><span class="header-section-number">11.3.3</span> Discrimination and Protected Characteristics</a></li>
+  <li><a href="#consequences-of-violating-gdpr" id="toc-consequences-of-violating-gdpr" class="nav-link" data-scroll-target="#consequences-of-violating-gdpr"><span class="header-section-number">11.3.4</span> Consequences of Violating GDPR</a></li>
   </ul></li>
-  <li><a href="#managing-ethics-as-a-data-scientist" id="toc-managing-ethics-as-a-data-scientist" class="nav-link" data-scroll-target="#managing-ethics-as-a-data-scientist">Managing Ethics as a Data Scientist</a>
+  <li><a href="#managing-ethics-as-a-data-scientist" id="toc-managing-ethics-as-a-data-scientist" class="nav-link" data-scroll-target="#managing-ethics-as-a-data-scientist"><span class="header-section-number">11.4</span> Managing Ethics as a Data Scientist</a>
   <ul class="collapse">
-  <li><a href="#data-cards" id="toc-data-cards" class="nav-link" data-scroll-target="#data-cards">Data Cards</a></li>
-  <li><a href="#model-cards" id="toc-model-cards" class="nav-link" data-scroll-target="#model-cards">Model Cards</a></li>
+  <li><a href="#data-cards" id="toc-data-cards" class="nav-link" data-scroll-target="#data-cards"><span class="header-section-number">11.4.1</span> Data Cards</a></li>
+  <li><a href="#model-cards" id="toc-model-cards" class="nav-link" data-scroll-target="#model-cards"><span class="header-section-number">11.4.2</span> Model Cards</a></li>
   </ul></li>
-  <li><a href="#takeaways" id="toc-takeaways" class="nav-link" data-scroll-target="#takeaways">Takeaways</a></li>
+  <li><a href="#takeaways" id="toc-takeaways" class="nav-link" data-scroll-target="#takeaways"><span class="header-section-number">11.5</span> Takeaways</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./github-tutorial.html">Additional Material</a></li><li class="breadcrumb-item"><a href="./ethics.html">Data Ethics and Biases</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Data Ethics and Biases</h1>
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data Ethics and Biases</span></h1>
 </div>
 
 
@@ -427,8 +433,8 @@ div.csl-indent {
 <li>Evaluate real-world case studies through an ethical and regulatory lens.</li>
 </ul>
 </section>
-<section id="ethics-in-data-science" class="level2">
-<h2 class="anchored" data-anchor-id="ethics-in-data-science">Ethics in Data Science</h2>
+<section id="ethics-in-data-science" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="ethics-in-data-science"><span class="header-section-number">11.1</span> Ethics in Data Science</h2>
 <p>Data science decisions can have profound effects on individuals and society. When data is used carelessly or unethically, it can result in discrimination, breaches of privacy, and a loss of public trust. Practising responsible data science helps prevent harm and supports fairness. Ethical considerations should inform every stage of a project, from data collection to analysis and sharing. Being transparent and accountable is <strong>crucial</strong> for building trust and ensuring that data science serves the public good. Reproducible analyses, as in <a href="./week03.html">Week 3</a>, are part of this: they let others check exactly how a result was produced.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -445,8 +451,8 @@ div.csl-indent {
 <p>For more information, see the <a href="https://www.reuters.com/article/world/insight-amazon-scraps-secret-ai-recruiting-tool-that-showed-bias-against-women-idUSKCN1MK0AG/">Reuters article that first reported the story</a>.</p>
 </div>
 </div>
-<section id="ethics-by-design" class="level3">
-<h3 class="anchored" data-anchor-id="ethics-by-design">Ethics by Design</h3>
+<section id="ethics-by-design" class="level3" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="ethics-by-design"><span class="header-section-number">11.1.1</span> Ethics by Design</h3>
 <p><em>Ethics by design</em> means considering ethical questions from the very start of a project, and at every stage after it, rather than checking for problems once the analysis is finished — by which point a biased dataset, or an unnecessary collection of personal data, may be hard to undo. In practice, this means asking questions such as:</p>
 <ul>
 <li><strong>Collection:</strong> do we need all of this data? Collecting and keeping only what the analysis needs (<em>data minimisation</em>) is good practice, and also a legal requirement (see <a href="#regulatory-considerations">Regulatory Considerations</a>).</li>
@@ -456,8 +462,8 @@ div.csl-indent {
 </ul>
 </section>
 </section>
-<section id="understanding-bias-in-data-science" class="level2">
-<h2 class="anchored" data-anchor-id="understanding-bias-in-data-science">Understanding Bias in Data Science</h2>
+<section id="understanding-bias-in-data-science" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="understanding-bias-in-data-science"><span class="header-section-number">11.2</span> Understanding Bias in Data Science</h2>
 <p>The main cause of the previous case study was a <em>bias</em> in the data set that was unaccounted for. Understanding the kinds of bias that can affect our analyses can help with mitigating the biases. Some examples:</p>
 <ul>
 <li><strong>Sampling Bias:</strong> The data were collected from a sample that is not representative of the population intended to be analysed (for example, a survey about smartphone use conducted only among university students).</li>
@@ -484,8 +490,8 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="regulatory-considerations" class="level2">
-<h2 class="anchored" data-anchor-id="regulatory-considerations">Regulatory Considerations</h2>
+<section id="regulatory-considerations" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="regulatory-considerations"><span class="header-section-number">11.3</span> Regulatory Considerations</h2>
 <p>Biases in data, and careless handling of personal information, are not only unethical: they can also be illegal. In the UK, the two most relevant laws are UK GDPR, which governs how personal data may be collected and used, and the Equality Act 2010, which prohibits discrimination.</p>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -500,8 +506,8 @@ div.csl-indent {
 <p>We cannot discuss the regulatory environment of every country, so we will focus on UK regulations. Moreover this is too complex of a topic to cover thoroughly in a single lecture, and regulations can change. Therefore, when applying in your own work, check the latest regulations and seek expert advice if needed. Always ensure compliance with relevant laws and guidelines, as these may differ depending on your location and the nature of your data.</p>
 </div>
 </div>
-<section id="personal-data" class="level3">
-<h3 class="anchored" data-anchor-id="personal-data">Personal Data</h3>
+<section id="personal-data" class="level3" data-number="11.3.1">
+<h3 data-number="11.3.1" class="anchored" data-anchor-id="personal-data"><span class="header-section-number">11.3.1</span> Personal Data</h3>
 <p><em>Personal data</em> is any information relating to an identified or identifiable living person. Names and email addresses are obvious examples, but a person can also be identifiable from an ID number, from their location, or from a combination of other details. UK GDPR (described below) governs the use of personal data, so the first question to ask of any dataset is whether it contains any. (Because it applies only to <em>living</em> people, data about people who have died is not covered.)</p>
 <p>There are two common ways of reducing the risks of working with personal data:</p>
 <ul>
@@ -511,8 +517,8 @@ div.csl-indent {
 <p>Anonymisation is harder than it looks, because removing names is not enough: combinations of the remaining variables can identify people. A well-known study <span class="citation" data-cites="Sweeney2000">(<a href="bibliography.html#ref-Sweeney2000" role="doc-biblioref">Sweeney 2000</a>)</span> found that 87% of the US population could be uniquely identified by just their ZIP code (postcode), date of birth and sex. Joining a dataset to another source of information, as we did in <a href="./week05.html">Week 5</a>, can therefore re-identify people in data that appeared to be anonymous.</p>
 <p>We have met personal data elsewhere in this course: the <code>customers</code> table in <a href="./week07.html#creating-tables">Week 7</a> holds names and email addresses, and <a href="./week08.html#limitations">Week 8</a> warned that a Shiny app shows its data to anyone who can open it.</p>
 </section>
-<section id="uk-gdpr" class="level3">
-<h3 class="anchored" data-anchor-id="uk-gdpr">UK GDPR</h3>
+<section id="uk-gdpr" class="level3" data-number="11.3.2">
+<h3 data-number="11.3.2" class="anchored" data-anchor-id="uk-gdpr"><span class="header-section-number">11.3.2</span> UK GDPR</h3>
 <p>From the UK Government’s <a href="https://www.gov.uk/data-protection">summary of UK GDPR</a>; data must be:</p>
 <blockquote class="blockquote">
 <ul>
@@ -536,8 +542,8 @@ div.csl-indent {
 <li>sex life or sexual orientation</li>
 </ul>
 </section>
-<section id="discrimination-and-protected-characteristics" class="level3">
-<h3 class="anchored" data-anchor-id="discrimination-and-protected-characteristics">Discrimination and Protected Characteristics</h3>
+<section id="discrimination-and-protected-characteristics" class="level3" data-number="11.3.3">
+<h3 data-number="11.3.3" class="anchored" data-anchor-id="discrimination-and-protected-characteristics"><span class="header-section-number">11.3.3</span> Discrimination and Protected Characteristics</h3>
 <p>A related, but different, idea comes from the Equality Act 2010, which makes it unlawful to discriminate against people because of a <em>protected characteristic</em>. The protected characteristics are:</p>
 <ul>
 <li>age</li>
@@ -552,8 +558,8 @@ div.csl-indent {
 </ul>
 <p>The two lists overlap, but they are not the same: age and sex, for example, are protected characteristics but not special category data. Special category data concerns how sensitive information must be <em>handled</em>; protected characteristics concern how people must not be <em>treated</em>. An analysis whose results lead to people being treated differently because of a protected characteristic, as in the Amazon case study above, may be unlawful, even if no special category data is involved.</p>
 </section>
-<section id="consequences-of-violating-gdpr" class="level3">
-<h3 class="anchored" data-anchor-id="consequences-of-violating-gdpr">Consequences of Violating GDPR</h3>
+<section id="consequences-of-violating-gdpr" class="level3" data-number="11.3.4">
+<h3 data-number="11.3.4" class="anchored" data-anchor-id="consequences-of-violating-gdpr"><span class="header-section-number">11.3.4</span> Consequences of Violating GDPR</h3>
 <p>To ensure that GDPR is adopted by companies, hefty penalties have been attached to non-compliance. Organizations can face fines of up to £17.5 million or 4% of annual global turnover, whichever is higher. Penalties are similar in the EU.</p>
 <p>In addition to this there are non-financial repercussions, including:</p>
 <ul>
@@ -563,15 +569,15 @@ div.csl-indent {
 </ul>
 </section>
 </section>
-<section id="managing-ethics-as-a-data-scientist" class="level2">
-<h2 class="anchored" data-anchor-id="managing-ethics-as-a-data-scientist">Managing Ethics as a Data Scientist</h2>
+<section id="managing-ethics-as-a-data-scientist" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="managing-ethics-as-a-data-scientist"><span class="header-section-number">11.4</span> Managing Ethics as a Data Scientist</h2>
 <p>In the interests of <em>ethics by design</em>, various frameworks have been introduced to support a data scientist, both in terms of documenting potential ethical concerns in datasets and highlighting the relevant features of downstream processors (e.g.&nbsp;AI models). In this class we will focus on <em>data cards</em> and <em>model cards</em>.</p>
-<section id="data-cards" class="level3">
-<h3 class="anchored" data-anchor-id="data-cards">Data Cards</h3>
+<section id="data-cards" class="level3" data-number="11.4.1">
+<h3 data-number="11.4.1" class="anchored" data-anchor-id="data-cards"><span class="header-section-number">11.4.1</span> Data Cards</h3>
 <p>The research paper by <span class="citation" data-cites="Pushkarna2022">(<a href="bibliography.html#ref-Pushkarna2022" role="doc-biblioref">Pushkarna et al. 2022</a>)</span> proposed <em>data cards</em>, a framework for documenting datasets that includes thorough documentation of potential ethical considerations. A data card does for a dataset what the documentation of a function, such as the roxygen comments in <a href="./week09.html#documentation-strategies">Week 9</a>, does for code: it tells others what it is, and how it may and may not be used. A more digestible summary can be found in the <a href="https://sites.research.google/datacardsplaybook/">Data Cards Playbook</a>. The documentation required by the framework is quite extensive and includes far more information than one would typically have access to even as a data owner; completing a full data card could be challenging, but still represents the current “gold standard” for data documentation. Moreover, not every field needs to be completed in a data card to provide a useful data summary. (For example, <a href="https://www.kaggle.com">Kaggle</a> has its users complete partial data cards, and scores datasets based on the quality of the documentation).</p>
 <p>Particularly relevant to ethics is the <em>Sensitivity of Data</em> section of the <a href="https://github.com/PAIR-code/datacardsplaybook/blob/main/templates/DataCardsExtendedTemplate.md">extended data card template</a>.</p>
-<section id="practical-implementation-of-data-cards" class="level4">
-<h4 class="anchored" data-anchor-id="practical-implementation-of-data-cards">Practical Implementation of Data Cards</h4>
+<section id="practical-implementation-of-data-cards" class="level4" data-number="11.4.1.1">
+<h4 data-number="11.4.1.1" class="anchored" data-anchor-id="practical-implementation-of-data-cards"><span class="header-section-number">11.4.1.1</span> Practical Implementation of Data Cards</h4>
 <p>For this course we will use a minimal version of a data card containing the following fields.</p>
 <blockquote class="blockquote">
 <ul>
@@ -637,12 +643,12 @@ Tip
 </div>
 </section>
 </section>
-<section id="model-cards" class="level3">
-<h3 class="anchored" data-anchor-id="model-cards">Model Cards</h3>
+<section id="model-cards" class="level3" data-number="11.4.2">
+<h3 data-number="11.4.2" class="anchored" data-anchor-id="model-cards"><span class="header-section-number">11.4.2</span> Model Cards</h3>
 <p>Model cards are standardized documentation frameworks designed to provide transparent information about machine learning models. They summarize key details such as intended use, performance metrics, ethical considerations, limitations, and potential risks. Model cards help stakeholders understand how a model works, its strengths and weaknesses, and any <strong>fairness or safety</strong> concerns.</p>
 <p>While we will not use machine learning models in this course, it is increasingly important for a data scientist to be able to understand the models as a consumer. We will therefore focus on reading and understanding model cards from the fairness and safety perspective.</p>
-<section id="example-model-card" class="level4">
-<h4 class="anchored" data-anchor-id="example-model-card">Example Model Card</h4>
+<section id="example-model-card" class="level4" data-number="11.4.2.1">
+<h4 data-number="11.4.2.1" class="anchored" data-anchor-id="example-model-card"><span class="header-section-number">11.4.2.1</span> Example Model Card</h4>
 <p>Below is a simplified example of a model card for a hypothetical loan approval classifier:</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -676,8 +682,8 @@ Tip
 <li>Ensuring the model is not extrapolating, by checking that the records we give it resemble those in its training data (for example, that applicants come from the region the model was trained on).</li>
 </ul>
 </section>
-<section id="why-model-cards-matter" class="level4">
-<h4 class="anchored" data-anchor-id="why-model-cards-matter">Why Model Cards Matter</h4>
+<section id="why-model-cards-matter" class="level4" data-number="11.4.2.2">
+<h4 data-number="11.4.2.2" class="anchored" data-anchor-id="why-model-cards-matter"><span class="header-section-number">11.4.2.2</span> Why Model Cards Matter</h4>
 <p>Model cards promote transparency and accountability by documenting how a model was built, tested, and intended to be used. They help users and stakeholders:</p>
 <ul>
 <li>Understand the model’s strengths and weaknesses.</li>
@@ -689,8 +695,8 @@ Tip
 </section>
 </section>
 </section>
-<section id="takeaways" class="level2">
-<h2 class="anchored" data-anchor-id="takeaways">Takeaways</h2>
+<section id="takeaways" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="takeaways"><span class="header-section-number">11.5</span> Takeaways</h2>
 <p><strong>Do’s</strong></p>
 <ul>
 <li><strong>Do</strong> document your data and models using frameworks like data cards and model cards—transparency builds trust and helps identify risks early.</li>
@@ -1119,13 +1125,13 @@ Sweeney, Latanya. 2000. <em>Simple Demographics Often Identify People Uniquely</
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./lab-solutions.html" class="pagination-link" aria-label="Lab Solutions">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lab Solutions</span>
+      <a href="./week10.html" class="pagination-link" aria-label="Working with Big Data">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Working with Big Data</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./bibliography.html" class="pagination-link" aria-label="Bibliography">
-        <span class="nav-page-text">Bibliography</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./github-tutorial.html" class="pagination-link" aria-label="GitHub for FDS Tutorial">
+        <span class="nav-page-text">GitHub for FDS Tutorial</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
